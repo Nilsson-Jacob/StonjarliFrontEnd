@@ -14,8 +14,6 @@ const Home = () => {
     getUpcomingEarnings().then(setEarnings);
   }, []);
 
-  const API_BASE = "http://localhost:5000/api/stocks"; // Use your deployed URL in production
-
   async function getUpcomingEarnings() {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 2);

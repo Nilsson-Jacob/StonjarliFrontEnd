@@ -1,6 +1,5 @@
 import EarningsGrid from "../components/EarningsGrid";
 import React, { useEffect, useState } from "react";
-import ClearStorageButton from "../components/ClearStorage";
 
 // Fetch list of upcoming earnings
 const axios = require("axios").default;
