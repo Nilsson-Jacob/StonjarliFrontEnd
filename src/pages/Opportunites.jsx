@@ -126,6 +126,7 @@ const Home = () => {
       });
 
       setBuy(JSON.stringify(response));
+      console.log(JSON.stringify(response));
     } catch (error) {}
   }
 
