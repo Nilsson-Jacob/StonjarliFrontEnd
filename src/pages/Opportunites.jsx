@@ -104,7 +104,7 @@ const Home = () => {
         const exists = saved.find((item) => item.symbol === stock.symbol);
 
         if (!exists) {
-          saved.push(opportunity);
+          saved.push(stock);
           localStorage.setItem("savedStocks", JSON.stringify(saved));
         }
       });
