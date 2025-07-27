@@ -1,0 +1,22 @@
+.earnings-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .earnings-table th, .earnings-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .stock-card {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 10px 0;
+    border-radius: 4px;
+  }
+  
+  .simulator input {
+    margin: 5px;
+    padding: 6px;
+  }
+  

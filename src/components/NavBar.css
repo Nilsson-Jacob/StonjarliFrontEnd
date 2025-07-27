@@ -1,0 +1,35 @@
+/* components/NavBar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e1e2f;
+    padding: 1rem 2rem;
+    color: white;
+  }
+  
+  .navbar-title h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .navbar-links li a {
+    color: #ccc;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .navbar-links li.active a,
+  .navbar-links li a:hover {
+    color: #fff;
+    border-bottom: 2px solid #fff;
+  }
+  
