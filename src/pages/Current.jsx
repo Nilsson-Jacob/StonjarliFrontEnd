@@ -81,6 +81,7 @@ const Home = () => {
           <h2 style={{ color: "green", margin: 0 }}>
             Profit: {Number(currentUp - currentDown).toFixed(2)}$
           </h2>
+          <h2>🍺 counter: 2</h2>
         </div>
       </div>
 
