@@ -1,7 +1,0 @@
-POST http://localhost:5000/api/stocks/simulate-strategy
-Content-Type: application/json
-
-{
-  "ticker": "AAPL",
-  "days": 5
-}

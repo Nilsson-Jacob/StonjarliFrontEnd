@@ -103,6 +103,11 @@ const Home = () => {
       return [];
     }
   }
+
+  function buyTheStocks() {
+    console.log("Call Alpaca");
+  }
+
   return (
     <div>
       <div>
@@ -110,6 +115,7 @@ const Home = () => {
         <EarningsGrid earnings={earnings} />
       </div>
       <div>how many pass the? : {earnings.length}</div>
+      <button onClick={buyTheStocks}>Buy</button>
     </div>
   );
 };
