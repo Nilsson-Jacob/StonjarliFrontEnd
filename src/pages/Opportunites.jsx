@@ -10,6 +10,8 @@ const baseURL = "https://finnhub.io/api/v1";
 const Home = () => {
   const [earnings, setEarnings] = useState([]);
 
+  const [responseFromBuy, setBuy] = useState("");
+
   useEffect(() => {
     getUpcomingEarnings().then(setEarnings);
   }, []);
@@ -69,15 +71,6 @@ const Home = () => {
                 buyDate: new Date().toISOString().split("T")[0],
               };
 
-              const saved =
-                JSON.parse(localStorage.getItem("savedStocks")) || [];
-              const exists = saved.find((item) => item.symbol === entry.symbol);
-
-              if (!exists) {
-                saved.push(opportunity);
-                localStorage.setItem("savedStocks", JSON.stringify(saved));
-              }
-
               return {
                 ...entry,
                 price,
@@ -97,25 +90,56 @@ const Home = () => {
         })
       );
 
-      return filtered.filter((e) => e);
+      // return filtered.filter((e) => e);
+      // return filtered
+      //   .sort((a, b) => b.comparisonEPS - a.comparisonEPS)
+      //   .slice(0, 5);
+
+      const topBuys = filtered
+        .sort((a, b) => b.comparisonEPS - a.comparisonEPS)
+        .slice(0, 5);
+
+      topBuys.forEach((stock) => {
+        const saved = JSON.parse(localStorage.getItem("savedStocks")) || [];
+        const exists = saved.find((item) => item.symbol === stock.symbol);
+
+        if (!exists) {
+          saved.push(opportunity);
+          localStorage.setItem("savedStocks", JSON.stringify(saved));
+        }
+      });
+
+      return topBuys;
     } catch (err) {
       console.error("Error fetching earnings from Finnhub:", err.message);
       return [];
     }
   }
 
-  function buyTheStocks() {
+  async function buyTheStocks() {
     console.log("Call Alpaca");
+
+    const serverApi = "https://stonjarliserver.onrender.com";
+
+    try {
+      const response = await axios.post(serverApi + "/buy", {
+        symbol: "AAPL",
+        qty: 10,
+      });
+
+      setBuy(JSON.stringify(response));
+    } catch (error) {}
   }
 
   return (
     <div>
       <div>
-        <h1 style={{ textAlign: "center" }}>Earnings Highlights</h1>
+        <h1 style={{ textAlign: "center" }}>Todays catches</h1>
         <EarningsGrid earnings={earnings} />
       </div>
       <div>how many pass the? : {earnings.length}</div>
       <button onClick={buyTheStocks}>Buy</button>
+      <div>Response: {responseFromBuy}</div>
     </div>
   );
 };
