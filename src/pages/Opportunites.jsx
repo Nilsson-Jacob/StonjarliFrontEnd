@@ -64,13 +64,6 @@ const Home = () => {
               price > 5 &&
               marketCap > 500 // in millions
             ) {
-              const opportunity = {
-                ...entry,
-                price,
-                comparisonEPS: surpriseRatio,
-                buyDate: new Date().toISOString().split("T")[0],
-              };
-
               return {
                 ...entry,
                 price,
@@ -100,11 +93,16 @@ const Home = () => {
         .slice(0, 5);
 
       topBuys.forEach((stock) => {
+        const opportunity = {
+          ...stock,
+          buyDate: new Date().toISOString().split("T")[0],
+        };
+
         const saved = JSON.parse(localStorage.getItem("savedStocks")) || [];
         const exists = saved.find((item) => item.symbol === stock.symbol);
 
         if (!exists) {
-          saved.push(stock);
+          saved.push(opportunity);
           localStorage.setItem("savedStocks", JSON.stringify(saved));
         }
       });
