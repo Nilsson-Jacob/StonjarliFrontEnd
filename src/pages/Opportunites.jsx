@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import EarningsGrid from "../components/EarningsGrid";
-import axios from "axios";
+//import React, { useEffect, useState } from "react";
+//import EarningsGrid from "../components/EarningsGrid";
+//import axios from "axios";
 
-const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
-const baseURL = "https://finnhub.io/api/v1";
+//const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
+//const baseURL = "https://finnhub.io/api/v1";
 
-const RATE_LIMIT_MS = 1200; // Delay between requests to avoid 429
+//const RATE_LIMIT_MS = 1200; // Delay between requests to avoid 429
 
 const Home = () => {
   return <div>Under construction...</div>;

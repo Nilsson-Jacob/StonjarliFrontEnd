@@ -23,7 +23,7 @@ async function getCurrentPrice(symbol) {
 }
 
 const Home = () => {
-  const [positions, setPositions] = useState([]);
+  //const [positions, setPositions] = useState([]);
   const [saved, setSaved] = useState([]);
   const [dollarUp, setDollarUp] = useState(0);
   const [dollarDown, setDollarDown] = useState(0);
@@ -72,10 +72,10 @@ const Home = () => {
         console.log("Buy date for", position.symbol, ":", dBuyDate);
       }
 
-      let totalDollarUp = 0;
+      /*let totalDollarUp = 0;
       let totalDollarDown = 0;
       let totalPercentUp = 0;
-      let totalPercentDown = 0;
+      let totalPercentDown = 0;*/
 
       const currentSPY = await getCurrentPrice(SPY_SYMBOL);
       const enriched = [];
@@ -102,7 +102,7 @@ const Home = () => {
         await delay(1000);
       }
 
-      setPositions(enriched);
+      //setPositions(enriched);
 
       setDollarUp(up);
       setDollarDown(down);

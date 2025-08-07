@@ -7,7 +7,7 @@ const SERVER_URL = "https://stonjarliserver.onrender.com";
 const Todays = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [triggerMsg, setTriggerMsg] = useState("");
+  //const [triggerMsg, setTriggerMsg] = useState("");
 
   useEffect(() => {
     fetchOpportunities();
