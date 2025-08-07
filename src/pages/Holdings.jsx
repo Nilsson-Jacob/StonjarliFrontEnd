@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EarningsGrid from "../components/EarningsGrid";
+import PositionsGrid from "../components/PositionsGrid";
 import axios from "axios";
 
 const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
@@ -23,6 +23,7 @@ async function getCurrentPrice(symbol) {
 }
 
 const Home = () => {
+  const [positions, setPositions] = useState([]);
   const [saved, setSaved] = useState([]);
   const [dollarUp, setDollarUp] = useState(0);
   const [dollarDown, setDollarDown] = useState(0);
@@ -30,9 +31,46 @@ const Home = () => {
   const [percentDown, setPercentDown] = useState(0);
   const [spyGrowth, setSpyGrowth] = useState(0);
 
+  // Fetch positions from server
+  async function getPositions() {
+    const serverApi = "https://stonjarliserver.onrender.com";
+    try {
+      const response = await axios.get(serverApi + "/positions");
+      return response.data || [];
+    } catch (e) {
+      console.error("Error fetching positions:", e.message);
+      return [];
+    }
+  }
+
+  // Placeholder for buy date function
+  async function getBuyDate(symbol) {
+    // You can fetch this from your server using:
+    const serverApi = "https://stonjarliserver.onrender.com";
+
+    try {
+      const res = await axios.get(`${serverApi}/buydate?symbol=${symbol}`);
+      return res.data;
+    } catch (error) {
+      console.log("JN from buydate" + error);
+    }
+  }
+
   useEffect(() => {
     async function load() {
-      const arr = JSON.parse(localStorage.getItem("savedStocks")) || [];
+      // const arr = JSON.parse(localStorage.getItem("savedStocks")) || [];
+
+      // Call getPositions here
+      const aPositions = await getPositions();
+      console.log("JN POS: " + JSON.stringify(aPositions.data));
+
+      //setPositions(aPositions.data);
+
+      // Optional: use getBuyDate
+      for (const position of aPositions.data) {
+        const dBuyDate = await getBuyDate(position.symbol);
+        console.log("Buy date for", position.symbol, ":", dBuyDate);
+      }
 
       let totalDollarUp = 0;
       let totalDollarDown = 0;
@@ -42,26 +80,14 @@ const Home = () => {
       const currentSPY = await getCurrentPrice(SPY_SYMBOL);
       const enriched = [];
 
-      for (const stock of arr) {
-        const currentPrice = await getCurrentPrice(stock.symbol);
-        if (!currentPrice || !stock.price || !stock.spyPriceAtBuy) {
-          enriched.push({ ...stock, currentPrice: null });
-          continue;
-        }
+      let up = 0;
+      let down = 0;
 
-        const qty = stock.qty || 1; // Default to 1 if not saved
-        const costBasis = stock.price * qty;
-        const currentValue = currentPrice * qty;
-
-        const dollarChange = currentValue - costBasis;
-        const percentChange = (dollarChange / costBasis) * 100;
-
-        if (dollarChange > 0) {
-          totalDollarUp += dollarChange;
-          totalPercentUp += percentChange;
+      for (const stock of aPositions.data) {
+        if (stock.unrealized_pl >= 0) {
+          up = up + Math.abs(stock.unrealized_pl);
         } else {
-          totalDollarDown += Math.abs(dollarChange);
-          totalPercentDown += Math.abs(percentChange);
+          down = down + Math.abs(stock.unrealized_pl);
         }
 
         const spyReturn =
@@ -71,19 +97,18 @@ const Home = () => {
 
         enriched.push({
           ...stock,
-          currentPrice,
-          dollarChange,
-          percentChange,
           spyReturn,
         });
-
-        await delay(1000); // avoid rate limit
+        await delay(1000);
       }
 
-      setDollarUp(totalDollarUp);
-      setDollarDown(totalDollarDown);
-      setPercentUp(totalPercentUp);
-      setPercentDown(totalPercentDown);
+      setPositions(enriched);
+
+      setDollarUp(up);
+      setDollarDown(down);
+      setPercentUp(0);
+      setPercentDown(0);
+
       setSpyGrowth(
         enriched[0]?.spyPriceAtBuy
           ? ((currentSPY - enriched[0].spyPriceAtBuy) /
@@ -96,7 +121,6 @@ const Home = () => {
 
     load();
   }, []);
-
   return (
     <div style={{ textAlign: "center" }}>
       <h1>📈 Current Holdings</h1>
@@ -134,7 +158,7 @@ const Home = () => {
         </div>
       </div>
 
-      <EarningsGrid earnings={saved} />
+      <PositionsGrid positions={saved} />
     </div>
   );
 };

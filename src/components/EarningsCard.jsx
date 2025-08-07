@@ -62,9 +62,11 @@ const EarningsCard = ({ entry }) => {
             <strong>Revenue:</strong> ${revenueActual?.toLocaleString()} (Est:{" "}
             {revenueEstimate?.toLocaleString() ?? "N/A"})
           </p>
-          <p style={{ margin: "4px 0" }}>
-            <strong>Hour:</strong> {hour.toUpperCase()}
-          </p>
+          {hour && (
+            <p style={{ margin: "4px 0" }}>
+              <strong>Hour:</strong> {hour.toUpperCase()}
+            </p>
+          )}
           <p style={{ margin: "4px 0" }}>
             <strong>EPS Surprise:</strong>{" "}
             <span
