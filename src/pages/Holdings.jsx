@@ -44,12 +44,12 @@ const Home = () => {
   }
 
   // Placeholder for buy date function
-  async function getBuyDate(symbol) {
+  async function getBuyDate() {
     // You can fetch this from your server using:
     const serverApi = "https://stonjarliserver.onrender.com";
 
     try {
-      const res = await axios.get(`${serverApi}/buydate?symbol=${symbol}`);
+      const res = await axios.get(`${serverApi}/buydate`);
       return res.data;
     } catch (error) {
       console.log("JN from buydate" + error);
@@ -66,12 +66,14 @@ const Home = () => {
 
       //setPositions(aPositions.data);
 
-      // Optional: use getBuyDate
-      for (const position of aPositions.data) {
-        const dBuyDate = await getBuyDate(position.symbol);
-        console.log("Buy date for", position.symbol, ":", dBuyDate);
-      }
+      const aClosedOrders = await getBuyDate();
+      let symbolMap;
 
+      console.log("Closed Buys:" + aClosedOrders);
+
+      if (aClosedOrders) {
+        symbolMap = new Map(aClosedOrders.map((item) => [item.symbol, item]));
+      }
       /*let totalDollarUp = 0;
       let totalDollarDown = 0;
       let totalPercentUp = 0;
@@ -95,9 +97,18 @@ const Home = () => {
             ? ((currentSPY - stock.spyPriceAtBuy) / stock.spyPriceAtBuy) * 100
             : null;
 
+        let buyDate = "";
+        const oMatch = symbolMap.get(stock.symbol);
+        if (oMatch) {
+          buyDate = oMatch.filled_at.substring(0, 10);
+        }
+
+        // check if
+
         enriched.push({
           ...stock,
           spyReturn,
+          buyDate,
         });
         await delay(1000);
       }
@@ -116,11 +127,13 @@ const Home = () => {
               100
           : 0
       );
+
       setSaved(enriched);
     }
 
     load();
   }, []);
+
   return (
     <div style={{ textAlign: "center" }}>
       <h1>📈 Current Holdings</h1>

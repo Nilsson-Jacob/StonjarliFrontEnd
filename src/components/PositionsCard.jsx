@@ -1,6 +1,6 @@
 // EarningsCard.jsx
 const PositionsCard = ({ entry }) => {
-  const { symbol, market_value, cost_basis, unrealized_pl } = entry;
+  const { symbol, market_value, cost_basis, unrealized_pl, buyDate } = entry;
 
   // Create a green shade based on comparisonEPS
   const getGreenColor = (value) => {
@@ -40,6 +40,9 @@ const PositionsCard = ({ entry }) => {
     >
       <h2 style={{ margin: "0 0 8px 0", fontSize: "1.25rem" }}>{symbol}</h2>
       <div>
+        <p style={{ margin: "4px 0" }}>
+          <strong>Buy date:</strong> <span>{buyDate ? buyDate : "N/A"}</span>
+        </p>
         <p style={{ margin: "4px 0" }}>
           <strong>profit/loss:</strong>{" "}
           <span>
