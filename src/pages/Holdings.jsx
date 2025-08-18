@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import PositionsGrid from "../components/PositionsGrid";
 import axios from "axios";
 
-import robotFace from "../images/Sali.png"; // adjust path if needed
-
 const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
 const baseURL = "https://finnhub.io/api/v1";
 const SPY_SYMBOL = "SPY";
