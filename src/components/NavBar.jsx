@@ -9,14 +9,24 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-title">
-        <h1>📊 Earnings Drift 📊</h1>
+        <h1>
+          📊 WoolStreet 📊
+          <span
+            style={{
+              fontSize: "0.4rem",
+              color: "white",
+              position: "relative",
+              alignSelf: "self-end",
+              left: "10px",
+            }}
+          >
+            By Anviq
+          </span>
+        </h1>
       </div>
       <ul className="navbar-links">
         <li className={location.pathname === "/todays" ? "active" : ""}>
-          <Link to="/todays">Todays</Link>
-        </li>
-        <li className={location.pathname === "/current" ? "active" : ""}>
-          <Link to="/current">Current</Link>
+          <Link to="/todays">Todays🎣 </Link>
         </li>
         <li className={location.pathname === "/holdings" ? "active" : ""}>
           <Link to="/holdings">Holdings</Link>

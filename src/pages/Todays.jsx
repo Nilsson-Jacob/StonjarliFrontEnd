@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import EarningsGrid from "../components/EarningsGrid";
 import axios from "axios";
+import imgFinn from "../images/Finn20.png";
 
 const SERVER_URL = "https://stonjarliserver.onrender.com";
 
@@ -27,7 +28,69 @@ const Todays = () => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>🎣 PEAD Opportunities</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "10px",
+          gap: "40px",
+          marginTop: "-100px", // move everything upward
+          alignItems: "center", // vertically center the items
+        }}
+      >
+        {/* Container for image + overlay box */}
+        <div style={{ position: "relative", display: "inline-block" }}>
+          <img src={imgFinn} alt="Trading Bot" width={"300px"} />
+
+          {/* Overlay box */}
+          <div
+            style={{
+              position: "absolute",
+              top: "210px",
+              right: "0px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "10px 20px",
+              border: "2px solid #ccc",
+              borderRadius: "8px",
+              backgroundColor: "#f9f9f9",
+              minWidth: "40px",
+              height: "70px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: "0.75rem",
+                color: "#555",
+                position: "absolute",
+                bottom: "5px",
+                right: "10px",
+              }}
+            >
+              Start at ($100) - 2025-08-25
+            </span>
+            <h3 style={{ margin: 0 }}>${"TEST"}</h3>
+          </div>
+        </div>
+
+        {/* Button placed to the right of the image */}
+        <button
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            height: "50px", // optional, to match the image height roughly
+            alignSelf: "center", // vertically center the button
+          }}
+        >
+          Reel in 💵
+        </button>
+      </div>
 
       {loading ? (
         <p>Loading opportunities...</p>

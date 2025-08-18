@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import PositionsGrid from "../components/PositionsGrid";
 import axios from "axios";
 
+import robotFace from "../images/Sali.png"; // adjust path if needed
+
 const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
 const baseURL = "https://finnhub.io/api/v1";
 const SPY_SYMBOL = "SPY";
@@ -22,6 +24,8 @@ async function getCurrentPrice(symbol) {
   }
 }
 
+const serverApi = "https://stonjarliserver.onrender.com";
+
 const Home = () => {
   //const [positions, setPositions] = useState([]);
   const [saved, setSaved] = useState([]);
@@ -30,6 +34,8 @@ const Home = () => {
   const [percentUp, setPercentUp] = useState(0);
   const [percentDown, setPercentDown] = useState(0);
   const [spyGrowth, setSpyGrowth] = useState(0);
+
+  const [totalFunds, setTotalFunds] = useState(0);
 
   // Fetch positions from server
   async function getPositions() {
@@ -46,7 +52,6 @@ const Home = () => {
   // Placeholder for buy date function
   async function getBuyDate() {
     // You can fetch this from your server using:
-    const serverApi = "https://stonjarliserver.onrender.com";
 
     try {
       const res = await axios.get(`${serverApi}/buydate`);
@@ -56,28 +61,28 @@ const Home = () => {
     }
   }
 
+  async function getTotalFund() {
+    try {
+      const response = await axios.get(`${serverApi}/account`);
+      const account = response.data;
+
+      return account.portfolio_value + "$";
+    } catch (err) {
+      return err;
+    }
+  }
+
   useEffect(() => {
     async function load() {
-      // const arr = JSON.parse(localStorage.getItem("savedStocks")) || [];
-
       // Call getPositions here
       const aPositions = await getPositions();
-      console.log("JN POS: " + JSON.stringify(aPositions.data));
-
-      //setPositions(aPositions.data);
-
       const aClosedOrders = await getBuyDate();
-      let symbolMap;
 
-      console.log("Closed Buys:" + aClosedOrders);
+      let symbolMap;
 
       if (aClosedOrders) {
         symbolMap = new Map(aClosedOrders.map((item) => [item.symbol, item]));
       }
-      /*let totalDollarUp = 0;
-      let totalDollarDown = 0;
-      let totalPercentUp = 0;
-      let totalPercentDown = 0;*/
 
       const currentSPY = await getCurrentPrice(SPY_SYMBOL);
       const enriched = [];
@@ -120,6 +125,8 @@ const Home = () => {
       setPercentUp(0);
       setPercentDown(0);
 
+      setTotalFunds(getTotalFund());
+
       setSpyGrowth(
         enriched[0]?.spyPriceAtBuy
           ? ((currentSPY - enriched[0].spyPriceAtBuy) /
@@ -136,8 +143,6 @@ const Home = () => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>📈 Current Holdings</h1>
-
       <div
         style={{
           display: "flex",
@@ -168,6 +173,45 @@ const Home = () => {
           <h4>
             📊 If invested in S&P500: {spyGrowth ? format(spyGrowth) : "N/A"}%
           </h4>
+        </div>
+
+        {/* Vertical divider before funds box */}
+        <div
+          style={{
+            borderLeft: "2px solid #ccc",
+            height: "100%",
+          }}
+        />
+
+        {/* Total funds box */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "10px 20px",
+            border: "2px solid #ccc",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+            position: "relative",
+            minWidth: "140px",
+            height: "70px", // 🔑 makes it shorter than the left columns
+          }}
+        >
+          <span
+            style={{
+              fontSize: "0.75rem",
+              color: "#555",
+              position: "absolute",
+              //top: "20px",
+              right: "10px",
+              bottom: "5px",
+            }}
+          >
+            Start at ($100) - 2025-08-25
+          </span>
+          <h3 style={{ margin: 0 }}>${totalFunds}</h3>
         </div>
       </div>
 

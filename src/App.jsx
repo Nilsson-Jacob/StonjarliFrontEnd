@@ -12,8 +12,6 @@ import {
   Navigate,
 } from "react-router-dom";
 
-//import Opportunities from "./pages/Opportunites";
-import Current from "./pages/Current";
 import Holdings from "./pages/Holdings";
 import Todays from "./pages/Todays";
 
@@ -24,7 +22,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/todays" />} />
         <Route path="/todays" element={<Todays />} />
-        <Route path="/current" element={<Current />} />
         <Route path="/holdings" element={<Holdings />} />
       </Routes>
     </Router>
