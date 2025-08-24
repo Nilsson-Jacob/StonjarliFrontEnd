@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import EarningsGrid from "../components/EarningsGrid";
 import axios from "axios";
 import imgFinn from "../images/Finn20.png";
 import imgFinnStill from "../images/testv2.png";
@@ -11,11 +10,11 @@ const Todays = () => {
   //const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(true);
 
-  useEffect(() => {
-    fetchOpportunities();
-  }, []);
+  //useEffect(() => {
+  //fetchOpportunities();
+  //}, []);
 
-  const fetchOpportunities = async () => {
+  /*const fetchOpportunities = async () => {
     try {
       //setLoading(true);
       const res = await axios.get(`${SERVER_URL}/opportunities`);
@@ -23,7 +22,7 @@ const Todays = () => {
     } catch (err) {
       console.error("Failed to fetch opportunities:", err.message);
     }
-  };
+  };*/
 
   return (
     <div style={{ textAlign: "center" }}>
