@@ -152,7 +152,7 @@ const Home = () => {
     }
 
     load();
-  }, []);
+  }, [totalFunds]);
 
   return (
     <div style={{ textAlign: "center" }}>

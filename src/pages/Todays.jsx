@@ -7,8 +7,8 @@ import imgFinnStill from "../images/testv2.png";
 const SERVER_URL = "https://stonjarliserver.onrender.com";
 
 const Todays = () => {
-  const [opportunities, setOpportunities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  //const [opportunities, setOpportunities] = useState([]);
+  //const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(true);
 
   useEffect(() => {
@@ -19,11 +19,9 @@ const Todays = () => {
     try {
       setLoading(true);
       const res = await axios.get(`${SERVER_URL}/opportunities`);
-      setOpportunities(res.data || []);
+      //setOpportunities(res.data || []);
     } catch (err) {
       console.error("Failed to fetch opportunities:", err.message);
-    } finally {
-      setLoading(false);
     }
   };
 
