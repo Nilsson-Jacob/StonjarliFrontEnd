@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { /*useEffect,*/ useState } from "react";
+//import axios from "axios";
 import imgFinn from "../images/Finn20.png";
 import imgFinnStill from "../images/testv2.png";
 
-const SERVER_URL = "https://stonjarliserver.onrender.com";
+//const SERVER_URL = "https://stonjarliserver.onrender.com";
 
 const Todays = () => {
   //const [opportunities, setOpportunities] = useState([]);
