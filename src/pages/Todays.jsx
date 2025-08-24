@@ -17,7 +17,7 @@ const Todays = () => {
 
   const fetchOpportunities = async () => {
     try {
-      setLoading(true);
+      //setLoading(true);
       const res = await axios.get(`${SERVER_URL}/opportunities`);
       //setOpportunities(res.data || []);
     } catch (err) {
