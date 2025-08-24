@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import EarningsGrid from "../components/EarningsGrid";
 import axios from "axios";
 import imgFinn from "../images/Finn20.png";
+import imgFinnStill from "../images/testv2.png";
 
 const SERVER_URL = "https://stonjarliserver.onrender.com";
 
 const Todays = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [loading, setLoading] = useState(true);
-  //const [triggerMsg, setTriggerMsg] = useState("");
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
     fetchOpportunities();
@@ -32,50 +33,63 @@ const Todays = () => {
         style={{
           display: "flex",
           justifyContent: "center",
+          alignItems: "center",
           padding: "10px",
           gap: "40px",
-          marginTop: "-100px", // move everything upward
-          alignItems: "center", // vertically center the items
+          //marginTop: "-100px",
+          position: "relative", // important since button uses absolute
         }}
       >
-        {/* Container for image + overlay box */}
-        <div style={{ position: "relative", display: "inline-block" }}>
-          <img src={imgFinn} alt="Trading Bot" width={"300px"} />
-
-          {/* Overlay box */}
-          <div
-            style={{
-              position: "absolute",
-              top: "210px",
-              right: "0px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: "10px 20px",
-              border: "2px solid #ccc",
-              borderRadius: "8px",
-              backgroundColor: "#f9f9f9",
-              minWidth: "40px",
-              height: "70px",
-            }}
-          >
-            <span
-              style={{
-                fontSize: "0.75rem",
-                color: "#555",
-                position: "absolute",
-                bottom: "5px",
-                right: "10px",
-              }}
-            >
-              Start at ($100) - 2025-08-25
-            </span>
-            <h3 style={{ margin: 0 }}>${"TEST"}</h3>
-          </div>
+        {/* Always the same wrapper */}
+        <div
+          style={{
+            position: "relative",
+            display: "inline-block",
+            //overflow: "hidden",
+            width: "300px",
+            height: "300px",
+          }}
+        >
+          {active ? (
+            <img src={imgFinnStill} alt="Trading Bot" width={"300px"} />
+          ) : (
+            <>
+              <img src={imgFinn} alt="Trading Bot" width={"300px"} />
+              <div
+                style={{
+                  position: "absolute",
+                  top: "210px",
+                  right: "0px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  padding: "10px 20px",
+                  border: "2px solid #ccc",
+                  borderRadius: "8px",
+                  backgroundColor: "#f9f9f9",
+                  minWidth: "40px",
+                  height: "70px",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: "0.75rem",
+                    color: "#555",
+                    position: "absolute",
+                    bottom: "5px",
+                    right: "10px",
+                  }}
+                >
+                  Start at ($100) - 2025-08-25
+                </span>
+                <h3 style={{ margin: 0 }}>${"TEST"}</h3>
+              </div>
+            </>
+          )}
         </div>
 
-        {/* Button placed to the right of the image */}
+        {/* Button stays put */}
         <button
           style={{
             padding: "10px 20px",
@@ -84,19 +98,13 @@ const Todays = () => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
-            height: "50px", // optional, to match the image height roughly
-            alignSelf: "center", // vertically center the button
+            height: "50px",
           }}
+          onClick={() => setActive(false)}
         >
           Reel in 💵
         </button>
       </div>
-
-      {loading ? (
-        <p>Loading opportunities...</p>
-      ) : (
-        <EarningsGrid earnings={opportunities} />
-      )}
     </div>
   );
 };

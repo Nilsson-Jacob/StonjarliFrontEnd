@@ -2,14 +2,18 @@ import React, { useEffect, useState } from "react";
 import PositionsGrid from "../components/PositionsGrid";
 import axios from "axios";
 
-const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
-const baseURL = "https://finnhub.io/api/v1";
-const SPY_SYMBOL = "SPY";
+//const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
+//const baseURL = "https://finnhub.io/api/v1";
+//const SPY_SYMBOL = "SPY";
+
+const startDate = "2025-08-01";
+const startMoney = 100;
 
 // Delay to prevent 429
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 // Fetch current price via /quote
+/*
 async function getCurrentPrice(symbol) {
   try {
     const res = await axios.get(`${baseURL}/quote`, {
@@ -20,7 +24,7 @@ async function getCurrentPrice(symbol) {
     console.warn(`Error fetching price for ${symbol}`, e.message);
     return null;
   }
-}
+}*/
 
 const serverApi = "https://stonjarliserver.onrender.com";
 
@@ -29,8 +33,9 @@ const Home = () => {
   const [saved, setSaved] = useState([]);
   const [dollarUp, setDollarUp] = useState(0);
   const [dollarDown, setDollarDown] = useState(0);
-  const [percentUp, setPercentUp] = useState(0);
-  const [percentDown, setPercentDown] = useState(0);
+  const [profitPercent, setProfitPercent] = useState(0);
+  //const [percentDown, setPercentDown] = useState(0);
+
   const [spyGrowth, setSpyGrowth] = useState(0);
 
   const [totalFunds, setTotalFunds] = useState(0);
@@ -59,6 +64,20 @@ const Home = () => {
     }
   }
 
+  async function getSPGrowth() {
+    try {
+      const response = await axios.get(`${serverApi}/SP500/${startDate}`);
+      console.log("SPGROWTH: " + JSON.stringify(response));
+
+      const growth = response.data.growthPct;
+
+      console.log("percent: " + growth);
+      return growth;
+    } catch (err) {
+      return err;
+    }
+  }
+
   async function getTotalFund() {
     try {
       const response = await axios.get(`${serverApi}/account`);
@@ -82,7 +101,7 @@ const Home = () => {
         symbolMap = new Map(aClosedOrders.map((item) => [item.symbol, item]));
       }
 
-      const currentSPY = await getCurrentPrice(SPY_SYMBOL);
+      //const currentSPY = await getCurrentPrice(SPY_SYMBOL);
       const enriched = [];
 
       let up = 0;
@@ -95,11 +114,6 @@ const Home = () => {
           down = down + Math.abs(stock.unrealized_pl);
         }
 
-        const spyReturn =
-          currentSPY && stock.spyPriceAtBuy
-            ? ((currentSPY - stock.spyPriceAtBuy) / stock.spyPriceAtBuy) * 100
-            : null;
-
         let buyDate = "";
         const oMatch = symbolMap.get(stock.symbol);
         if (oMatch) {
@@ -110,7 +124,7 @@ const Home = () => {
 
         enriched.push({
           ...stock,
-          spyReturn,
+          // spyReturn,
           buyDate,
         });
         await delay(1000);
@@ -120,20 +134,21 @@ const Home = () => {
 
       setDollarUp(up);
       setDollarDown(down);
-      setPercentUp(0);
-      setPercentDown(0);
 
-      setTotalFunds(getTotalFund());
+      setTotalFunds(await getTotalFund());
 
-      setSpyGrowth(
+      setProfitPercent(totalFunds / startMoney);
+
+      /*setSpyGrowth(
         enriched[0]?.spyPriceAtBuy
           ? ((currentSPY - enriched[0].spyPriceAtBuy) /
               enriched[0].spyPriceAtBuy) *
               100
           : 0
-      );
+      );*/
 
       setSaved(enriched);
+      setSpyGrowth(await getSPGrowth());
     }
 
     load();
@@ -166,10 +181,10 @@ const Home = () => {
 
         {/* Percent values */}
         <div style={{ textAlign: "left" }}>
-          <h4>🔼 Total gain: {format(percentUp)}%</h4>
-          <h4>🔽 Total loss: {format(percentDown)}%</h4>
+          <h4>🔼 Growth (%): {format(profitPercent)}%</h4>
           <h4>
-            📊 If invested in S&P500: {spyGrowth ? format(spyGrowth) : "N/A"}%
+            📊 S&P500 Growth (%, in same intervall):{" "}
+            {spyGrowth ? spyGrowth : "N/A"}%
           </h4>
         </div>
 

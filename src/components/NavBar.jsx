@@ -19,9 +19,7 @@ const NavBar = () => {
               alignSelf: "self-end",
               left: "10px",
             }}
-          >
-            By Anviq
-          </span>
+          ></span>
         </h1>
       </div>
       <ul className="navbar-links">
