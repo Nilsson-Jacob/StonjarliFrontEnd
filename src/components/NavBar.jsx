@@ -13,19 +13,18 @@ const NavBar = () => {
           📊 WoolStreet 📊
           <span
             style={{
-              fontSize: "0.4rem",
+              fontSize: "0.7rem",
               color: "white",
               position: "relative",
               alignSelf: "self-end",
               left: "10px",
             }}
-          ></span>
+          >
+            Powered by Alpaca
+          </span>
         </h1>
       </div>
       <ul className="navbar-links">
-        <li className={location.pathname === "/todays" ? "active" : ""}>
-          <Link to="/todays">Todays🎣 </Link>
-        </li>
         <li className={location.pathname === "/holdings" ? "active" : ""}>
           <Link to="/holdings">Holdings</Link>
         </li>
