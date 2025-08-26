@@ -10,7 +10,7 @@ const NavBar = () => {
     <nav className="navbar">
       <div className="navbar-title">
         <h1>
-          📊 WoolStreet 📊
+          WoolSt
           <span
             style={{
               fontSize: "0.7rem",
@@ -19,9 +19,7 @@ const NavBar = () => {
               alignSelf: "self-end",
               left: "10px",
             }}
-          >
-            Powered by Alpaca
-          </span>
+          ></span>
         </h1>
       </div>
       <ul className="navbar-links">
