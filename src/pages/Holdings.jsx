@@ -157,11 +157,13 @@ const Home = () => {
   return (
     <div style={{ textAlign: "center" }}>
       <div
+        className="summary-container"
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "10px",
           gap: "40px",
+          flexWrap: "wrap",
         }}
       >
         {/* Dollar values */}

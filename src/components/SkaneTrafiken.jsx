@@ -1,5 +1,4 @@
-let apiKey = "821864d533cb4b68ad210d32c564b400";
-
+/*
 import React, { useEffect, useState } from "react";
 
 function Skanetrafiken({ stopId }) {
@@ -58,4 +57,4 @@ function Skanetrafiken({ stopId }) {
   );
 }
 
-export default Skanetrafiken;
+export default Skanetrafiken;*/
