@@ -3,28 +3,22 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./NavBar.css"; // optional: for styling
 
+import jNVENT from "../images/jNVENTV2.png";
+
 const NavBar = () => {
   const location = useLocation();
 
   return (
     <nav className="navbar">
       <div className="navbar-title">
-        <h1>
-          WoolSt
-          <span
-            style={{
-              fontSize: "0.7rem",
-              color: "white",
-              position: "relative",
-              alignSelf: "self-end",
-              left: "10px",
-            }}
-          ></span>
-        </h1>
+        <img src={jNVENT} alt="logo" width={"150px"} />
       </div>
       <ul className="navbar-links">
         <li className={location.pathname === "/holdings" ? "active" : ""}>
           <Link to="/holdings">Holdings</Link>
+        </li>
+        <li className={location.pathname === "/todays" ? "active" : ""}>
+          <Link to="/todays">Todays</Link>
         </li>
       </ul>
     </nav>

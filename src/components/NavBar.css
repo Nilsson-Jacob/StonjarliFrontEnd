@@ -1,16 +1,18 @@
 /* components/NavBar.css */
 .navbar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background-color: #1e1e2f;
+/*    background-color: #1e1e2f; */
+    background-color: #ece7db;
     padding: 1rem 2rem;
     color: white;
+    height: 50px;
   }
   
   .navbar-title h1 {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 3rem;
   }
   
   .navbar-links {
@@ -22,14 +24,15 @@
   }
   
   .navbar-links li a {
-    color: #ccc;
+    color: #1F4F73;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 800;
+    font-family: sans-serif;
   }
   
   .navbar-links li.active a,
   .navbar-links li a:hover {
-    color: #fff;
-    border-bottom: 2px solid #fff;
+    color: #333840;
+    border-bottom: 2px solid #333840;
   }
   
