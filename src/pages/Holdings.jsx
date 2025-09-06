@@ -116,7 +116,7 @@ const Home = () => {
 
         let buyDate = "";
         const oMatch = symbolMap.get(stock.symbol);
-        if (oMatch) {
+        if (oMatch && oMatch.filled_at) {
           buyDate = oMatch.filled_at.substring(0, 10);
         }
 

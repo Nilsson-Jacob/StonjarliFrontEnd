@@ -1,4 +1,3 @@
-/*
 import React, { useEffect, useState } from "react";
 
 function Skanetrafiken({ stopId }) {
@@ -57,4 +56,4 @@ function Skanetrafiken({ stopId }) {
   );
 }
 
-export default Skanetrafiken;*/
+export default Skanetrafiken;
