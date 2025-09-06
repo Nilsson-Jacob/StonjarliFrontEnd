@@ -135,8 +135,6 @@ const Home = () => {
       setDollarUp(up);
       setDollarDown(down);
 
-      setTotalFunds(await getTotalFund());
-
       setProfitPercent(totalFunds / startMoney);
 
       /*setSpyGrowth(
@@ -152,6 +150,15 @@ const Home = () => {
     }
 
     load();
+  }, []);
+
+  useEffect(() => {
+    async function loadAccount() {
+      const funds = await getTotalFund();
+      setTotalFunds(funds);
+    }
+
+    loadAccount();
   }, [totalFunds]);
 
   return (
