@@ -6,8 +6,8 @@ import axios from "axios";
 //const baseURL = "https://finnhub.io/api/v1";
 //const SPY_SYMBOL = "SPY";
 
-const startDate = "2025-08-01";
-const startMoney = 100;
+const startDate = "2025-09-07";
+const startMoney = 214;
 
 // Delay to prevent 429
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
