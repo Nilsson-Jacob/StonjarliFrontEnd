@@ -14,7 +14,6 @@ import {
 
 import Holdings from "./pages/Holdings";
 import Todays from "./pages/Todays";
-//import Todays from "./pages/Todays";
 
 function App() {
   return (

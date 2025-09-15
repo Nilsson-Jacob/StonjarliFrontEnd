@@ -6,7 +6,7 @@ import axios from "axios";
 //const baseURL = "https://finnhub.io/api/v1";
 //const SPY_SYMBOL = "SPY";
 
-const startDate = "2025-09-07";
+const startDate = "2025-09-06";
 const startMoney = 214;
 
 // Delay to prevent 429
@@ -74,7 +74,8 @@ const Home = () => {
       console.log("percent: " + growth);
       return growth;
     } catch (err) {
-      return err;
+      console.error("Failed to fetch S&P growth:", err.message);
+      return 0; // Return a safe number
     }
   }
 
@@ -85,7 +86,8 @@ const Home = () => {
 
       return account.portfolio_value + "$";
     } catch (err) {
-      return err;
+      console.error("Failed to fetch total funds:", err.message);
+      return "N/A"; // return a string or 0
     }
   }
 
@@ -121,7 +123,6 @@ const Home = () => {
         }
 
         // check if
-
         enriched.push({
           ...stock,
           // spyReturn,
@@ -231,7 +232,7 @@ const Home = () => {
               bottom: "5px",
             }}
           >
-            Start at ($100) - 2025-08-25
+            Start at {format(startMoney)} - {startDate}
           </span>
           <h3 style={{ margin: 0 }}>${totalFunds}</h3>
         </div>

@@ -1,1 +1,0 @@
-let apiKey = "821864d533cb4b68ad210d32c564b400";
