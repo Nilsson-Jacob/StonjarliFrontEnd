@@ -160,7 +160,7 @@ const Home = () => {
     }
 
     loadAccount();
-  }, [totalFunds]);
+  }, []);
 
   return (
     <div style={{ textAlign: "center" }}>
