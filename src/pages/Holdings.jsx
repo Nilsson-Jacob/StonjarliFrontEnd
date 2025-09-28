@@ -151,7 +151,7 @@ const Home = () => {
     }
 
     load();
-  }, []);
+  }, [totalFunds]);
 
   useEffect(() => {
     async function loadAccount() {
