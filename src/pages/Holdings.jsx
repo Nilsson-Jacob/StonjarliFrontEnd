@@ -2,6 +2,203 @@ import React, { useEffect, useState } from "react";
 import PositionsGrid from "../components/PositionsGrid";
 import axios from "axios";
 
+const startDate = "2025-09-29";
+const startMoney = 214;
+
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+const serverApi = "https://stonjarliserver.onrender.com";
+
+const Home = () => {
+  const [saved, setSaved] = useState([]);
+  const [dollarUp, setDollarUp] = useState(0);
+  const [dollarDown, setDollarDown] = useState(0);
+  const [profitPercent, setProfitPercent] = useState(0);
+  const [spyGrowth, setSpyGrowth] = useState(0);
+  const [totalFunds, setTotalFunds] = useState(0);
+
+  async function getPositions() {
+    try {
+      const response = await axios.get(serverApi + "/positions");
+      return response.data || [];
+    } catch (e) {
+      console.error("Error fetching positions:", e.message);
+      return [];
+    }
+  }
+
+  async function getBuyDate() {
+    try {
+      const res = await axios.get(`${serverApi}/buydate`);
+      return res.data;
+    } catch (error) {
+      console.log("JN from buydate" + error);
+    }
+  }
+
+  async function getSPGrowth() {
+    try {
+      const response = await axios.get(`${serverApi}/SP500/${startDate}`);
+      return response.data.growthPct;
+    } catch (err) {
+      console.error("Failed to fetch S&P growth:", err.message);
+      return 0;
+    }
+  }
+
+  async function getTotalFund() {
+    try {
+      const response = await axios.get(`${serverApi}/account`);
+      return response.data.portfolio_value;
+    } catch (err) {
+      console.error("Failed to fetch total funds:", err.message);
+      return "N/A";
+    }
+  }
+
+  useEffect(() => {
+    async function load() {
+      const aPositions = await getPositions();
+      const aClosedOrders = await getBuyDate();
+
+      let symbolMap;
+      if (aClosedOrders) {
+        symbolMap = new Map(aClosedOrders.map((item) => [item.symbol, item]));
+      }
+
+      const enriched = [];
+      let up = 0;
+      let down = 0;
+
+      for (const stock of aPositions.data) {
+        if (stock.unrealized_pl >= 0) {
+          up += Math.abs(stock.unrealized_pl);
+        } else {
+          down += Math.abs(stock.unrealized_pl);
+        }
+
+        let buyDate = "";
+        const oMatch = symbolMap.get(stock.symbol);
+        if (oMatch && oMatch.filled_at) {
+          buyDate = oMatch.filled_at.substring(0, 10);
+        }
+
+        enriched.push({ ...stock, buyDate });
+        await delay(300); // shorter delay for mobile feel
+      }
+
+      setDollarUp(up);
+      setDollarDown(down);
+      setSaved(enriched);
+      setSpyGrowth(await getSPGrowth());
+    }
+
+    load();
+  }, [totalFunds]);
+
+  useEffect(() => {
+    async function loadAccount() {
+      const funds = await getTotalFund();
+      setTotalFunds(funds);
+      setProfitPercent(funds / startMoney);
+    }
+    loadAccount();
+  }, []);
+
+  return (
+    <div style={{ textAlign: "center", padding: "10px" }}>
+      <div
+        className="summary-container"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "10px",
+          gap: "20px",
+          flexWrap: "wrap",
+        }}
+      >
+        {/* Dollar values */}
+        <div style={{ minWidth: "150px", textAlign: "left" }}>
+          <h3 style={{ fontSize: "1.1rem" }}>💵 Up: ${format(dollarUp)}</h3>
+          <h3 style={{ fontSize: "1.1rem" }}>📉 Down: ${format(dollarDown)}</h3>
+          <h3 style={{ fontSize: "1.1rem" }}>
+            📈 Profit: ${format(dollarUp - dollarDown)}
+          </h3>
+        </div>
+
+        {/* Divider (hidden on mobile) */}
+        <div
+          style={{
+            borderLeft: "2px solid #ccc",
+            height: "auto",
+            display: window.innerWidth < 600 ? "none" : "block",
+          }}
+        />
+
+        {/* Percent values */}
+        <div style={{ minWidth: "150px", textAlign: "left" }}>
+          <h4 style={{ fontSize: "1rem" }}>
+            🔼 Growth (%): {format(profitPercent)}%
+          </h4>
+          <h4 style={{ fontSize: "1rem" }}>
+            📊 S&P500 Growth: {spyGrowth ? spyGrowth : "N/A"}%
+          </h4>
+        </div>
+
+        {/* Divider (hidden on mobile) */}
+        <div
+          style={{
+            borderLeft: "2px solid #ccc",
+            height: "auto",
+            display: window.innerWidth < 600 ? "none" : "block",
+          }}
+        />
+
+        {/* Total funds box */}
+        <div
+          style={{
+            flex: "1 1 auto",
+            minWidth: "140px",
+            marginTop: window.innerWidth < 600 ? "10px" : "0",
+            padding: "10px 20px",
+            border: "2px solid #ccc",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+            position: "relative",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "0.75rem",
+              color: "#555",
+              position: "absolute",
+              right: "10px",
+              bottom: "5px",
+            }}
+          >
+            Start at {startMoney} – {startDate}
+          </span>
+          <h3 style={{ margin: 0, fontSize: "2.5rem" }}>${totalFunds}</h3>
+        </div>
+      </div>
+
+      <div style={{ marginTop: "20px" }}>
+        <PositionsGrid positions={saved} />
+      </div>
+    </div>
+  );
+};
+
+function format(val) {
+  return Number(val).toFixed(2);
+}
+
+export default Home;
+
+/*import React, { useEffect, useState } from "react";
+import PositionsGrid from "../components/PositionsGrid";
+import axios from "axios";
+
 //const apiKey = "cupln21r01qk8dnkqkcgcupln21r01qk8dnkqkd0";
 //const baseURL = "https://finnhub.io/api/v1";
 //const SPY_SYMBOL = "SPY";
@@ -25,7 +222,7 @@ async function getCurrentPrice(symbol) {
     return null;
   }
 }*/
-
+/*
 const serverApi = "https://stonjarliserver.onrender.com";
 
 const Home = () => {
@@ -84,7 +281,7 @@ const Home = () => {
       const response = await axios.get(`${serverApi}/account`);
       const account = response.data;
 
-      return account.portfolio_value + "$";
+      return account.portfolio_value;
     } catch (err) {
       console.error("Failed to fetch total funds:", err.message);
       return "N/A"; // return a string or 0
@@ -136,8 +333,6 @@ const Home = () => {
       setDollarUp(up);
       setDollarDown(down);
 
-      setProfitPercent(totalFunds / startMoney);
-
       /*setSpyGrowth(
         enriched[0]?.spyPriceAtBuy
           ? ((currentSPY - enriched[0].spyPriceAtBuy) /
@@ -145,7 +340,7 @@ const Home = () => {
               100
           : 0
       );*/
-
+/*
       setSaved(enriched);
       setSpyGrowth(await getSPGrowth());
     }
@@ -157,6 +352,9 @@ const Home = () => {
     async function loadAccount() {
       const funds = await getTotalFund();
       setTotalFunds(funds);
+
+      console.log(funds + "fonds - : start: " + startMoney);
+      setProfitPercent(funds / startMoney);
     }
 
     loadAccount();
@@ -174,14 +372,14 @@ const Home = () => {
           flexWrap: "wrap",
         }}
       >
-        {/* Dollar values */}
+        {/* Dollar values }
         <div style={{ textAlign: "left" }}>
           <h3>💵 Up: ${format(dollarUp)}</h3>
           <h3>📉 Down: ${format(dollarDown)}</h3>
           <h3>📈 Profit: ${format(dollarUp - dollarDown)}</h3>
         </div>
 
-        {/* Vertical divider */}
+        {/* Vertical divider }
         <div
           style={{
             borderLeft: "2px solid #ccc",
@@ -189,7 +387,7 @@ const Home = () => {
           }}
         />
 
-        {/* Percent values */}
+        {/* Percent values }
         <div style={{ textAlign: "left" }}>
           <h4>🔼 Growth (%): {format(profitPercent)}%</h4>
           <h4>
@@ -198,7 +396,7 @@ const Home = () => {
           </h4>
         </div>
 
-        {/* Vertical divider before funds box */}
+        {/* Vertical divider before funds box }
         <div
           style={{
             borderLeft: "2px solid #ccc",
@@ -206,7 +404,7 @@ const Home = () => {
           }}
         />
 
-        {/* Total funds box */}
+        {/* Total funds box }
         <div
           style={{
             display: "flex",
@@ -248,4 +446,4 @@ function format(val) {
   return Number(val).toFixed(2);
 }
 
-export default Home;
+export default Home;*/
