@@ -6,7 +6,7 @@ import axios from "axios";
 //const baseURL = "https://finnhub.io/api/v1";
 //const SPY_SYMBOL = "SPY";
 
-const startDate = "2025-09-06";
+const startDate = "2025-09-29";
 const startMoney = 214;
 
 // Delay to prevent 429
@@ -232,7 +232,7 @@ const Home = () => {
               bottom: "5px",
             }}
           >
-            Start at {format(startMoney)} - {startDate}
+            Start at {startMoney} - {startDate}
           </span>
           <h3 style={{ margin: 0 }}>${totalFunds}</h3>
         </div>
