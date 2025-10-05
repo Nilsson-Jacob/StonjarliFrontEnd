@@ -16,6 +16,8 @@ const Home = () => {
   const [profitPercent, setProfitPercent] = useState(0);
   const [spyGrowth, setSpyGrowth] = useState(0);
   const [totalFunds, setTotalFunds] = useState(0);
+  const [beerCount, setTotalBeer] = useState(0);
+  const [todaysProfit, setTodaysProfit] = useState(0);
 
   async function getPositions() {
     try {
@@ -71,6 +73,9 @@ const Home = () => {
       let down = 0;
 
       for (const stock of aPositions.data) {
+        console.log("line75: " + JSON.stringify(stock));
+        setTodaysProfit(todaysProfit + Number(stock.unrealized_intraday_pl));
+
         if (stock.unrealized_pl >= 0) {
           up += Math.abs(stock.unrealized_pl);
         } else {
@@ -143,6 +148,74 @@ const Home = () => {
           <h4 style={{ fontSize: "1rem" }}>
             📊 S&P500 Growth: {spyGrowth ? spyGrowth : "N/A"}%
           </h4>
+
+          {/* Divider (hidden on mobile) */}
+          <div
+            style={{
+              borderBottom: "2px solid #ccc",
+              height: "auto",
+              display: window.innerWidth < 600 ? "none" : "block",
+            }}
+          />
+          <h3>
+            <span
+              onClick={() => setTotalBeer(beerCount + 1)}
+              style={{
+                cursor: "pointer",
+                fontSize: "1.5rem",
+                textShadow: `
+        0 0 1px #f2eb60,
+        0 0 1px #f2eb60,
+        0 0 3px #f2eb60,
+        0 0 3px #f2eb60,
+        0 0 3px #f2eb60
+      `,
+                transition: "transform 0.2s, text-shadow 0.3s",
+                display: "inline-block",
+              }}
+            >
+              Todays $: {todaysProfit - beerCount * 5}$
+            </span>
+          </h3>
+
+          <h3>
+            <span
+              onClick={() => setTotalBeer(beerCount + 1)}
+              style={{
+                cursor: "pointer",
+                fontSize: "2.5rem",
+                textShadow: `
+        0 0 1px #00ff00,
+        0 0 1px #00ff00,
+        0 0 2px #00ff00,
+        0 0 2px #00ff00,
+        0 0 3px #00ff00
+      `,
+                transition: "transform 0.2s, text-shadow 0.3s",
+                display: "inline-block",
+              }}
+            >
+              🍺
+            </span>
+            <span
+              style={{
+                cursor: "pointer",
+                fontSize: "2.5rem",
+                textShadow: `
+        0 0 1px #00ff00,
+        0 0 1px #00ff00,
+        0 0 2px #00ff00,
+        0 0 2px #00ff00,
+        0 0 3px #00ff00
+      `,
+                transition: "transform 0.2s, text-shadow 0.3s",
+                display: "inline-block",
+                paddingLeft: "2%",
+              }}
+            >
+              {beerCount ? beerCount : 0}
+            </span>
+          </h3>
         </div>
 
         {/* Divider (hidden on mobile) */}
