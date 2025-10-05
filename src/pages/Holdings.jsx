@@ -130,7 +130,6 @@ const Home = () => {
             📈 Profit: ${format(dollarUp - dollarDown)}
           </h3>
         </div>
-
         {/* Divider (hidden on mobile) */}
         <div
           style={{
@@ -139,7 +138,6 @@ const Home = () => {
             display: window.innerWidth < 600 ? "none" : "block",
           }}
         />
-
         {/* Percent values */}
         <div style={{ minWidth: "150px", textAlign: "left" }}>
           <h4 style={{ fontSize: "1rem" }}>
@@ -217,7 +215,6 @@ const Home = () => {
             </span>
           </h3>
         </div>
-
         {/* Divider (hidden on mobile) */}
         <div
           style={{
@@ -226,32 +223,63 @@ const Home = () => {
             display: window.innerWidth < 600 ? "none" : "block",
           }}
         />
-
         {/* Total funds box */}
-        <div
-          style={{
-            flex: "1 1 auto",
-            minWidth: "140px",
-            marginTop: window.innerWidth < 600 ? "10px" : "0",
-            padding: "10px 20px",
-            border: "2px solid #ccc",
-            borderRadius: "8px",
-            backgroundColor: "#f9f9f9",
-            position: "relative",
-          }}
-        >
-          <span
+        <div style={{ flex: "1 1 auto" }}>
+          <div
             style={{
-              fontSize: "0.75rem",
-              color: "#555",
-              position: "absolute",
-              right: "10px",
-              bottom: "5px",
+              flex: "1 1 auto",
+              minWidth: "140px",
+              marginTop: window.innerWidth < 600 ? "10px" : "0",
+              padding: "10px 20px",
+              border: "2px solid #ccc",
+              borderRadius: "8px",
+              backgroundColor: "#f9f9f9",
+              position: "relative",
+              maxHeight: "75px",
             }}
           >
-            Start at {startMoney} – {startDate}
-          </span>
-          <h3 style={{ margin: 0, fontSize: "2.5rem" }}>${totalFunds}</h3>
+            <span
+              style={{
+                fontSize: "0.75rem",
+                color: "#555",
+                position: "absolute",
+                right: "10px",
+                bottom: "5px",
+              }}
+            >
+              Start at {startMoney}$ – {startDate}
+            </span>
+            <h3 style={{ margin: 0, fontSize: "2.5rem" }}>${totalFunds}</h3>
+          </div>
+          {/* Divider (hidden on mobile) */}
+          <div
+            style={{
+              borderBottom: "2px solid #ccc",
+              height: "auto",
+              display: window.innerWidth < 600 ? "none" : "block",
+              marginTop: "21px",
+            }}
+          />
+          <h3>
+            <span
+              onClick={() => setTotalBeer(beerCount + 1)}
+              style={{
+                cursor: "pointer",
+                fontSize: "1.5rem",
+                textShadow: `
+        0 0 1px #f2eb60,
+        0 0 1px #f2eb60,
+        0 0 3px #f2eb60,
+        0 0 3px #f2eb60,
+        0 0 3px #f2eb60
+      `,
+                transition: "transform 0.2s, text-shadow 0.3s",
+                display: "inline-block",
+              }}
+            >
+              Todays 🔮
+            </span>
+          </h3>
         </div>
       </div>
 
