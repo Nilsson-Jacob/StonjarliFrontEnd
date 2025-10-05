@@ -99,7 +99,7 @@ const Home = () => {
     }
 
     load();
-  }, [totalFunds]);
+  }, [totalFunds, todaysProfit]);
 
   useEffect(() => {
     async function loadAccount() {
