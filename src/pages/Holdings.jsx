@@ -248,7 +248,9 @@ const Home = () => {
         <div style={{ flex: "1 1 auto" }}>
           <div
             style={{
-              flex: "1 1 auto",
+              //flex: "1 1 auto",
+              flex: "0 0 auto", // prevent horizontal stretching
+
               minWidth: "140px",
               marginTop: window.innerWidth < 600 ? "10px" : "0",
               padding: "10px 20px",
@@ -312,8 +314,10 @@ const Home = () => {
                     key={item.id}
                     style={{
                       marginBottom: "10px",
+                      maxHeight: "400px", // allow it to scroll vertically
                       padding: "8px",
                       border: "1px solid #ccc",
+                      overflowY: "auto",
                       borderRadius: "6px",
                       backgroundColor:
                         item.sentiment === "positive"
