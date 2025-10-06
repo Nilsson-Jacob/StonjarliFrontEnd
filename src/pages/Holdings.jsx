@@ -301,6 +301,35 @@ const Home = () => {
               Todays 🔮
             </span>
           </h3>
+
+          <div style={{ marginTop: "20px", textAlign: "left" }}>
+            {sentiments.length === 0 ? (
+              <p>No sentiment data yet</p>
+            ) : (
+              <ul style={{ listStyleType: "none", padding: 0 }}>
+                {sentiments.map((item) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      marginBottom: "10px",
+                      padding: "8px",
+                      border: "1px solid #ccc",
+                      borderRadius: "6px",
+                      backgroundColor:
+                        item.sentiment === "positive"
+                          ? "#d4edda"
+                          : item.sentiment === "negative"
+                          ? "#f8d7da"
+                          : "#fff3cd",
+                    }}
+                  >
+                    <strong>{item.sentiment.toUpperCase()}</strong>:{" "}
+                    {item.headline}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
       </div>
 
