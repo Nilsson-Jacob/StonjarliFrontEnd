@@ -248,9 +248,6 @@ const Home = () => {
         <div style={{ flex: "1 1 auto" }}>
           <div
             style={{
-              //flex: "1 1 auto",
-              flex: "0 0 auto", // prevent horizontal stretching
-
               minWidth: "140px",
               marginTop: window.innerWidth < 600 ? "10px" : "0",
               padding: "10px 20px",
