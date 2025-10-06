@@ -19,6 +19,8 @@ const Home = () => {
   const [beerCount, setTotalBeer] = useState(0);
   const [todaysProfit, setTodaysProfit] = useState(0);
 
+  const [sentiments, setSentiments] = useState([]);
+
   async function getPositions() {
     try {
       const response = await axios.get(serverApi + "/positions");
@@ -55,6 +57,16 @@ const Home = () => {
     } catch (err) {
       console.error("Failed to fetch total funds:", err.message);
       return "N/A";
+    }
+  }
+
+  async function getSentiments() {
+    try {
+      const response = await axios.get(serverApi + "/sentiments");
+      return response.data || [];
+    } catch (e) {
+      console.error("Error fetching positions:", e.message);
+      return [];
     }
   }
 
@@ -109,6 +121,14 @@ const Home = () => {
       setProfitPercent(funds / startMoney);
     }
     loadAccount();
+  }, []);
+
+  useEffect(() => {
+    async function loadSentiments() {
+      const sentiments = await getSentiments();
+      setSentiments(sentiments);
+    }
+    loadSentiments();
   }, []);
 
   return (
