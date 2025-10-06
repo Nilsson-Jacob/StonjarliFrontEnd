@@ -173,7 +173,7 @@ const Home = () => {
                 display: "inline-block",
               }}
             >
-              Todays 💸: {todaysProfit - beerCount * 5}$
+              Todays 💸: ${format(todaysProfit - beerCount * 5)}
             </span>
           </h3>
 
