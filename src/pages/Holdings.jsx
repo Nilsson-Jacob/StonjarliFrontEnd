@@ -74,7 +74,8 @@ const Home = () => {
 
       for (const stock of aPositions.data) {
         console.log("line75: " + JSON.stringify(stock));
-        setTodaysProfit(todaysProfit + Number(stock.unrealized_intraday_pl));
+        //setTodaysProfit(todaysProfit + Number(stock.unrealized_intraday_pl));
+        setTodaysProfit((prev) => prev + Number(stock.unrealized_intraday_pl));
 
         if (stock.unrealized_pl >= 0) {
           up += Math.abs(stock.unrealized_pl);
