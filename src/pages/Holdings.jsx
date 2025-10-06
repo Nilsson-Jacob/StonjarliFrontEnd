@@ -324,7 +324,8 @@ const Home = () => {
                     }}
                   >
                     <strong>{item.sentiment.toUpperCase()}</strong>:{" "}
-                    {item.headline + " "}: {" " + item.created_at}
+                    {item.headline + " "}:{" "}
+                    {" " + item.created_at.substring(0, 10)}
                   </li>
                 ))}
               </ul>
