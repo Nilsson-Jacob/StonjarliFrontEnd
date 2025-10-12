@@ -17,8 +17,11 @@ const NavBar = () => {
         <li className={location.pathname === "/holdings" ? "active" : ""}>
           <Link to="/holdings">Holdings</Link>
         </li>
-        <li className={location.pathname === "/todays" ? "active" : ""}>
-          <Link to="/todays">Analysis</Link>
+        {/* <li className={location.pathname === "/todays" ? "active" : ""}>
+          <Link to="/todays">Todays</Link>
+        </li> */}
+        <li className={location.pathname === "/analysis" ? "active" : ""}>
+          <Link to="/analysis">Analytics </Link>
         </li>
       </ul>
     </nav>
