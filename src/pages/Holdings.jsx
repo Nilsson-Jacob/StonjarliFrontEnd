@@ -145,6 +145,7 @@ const Home = () => {
       >
         {/* Dollar values */}
         <div style={{ minWidth: "150px", textAlign: "left" }}>
+          <h3 style={{ fontSize: "1.2rem" }}>Current Holdings</h3>
           <h3 style={{ fontSize: "1.1rem" }}>💵 Up: ${format(dollarUp)}</h3>
           <h3 style={{ fontSize: "1.1rem" }}>📉 Down: ${format(dollarDown)}</h3>
           <h3 style={{ fontSize: "1.1rem" }}>
