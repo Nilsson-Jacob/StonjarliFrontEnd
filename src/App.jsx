@@ -20,9 +20,8 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Navigate to="/todays" />} />
+        <Route path="/" element={<Navigate to="/holdings" />} />
         <Route path="/holdings" element={<Holdings />} />
-        <Route path="/todays" element={<Todays />} />
       </Routes>
     </Router>
   );
