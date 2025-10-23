@@ -140,7 +140,9 @@ const Home = () => {
           justifyContent: "center",
           padding: "10px",
           gap: "20px",
-          flexWrap: "wrap",
+          //flexWrap: "wrap",
+          flexWrap: "nowrap",
+          alignItems: "flex-start",
         }}
       >
         {/* Dollar values */}
@@ -246,7 +248,15 @@ const Home = () => {
           }}
         />
         {/* Total funds box */}
-        <div style={{ flex: "1 1 auto" }}>
+        <div
+          style={{
+            //flex: "1 1 auto"
+            flex: "0 0 350px", // fixed width so it won't shrink or wrap
+            maxHeight: "75vh", // entire column height cap
+            overflowY: "auto", // scroll right column
+            paddingRight: "5px", // space for scrollbar
+          }}
+        >
           <div
             style={{
               minWidth: "140px",
