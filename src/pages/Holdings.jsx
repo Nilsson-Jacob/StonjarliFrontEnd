@@ -317,15 +317,15 @@ const Home = () => {
                       border: "1px solid #ccc",
                       overflowY: "auto",
                       borderRadius: "6px",
-                      backgroundColor:
-                        item.sentiment === "positive"
+                      backgroundColor: "#f2eb60",
+                      /*  item.sentiment === "positive"
                           ? "#d4edda"
                           : item.sentiment === "negative"
                           ? "#f8d7da"
-                          : "#fff3cd",
+                          : "#fff3cd",*/
                     }}
                   >
-                    <strong>{item.sentiment.toUpperCase()}</strong>:{" "}
+                    <strong>{item.event.toUpperCase()}</strong>:{" "}
                     {item.headline + " "}:{" "}
                     {" " + item.created_at.substring(0, 10)}
                   </li>
