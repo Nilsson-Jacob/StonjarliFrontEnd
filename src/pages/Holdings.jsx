@@ -252,7 +252,7 @@ const Home = () => {
           style={{
             //flex: "1 1 auto"
             flex: "0 0 350px", // fixed width so it won't shrink or wrap
-            maxHeight: "75vh", // entire column height cap
+            maxHeight: "36vh", // entire column height cap
             overflowY: "auto", // scroll right column
             paddingRight: "5px", // space for scrollbar
           }}
