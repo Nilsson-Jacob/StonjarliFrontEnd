@@ -13,7 +13,6 @@ import {
 } from "react-router-dom";
 
 import Holdings from "./pages/Holdings";
-import Todays from "./pages/Todays";
 
 function App() {
   return (
