@@ -336,7 +336,7 @@ const Home = () => {
                     }}
                   >
                     <strong>{item.event.toUpperCase()}</strong>:{" "}
-                    <strong>( {item.symbol.symboltoUpperCase()} )</strong> :{" "}
+                    <strong>( {item.symbol.toUpperCase()} )</strong> :{" "}
                     {item.headline + " "}:{" "}
                     {" " + item.created_at.substring(0, 10)}
                   </li>
