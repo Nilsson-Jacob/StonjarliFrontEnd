@@ -61,8 +61,13 @@ const Home = () => {
   }
 
   async function getSentiments() {
+    let todaysDate = new Date();
+    let stringDate = todaysDate.toISOString().split("T")[0];
+
     try {
-      const response = await axios.get(serverApi + "/sentiments");
+      const response = await axios.get(
+        serverApi + `/sentiments/:${stringDate}`
+      );
       return response.data || [];
     } catch (e) {
       console.error("Error fetching positions:", e.message);
