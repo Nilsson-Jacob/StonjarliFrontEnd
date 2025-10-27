@@ -65,9 +65,7 @@ const Home = () => {
     let stringDate = todaysDate.toISOString().split("T")[0];
 
     try {
-      const response = await axios.get(
-        serverApi + `/sentiments/:${stringDate}`
-      );
+      const response = await axios.get(serverApi + `/sentiments/${stringDate}`);
       return response.data || [];
     } catch (e) {
       console.error("Error fetching positions:", e.message);
