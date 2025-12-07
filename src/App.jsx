@@ -13,6 +13,7 @@ import {
 } from "react-router-dom";
 
 import Holdings from "./pages/Holdings";
+import Analysis from "./pages/Analysis";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/holdings" />} />
         <Route path="/holdings" element={<Holdings />} />
+        <Route path="/analysis" element={<Analysis />} />
       </Routes>
     </Router>
   );
