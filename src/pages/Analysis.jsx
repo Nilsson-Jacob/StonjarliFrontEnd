@@ -9,7 +9,14 @@ const Home = () => {
   const handleStart = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+
+      const mimeType = MediaRecorder.isTypeSupported("audio/mp4")
+        ? "audio/mp4"
+        : MediaRecorder.isTypeSupported("audio/webm")
+        ? "audio/webm"
+        : "audio/ogg";
+
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -18,9 +25,8 @@ const Home = () => {
       };
 
       mediaRecorder.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, {
-          type: "audio/webm",
-        });
+        const mimeType = mediaRecorder.mimeType;
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
         const url = URL.createObjectURL(audioBlob);
         setAudioURL(url);
       };
@@ -29,6 +35,7 @@ const Home = () => {
       setRecording(true);
     } catch (err) {
       console.error("Error accessing microphone:", err);
+      alert("Could not access microphone");
     }
   };
 
@@ -40,15 +47,15 @@ const Home = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "10px" }}>
-      <h5>maxHapp — Record your day</h5>
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h3>maxHapp — Record your day 🎤</h3>
 
       <button onClick={recording ? handleStop : handleStart}>
-        {recording ? "Stop 🎙️" : "Start Recording 🎤"}
+        {recording ? "Stop Recording" : "Start Recording"}
       </button>
 
       {audioURL && (
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginTop: 20 }}>
           <strong>Playback:</strong>
           <audio controls src={audioURL}></audio>
         </div>
