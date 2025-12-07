@@ -1,57 +1,58 @@
-import React, { useState, useEffect, useRef } from "react";
-import { WhisperTranscriber } from "whisper-web-transcriber";
+import React, { useState, useRef } from "react";
 
 const Home = () => {
-  const [loadingModel, setLoadingModel] = useState(true);
   const [recording, setRecording] = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const transcriberRef = useRef(null);
-
-  useEffect(() => {
-    async function init() {
-      const transcriber = new WhisperTranscriber({
-        modelSize: "tiny-en-q5_1", // light & faster model
-        onTranscription: (text) => {
-          console.log("Transcribed:", text);
-          setTranscript((prev) => (prev + " " + text).trim());
-        },
-        debug: true,
-      });
-      await transcriber.loadModel();
-      transcriberRef.current = transcriber;
-      setLoadingModel(false);
-    }
-    init();
-  }, []);
+  const [audioURL, setAudioURL] = useState(null);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
 
   const handleStart = async () => {
-    if (!transcriberRef.current) return;
-    await transcriberRef.current.startRecording();
-    setRecording(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) audioChunksRef.current.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: "audio/webm",
+        });
+        const url = URL.createObjectURL(audioBlob);
+        setAudioURL(url);
+      };
+
+      mediaRecorder.start();
+      setRecording(true);
+    } catch (err) {
+      console.error("Error accessing microphone:", err);
+    }
   };
 
   const handleStop = () => {
-    if (!transcriberRef.current) return;
-    transcriberRef.current.stopRecording();
-    setRecording(false);
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
   };
 
   return (
     <div style={{ textAlign: "center", padding: "10px" }}>
-      <h5>Hej</h5>
+      <h5>maxHapp — Record your day</h5>
 
-      {loadingModel ? (
-        <p>Loading speech model ... please wait</p>
-      ) : (
-        <button onClick={recording ? handleStop : handleStart}>
-          {recording ? "Stop 🎙️" : "Speak 🎤"}
-        </button>
+      <button onClick={recording ? handleStop : handleStart}>
+        {recording ? "Stop 🎙️" : "Start Recording 🎤"}
+      </button>
+
+      {audioURL && (
+        <div style={{ marginTop: "20px" }}>
+          <strong>Playback:</strong>
+          <audio controls src={audioURL}></audio>
+        </div>
       )}
-
-      <div style={{ marginTop: "20px" }}>
-        <strong>Transcript:</strong>
-        <p>{transcript}</p>
-      </div>
     </div>
   );
 };
