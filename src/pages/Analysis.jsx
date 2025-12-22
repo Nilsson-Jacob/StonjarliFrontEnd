@@ -19,11 +19,7 @@ const Home = () => {
 
       //const mediaRecorder = new MediaRecorder(stream, { mimeType });
 
-      const mimeType = MediaRecorder.isTypeSupported("audio/webm")
-        ? "audio/webm"
-        : "audio/ogg";
-
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      const mediaRecorder = new MediaRecorder(stream); // 🔑 no mimeType
 
       /*const mediaRecorder = new MediaRecorder(stream, {
         mimeType: "audio/mp4",
@@ -40,7 +36,13 @@ const Home = () => {
         const mimeType = mediaRecorder.mimeType;
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
 
-        const extension = mimeType.includes("webm") ? "webm" : "ogg";
+        const extension = mimeType.includes("webm")
+          ? "webm"
+          : mimeType.includes("ogg")
+          ? "ogg"
+          : mimeType.includes("mp4")
+          ? "mp4"
+          : "audio";
 
         const formData = new FormData();
 
