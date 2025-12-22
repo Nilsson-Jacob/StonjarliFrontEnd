@@ -6,25 +6,13 @@ const Home = () => {
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
+  const [answer, setAnswer] = useState("");
 
   const handleStart = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      /*const mimeType = MediaRecorder.isTypeSupported("audio/mp4")
-        ? "audio/mp4"
-        : MediaRecorder.isTypeSupported("audio/webm")
-        ? "audio/webm"
-        : "audio/ogg";*/
-
-      //const mediaRecorder = new MediaRecorder(stream, { mimeType });
-
-      const mediaRecorder = new MediaRecorder(stream); // 🔑 no mimeType
-
-      /*const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "audio/mp4",
-      });*/
-
+      const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -56,8 +44,7 @@ const Home = () => {
 
           const data = await res.json();
           console.log("data " + JSON.stringify(data));
-
-          console.log("Transcript:", data.text);
+          setAnswer(data);
         } catch (err) {
           console.error("Upload failed", err);
         }
@@ -85,6 +72,8 @@ const Home = () => {
       <button onClick={recording ? handleStop : handleStart}>
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
+
+      {data && <h5> {{ data }} </h5>}
     </div>
   );
 };
