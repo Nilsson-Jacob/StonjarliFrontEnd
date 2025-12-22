@@ -12,13 +12,17 @@ const Home = () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-      const mimeType = MediaRecorder.isTypeSupported("audio/mp4")
+      /*const mimeType = MediaRecorder.isTypeSupported("audio/mp4")
         ? "audio/mp4"
         : MediaRecorder.isTypeSupported("audio/webm")
         ? "audio/webm"
-        : "audio/ogg";
+        : "audio/ogg";*/
 
-      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      //const mediaRecorder = new MediaRecorder(stream, { mimeType });
+      const mediaRecorder = new MediaRecorder(stream, {
+        mimeType: "audio/webm",
+      });
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -29,8 +33,11 @@ const Home = () => {
       mediaRecorder.onstop = async () => {
         const mimeType = mediaRecorder.mimeType;
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-        const url = URL.createObjectURL(audioBlob);
-        setAudioURL(url);
+        // const url = URL.createObjectURL(audioBlob);
+        // setAudioURL(url);
+        //const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        //const formData = new FormData();
+        //formData.append("audio", audioBlob, "day-recording.webm");
 
         const formData = new FormData();
         formData.append("audio", audioBlob, "day-recording.webm");
