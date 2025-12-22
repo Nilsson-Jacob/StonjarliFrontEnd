@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+/*import React, { useState, useRef } from "react";
 
 const serverApi = "https://stonjarliserver.onrender.com";
 
@@ -18,8 +18,8 @@ const Home = () => {
         ? "audio/webm"
         : "audio/ogg";*/
 
-      //const mediaRecorder = new MediaRecorder(stream, { mimeType });
-      const mediaRecorder = new MediaRecorder(stream, {
+//const mediaRecorder = new MediaRecorder(stream, { mimeType });
+/*   const mediaRecorder = new MediaRecorder(stream, {
         mimeType: "audio/webm",
       });
 
@@ -92,7 +92,9 @@ const Home = () => {
 
 export default Home;
 
-/*import React, { useState, useEffect } from "react";
+*/
+
+import React, { useState, useEffect } from "react";
 
 const Home = () => {
   const [listening, setListening] = useState(false);
@@ -100,20 +102,23 @@ const Home = () => {
   const [recognition, setRecognition] = useState(null);
 
   useEffect(() => {
-    // Check browser support
+    // Detect browser support
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
+
     if (SpeechRecognition) {
       const recog = new SpeechRecognition();
-      recog.continuous = false; // stop automatically after speaking
-      recog.interimResults = false;
-      recog.lang = "en-US"; // change language if needed
+      recog.continuous = false; // stops automatically after user stops talking
+      recog.interimResults = false; // we only want final transcript
+      recog.lang = "sv-SE"; // Swedish (change if needed)
 
+      // Event: user finished speaking
       recog.onresult = (event) => {
         const spokenText = event.results[0][0].transcript;
         setTranscript(spokenText);
       };
 
+      // Event: recognition ended
       recog.onend = () => {
         setListening(false);
       };
@@ -136,12 +141,14 @@ const Home = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "10px" }}>
-      <h5>Hej</h5>
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h3>maxHapp — Record your day 🎤</h3>
+
       <button onClick={handleMicClick}>
         {listening ? "Stop 🎙️" : "Start 🎙️"}
       </button>
-      <div style={{ marginTop: "20px" }}>
+
+      <div style={{ marginTop: 20 }}>
         <strong>Transcript:</strong>
         <p>{transcript}</p>
       </div>
@@ -150,4 +157,3 @@ const Home = () => {
 };
 
 export default Home;
-*/
