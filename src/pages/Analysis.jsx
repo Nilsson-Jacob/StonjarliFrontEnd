@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 
+const serverApi = "https://stonjarliserver.onrender.com";
+
 const Home = () => {
   const [recording, setRecording] = useState(false);
   const [audioURL, setAudioURL] = useState(null);
@@ -24,11 +26,29 @@ const Home = () => {
         if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
 
-      mediaRecorder.onstop = () => {
+      mediaRecorder.onstop = async () => {
         const mimeType = mediaRecorder.mimeType;
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-        const url = URL.createObjectURL(audioBlob);
-        setAudioURL(url);
+        // const url = URL.createObjectURL(audioBlob);
+        // setAudioURL(url);
+
+        const formData = new FormData();
+        formData.append("audio", audioBlob, "day-recording.webm");
+
+        try {
+          const res = await fetch(serverApi + "/transcribe", {
+            method: "POST",
+            body: formData,
+          });
+
+          console.log("data " + JSON.stringify(data));
+
+          const data = await res.json();
+
+          console.log("Transcript:", data.text);
+        } catch (err) {
+          console.error("Upload failed", err);
+        }
       };
 
       mediaRecorder.start();
