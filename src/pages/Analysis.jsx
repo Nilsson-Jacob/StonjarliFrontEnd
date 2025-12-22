@@ -68,12 +68,18 @@ const Home = () => {
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
       <h3>maxHapp — Record your day 🎤</h3>
-
       <button onClick={recording ? handleStop : handleStart}>
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
+      {answer && (
+        <div style={{ marginTop: 20, textAlign: "left" }}>
+          <h4>Transcript</h4>
+          <p>{answer.transcript}</p>
 
-      {answer && <h5> {{ answer }} </h5>}
+          <h4>Structured data</h4>
+          <pre>{JSON.stringify(answer.structured, null, 2)}</pre>
+        </div>
+      )}
     </div>
   );
 };
