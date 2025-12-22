@@ -4,7 +4,6 @@ const serverApi = "https://stonjarliserver.onrender.com";
 
 const Home = () => {
   const [recording, setRecording] = useState(false);
-  const [audioURL, setAudioURL] = useState(null);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
@@ -19,9 +18,16 @@ const Home = () => {
         : "audio/ogg";*/
 
       //const mediaRecorder = new MediaRecorder(stream, { mimeType });
-      const mediaRecorder = new MediaRecorder(stream, {
+
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm")
+        ? "audio/webm"
+        : "audio/ogg";
+
+      const mediaRecorder = new MediaRecorder(stream, { mimeType });
+
+      /*const mediaRecorder = new MediaRecorder(stream, {
         mimeType: "audio/mp4",
-      });
+      });*/
 
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
@@ -33,14 +39,12 @@ const Home = () => {
       mediaRecorder.onstop = async () => {
         const mimeType = mediaRecorder.mimeType;
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-        const url = URL.createObjectURL(audioBlob);
-        setAudioURL(url);
-        //const audioBlob = new Blob(audioChunksRef.current, { type: "audio/webm" });
-        //const formData = new FormData();
-        //formData.append("audio", audioBlob, "day-recording.webm");
+
+        const extension = mimeType.includes("webm") ? "webm" : "ogg";
 
         const formData = new FormData();
-        formData.append("audio", audioBlob, "day-recording.webm");
+
+        formData.append("audio", audioBlob, `day-recording.${extension}`);
 
         try {
           const res = await fetch(serverApi + "/transcribe", {
@@ -79,77 +83,8 @@ const Home = () => {
       <button onClick={recording ? handleStop : handleStart}>
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
-
-      {audioURL && (
-        <div style={{ marginTop: 20 }}>
-          <strong>Playback:</strong>
-          <audio controls src={audioURL}></audio>
-        </div>
-      )}
     </div>
   );
 };
 
 export default Home;
-
-/*
-
-import React, { useState, useEffect } from "react";
-
-const Home = () => {
-  const [listening, setListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
-  const [recognition, setRecognition] = useState(null);
-
-  useEffect(() => {
-    // Check browser support
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const recog = new SpeechRecognition();
-      recog.continuous = false; // stop automatically after speaking
-      recog.interimResults = false;
-      recog.lang = "en-US"; // change language if needed
-
-      recog.onresult = (event) => {
-        const spokenText = event.results[0][0].transcript;
-        setTranscript(spokenText);
-      };
-
-      recog.onend = () => {
-        setListening(false);
-      };
-
-      setRecognition(recog);
-    } else {
-      alert("Sorry, your browser does not support the Web Speech API.");
-    }
-  }, []);
-
-  const handleMicClick = () => {
-    if (!recognition) return;
-    if (!listening) {
-      recognition.start();
-      setListening(true);
-    } else {
-      recognition.stop();
-      setListening(false);
-    }
-  };
-
-  return (
-    <div style={{ textAlign: "center", padding: "10px" }}>
-      <h5>Hej</h5>
-      <button onClick={handleMicClick}>
-        {listening ? "Stop 🎙️" : "Start 🎙️"}
-      </button>
-      <div style={{ marginTop: "20px" }}>
-        <strong>Transcript:</strong>
-        <p>{transcript}</p>
-      </div>
-    </div>
-  );
-};
-
-export default Home;
-*/
