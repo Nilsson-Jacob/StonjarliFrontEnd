@@ -73,7 +73,7 @@ const Home = () => {
         {recording ? "Stop Recording" : "Start Recording"}
       </button>
 
-      {data && <h5> {{ data }} </h5>}
+      {answer && <h5> {{ answer }} </h5>}
     </div>
   );
 };
