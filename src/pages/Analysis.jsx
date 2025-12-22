@@ -30,7 +30,7 @@ const Home = () => {
         const mimeType = mediaRecorder.mimeType;
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
         // const url = URL.createObjectURL(audioBlob);
-        // setAudioURL(url);
+        setAudioURL(url);
 
         const formData = new FormData();
         formData.append("audio", audioBlob, "day-recording.webm");
@@ -41,9 +41,8 @@ const Home = () => {
             body: formData,
           });
 
-          console.log("data " + JSON.stringify(data));
-
           const data = await res.json();
+          console.log("data " + JSON.stringify(data));
 
           console.log("Transcript:", data.text);
         } catch (err) {
