@@ -29,7 +29,7 @@ const Home = () => {
       mediaRecorder.onstop = async () => {
         const mimeType = mediaRecorder.mimeType;
         const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-        // const url = URL.createObjectURL(audioBlob);
+        const url = URL.createObjectURL(audioBlob);
         setAudioURL(url);
 
         const formData = new FormData();
