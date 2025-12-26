@@ -10,7 +10,7 @@ export default function Checkin() {
       <div style={styles.card}>
         <p style={styles.prompt}>How was your day?</p>
 
-        <ListeningBlob active={listening} />
+        <SiriBlob active={listening} />
 
         <button style={styles.button} onClick={() => setListening(!listening)}>
           {listening ? "Stop" : "Start talking"}
@@ -22,7 +22,7 @@ export default function Checkin() {
   );
 }
 
-function ListeningBlob({ active }) {
+function SiriBlob({ active }) {
   const [progress, setProgress] = useState(0);
   const totalTime = 30; // seconds
 
@@ -50,51 +50,56 @@ function ListeningBlob({ active }) {
 
   return (
     <div style={styles.blobContainer}>
-      {/* Pulsing rings */}
-      {[0, 0.6, 1.2].map((delay) => (
+      {/* Soft rings */}
+      {[0, 0.8, 1.6].map((delay) => (
         <span
           key={delay}
           style={{
             ...styles.ring,
             animationDelay: `${delay}s`,
-            ...(active
-              ? { animationPlayState: "running" }
-              : { animationPlayState: "paused" }),
+            opacity: active ? 0.5 : 0.2,
           }}
         />
       ))}
 
       {/* Floating blob */}
-      <div style={{ ...styles.blob, ...(active ? styles.blobActive : {}) }} />
+      <div
+        style={{
+          ...styles.blob,
+          ...(active ? styles.blobActive : styles.blobIdle),
+        }}
+      />
 
-      {/* Circular countdown */}
-      <svg
-        style={styles.progressSvg}
-        width={radius * 2}
-        height={radius * 2}
-        viewBox={`0 0 ${radius * 2} ${radius * 2}`}
-      >
-        <circle
-          cx={radius}
-          cy={radius}
-          r={radius}
-          fill="transparent"
-          stroke="rgba(221,181,47,0.15)"
-          strokeWidth={4}
-        />
-        <circle
-          cx={radius}
-          cy={radius}
-          r={radius}
-          fill="transparent"
-          stroke="#ddb52f"
-          strokeWidth={4}
-          strokeDasharray={circumference}
-          strokeDashoffset={strokeDashoffset}
-          strokeLinecap="round"
-          style={{ transition: "stroke-dashoffset 0.1s linear" }}
-        />
-      </svg>
+      {/* Countdown only when active */}
+      {active && (
+        <svg
+          style={styles.progressSvg}
+          width={radius * 2}
+          height={radius * 2}
+          viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+        >
+          <circle
+            cx={radius}
+            cy={radius}
+            r={radius}
+            fill="transparent"
+            stroke="rgba(221,181,47,0.15)"
+            strokeWidth={4}
+          />
+          <circle
+            cx={radius}
+            cy={radius}
+            r={radius}
+            fill="transparent"
+            stroke="#ddb52f"
+            strokeWidth={4}
+            strokeDasharray={circumference}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            style={{ transition: "stroke-dashoffset 0.1s linear" }}
+          />
+        </svg>
+      )}
     </div>
   );
 }
@@ -149,26 +154,28 @@ const styles = {
     left: 0,
     width: "100%",
     height: "100%",
-    borderRadius: "40% 60% 55% 45% / 55% 45% 60% 40%",
+    borderRadius: "45% 55% 50% 50% / 55% 45% 50% 50%",
     background: "radial-gradient(circle at 40% 40%, #ddb52f, #72063c)",
     boxShadow: "0 0 40px rgba(221,181,47,0.4)",
-    opacity: 0.7,
     transition: "all 0.3s ease",
     zIndex: 1,
   },
 
-  blobActive: {
-    opacity: 1,
+  blobIdle: {
     animation:
-      "pulse 3s ease-in-out infinite, float 5s ease-in-out infinite, rotate 12s linear infinite",
+      "float 6s ease-in-out infinite, subtlePulse 3s ease-in-out infinite",
+  },
+
+  blobActive: {
+    animation:
+      "float 6s ease-in-out infinite, pulse 3s ease-in-out infinite, rotate 12s linear infinite",
   },
 
   ring: {
     position: "absolute",
     inset: -12,
     borderRadius: "50%",
-    border: "2px solid rgba(221,181,47,0.5)",
-    opacity: 0,
+    border: "2px solid rgba(221,181,47,0.3)",
     animation: "ring 2.5s infinite",
     zIndex: 0,
   },
@@ -203,20 +210,26 @@ const keyframes = `
   100% { transform: scale(1); }
 }
 
+@keyframes subtlePulse {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(0.98); }
+}
+
 @keyframes rotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0) translateX(0); border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%; }
-  25% { transform: translateY(-5px) translateX(3px); border-radius: 45% 55% 50% 50% / 50% 50% 55% 45%; }
-  50% { transform: translateY(3px) translateX(-3px); border-radius: 50% 40% 60% 50% / 55% 45% 50% 50%; }
-  75% { transform: translateY(-2px) translateX(2px); border-radius: 45% 50% 55% 50% / 50% 55% 50% 45%; }
+  0%, 100% { transform: translateY(0) translateX(0) border-radius: 45% 55% 50% 50% / 55% 45% 50% 50%; }
+  25% { transform: translateY(-6px) translateX(4px) border-radius: 50% 45% 55% 50% / 50% 50% 55% 45%; }
+  50% { transform: translateY(4px) translateX(-4px) border-radius: 48% 52% 45% 55% / 55% 50% 50% 45%; }
+  75% { transform: translateY(-3px) translateX(3px) border-radius: 50% 50% 50% 50% / 50% 55% 50% 50%; }
 }
 
 @keyframes ring {
-  0% { transform: scale(0.9); opacity: 0.5; }
+  0% { transform: scale(0.9); opacity: 0.3; }
   100% { transform: scale(1.4); opacity: 0; }
 }
 
