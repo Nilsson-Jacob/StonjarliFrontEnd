@@ -10,7 +10,7 @@ export default function Checkin() {
       <div style={styles.card}>
         <p style={styles.prompt}>How was your day?</p>
 
-        <ListeningOrb active={listening} />
+        <ListeningBlob active={listening} />
 
         <button style={styles.button} onClick={() => setListening(!listening)}>
           {listening ? "Stop" : "Start talking"}
@@ -22,7 +22,7 @@ export default function Checkin() {
   );
 }
 
-function ListeningOrb({ active }) {
+function ListeningBlob({ active }) {
   const [progress, setProgress] = useState(0);
   const totalTime = 30; // seconds
 
@@ -49,7 +49,7 @@ function ListeningOrb({ active }) {
   const strokeDashoffset = circumference * (1 - progress);
 
   return (
-    <div style={styles.orbContainer}>
+    <div style={styles.blobContainer}>
       {/* Pulsing rings */}
       {[0, 0.6, 1.2].map((delay) => (
         <span
@@ -64,8 +64,8 @@ function ListeningOrb({ active }) {
         />
       ))}
 
-      {/* Orb */}
-      <div style={{ ...styles.orb, ...(active ? styles.orbActive : {}) }} />
+      {/* Floating blob */}
+      <div style={{ ...styles.blob, ...(active ? styles.blobActive : {}) }} />
 
       {/* Circular countdown */}
       <svg
@@ -79,7 +79,7 @@ function ListeningOrb({ active }) {
           cy={radius}
           r={radius}
           fill="transparent"
-          stroke="rgba(221,181,47,0.2)"
+          stroke="rgba(221,181,47,0.15)"
           strokeWidth={4}
         />
         <circle
@@ -136,37 +136,38 @@ const styles = {
     marginBottom: 20,
   },
 
-  orbContainer: {
+  blobContainer: {
     position: "relative",
     width: 130,
     height: 130,
     margin: "20px auto",
   },
 
-  orb: {
+  blob: {
     position: "absolute",
     top: 0,
     left: 0,
     width: "100%",
     height: "100%",
-    borderRadius: "50%",
-    background: "radial-gradient(circle, #ddb52f, #72063c)",
-    boxShadow: "0 0 30px rgba(221, 181, 47, 0.5)",
-    opacity: 0.6,
+    borderRadius: "40% 60% 55% 45% / 55% 45% 60% 40%",
+    background: "radial-gradient(circle at 40% 40%, #ddb52f, #72063c)",
+    boxShadow: "0 0 40px rgba(221,181,47,0.4)",
+    opacity: 0.7,
     transition: "all 0.3s ease",
     zIndex: 1,
   },
 
-  orbActive: {
+  blobActive: {
     opacity: 1,
-    animation: "pulse 3s ease-in-out infinite, rotate 12s linear infinite",
+    animation:
+      "pulse 3s ease-in-out infinite, float 5s ease-in-out infinite, rotate 12s linear infinite",
   },
 
   ring: {
     position: "absolute",
     inset: -12,
     borderRadius: "50%",
-    border: "2px solid rgba(221,181,47,0.6)",
+    border: "2px solid rgba(221,181,47,0.5)",
     opacity: 0,
     animation: "ring 2.5s infinite",
     zIndex: 0,
@@ -207,15 +208,16 @@ const keyframes = `
   100% { transform: rotate(360deg); }
 }
 
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateX(0); border-radius: 40% 60% 55% 45% / 55% 45% 60% 40%; }
+  25% { transform: translateY(-5px) translateX(3px); border-radius: 45% 55% 50% 50% / 50% 50% 55% 45%; }
+  50% { transform: translateY(3px) translateX(-3px); border-radius: 50% 40% 60% 50% / 55% 45% 50% 50%; }
+  75% { transform: translateY(-2px) translateX(2px); border-radius: 45% 50% 55% 50% / 50% 55% 50% 45%; }
+}
+
 @keyframes ring {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1.4); opacity: 0; }
 }
 
 @keyframes breathe {
