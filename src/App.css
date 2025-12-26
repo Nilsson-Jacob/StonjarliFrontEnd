@@ -38,3 +38,29 @@
 }
 
 
+
+/* MAX */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+}
+
+.app-background {
+  min-height: 100vh;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    #5a082d 0%,
+    #72063c 45%,
+    #e0b73a 100%
+  );
+  animation: breathe 12s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.03); }
+  100% { filter: brightness(1); }
+}
+

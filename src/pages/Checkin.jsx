@@ -1,90 +1,140 @@
-import { motion } from "framer-motion";
-import { Mic } from "lucide-react";
-
-const Colors = {
-  primary500: "#72063c",
-  primary600: "#640233",
-  primary700: "#4e0329",
-  primary800: "#4e0329",
-  primary1000: "#4e0335",
-  accent500: "#ddb52f",
-};
+import { useState } from "react";
 
 export default function Checkin() {
+  const [listening, setListening] = useState(false);
+
   return (
-    <div
-      className="min-h-screen flex flex-col items-center justify-between px-6 py-10"
-      style={{ backgroundColor: Colors.primary1000 }}
-    >
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <h1
-          className="text-3xl font-semibold"
-          style={{ color: Colors.accent500 }}
-        >
-          Today
-        </h1>
-        <p className="text-sm text-white/70">
-          Speak freely. We’ll remember the day.
-        </p>
-      </div>
+    <div style={styles.app}>
+      <h1 style={styles.title}>Today</h1>
 
-      {/* Siri‑like animation */}
-      <div className="flex items-center justify-center flex-1">
-        <motion.div
-          className="relative flex items-center justify-center"
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        >
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 220,
-              height: 220,
-              backgroundColor: Colors.primary600,
-            }}
-            animate={{ opacity: [0.3, 0.6, 0.3] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          />
-          <motion.div
-            className="absolute rounded-full"
-            style={{
-              width: 160,
-              height: 160,
-              backgroundColor: Colors.primary500,
-            }}
-            animate={{ opacity: [0.4, 0.8, 0.4] }}
-            transition={{ repeat: Infinity, duration: 1.6 }}
-          />
+      <div style={styles.card}>
+        <p style={styles.prompt}>How was your day?</p>
 
-          <button
-            className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center shadow-xl"
-            style={{ backgroundColor: Colors.accent500 }}
-          >
-            <Mic className="w-8 h-8 text-black" />
-          </button>
-        </motion.div>
-      </div>
+        <ListeningOrb active={listening} />
 
-      {/* Footer actions */}
-      <div className="w-full space-y-3">
-        <button
-          className="w-full py-4 rounded-2xl text-white font-medium shadow"
-          style={{ backgroundColor: Colors.primary600 }}
-        >
-          Stop & Save
-        </button>
-        <button
-          className="w-full py-4 rounded-2xl font-medium"
-          style={{
-            backgroundColor: "transparent",
-            color: Colors.accent500,
-            border: `1px solid ${Colors.accent500}`,
-          }}
-        >
-          View Past Days
+        <button style={styles.button} onClick={() => setListening(!listening)}>
+          {listening ? "Stop" : "Start talking"}
         </button>
       </div>
+
+      {/* Inline animations */}
+      <style>{keyframes}</style>
     </div>
   );
 }
+
+function ListeningOrb({ active }) {
+  return (
+    <div style={{ ...styles.orb, ...(active ? styles.orbActive : {}) }}>
+      <span style={ringStyle(0)} />
+      <span style={ringStyle(0.6)} />
+      <span style={ringStyle(1.2)} />
+    </div>
+  );
+}
+
+/* ---------- STYLES ---------- */
+
+const styles = {
+  app: {
+    minHeight: "100vh",
+    background:
+      "linear-gradient(180deg, #5a082d 0%, #72063c 45%, #e0b73a 100%)",
+    animation: "breathe 12s ease-in-out infinite",
+    padding: "24px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    fontFamily: "-apple-system, BlinkMacSystemFont, 'Inter', sans-serif",
+  },
+
+  title: {
+    color: "white",
+    marginBottom: 24,
+    fontWeight: 600,
+    letterSpacing: "0.4px",
+  },
+
+  card: {
+    width: "100%",
+    maxWidth: 360,
+    background: "rgba(114, 6, 60, 0.9)",
+    borderRadius: 22,
+    padding: 24,
+    boxShadow: "0 16px 40px rgba(0,0,0,0.25)",
+    textAlign: "center",
+  },
+
+  prompt: {
+    color: "#ddb52f",
+    fontSize: 18,
+    marginBottom: 20,
+  },
+
+  orb: {
+    position: "relative",
+    width: 110,
+    height: 110,
+    margin: "20px auto",
+    borderRadius: "50%",
+    background: "radial-gradient(circle, #ddb52f, #72063c)",
+    boxShadow: "0 0 30px rgba(221, 181, 47, 0.5)",
+    opacity: 0.6,
+    transition: "all 0.3s ease",
+  },
+
+  orbActive: {
+    opacity: 1,
+    animation: "pulse 1.8s infinite",
+  },
+
+  button: {
+    width: "100%",
+    padding: 14,
+    borderRadius: 999,
+    border: "none",
+    background: "#ddb52f",
+    color: "#4e0329",
+    fontSize: 16,
+    fontWeight: 600,
+    cursor: "pointer",
+    transition: "transform 0.15s ease",
+  },
+};
+
+const ringStyle = (delay) => ({
+  position: "absolute",
+  inset: -12,
+  borderRadius: "50%",
+  border: "2px solid rgba(221,181,47,0.6)",
+  opacity: 0,
+  animation: `ring 1.8s infinite`,
+  animationDelay: `${delay}s`,
+});
+
+/* ---------- KEYFRAMES ---------- */
+
+const keyframes = `
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes breathe {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.03); }
+  100% { filter: brightness(1); }
+}
+`;
