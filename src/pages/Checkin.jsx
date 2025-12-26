@@ -1,4 +1,9 @@
-import { useState } from "react";
+/* 
+
+import { motion } from "framer-motion";
+import { Mic } from "lucide-react";
+*/
+import { useState, useEffect } from "react";
 
 export default function Checkin() {
   const [listening, setListening] = useState(false);
@@ -17,24 +22,74 @@ export default function Checkin() {
         </button>
       </div>
 
-      {/* Inline animations */}
       <style>{keyframes}</style>
     </div>
   );
 }
 
 function ListeningOrb({ active }) {
+  const [progress, setProgress] = useState(0);
+  const totalTime = 30; // seconds
+
+  useEffect(() => {
+    if (!active) {
+      setProgress(0);
+      return;
+    }
+
+    let start = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = (Date.now() - start) / 1000;
+      const pct = Math.min(elapsed / totalTime, 1);
+      setProgress(pct);
+
+      if (pct >= 1) clearInterval(interval);
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [active]);
+
+  const radius = 65;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference * (1 - progress);
+
   return (
-    <div style={{ ...styles.orb, ...(active ? styles.orbActive : {}) }}>
-      <span style={ringStyle(0)} />
-      <span style={ringStyle(0.6)} />
-      <span style={ringStyle(1.2)} />
+    <div style={{ ...styles.orbContainer }}>
+      <div style={{ ...styles.orb, ...(active ? styles.orbActive : {}) }} />
+
+      {/* Circular countdown */}
+      <svg
+        style={styles.progressSvg}
+        width={radius * 2}
+        height={radius * 2}
+        viewBox={`0 0 ${radius * 2} ${radius * 2}`}
+      >
+        <circle
+          cx={radius}
+          cy={radius}
+          r={radius}
+          fill="transparent"
+          stroke="rgba(221,181,47,0.2)"
+          strokeWidth={4}
+        />
+        <circle
+          cx={radius}
+          cy={radius}
+          r={radius}
+          fill="transparent"
+          stroke="#ddb52f"
+          strokeWidth={4}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          style={{ transition: "stroke-dashoffset 0.1s linear" }}
+        />
+      </svg>
     </div>
   );
 }
 
 /* ---------- STYLES ---------- */
-
 const styles = {
   app: {
     minHeight: "100vh",
@@ -71,11 +126,19 @@ const styles = {
     marginBottom: 20,
   },
 
-  orb: {
+  orbContainer: {
     position: "relative",
-    width: 110,
-    height: 110,
+    width: 130,
+    height: 130,
     margin: "20px auto",
+  },
+
+  orb: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
     borderRadius: "50%",
     background: "radial-gradient(circle, #ddb52f, #72063c)",
     boxShadow: "0 0 30px rgba(221, 181, 47, 0.5)",
@@ -85,7 +148,14 @@ const styles = {
 
   orbActive: {
     opacity: 1,
-    animation: "pulse 1.8s infinite",
+    animation: "pulse 3s ease-in-out infinite, rotate 12s linear infinite",
+  },
+
+  progressSvg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    transform: "rotate(-90deg)",
   },
 
   button: {
@@ -102,34 +172,17 @@ const styles = {
   },
 };
 
-const ringStyle = (delay) => ({
-  position: "absolute",
-  inset: -12,
-  borderRadius: "50%",
-  border: "2px solid rgba(221,181,47,0.6)",
-  opacity: 0,
-  animation: `ring 1.8s infinite`,
-  animationDelay: `${delay}s`,
-});
-
 /* ---------- KEYFRAMES ---------- */
-
 const keyframes = `
 @keyframes pulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  50% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
 
-@keyframes ring {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.6;
-  }
-  100% {
-    transform: scale(1.4);
-    opacity: 0;
-  }
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 @keyframes breathe {
