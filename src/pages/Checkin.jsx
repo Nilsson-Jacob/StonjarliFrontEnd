@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+/*import React, { useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
@@ -111,7 +111,6 @@ export default function Checkin() {
       <div style={styles.card}>
         <p style={styles.prompt}>How was your day?</p>
 
-        {/* Orb visualizer */}
         <div style={styles.canvasWrapper}>
           <Canvas camera={{ position: [0, 0, 4] }}>
             <ambientLight intensity={0.3} />
@@ -224,4 +223,37 @@ const styles = {
     marginTop: 16,
     textAlign: "left",
   },
+}; */
+
+import * as motion from "motion/react-client";
+
+export default function Keyframes() {
+  return (
+    <motion.div
+      animate={{
+        scale: [1, 2, 2, 1, 1],
+        rotate: [0, 0, 180, 180, 0],
+        borderRadius: ["0%", "0%", "50%", "50%", "0%"],
+      }}
+      transition={{
+        duration: 2,
+        ease: "easeInOut",
+        times: [0, 0.2, 0.5, 0.8, 1],
+        repeat: Infinity,
+        repeatDelay: 1,
+      }}
+      style={box}
+    />
+  );
+}
+
+/**
+ * ==============   Styles   ================
+ */
+
+const box = {
+  width: 100,
+  height: 100,
+  backgroundColor: "#f5f5f5",
+  borderRadius: 5,
 };
