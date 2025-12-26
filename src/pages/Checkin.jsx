@@ -10,7 +10,7 @@ export default function Checkin() {
       <div style={styles.card}>
         <p style={styles.prompt}>How was your day?</p>
 
-        <SiriBlob active={listening} />
+        <FloatingBlob active={listening} />
 
         <button style={styles.button} onClick={() => setListening(!listening)}>
           {listening ? "Stop" : "Start talking"}
@@ -22,22 +22,20 @@ export default function Checkin() {
   );
 }
 
-function SiriBlob({ active }) {
+function FloatingBlob({ active }) {
   const [progress, setProgress] = useState(0);
-  const totalTime = 30; // seconds
+  const totalTime = 30;
 
   useEffect(() => {
     if (!active) {
       setProgress(0);
       return;
     }
-
-    let start = Date.now();
+    const start = Date.now();
     const interval = setInterval(() => {
       const elapsed = (Date.now() - start) / 1000;
       const pct = Math.min(elapsed / totalTime, 1);
       setProgress(pct);
-
       if (pct >= 1) clearInterval(interval);
     }, 100);
 
@@ -62,7 +60,7 @@ function SiriBlob({ active }) {
         />
       ))}
 
-      {/* Floating blob */}
+      {/* Morphing floating blob */}
       <div
         style={{
           ...styles.blob,
@@ -154,7 +152,6 @@ const styles = {
     left: 0,
     width: "100%",
     height: "100%",
-    borderRadius: "45% 55% 50% 50% / 55% 45% 50% 50%",
     background: "radial-gradient(circle at 40% 40%, #ddb52f, #72063c)",
     boxShadow: "0 0 40px rgba(221,181,47,0.4)",
     transition: "all 0.3s ease",
@@ -163,12 +160,12 @@ const styles = {
 
   blobIdle: {
     animation:
-      "float 6s ease-in-out infinite, subtlePulse 3s ease-in-out infinite",
+      "float 6s ease-in-out infinite, morph 8s ease-in-out infinite, subtlePulse 3s ease-in-out infinite",
   },
 
   blobActive: {
     animation:
-      "float 6s ease-in-out infinite, pulse 3s ease-in-out infinite, rotate 12s linear infinite",
+      "float 6s ease-in-out infinite, morph 8s ease-in-out infinite, pulse 3s ease-in-out infinite",
   },
 
   ring: {
@@ -216,16 +213,19 @@ const keyframes = `
   100% { transform: scale(0.98); }
 }
 
-@keyframes rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes float {
+  0%, 100% { transform: translate(0,0); }
+  25% { transform: translate(4px,-6px); }
+  50% { transform: translate(-4px,4px); }
+  75% { transform: translate(2px,-3px); }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0) translateX(0) border-radius: 45% 55% 50% 50% / 55% 45% 50% 50%; }
-  25% { transform: translateY(-6px) translateX(4px) border-radius: 50% 45% 55% 50% / 50% 50% 55% 45%; }
-  50% { transform: translateY(4px) translateX(-4px) border-radius: 48% 52% 45% 55% / 55% 50% 50% 45%; }
-  75% { transform: translateY(-3px) translateX(3px) border-radius: 50% 50% 50% 50% / 50% 55% 50% 50%; }
+@keyframes morph {
+  0% { border-radius: 45% 55% 50% 50% / 55% 45% 50% 50%; }
+  25% { border-radius: 50% 45% 55% 50% / 50% 50% 55% 45%; }
+  50% { border-radius: 48% 52% 45% 55% / 55% 50% 50% 45%; }
+  75% { border-radius: 50% 50% 50% 50% / 50% 55% 50% 50%; }
+  100% { border-radius: 45% 55% 50% 50% / 55% 45% 50% 50%; }
 }
 
 @keyframes ring {
