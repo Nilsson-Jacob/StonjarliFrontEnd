@@ -14,6 +14,7 @@ import {
 
 import Holdings from "./pages/Holdings";
 import Analysis from "./pages/Analysis";
+import Checkin from "./pages/Checkin";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/" element={<Navigate to="/holdings" />} />
         <Route path="/holdings" element={<Holdings />} />
         <Route path="/analysis" element={<Analysis />} />
+        <Route path="/checkin" element={<Checkin />} />
       </Routes>
     </Router>
   );
