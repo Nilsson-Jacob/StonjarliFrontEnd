@@ -101,7 +101,7 @@ const Home = () => {
             : {
                 scale: 1,
                 rotate: 0,
-                borderRadius: "20%",
+                borderRadius: "50%",
               }
         }
         transition={
