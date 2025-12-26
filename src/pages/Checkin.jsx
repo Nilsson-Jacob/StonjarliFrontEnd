@@ -120,13 +120,17 @@ const Home = () => {
           <div style={horizontalLine} />
 
           {/* Quadrant text */}
-          <div style={{ ...quadrantText, top: "25%", left: "25%" }}>Mind</div>
-          <div style={{ ...quadrantText, top: "25%", right: "25%" }}>Body</div>
-          <div style={{ ...quadrantText, bottom: "25%", left: "25%" }}>
-            People
+          <div style={{ ...quadrantText, top: "25%", left: "25%" }}>
+            Checkin
           </div>
-          <div style={{ ...quadrantText, bottom: "25%", right: "25%" }}>
-            Work
+          <div style={{ ...quadrantText, top: "25%", left: "75%" }}>
+            Overview
+          </div>
+          <div style={{ ...quadrantText, bottom: "25%", left: "25%" }}>
+            Plan
+          </div>
+          <div style={{ ...quadrantText, bottom: "25%", left: "75%" }}>
+            settings
           </div>
         </motion.div>
       </motion.div>
@@ -158,8 +162,8 @@ export default Home;
  */
 
 const box = {
-  width: 160,
-  height: 160,
+  width: 260,
+  height: 260,
   margin: "30px auto",
   backgroundColor: "#f5f5f5",
   position: "relative",
