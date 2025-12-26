@@ -1,169 +1,87 @@
-import React, { useState, useRef } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-const serverApi = "https://stonjarliserver.onrender.com";
-
-const supabase = createClient(
-  process.env.REACT_APP_SUPABASE_URL,
-  process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY
-);
-
-async function testLogin() {
-  const { error } = await supabase.auth.signInWithOtp({
-    email: "idrinkwater1015@gmail.com",
-  });
-
-  if (error) {
-    console.error(error);
-    alert("Error sending magic link");
-  } else {
-    alert("Magic link sent — check your email");
-  }
-}
+import React, { useRef, useState, useEffect } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { MeshDistortMaterial, OrbitControls } from "@react-three/drei";
 
 export default function Checkin() {
-  const [recording, setRecording] = useState(false);
-  const [answer, setAnswer] = useState("");
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
-  const canvasRef = useRef(null);
+  const [listening, setListening] = useState(false);
+  const [audioData, setAudioData] = useState(0);
   const analyserRef = useRef(null);
-  const animationRef = useRef(null);
 
-  // Start microphone + visualizer
-  const startVisualizer = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      const source = audioCtx.createMediaStreamSource(stream);
-      const analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      source.connect(analyser);
-      analyserRef.current = analyser;
+  // Start mic and audio analysis
+  const startAudio = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioCtx.createMediaStreamSource(stream);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 256;
+    source.connect(analyser);
+    analyserRef.current = analyser;
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
 
-      const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-      const draw = () => {
-        animationRef.current = requestAnimationFrame(draw);
-        analyser.getByteFrequencyData(dataArray);
-
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const barCount = 32;
-        const barWidth = canvas.width / barCount;
-        let x = 0;
-
-        for (let i = 0; i < barCount; i++) {
-          const val = dataArray[i * 4] / 255;
-          const barHeight = val * canvas.height;
-          const hue = 200 + val * 100;
-          ctx.fillStyle = `hsl(${hue}, 90%, 60%)`;
-          ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
-          x += barWidth;
-        }
-      };
-
-      draw();
-    } catch (err) {
-      console.error("Visualizer error:", err);
-    }
+    const animate = () => {
+      analyser.getByteFrequencyData(dataArray);
+      const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
+      setAudioData(avg / 255); // normalize 0-1
+      requestAnimationFrame(animate);
+    };
+    animate();
   };
 
-  const handleStart = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-      const mediaRecorder = new MediaRecorder(stream);
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) audioChunksRef.current.push(event.data);
-      };
-
-      mediaRecorder.onstop = async () => {
-        const mimeType = mediaRecorder.mimeType;
-        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-
-        const extension = mimeType.includes("webm")
-          ? "webm"
-          : mimeType.includes("ogg")
-          ? "ogg"
-          : mimeType.includes("mp4")
-          ? "mp4"
-          : "audio";
-
-        const formData = new FormData();
-        formData.append("audio", audioBlob, `day-recording.${extension}`);
-
-        try {
-          const res = await fetch(serverApi + "/transcribe", {
-            method: "POST",
-            body: formData,
-          });
-          const data = await res.json();
-          setAnswer(data);
-        } catch (err) {
-          console.error("Upload failed", err);
-        }
-      };
-
-      mediaRecorder.start();
-      setRecording(true);
-      startVisualizer();
-    } catch (err) {
-      console.error("Error accessing microphone:", err);
-      alert("Could not access microphone");
-    }
-  };
-
-  const handleStop = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-      setRecording(false);
-      cancelAnimationFrame(animationRef.current);
-    }
+  const toggleListening = () => {
+    if (!listening) startAudio();
+    setListening(!listening);
   };
 
   return (
     <div style={styles.app}>
       <h1 style={styles.title}>Today</h1>
-
       <div style={styles.card}>
         <p style={styles.prompt}>How was your day?</p>
 
-        {/* AI Motion Visualizer */}
-        <canvas
-          ref={canvasRef}
-          width={300}
-          height={120}
-          style={styles.visualizer}
-        />
+        {/* 3D AI Orb Visualizer */}
+        <div style={{ width: "100%", height: 300 }}>
+          <Canvas>
+            <ambientLight intensity={0.3} />
+            <directionalLight position={[5, 5, 5]} />
+            <AudioOrb audioData={audioData} />
+            <OrbitControls enableZoom={false} enablePan={false} />
+          </Canvas>
+        </div>
 
-        <button
-          style={styles.button}
-          onClick={recording ? handleStop : handleStart}
-        >
-          {recording ? "Stop Recording" : "Start Talking"}
-        </button>
-
-        {answer && (
-          <div style={styles.transcript}>
-            <h4>Transcript</h4>
-            <p>{answer.transcript}</p>
-
-            <h4>Structured Data</h4>
-            <pre>{JSON.stringify(answer.structured, null, 2)}</pre>
-          </div>
-        )}
-
-        <button style={{ ...styles.button, marginTop: 12 }} onClick={testLogin}>
-          Test Email Login
+        <button style={styles.button} onClick={toggleListening}>
+          {listening ? "Stop" : "Start Talking"}
         </button>
       </div>
     </div>
+  );
+}
+
+// Orb Component
+function AudioOrb({ audioData }) {
+  const meshRef = useRef();
+
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.scale.set(
+        1 + audioData * 0.8,
+        1 + audioData * 0.8,
+        1 + audioData * 0.8
+      );
+    }
+  });
+
+  return (
+    <mesh ref={meshRef}>
+      <sphereGeometry args={[1, 64, 64]} />
+      <MeshDistortMaterial
+        color="#ddb52f"
+        attach="material"
+        distort={0.5}
+        speed={3}
+        roughness={0.2}
+        metalness={0.8}
+      />
+    </mesh>
   );
 }
 
@@ -188,18 +106,7 @@ const styles = {
     textAlign: "center",
     boxShadow: "0 16px 40px rgba(0,0,0,0.25)",
   },
-  prompt: {
-    color: "#ddb52f",
-    fontSize: 18,
-    marginBottom: 16,
-  },
-  visualizer: {
-    display: "block",
-    margin: "20px auto",
-    borderRadius: 12,
-    background: "rgba(11,11,18,0.6)",
-    boxShadow: "0 0 20px rgba(221,181,47,0.5)",
-  },
+  prompt: { color: "#ddb52f", fontSize: 18, marginBottom: 16 },
   button: {
     width: "100%",
     padding: 14,
@@ -211,11 +118,5 @@ const styles = {
     fontWeight: 600,
     cursor: "pointer",
     marginTop: 12,
-  },
-  transcript: {
-    color: "#fff",
-    marginTop: 16,
-    textAlign: "left",
-    fontSize: 14,
   },
 };
