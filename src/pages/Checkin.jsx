@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import SimplexNoise from "simplex‑noise";
+import SimplexNoise from "simplex-noise";
 
 const serverApi = "https://stonjarliserver.onrender.com";
 const supabase = createClient(
