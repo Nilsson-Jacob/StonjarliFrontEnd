@@ -1,8 +1,3 @@
-/* 
-
-import { motion } from "framer-motion";
-import { Mic } from "lucide-react";
-*/
 import { useState, useEffect } from "react";
 
 export default function Checkin() {
@@ -54,7 +49,22 @@ function ListeningOrb({ active }) {
   const strokeDashoffset = circumference * (1 - progress);
 
   return (
-    <div style={{ ...styles.orbContainer }}>
+    <div style={styles.orbContainer}>
+      {/* Pulsing rings */}
+      {[0, 0.6, 1.2].map((delay) => (
+        <span
+          key={delay}
+          style={{
+            ...styles.ring,
+            animationDelay: `${delay}s`,
+            ...(active
+              ? { animationPlayState: "running" }
+              : { animationPlayState: "paused" }),
+          }}
+        />
+      ))}
+
+      {/* Orb */}
       <div style={{ ...styles.orb, ...(active ? styles.orbActive : {}) }} />
 
       {/* Circular countdown */}
@@ -144,6 +154,7 @@ const styles = {
     boxShadow: "0 0 30px rgba(221, 181, 47, 0.5)",
     opacity: 0.6,
     transition: "all 0.3s ease",
+    zIndex: 1,
   },
 
   orbActive: {
@@ -151,11 +162,22 @@ const styles = {
     animation: "pulse 3s ease-in-out infinite, rotate 12s linear infinite",
   },
 
+  ring: {
+    position: "absolute",
+    inset: -12,
+    borderRadius: "50%",
+    border: "2px solid rgba(221,181,47,0.6)",
+    opacity: 0,
+    animation: "ring 2.5s infinite",
+    zIndex: 0,
+  },
+
   progressSvg: {
     position: "absolute",
     top: 0,
     left: 0,
     transform: "rotate(-90deg)",
+    zIndex: 2,
   },
 
   button: {
@@ -183,6 +205,17 @@ const keyframes = `
 @keyframes rotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@keyframes ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
 }
 
 @keyframes breathe {
