@@ -2,9 +2,9 @@ import React, { useState, useRef } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import SimplexNoise from "simplex-noise";
 
 const serverApi = "https://stonjarliserver.onrender.com";
+
 const supabase = createClient(
   process.env.REACT_APP_SUPABASE_URL,
   process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY
@@ -15,7 +15,7 @@ async function testLogin() {
     email: "idrinkwater1015@gmail.com",
   });
   if (error) alert("Error sending magic link");
-  else alert("Magic link sent — check email");
+  else alert("Magic link sent — check your email");
 }
 
 export default function Checkin() {
@@ -26,7 +26,7 @@ export default function Checkin() {
   const analyserRef = useRef(null);
   const [audioLevel, setAudioLevel] = useState(0);
 
-  // Setup audio + analyser for the orb
+  // Start audio analyser for orb
   const startAudioAnalyser = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -38,15 +38,16 @@ export default function Checkin() {
       analyserRef.current = analyser;
 
       const dataArray = new Uint8Array(analyser.frequencyBinCount);
+
       const update = () => {
         analyser.getByteFrequencyData(dataArray);
         const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-        setAudioLevel(avg / 256);
+        setAudioLevel(avg / 256); // normalized 0-1
         requestAnimationFrame(update);
       };
       update();
     } catch (err) {
-      console.error("Audio init failed", err);
+      console.error("Audio analyser failed:", err);
     }
   };
 
@@ -57,16 +58,24 @@ export default function Checkin() {
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) audioChunksRef.current.push(event.data);
       };
 
       mediaRecorder.onstop = async () => {
-        const blob = new Blob(audioChunksRef.current, {
-          type: mediaRecorder.mimeType,
-        });
+        const mimeType = mediaRecorder.mimeType;
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+
+        const extension = mimeType.includes("webm")
+          ? "webm"
+          : mimeType.includes("ogg")
+          ? "ogg"
+          : mimeType.includes("mp4")
+          ? "mp4"
+          : "audio";
+
         const formData = new FormData();
-        formData.append("audio", blob);
+        formData.append("audio", audioBlob, `day-recording.${extension}`);
 
         try {
           const res = await fetch(serverApi + "/transcribe", {
@@ -84,14 +93,16 @@ export default function Checkin() {
       setRecording(true);
       startAudioAnalyser();
     } catch (err) {
-      alert("Could not access mic");
-      console.error(err);
+      console.error("Microphone access error:", err);
+      alert("Could not access microphone");
     }
   };
 
   const handleStop = () => {
-    mediaRecorderRef.current?.stop();
-    setRecording(false);
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
   };
 
   return (
@@ -100,12 +111,13 @@ export default function Checkin() {
       <div style={styles.card}>
         <p style={styles.prompt}>How was your day?</p>
 
+        {/* Orb visualizer */}
         <div style={styles.canvasWrapper}>
           <Canvas camera={{ position: [0, 0, 4] }}>
-            <ambientLight intensity={0.2} />
+            <ambientLight intensity={0.3} />
             <directionalLight position={[5, 5, 5]} />
             <VoiceOrb audioLevel={audioLevel} />
-            <OrbitControls enableZoom={false} enablePan={false} />
+            <OrbitControls enablePan={false} enableZoom={false} />
           </Canvas>
         </div>
 
@@ -113,13 +125,16 @@ export default function Checkin() {
           style={styles.button}
           onClick={recording ? handleStop : handleStart}
         >
-          {recording ? "Stop Recording" : "Start Talking"}
+          {recording ? "Stop Recording" : "Start Recording"}
         </button>
 
         {answer && (
           <div style={styles.transcript}>
             <h4>Transcript</h4>
             <p>{answer.transcript}</p>
+
+            <h4>Structured data</h4>
+            <pre>{JSON.stringify(answer.structured, null, 2)}</pre>
           </div>
         )}
 
@@ -131,35 +146,30 @@ export default function Checkin() {
   );
 }
 
+// Orb component with sine-wave distortion (no external noise)
 function VoiceOrb({ audioLevel }) {
   const meshRef = useRef();
-  const noise = useRef(new SimplexNoise()).current;
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
-
     const t = clock.elapsedTime;
-    const audioAmt = Math.min(audioLevel * 2, 1);
 
+    // Pulse scale + rotation based on audio
+    const scale = 1 + audioLevel * 0.8;
+    meshRef.current.scale.set(scale, scale, scale);
     meshRef.current.rotation.y = t * 0.2;
+    meshRef.current.rotation.x = Math.sin(t * 0.3) * 0.1;
+
+    // Simple vertex distortion using sine waves
     const geometry = meshRef.current.geometry;
     const pos = geometry.attributes.position;
-
     for (let i = 0; i < pos.count; i++) {
-      const vx = pos.getX(i);
-      const vy = pos.getY(i);
-      const vz = pos.getZ(i);
-
-      // noise distort based on audio
-      const n = noise.noise3D(vx + t, vy + t, vz + t);
-      pos.setXYZ(
-        i,
-        vx + n * 0.1 * audioAmt,
-        vy + n * 0.1 * audioAmt,
-        vz + n * 0.1 * audioAmt
-      );
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      const z = pos.getZ(i);
+      const offset = Math.sin(x * 5 + t * 3) * 0.03 * audioLevel;
+      pos.setXYZ(i, x + offset, y + offset, z + offset);
     }
-
     pos.needsUpdate = true;
   });
 
@@ -167,8 +177,8 @@ function VoiceOrb({ audioLevel }) {
     <mesh ref={meshRef}>
       <icosahedronGeometry args={[1, 64]} />
       <meshStandardMaterial
-        color={"#4C82FF"}
-        emissive={"#2F3FD7"}
+        color="#4C82FF"
+        emissive="#2F3FD7"
         metalness={0.6}
         roughness={0.2}
       />
@@ -186,11 +196,7 @@ const styles = {
     alignItems: "center",
     fontFamily: "Inter, sans-serif",
   },
-  title: {
-    color: "white",
-    marginBottom: 24,
-    fontWeight: 600,
-  },
+  title: { color: "white", marginBottom: 24, fontWeight: 600 },
   card: {
     width: "100%",
     maxWidth: 420,
@@ -199,16 +205,8 @@ const styles = {
     padding: 24,
     textAlign: "center",
   },
-  prompt: {
-    color: "#9fcfff",
-    fontSize: 18,
-    marginBottom: 16,
-  },
-  canvasWrapper: {
-    width: "100%",
-    height: 300,
-    marginBottom: 18,
-  },
+  prompt: { color: "#9fcfff", fontSize: 18, marginBottom: 16 },
+  canvasWrapper: { width: "100%", height: 300, marginBottom: 18 },
   button: {
     width: "100%",
     padding: 14,
