@@ -31,8 +31,8 @@ const Home = () => {
   const handleStart = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
       const mediaRecorder = new MediaRecorder(stream);
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -41,26 +41,18 @@ const Home = () => {
       };
 
       mediaRecorder.onstop = async () => {
-        const mimeType = mediaRecorder.mimeType;
-        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
-
-        const extension = mimeType.includes("webm")
-          ? "webm"
-          : mimeType.includes("ogg")
-          ? "ogg"
-          : mimeType.includes("mp4")
-          ? "mp4"
-          : "audio";
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: mediaRecorder.mimeType,
+        });
 
         const formData = new FormData();
-        formData.append("audio", audioBlob, `day-recording.${extension}`);
+        formData.append("audio", audioBlob, "day-recording.webm");
 
         try {
           const res = await fetch(serverApi + "/transcribe", {
             method: "POST",
             body: formData,
           });
-
           const data = await res.json();
           setAnswer(data);
         } catch (err) {
@@ -84,24 +76,22 @@ const Home = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div style={{ textAlign: "center", padding: 20 }}>
       <button onClick={testLogin}>Test Email Login</button>
 
       <h3>maxHapp — Record your day 🎤</h3>
 
-      {/* 🔴 Motion Indicator */}
+      {/* 🔊 Animated Speaking Indicator */}
       <motion.div
         animate={
           recording
             ? {
-                scale: [1, 1.5, 1],
+                scale: [1, 1.4, 1],
                 rotate: [0, 180, 360],
-                borderRadius: ["20%", "50%", "20%"],
               }
             : {
                 scale: 1,
                 rotate: 0,
-                borderRadius: "20%",
               }
         }
         transition={
@@ -114,7 +104,13 @@ const Home = () => {
             : { duration: 0.3 }
         }
         style={box}
-      />
+      >
+        {/* Vertical line */}
+        <div style={verticalLine} />
+
+        {/* Horizontal line */}
+        <div style={horizontalLine} />
+      </motion.div>
 
       <button
         style={{ marginTop: 20 }}
@@ -147,7 +143,26 @@ const box = {
   height: 100,
   margin: "20px auto",
   backgroundColor: "#f5f5f5",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  position: "relative",
+  borderRadius: 8,
+};
+
+const verticalLine = {
+  position: "absolute",
+  top: 0,
+  bottom: 0,
+  left: "50%",
+  width: 2,
+  backgroundColor: "#333",
+  transform: "translateX(-50%)",
+};
+
+const horizontalLine = {
+  position: "absolute",
+  left: 0,
+  right: 0,
+  top: "50%",
+  height: 2,
+  backgroundColor: "#333",
+  transform: "translateY(-50%)",
 };
