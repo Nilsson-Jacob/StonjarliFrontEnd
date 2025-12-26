@@ -1,6 +1,25 @@
 import React, { useState, useRef } from "react";
 
 const serverApi = "https://stonjarliserver.onrender.com";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.REACT_APP_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_ANON_KEY
+);
+
+async function testLogin() {
+  const { error } = await supabase.auth.signInWithOtp({
+    email: "idrinkwater1015@gmail.com",
+  });
+
+  if (error) {
+    console.error(error);
+    alert("Error sending magic link");
+  } else {
+    alert("Magic link sent — check your email");
+  }
+}
 
 const Home = () => {
   const [recording, setRecording] = useState(false);
@@ -67,6 +86,8 @@ const Home = () => {
 
   return (
     <div style={{ textAlign: "center", padding: "20px" }}>
+      <button onClick={testLogin}>Test Email Login</button>
+
       <h3>maxHapp — Record your day 🎤</h3>
       <button onClick={recording ? handleStop : handleStart}>
         {recording ? "Stop Recording" : "Start Recording"}
