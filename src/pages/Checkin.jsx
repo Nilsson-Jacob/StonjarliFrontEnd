@@ -31,8 +31,8 @@ const Home = () => {
   const handleStart = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
 
+      const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
 
@@ -41,18 +41,26 @@ const Home = () => {
       };
 
       mediaRecorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, {
-          type: mediaRecorder.mimeType,
-        });
+        const mimeType = mediaRecorder.mimeType;
+        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+
+        const extension = mimeType.includes("webm")
+          ? "webm"
+          : mimeType.includes("ogg")
+          ? "ogg"
+          : mimeType.includes("mp4")
+          ? "mp4"
+          : "audio";
 
         const formData = new FormData();
-        formData.append("audio", audioBlob, "day-recording.webm");
+        formData.append("audio", audioBlob, `day-recording.${extension}`);
 
         try {
           const res = await fetch(serverApi + "/transcribe", {
             method: "POST",
             body: formData,
           });
+
           const data = await res.json();
           setAnswer(data);
         } catch (err) {
@@ -86,54 +94,27 @@ const Home = () => {
         animate={
           recording
             ? {
-                scale: [1, 1.3, 1],
+                scale: [1, 1.5, 1],
                 rotate: [0, 180, 360],
-                borderRadius: ["50%", "16%", "50%"],
+                borderRadius: ["20%", "50%", "20%"],
               }
             : {
                 scale: 1,
                 rotate: 0,
-                borderRadius: "50%",
+                borderRadius: "20%",
               }
         }
         transition={
           recording
             ? {
-                duration: 1.4,
+                duration: 1.2,
                 ease: "easeInOut",
                 repeat: Infinity,
               }
-            : { duration: 0.4 }
+            : { duration: 0.3 }
         }
         style={box}
-      >
-        {/* Lines + Text (fade out while recording) */}
-        <motion.div
-          animate={{ opacity: recording ? 0 : 1 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          style={{ width: "100%", height: "100%", position: "relative" }}
-        >
-          {/* Vertical line */}
-          <div style={verticalLine} />
-
-          {/* Horizontal line */}
-          <div style={horizontalLine} />
-
-          {/* Quadrant text */}
-          <div style={{ ...quadrantText, top: "25%", left: "25%" }}>
-            Checkin
-          </div>
-          <div style={{ ...quadrantText, top: "25%", left: "75%" }}>
-            Overview
-          </div>
-          <div style={{ ...quadrantText, bottom: "25%", left: "25%" }}>
-            Plan
-          </div>
-          <div style={{ ...quadrantText, bottom: "25%", left: "75%" }}>
-            settings
-          </div>
-        </motion.div>
-      </motion.div>
+      />
 
       <button
         style={{ marginTop: 20 }}
@@ -162,41 +143,11 @@ export default Home;
  */
 
 const box = {
-  width: 260,
-  height: 260,
-  margin: "30px auto",
+  width: 100,
+  height: 100,
+  margin: "20px auto",
   backgroundColor: "#f5f5f5",
-  position: "relative",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-};
-
-const verticalLine = {
-  position: "absolute",
-  top: 0,
-  bottom: 0,
-  left: "50%",
-  width: 2,
-  backgroundColor: "#333",
-  transform: "translateX(-50%)",
-};
-
-const horizontalLine = {
-  position: "absolute",
-  left: 0,
-  right: 0,
-  top: "50%",
-  height: 2,
-  backgroundColor: "#333",
-  transform: "translateY(-50%)",
-};
-
-const quadrantText = {
-  position: "absolute",
-  fontSize: 12,
-  fontWeight: 600,
-  color: "#333",
-  transform: "translate(-50%, -50%)",
-  pointerEvents: "none",
 };
