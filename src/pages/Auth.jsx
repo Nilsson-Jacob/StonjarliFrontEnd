@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../components/supabaseClient";
 
 const Colors = {
   primary500: "#72063c",
