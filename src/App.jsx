@@ -1,8 +1,73 @@
-/*import EarningsTable from "./components/EarningsTable";
-import StockCard from "./components/StockCard";
-import StrategySimulator from "./components/StrategySimulator";*/
+import React from "react";
+import NavBar from "./components/NavBar";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import Holdings from "./pages/Holdings";
+import Analysis from "./pages/Analysis";
+import Checkin from "./pages/Checkin";
+import Auth from "./pages/Auth";
+import ProtectedRoute from "./components/ProtectedRoute";
+
+function App() {
+  return (
+    <Router>
+      <NavBar />
+
+      <Routes>
+        {/* Public */}
+        <Route path="/auth" element={<Auth />} />
+
+        {/* Default */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Navigate to="/checkin" />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected */}
+        <Route
+          path="/holdings"
+          element={
+            <ProtectedRoute>
+              <Holdings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analysis"
+          element={
+            <ProtectedRoute>
+              <Analysis />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/checkin"
+          element={
+            <ProtectedRoute>
+              <Checkin />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
 
 // App.jsx
+/*
 import React from "react";
 import NavBar from "./components/NavBar";
 import {
@@ -31,3 +96,4 @@ function App() {
 }
 
 export default App;
+*/
