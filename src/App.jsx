@@ -12,6 +12,7 @@ import Analysis from "./pages/Analysis";
 import Checkin from "./pages/Checkin";
 import Auth from "./pages/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Logs from "./pages/Logs";
 
 function App() {
   return (
@@ -56,6 +57,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Checkin />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected */}
+        <Route
+          path="/logs"
+          element={
+            <ProtectedRoute>
+              <Logs />
             </ProtectedRoute>
           }
         />
