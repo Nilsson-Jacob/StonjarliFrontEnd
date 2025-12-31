@@ -154,6 +154,7 @@ const box = {
 
 const styles = {
   page: {
+    height: "100vh",
     background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
   },
 };
