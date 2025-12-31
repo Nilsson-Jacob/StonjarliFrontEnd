@@ -154,10 +154,6 @@ const box = {
 
 const styles = {
   page: {
-    minHeight: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
     background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
   },
 };
