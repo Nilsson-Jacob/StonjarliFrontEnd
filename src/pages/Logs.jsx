@@ -8,7 +8,6 @@ import {
   addDays,
   format,
   isSameMonth,
-  isSameDay,
 } from "date-fns";
 
 const Colors = {
@@ -26,7 +25,7 @@ export default function Logs() {
 
   useEffect(() => {
     fetchEntries();
-  }, [currentMonth]);
+  }, [currentMonth, entries]);
 
   async function fetchEntries() {
     const start = startOfMonth(currentMonth);
