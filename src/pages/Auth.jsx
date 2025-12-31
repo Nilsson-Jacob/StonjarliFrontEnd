@@ -122,9 +122,9 @@ export default function Auth() {
           <button onClick={() => setMode("signup")} style={styles.link}>
             Sign up
           </button>
-          <button onClick={() => setMode("magic")} style={styles.link}>
+          {/* <button onClick={() => setMode("magic")} style={styles.link}>
             Magic link
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
