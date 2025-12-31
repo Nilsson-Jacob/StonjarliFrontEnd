@@ -9,6 +9,7 @@ const supabase = createClient(
   process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY
 );
 
+/*
 async function testLogin() {
   const { error } = await supabase.auth.signInWithOtp({
     email: "idrinkwater1015@gmail.com",
@@ -21,7 +22,7 @@ async function testLogin() {
     alert("Magic link sent — check your email");
   }
 }
-
+*/
 const Home = () => {
   const [recording, setRecording] = useState(false);
   const mediaRecorderRef = useRef(null);
@@ -85,8 +86,6 @@ const Home = () => {
 
   return (
     <div style={{ ...styles.page, textAlign: "center", padding: "20px" }}>
-      <button onClick={testLogin}>Test Email Login</button>
-
       <h3>maxHapp — Record your day 🎤</h3>
 
       {/* 🔴 Motion Indicator */}
