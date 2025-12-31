@@ -84,7 +84,7 @@ const Home = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", padding: "20px" }}>
+    <div style={{ ...styles.page, textAlign: "center", padding: "20px" }}>
       <button onClick={testLogin}>Test Email Login</button>
 
       <h3>maxHapp — Record your day 🎤</h3>
@@ -150,4 +150,14 @@ const box = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+};
+
+const styles = {
+  page: {
+    minHeight: "100vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
+  },
 };
