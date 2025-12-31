@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { supabase } from "../components/supabaseClient";
 import {
   startOfMonth,
@@ -23,11 +23,8 @@ export default function Logs() {
   const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
-  useEffect(() => {
-    fetchEntries();
-  }, [currentMonth, entries]);
-
-  async function fetchEntries() {
+  // ✅ Memoized function
+  const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
 
@@ -42,7 +39,6 @@ export default function Logs() {
       return;
     }
 
-    // Map entries by date string (yyyy-MM-dd)
     const mapped = {};
     data.forEach((entry) => {
       const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
@@ -50,7 +46,12 @@ export default function Logs() {
     });
 
     setEntries(mapped);
-  }
+  }, [currentMonth]);
+
+  // ✅ Correct dependency list
+  useEffect(() => {
+    fetchEntries();
+  }, [fetchEntries]);
 
   function renderCells() {
     const monthStart = startOfMonth(currentMonth);
@@ -104,7 +105,7 @@ export default function Logs() {
 
       rows.push(
         <div
-          key={day}
+          key={day.toString()}
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(7, 1fr)",
