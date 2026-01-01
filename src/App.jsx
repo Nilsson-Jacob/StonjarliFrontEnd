@@ -13,6 +13,7 @@ import Checkin from "./pages/Checkin";
 import Auth from "./pages/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Logs from "./pages/Logs";
+import Insights from "./pages/Insights";
 
 function App() {
   return (
@@ -67,6 +68,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Logs />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected */}
+        <Route
+          path="/insights"
+          element={
+            <ProtectedRoute>
+              <Insights />
             </ProtectedRoute>
           }
         />
