@@ -160,6 +160,7 @@ const box = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
 };
 
 const buttonStyle = {
@@ -169,7 +170,6 @@ const buttonStyle = {
   cursor: "pointer",
   fontWeight: "bold",
   transition: "all 0.2s",
-  background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
 };
 
 const questionStyle = {
