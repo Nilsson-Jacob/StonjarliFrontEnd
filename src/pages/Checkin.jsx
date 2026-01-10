@@ -160,7 +160,7 @@ const box = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
+  background: "linear-gradient(180deg, #ddb52f 100%, #4e0329 0%)",
 };
 
 const buttonStyle = {
