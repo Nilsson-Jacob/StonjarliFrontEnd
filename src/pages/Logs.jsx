@@ -1,3 +1,4 @@
+// src/pages/Logs.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
@@ -61,10 +62,10 @@ export default function Logs() {
       (proteinGoalMet ? 1 : 0) +
       (sleepGoalMet ? 1 : 0);
 
-    if (score === 3) return "#1f8f4e"; // green
-    if (score === 2) return "#2f6db3"; // blue
-    if (score === 1) return "#b38b2f"; // yellow
-    return "#8b2f2f"; // red
+    if (score === 3) return "#1f8f4e";
+    if (score === 2) return "#2f6db3";
+    if (score === 1) return "#b38b2f";
+    return "#8b2f2f";
   }
 
   function renderCells() {
@@ -79,8 +80,10 @@ export default function Logs() {
 
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
-        const formattedDate = format(day, "d");
-        const dayKey = format(day, "yyyy-MM-dd");
+        const currentDay = day; // 🔥 freeze variable to avoid ESLint no-loop-func error
+
+        const formattedDate = format(currentDay, "d");
+        const dayKey = format(currentDay, "yyyy-MM-dd");
         const entry = entries[dayKey];
 
         days.push(
@@ -92,16 +95,14 @@ export default function Logs() {
                 dayKey,
                 entry,
                 formattedDate,
-                fullDate: format(day, "MMMM d, yyyy"),
+                fullDate: format(currentDay, "MMMM d, yyyy"),
               })
             }
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
             style={{
               padding: 12,
               borderRadius: 14,
               background: getDayColor(entry),
-              opacity: isSameMonth(day, monthStart) ? 1 : 0.35,
+              opacity: isSameMonth(currentDay, monthStart) ? 1 : 0.35,
               minHeight: 80,
               display: "flex",
               flexDirection: "column",
@@ -109,21 +110,19 @@ export default function Logs() {
               boxShadow: entry ? "0 0 12px rgba(0,0,0,0.4)" : "none",
               cursor: "pointer",
             }}
+            whileHover={{ scale: 1.05 }}
           >
             <span style={{ fontSize: 14, color: Colors.text }}>
               {formattedDate}
             </span>
 
-            {entry?.activities?.slice(0, 1).map((e, index) => (
-              <span
-                key={index}
-                style={{
-                  fontSize: 13,
-                  color: "#fff",
-                }}
-              >
-                {e.activity_type}: {e.anchor_metric?.weight}kg
-              </span>
+            {entry?.activities?.map((e, index) => (
+              <div key={index}>
+                <div style={{ fontSize: 13, color: "#fff" }}>
+                  {e.activity_type}: {e.anchor_metric?.weight}kg{" "}
+                  {e.anchor_metric?.reps}x{e.anchor_metric?.sets}
+                </div>
+              </div>
             ))}
           </motion.div>
         );
@@ -151,36 +150,32 @@ export default function Logs() {
   }
 
   return (
-    <>
-      <div
-        style={{
-          minHeight: "100vh",
-          background: Colors.bg,
-          color: Colors.text,
-          padding: 24,
-          paddingTop: 45,
-        }}
-      >
-        <h2 style={{ marginBottom: 16 }}>
-          {format(currentMonth, "MMMM yyyy")}
-        </h2>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: Colors.bg,
+        color: Colors.text,
+        padding: 24,
+        paddingTop: 45,
+      }}
+    >
+      <h2 style={{ marginBottom: 16 }}>{format(currentMonth, "MMMM yyyy")}</h2>
 
-        <div style={{ marginBottom: 20 }}>
-          <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
-            ◀
-          </button>
-          <button
-            style={{ marginLeft: 10 }}
-            onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
-          >
-            ▶
-          </button>
-        </div>
-
-        {renderCells()}
+      <div style={{ marginBottom: 20 }}>
+        <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
+          ◀
+        </button>
+        <button
+          style={{ marginLeft: 10 }}
+          onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
+        >
+          ▶
+        </button>
       </div>
 
-      {/* EXPANDED DAY VIEW */}
+      {renderCells()}
+
+      {/* Expanded Day View */}
       <AnimatePresence>
         {selectedDay && (
           <motion.div
@@ -189,64 +184,65 @@ export default function Logs() {
             exit={{ opacity: 0 }}
             style={{
               position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
-              background: "rgba(0,0,0,0.6)",
+              inset: 0,
+              background: "rgba(0,0,0,0.7)",
               display: "flex",
-              alignItems: "center",
               justifyContent: "center",
-              zIndex: 100,
+              alignItems: "center",
+              zIndex: 1000,
             }}
             onClick={() => setSelectedDay(null)}
           >
             <motion.div
               layoutId={selectedDay.dayKey}
+              onClick={(e) => e.stopPropagation()}
               style={{
                 background: getDayColor(selectedDay.entry),
                 borderRadius: 20,
+                padding: 24,
                 width: "90%",
-                maxWidth: 380,
-                padding: 20,
+                maxWidth: 400,
                 color: "#fff",
-                boxShadow: "0 20px 40px rgba(0,0,0,0.6)",
               }}
-              onClick={(e) => e.stopPropagation()}
             >
-              <h3 style={{ marginBottom: 10 }}>{selectedDay.fullDate}</h3>
+              <h3>{selectedDay.fullDate}</h3>
 
-              {selectedDay.entry?.activities?.map((e, i) => (
-                <div
-                  key={i}
-                  style={{
-                    marginBottom: 12,
-                    padding: 10,
-                    background: "rgba(0,0,0,0.25)",
-                    borderRadius: 10,
-                  }}
-                >
-                  <strong>{e.activity_type}</strong>
-                  <div style={{ fontSize: 14 }}>
-                    {e.anchor_metric?.weight}kg · {e.anchor_metric?.reps} reps ·{" "}
-                    {e.anchor_metric?.sets} sets
+              {selectedDay.entry ? (
+                <>
+                  {selectedDay.entry.activities?.map((a, i) => (
+                    <div key={i} style={{ marginBottom: 8 }}>
+                      <strong>{a.activity_type}</strong>:{" "}
+                      {a.anchor_metric?.weight}kg {a.anchor_metric?.reps}x
+                      {a.anchor_metric?.sets}
+                    </div>
+                  ))}
+
+                  <div style={{ marginTop: 12, fontSize: 14 }}>
+                    🏋️ Lift Improved:{" "}
+                    {selectedDay.entry.liftImproved ? "Yes" : "No"}
+                    <br />
+                    🥩 Protein Goal:{" "}
+                    {selectedDay.entry.proteinGoalMet ? "Met" : "Not met"}
+                    <br />
+                    💤 Sleep Goal:{" "}
+                    {selectedDay.entry.sleepGoalMet ? "Met" : "Not met"}
                   </div>
-                </div>
-              ))}
+                </>
+              ) : (
+                <p>No data for this day.</p>
+              )}
 
               <button
+                onClick={() => setSelectedDay(null)}
                 style={{
                   marginTop: 20,
                   width: "100%",
-                  padding: 12,
-                  borderRadius: 12,
+                  padding: 10,
                   border: "none",
-                  background: "#ddb52f",
-                  fontWeight: "bold",
-                  fontSize: 16,
-                  cursor: "pointer",
+                  borderRadius: 10,
+                  background: "#000",
+                  color: "#fff",
                 }}
-                onClick={() => setSelectedDay(null)}
               >
                 Close
               </button>
@@ -254,7 +250,7 @@ export default function Logs() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </div>
   );
 }
 
