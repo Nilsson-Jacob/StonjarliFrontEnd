@@ -101,6 +101,19 @@ export default function Logs() {
               {formattedDate}
             </span>
 
+            {entry.activities.map((e) => (
+              <span
+                style={{
+                  alignSelf: "flex-end",
+                  fontSize: 14,
+                  //fontWeight: "bold",
+                  color: "#fff",
+                }}
+              >
+                {e.activity_type}: {e.weight}kg {e.reps}x{e.sets}
+              </span>
+            ))}
+
             {entry?.rating && (
               <span
                 style={{
@@ -111,11 +124,6 @@ export default function Logs() {
                 }}
               >
                 {entry.rating}/10
-                {entry.activities.map((e) => (
-                  <h1>
-                    `${e.activity_type}: ${e.weight}kg${e.reps}x${e.sets}`
-                  </h1>
-                ))}
               </span>
             )}
           </div>
