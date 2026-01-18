@@ -4,7 +4,7 @@ export default function TopNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isHome = location.pathname === "/";
+  const isHome = location.pathname === "/checkin";
   const isProfile = location.pathname === "/profile";
   const isLogs = location.pathname === "/logs";
 
@@ -96,14 +96,13 @@ const styles = {
   /* Inner pages: compact centered tabs */
   innerTabs: {
     justifyContent: "center",
-    gap: 16,
   },
 
   tab: {
     background: "rgba(255,255,255,0.06)",
     border: "none",
-    borderRadius: 14,
-    padding: "8px 18px",
+    //borderRadius: 14,
+    // padding: "8px 18px",
     color: "#aaa",
     fontSize: 14,
     fontWeight: 600,
