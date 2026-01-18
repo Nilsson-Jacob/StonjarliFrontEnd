@@ -4,35 +4,43 @@ export default function TopNavbar() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isHome = location.pathname === "/";
   const isProfile = location.pathname === "/profile";
   const isLogs = location.pathname === "/logs";
 
-  // Only show navbar on Profile and Logs
-  //if (!isProfile && !isLogs) return null;
-
   return (
     <div style={styles.container}>
-      {/* Back Button */}
-      <button onClick={() => navigate("/")} style={styles.backButton}>
-        ←
-      </button>
+      {/* Back button only when NOT on main page */}
+      {!isHome && (
+        <button onClick={() => navigate("/")} style={styles.backButton}>
+          ←
+        </button>
+      )}
 
       {/* Tabs */}
-      <div style={styles.tabs}>
+      <div
+        style={{
+          ...styles.tabs,
+          ...(isHome ? styles.homeTabs : styles.innerTabs),
+        }}
+      >
         <button
           onClick={() => navigate("/profile")}
           style={{
             ...styles.tab,
             ...(isProfile ? styles.activeTab : {}),
+            ...(isHome ? styles.homeTab : {}),
           }}
         >
           Profile
         </button>
+
         <button
           onClick={() => navigate("/logs")}
           style={{
             ...styles.tab,
             ...(isLogs ? styles.activeTab : {}),
+            ...(isHome ? styles.homeTab : {}),
           }}
         >
           Logs
@@ -52,44 +60,71 @@ const styles = {
     padding: "0 12px",
     display: "flex",
     alignItems: "center",
-    background: "rgba(15, 15, 20, 0.75)", // dark translucent
-    backdropFilter: "blur(10px)",
-    WebkitBackdropFilter: "blur(10px)",
+    background: "rgba(10, 10, 15, 0.75)",
+    backdropFilter: "blur(12px)",
+    WebkitBackdropFilter: "blur(12px)",
     zIndex: 1000,
   },
 
   backButton: {
-    background: "none",
+    background: "rgba(255,255,255,0.08)",
     border: "none",
-    color: "#ddb52f",
-    fontSize: 22,
-    fontWeight: "bold",
+    borderRadius: 10,
+    color: "#fff",
+    fontSize: 20,
     cursor: "pointer",
-    marginRight: 12,
+    width: 36,
+    height: 36,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+    transition: "background 0.2s ease",
   },
 
   tabs: {
     display: "flex",
     flex: 1,
+    height: "100%",
+  },
+
+  /* Main page: full width split tabs */
+  homeTabs: {
+    gap: 0,
+  },
+
+  /* Inner pages: compact centered tabs */
+  innerTabs: {
     justifyContent: "center",
-    gap: 20,
+    gap: 16,
   },
 
   tab: {
-    background: "rgba(255,255,255,0.05)",
+    background: "rgba(255,255,255,0.06)",
     border: "none",
-    borderRadius: 20,
-    padding: "6px 16px",
+    borderRadius: 14,
+    padding: "8px 18px",
     color: "#aaa",
     fontSize: 14,
-    fontWeight: "bold",
+    fontWeight: 600,
     cursor: "pointer",
-    transition: "all 0.2s ease",
+    transition: "all 0.25s ease",
+  },
+
+  /* Used only on the home page: split the bar in half */
+  homeTab: {
+    flex: 1,
+    borderRadius: 0,
+    margin: 0,
+    height: "100%",
+    fontSize: 15,
+    background: "rgba(255,255,255,0.03)",
   },
 
   activeTab: {
-    background: "rgba(221,181,47,0.25)",
-    color: "#ddb52f",
-    boxShadow: "0 0 10px rgba(221,181,47,0.4)",
+    color: "#fff",
+    background:
+      "linear-gradient(135deg, rgba(90,120,255,0.35), rgba(130,90,255,0.35))",
+    boxShadow: "0 4px 15px rgba(90,120,255,0.35)",
   },
 };
