@@ -171,6 +171,7 @@ export default function Logs() {
         background: Colors.bg,
         color: Colors.text,
         padding: 24,
+        paddingTop: 45,
       }}
     >
       <h2 style={{ marginBottom: 16 }}>{format(currentMonth, "MMMM yyyy")}</h2>

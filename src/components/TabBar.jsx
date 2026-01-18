@@ -18,34 +18,36 @@ export default function TopNavbar() {
       )}
 
       {/* Tabs */}
-      <div
-        style={{
-          ...styles.tabs,
-          ...(isHome && styles.homeTabs),
-        }}
-      >
-        <button
-          onClick={() => navigate("/profile")}
+      {isHome && (
+        <div
           style={{
-            ...styles.tab,
-            ...(isProfile ? styles.activeTab : {}),
-            ...(isHome ? styles.homeTab : {}),
+            ...styles.tabs,
+            ...(isHome && styles.homeTabs),
           }}
         >
-          Profile
-        </button>
+          <button
+            onClick={() => navigate("/profile")}
+            style={{
+              ...styles.tab,
+              ...(isProfile ? styles.activeTab : {}),
+              ...(isHome ? styles.homeTab : {}),
+            }}
+          >
+            Profile
+          </button>
 
-        <button
-          onClick={() => navigate("/logs")}
-          style={{
-            ...styles.tab,
-            ...(isLogs ? styles.activeTab : {}),
-            ...(isHome ? styles.homeTab : {}),
-          }}
-        >
-          Logs
-        </button>
-      </div>
+          <button
+            onClick={() => navigate("/logs")}
+            style={{
+              ...styles.tab,
+              ...(isLogs ? styles.activeTab : {}),
+              ...(isHome ? styles.homeTab : {}),
+            }}
+          >
+            Logs
+          </button>
+        </div>
+      )}
     </div>
   );
 }
