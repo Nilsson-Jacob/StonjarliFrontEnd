@@ -8,7 +8,7 @@ export default function TopNavbar() {
   const isLogs = location.pathname === "/logs";
 
   // Only show navbar on Profile and Logs
-  if (!isProfile && !isLogs) return null;
+  //if (!isProfile && !isLogs) return null;
 
   return (
     <div style={styles.container}>
