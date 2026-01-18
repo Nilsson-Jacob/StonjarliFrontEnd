@@ -111,6 +111,11 @@ export default function Logs() {
                 }}
               >
                 {entry.rating}/10
+                {entry.activities.map((e) => (
+                  <h1>
+                    `${e.activity_type}: ${e.weight}kg${e.reps}x${e.sets}`
+                  </h1>
+                ))}
               </span>
             )}
           </div>
