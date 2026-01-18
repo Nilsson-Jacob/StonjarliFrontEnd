@@ -21,7 +21,7 @@ export default function TopNavbar() {
       <div
         style={{
           ...styles.tabs,
-          ...(isHome ? styles.homeTabs : styles.innerTabs),
+          ...(isHome ? styles.homeTabs : styles.homeTabs),
         }}
       >
         <button
@@ -73,8 +73,8 @@ const styles = {
     color: "#fff",
     fontSize: 20,
     cursor: "pointer",
-    width: 36,
-    height: 36,
+    width: 45,
+    height: 45,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
