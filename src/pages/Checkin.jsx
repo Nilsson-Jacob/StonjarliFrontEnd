@@ -43,6 +43,7 @@ export default function Home() {
 
       const data = await res.json();
       setAnswer(data);
+      console.log(answer);
       setStep("home");
     };
 
@@ -361,6 +362,7 @@ export default Home;
 /**
  * ============== Styles ================
  */
+/*
 const box = {
   width: 100,
   height: 100,
@@ -387,7 +389,7 @@ const questionStyle = {
   flexDirection: "column",
   alignItems: "center",
 };
-/*
+
 const styles = {
   page: {
     minHeight: "100vh",
