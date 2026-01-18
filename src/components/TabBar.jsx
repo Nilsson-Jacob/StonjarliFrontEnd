@@ -21,7 +21,7 @@ export default function TopNavbar() {
       <div
         style={{
           ...styles.tabs,
-          ...(isHome ? styles.homeTabs : styles.homeTabs),
+          ...(isHome && styles.homeTabs),
         }}
       >
         <button
