@@ -63,7 +63,7 @@ export default function TopNavbar() {
             style={{
               ...styles.tab,
               //       ...(isProfile ? styles.activeTab : {}),
-              //     ...(isHome ? styles.homeTab : {}),
+              ...styles.homeTab,
             }}
           >
             Days
@@ -74,7 +74,7 @@ export default function TopNavbar() {
             style={{
               ...styles.tab,
               //   ...(isLogs ? styles.activeTab : {}),
-              //   ...(isHome ? styles.homeTab : {}),
+              ...styles.homeTab,
             }}
           >
             Charts
