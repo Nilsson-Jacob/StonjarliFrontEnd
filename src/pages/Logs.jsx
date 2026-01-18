@@ -101,12 +101,12 @@ export default function Logs() {
               {formattedDate}
             </span>
 
-            {entry.activities.map((e) => (
+            {entry?.activities?.map((e, index) => (
               <span
+                key={index}
                 style={{
                   alignSelf: "flex-end",
                   fontSize: 14,
-                  //fontWeight: "bold",
                   color: "#fff",
                 }}
               >
