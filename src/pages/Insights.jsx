@@ -73,6 +73,7 @@ export default function Insights() {
     <div
       style={{
         padding: 24,
+        paddingTop: 45,
         minHeight: "100vh",
         background: "#0f0f14",
         color: "white",

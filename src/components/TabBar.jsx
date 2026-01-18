@@ -54,7 +54,7 @@ export default function TopNavbar() {
         <div
           style={{
             ...styles.tabs,
-            ...(isHome && styles.homeTabs),
+            ...styles.logsTabs,
           }}
         >
           <button
@@ -125,6 +125,16 @@ const styles = {
   /* Main page: full width split tabs */
   homeTabs: {
     gap: 0,
+  },
+
+  /* Main page: full width split tabs */
+  logsTabs: {
+    flex: 1,
+    borderRadius: 0,
+    margin: 0,
+    height: "100%",
+    fontSize: 15,
+    background: "rgba(255,255,255,0.03)",
   },
 
   /* Inner pages: compact centered tabs */
