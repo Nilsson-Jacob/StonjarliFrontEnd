@@ -102,17 +102,29 @@ export default function Logs() {
             </span>
 
             {entry?.activities?.map((e, index) => (
-              <span
-                key={index}
-                style={{
-                  alignSelf: "flex-end",
-                  fontSize: 14,
-                  color: "#fff",
-                }}
-              >
-                {e.activity_type}: {e.anchor_metric?.weight}kg{" "}
-                {e.anchor_metric?.reps}x{e.anchor_metric?.sets}
-              </span>
+              <div>
+                <span
+                  key={index}
+                  style={{
+                    alignSelf: "flex-end",
+                    fontSize: 16,
+                    color: "#fff",
+                  }}
+                >
+                  {e.training_type}
+                </span>
+                <span
+                  key={index}
+                  style={{
+                    alignSelf: "flex-end",
+                    fontSize: 14,
+                    color: "#fff",
+                  }}
+                >
+                  {e.activity_type}: {e.anchor_metric?.weight}kg{" "}
+                  {e.anchor_metric?.reps}x{e.anchor_metric?.sets}
+                </span>
+              </div>
             ))}
 
             {entry?.rating && (
