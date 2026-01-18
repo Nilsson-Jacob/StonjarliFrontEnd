@@ -20,6 +20,8 @@ import Profile from "./pages/Profile";
 function App() {
   return (
     <Router>
+      {/* <NavBar /> */}
+
       <Tabs />
 
       <Routes>
