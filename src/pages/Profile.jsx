@@ -64,7 +64,9 @@ const styles = {
   page: {
     minHeight: "100vh",
     padding: 20,
-    background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)", // same as Checkin
+    paddingTop: 40,
+    background:
+      "linear-gradient(180deg,rgba(78, 3, 40, 0.77) 0%,rgb(14, 14, 37) 100%)",
     color: "#fff",
   },
   title: {
