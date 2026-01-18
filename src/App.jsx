@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./components/NavBar";
+//import NavBar from "./components/NavBar";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,11 +14,13 @@ import Auth from "./pages/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Logs from "./pages/Logs";
 import Insights from "./pages/Insights";
+import Tabs from "./components/TabBar";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
     <Router>
-      <NavBar />
+      <Tabs />
 
       <Routes>
         {/* Public */}
@@ -78,6 +80,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Insights />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Protected */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />
