@@ -7,11 +7,12 @@ export default function TopNavbar() {
   const isHome = location.pathname === "/checkin";
   const isProfile = location.pathname === "/profile";
   const isLogs = location.pathname === "/logs";
+  const isAuth = location.pathname === "/auth";
 
   return (
     <div style={styles.container}>
       {/* Back button only when NOT on main page */}
-      {!isHome && (
+      {!isHome && !isAuth && (
         <button onClick={() => navigate("/")} style={styles.backButton}>
           ←
         </button>
@@ -45,6 +46,37 @@ export default function TopNavbar() {
             }}
           >
             Logs
+          </button>
+        </div>
+      )}
+
+      {isLogs && (
+        <div
+          style={{
+            ...styles.tabs,
+            ...(isHome && styles.homeTabs),
+          }}
+        >
+          <button
+            onClick={() => navigate("/logs")}
+            style={{
+              ...styles.tab,
+              //       ...(isProfile ? styles.activeTab : {}),
+              //     ...(isHome ? styles.homeTab : {}),
+            }}
+          >
+            Days
+          </button>
+
+          <button
+            onClick={() => navigate("/insights")}
+            style={{
+              ...styles.tab,
+              //   ...(isLogs ? styles.activeTab : {}),
+              //   ...(isHome ? styles.homeTab : {}),
+            }}
+          >
+            Charts
           </button>
         </div>
       )}
