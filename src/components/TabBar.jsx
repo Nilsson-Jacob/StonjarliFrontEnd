@@ -8,6 +8,7 @@ export default function TopNavbar() {
   const isProfile = location.pathname === "/profile";
   const isLogs = location.pathname === "/logs";
   const isAuth = location.pathname === "/auth";
+  const isInsights = location.pathname === "/insights";
 
   return (
     <div style={styles.container}>
@@ -50,7 +51,7 @@ export default function TopNavbar() {
         </div>
       )}
 
-      {isLogs && (
+      {(isLogs || isInsights) && (
         <div
           style={{
             ...styles.tabs,
