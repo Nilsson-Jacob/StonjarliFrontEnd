@@ -110,7 +110,8 @@ export default function Logs() {
                   color: "#fff",
                 }}
               >
-                {e.activity_type}: {e.weight}kg {e.reps}x{e.sets}
+                {e.activity_type}: {e.anchor_metric.weight}kg{" "}
+                {e.anchor_metric.reps}x{e.anchor_metric.sets}
               </span>
             ))}
 
