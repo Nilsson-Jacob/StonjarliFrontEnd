@@ -68,7 +68,7 @@ export default function Home() {
     };
 
     try {
-      const res = await fetch(serverApi + "/daily-entry", {
+      const res = await fetch(serverApi + "/targets", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
