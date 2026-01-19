@@ -56,6 +56,33 @@ export default function Home() {
     setRecording(false);
   };
 
+  const saveDailyCheckin = async () => {
+    const todayKey = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+    const payload = {
+      date: todayKey,
+      targets: {
+        protein: protein,
+        sleep: sleep,
+      },
+    };
+
+    try {
+      const res = await fetch(serverApi + "/daily-entry", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      console.log("Daily entry saved:", data);
+    } catch (err) {
+      console.error("Failed saving daily checkin:", err);
+    }
+  };
+
   // ===== UI Components =====
   const Card = ({ children, onClick }) => (
     <div onClick={onClick} style={cardStyle}>
@@ -63,7 +90,7 @@ export default function Home() {
     </div>
   );
 
-  const ChoiceCard = ({ title, value, setValue, onNext }) => (
+  const ChoiceCard = ({ title, value, setValue, onNext, onSubmit }) => (
     <div style={cardStyle}>
       <h3>{title}</h3>
       <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
@@ -72,6 +99,9 @@ export default function Home() {
             key={opt}
             onClick={() => {
               setValue(opt);
+              if (onSubmit) {
+                saveDailyCheckin();
+              }
               onNext();
             }}
             style={{
@@ -142,6 +172,7 @@ export default function Home() {
             value={sleep}
             setValue={setSleep}
             onNext={() => setStep("home")}
+            onSubmit={true}
           />
         </div>
       )}

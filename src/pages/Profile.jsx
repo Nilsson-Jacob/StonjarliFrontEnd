@@ -15,7 +15,7 @@ const Profile = () => {
 
   return (
     <div style={styles.page}>
-      <h2 style={styles.title}>Your Goals</h2>
+      <h2 style={styles.title}>Your Targets</h2>
 
       <div style={styles.goalsRow}>
         {/* Sleep Goal */}
@@ -50,7 +50,7 @@ const Profile = () => {
       </div>
 
       <button style={styles.saveButton} onClick={handleSave}>
-        Save Goals
+        Save Targets
       </button>
     </div>
   );
