@@ -169,11 +169,12 @@ const styles = {
     padding: 20,
     paddingTop: 60,
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "row-reverse",
   },
   title: {
     textAlign: "center",
     marginBottom: 20,
+    display: "flex",
   },
   targetsGrid: {
     display: "grid",
@@ -188,12 +189,10 @@ const styles = {
     boxShadow: "0 6px 14px rgba(0,0,0,0.4)",
   },
   floatingAdd: {
-    position: "relative",
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
     fontSize: 26,
     fontWeight: "bold",
     color: "white",
