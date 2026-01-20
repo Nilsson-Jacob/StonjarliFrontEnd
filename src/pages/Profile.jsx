@@ -58,11 +58,11 @@ export default function Profile() {
   return (
     <div style={styles.page}>
       {/* Floating + button */}
+
+      <h2 style={styles.title}>Your Targets</h2>
       <div onClick={() => setShowCreateModal(true)} style={styles.floatingAdd}>
         +
       </div>
-
-      <h2 style={styles.title}>Your Targets</h2>
 
       <div style={styles.targetsGrid}>
         {targets.map((t) => (
