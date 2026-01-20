@@ -169,8 +169,6 @@ const styles = {
     color: "#fff",
     padding: 20,
     paddingTop: 60,
-    display: "flex",
-    flexDirection: "row-reverse",
   },
   title: {
     textAlign: "center",
@@ -192,7 +190,8 @@ const styles = {
   floatingAdd: {
     width: 60,
     height: 60,
-    display: "flex",
+    marginRight: 10,
+    display: "relative",
     alignItems: "center",
     fontSize: 26,
     fontWeight: "bold",
