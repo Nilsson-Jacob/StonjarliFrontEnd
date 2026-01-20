@@ -21,6 +21,22 @@ const Colors = {
 
 const DAY_BOX_SIZE = 80; // fixed size for mobile grid cells
 
+function LegendItem({ color, label }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+      <div
+        style={{
+          width: 12,
+          height: 12,
+          borderRadius: 4,
+          background: color,
+        }}
+      />
+      <span style={{ color: "#ccc" }}>{label}</span>
+    </div>
+  );
+}
+
 export default function Logs() {
   const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -182,6 +198,20 @@ export default function Logs() {
         >
           ▶
         </button>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          gap: 8,
+          marginBottom: 12,
+          fontSize: 11,
+        }}
+      >
+        <LegendItem color="#1f8f4e" label="Perfect day (3/3)" />
+        <LegendItem color="#2f6db3" label="Good day (2/3)" />
+        <LegendItem color="#b38b2f" label="Okay day (1/3)" />
+        <LegendItem color="#8b2f2f" label="Missed goals (0/3)" />
       </div>
 
       {renderCells()}
