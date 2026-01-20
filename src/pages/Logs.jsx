@@ -132,8 +132,8 @@ export default function Logs() {
             {entry?.targets?.map((e, index) => (
               <div key={index}>
                 <div style={{ fontSize: 13, color: "#fff" }}>
-                  Protein: {e.protein}
-                  Sleep: {e.sleep}
+                  {e.protein && <p>Protein: {e.protein}</p>}
+                  {e.sleep && <p>Sleep: {e.sleep}</p>}
                 </div>
               </div>
             ))}
