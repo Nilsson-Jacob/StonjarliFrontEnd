@@ -1,105 +1,161 @@
-// src/pages/Profile.jsx
 import React, { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 
 export default function Profile() {
   const [targets, setTargets] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const fetchTargets = async () => {
-    const { data, error } = await supabase
-      .from("targets")
-      .select("*")
-      .order("created_at");
+  const [newTarget, setNewTarget] = useState({
+    name: "",
+    value: "",
+    evaluation: "under",
+  });
 
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    setTargets(data);
-    setLoading(false);
-  };
-
+  // Fetch existing targets
   useEffect(() => {
     fetchTargets();
   }, []);
 
-  const updateTarget = (id, value) => {
-    setTargets((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, target_value: value } : t))
-    );
-  };
-
-  const saveTargets = async () => {
-    for (const t of targets) {
-      await supabase
-        .from("targets")
-        .update({ target_value: t.target_value })
-        .eq("id", t.id);
-    }
-    alert("Targets saved!");
-  };
-
-  const addTarget = async () => {
+  const fetchTargets = async () => {
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const newTarget = {
-      user_id: user.id,
-      name: "New Target",
-      emoji: "🎯",
-      unit: "units",
-      target_value: 1,
-      comparison_type: ">=",
-    };
+    const { data, error } = await supabase
+      .from("targets")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true });
+
+    if (!error) setTargets(data);
+  };
+
+  const handleCreateTarget = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!newTarget.name || !newTarget.value) return;
 
     const { data, error } = await supabase
       .from("targets")
-      .insert(newTarget)
+      .insert({
+        user_id: user.id,
+        name: newTarget.name,
+        target_value: Number(newTarget.value),
+        evaluation: newTarget.evaluation,
+      })
       .select();
 
     if (!error) {
       setTargets([...targets, data[0]]);
+      setShowCreateModal(false);
+      setNewTarget({ name: "", value: "", evaluation: "under" });
     }
   };
 
-  if (loading) return <p style={{ color: "#fff" }}>Loading...</p>;
-
   return (
     <div style={styles.page}>
+      {/* Floating + button */}
+      <div onClick={() => setShowCreateModal(true)} style={styles.floatingAdd}>
+        +
+      </div>
+
       <h2 style={styles.title}>Your Targets</h2>
 
-      <div style={styles.targetsList}>
+      <div style={styles.targetsGrid}>
         {targets.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            <div style={styles.header}>
-              <span style={{ fontSize: 22 }}>{t.emoji}</span>
-              <strong>{t.name}</strong>
-            </div>
-
-            <input
-              type="number"
-              value={t.target_value}
-              onChange={(e) => updateTarget(t.id, Number(e.target.value))}
-              style={styles.input}
-            />
-
-            <span style={styles.unit}>
-              {t.comparison_type} {t.unit}
-            </span>
+            <h4>{t.name}</h4>
+            <p style={{ fontSize: 13 }}>
+              {t.evaluation.toUpperCase()} {t.target_value}
+            </p>
           </div>
         ))}
       </div>
 
-      <button style={styles.addButton} onClick={addTarget}>
-        + Add New Target
-      </button>
+      {/* Create Target Modal */}
+      <AnimatePresence>
+        {showCreateModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={styles.overlay}
+            onClick={() => setShowCreateModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              style={styles.modal}
+            >
+              <h3 style={{ textAlign: "center" }}>Create new target</h3>
 
-      <button style={styles.saveButton} onClick={saveTargets}>
-        Save Targets
-      </button>
+              <input
+                placeholder="Target name"
+                value={newTarget.name}
+                onChange={(e) =>
+                  setNewTarget({ ...newTarget, name: e.target.value })
+                }
+                style={styles.input}
+              />
+
+              <input
+                type="number"
+                placeholder="Target value"
+                value={newTarget.value}
+                onChange={(e) =>
+                  setNewTarget({ ...newTarget, value: e.target.value })
+                }
+                style={styles.input}
+              />
+
+              <div style={{ marginTop: 12 }}>
+                <p style={{ fontSize: 12, marginBottom: 6 }}>
+                  Evaluation style
+                </p>
+                <div style={styles.evaluationGrid}>
+                  {["under", "slightly under", "slightly above", "above"].map(
+                    (opt) => (
+                      <button
+                        key={opt}
+                        onClick={() =>
+                          setNewTarget({ ...newTarget, evaluation: opt })
+                        }
+                        style={{
+                          ...styles.evalButton,
+                          background:
+                            newTarget.evaluation === opt ? "#ddb52f" : "#111",
+                          color:
+                            newTarget.evaluation === opt ? "#4e0329" : "#fff",
+                        }}
+                      >
+                        {opt.toUpperCase()}
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div style={styles.modalActions}>
+                <button
+                  style={styles.cancelButton}
+                  onClick={() => setShowCreateModal(false)}
+                >
+                  Cancel
+                </button>
+                <button style={styles.saveButton} onClick={handleCreateTarget}>
+                  Save
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
@@ -109,71 +165,103 @@ export default function Profile() {
 const styles = {
   page: {
     minHeight: "100vh",
-    padding: 20,
-    paddingTop: 40,
     background:
-      "linear-gradient(180deg,rgba(57, 13, 35, 0.77) 0%,rgb(29, 29, 58) 100%)",
+      "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(29,29,58) 100%)",
     color: "#fff",
+    padding: 20,
+    paddingTop: 60,
   },
   title: {
     textAlign: "center",
     marginBottom: 20,
   },
-  targetsList: {
-    display: "flex",
-    flexDirection: "column",
+  targetsGrid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 1fr)",
     gap: 14,
-    marginBottom: 20,
   },
   targetCard: {
     background: "rgba(0,0,0,0.35)",
-    borderRadius: 12,
+    borderRadius: 14,
     padding: 14,
+    textAlign: "center",
     boxShadow: "0 6px 14px rgba(0,0,0,0.4)",
   },
-  header: {
+  floatingAdd: {
+    position: "fixed",
+    top: 16,
+    right: 16,
+    width: 42,
+    height: 42,
+    borderRadius: "50%",
+    background: "linear-gradient(180deg,#ddb52f,#4e0329)",
     display: "flex",
     alignItems: "center",
-    gap: 8,
-    marginBottom: 6,
+    justifyContent: "center",
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#000",
+    cursor: "pointer",
+    zIndex: 100,
+  },
+  overlay: {
+    position: "fixed",
+    inset: 0,
+    background: "rgba(0,0,0,0.7)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1000,
+  },
+  modal: {
+    background: "#1a1a22",
+    borderRadius: 18,
+    padding: 22,
+    width: "90%",
+    maxWidth: 340,
   },
   input: {
     width: "100%",
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 10,
     border: "none",
     background: "#111",
     color: "#fff",
-    textAlign: "center",
-    fontSize: 15,
+    marginBottom: 10,
   },
-  unit: {
-    display: "block",
-    marginTop: 4,
-    fontSize: 12,
-    color: "#ddb52f",
-    textAlign: "center",
+  evaluationGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gap: 8,
   },
-  addButton: {
-    width: "100%",
+  evalButton: {
+    padding: 8,
+    borderRadius: 10,
+    border: "none",
+    fontSize: 11,
+    fontWeight: "bold",
+  },
+  modalActions: {
+    display: "flex",
+    gap: 10,
+    marginTop: 18,
+  },
+  cancelButton: {
+    flex: 1,
     padding: 10,
     borderRadius: 10,
-    border: "1px dashed #ddb52f",
-    background: "transparent",
-    color: "#ddb52f",
-    fontWeight: "bold",
-    marginBottom: 12,
+    border: "none",
+    background: "#333",
+    color: "#fff",
   },
   saveButton: {
-    width: "100%",
-    padding: 12,
-    borderRadius: 12,
+    flex: 1,
+    padding: 10,
+    borderRadius: 10,
     border: "none",
-    background: "linear-gradient(90deg, #ddb52f, #4e0329)",
+    background: "linear-gradient(90deg,#ddb52f,#4e0329)",
     color: "#000",
     fontWeight: "bold",
-    fontSize: 15,
-    cursor: "pointer",
   },
 };
 
