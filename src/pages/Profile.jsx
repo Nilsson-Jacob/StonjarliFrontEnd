@@ -66,7 +66,7 @@ const styles = {
     padding: 20,
     paddingTop: 40,
     background:
-      "linear-gradient(180deg,rgba(78, 3, 40, 0.77) 0%,rgb(14, 14, 37) 100%)",
+      "linear-gradient(180deg,rgba(57, 13, 35, 0.77) 0%,rgb(29, 29, 58) 100%)",
     color: "#fff",
   },
   title: {

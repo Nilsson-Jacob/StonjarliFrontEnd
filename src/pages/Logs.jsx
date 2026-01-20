@@ -42,8 +42,11 @@ export default function Logs() {
     const mapped = {};
     data.forEach((entry) => {
       const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
-      mapped[dayKey] = entry.structured;
-      mapped[dayKey] = entry.targets;
+      //mapped[dayKey] = entry.structured;
+      mapped[dayKey] = {
+        structured: entry.structured,
+        targets: entry.targets,
+      };
     });
 
     setEntries(mapped);
