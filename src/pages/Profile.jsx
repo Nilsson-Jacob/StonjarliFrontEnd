@@ -69,7 +69,7 @@ export default function Profile() {
           <div key={t.id} style={styles.targetCard}>
             <h4>{t.name}</h4>
             <p style={{ fontSize: 13 }}>
-              {t.evaluation.toUpperCase()} {t.target_value}
+              {t.evaluation?.toUpperCase()} {t.target_value}
             </p>
           </div>
         ))}
@@ -134,7 +134,7 @@ export default function Profile() {
                             newTarget.evaluation === opt ? "#4e0329" : "#fff",
                         }}
                       >
-                        {opt.toUpperCase()}
+                        {opt?.toUpperCase()}
                       </button>
                     )
                   )}
