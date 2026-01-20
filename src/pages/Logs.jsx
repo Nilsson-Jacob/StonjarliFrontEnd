@@ -30,7 +30,7 @@ export default function Logs() {
 
     const { data, error } = await supabase
       .from("daily_entries")
-      .select("created_at, structured")
+      .select("created_at, structured, targets")
       .gte("created_at", start.toISOString())
       .lte("created_at", end.toISOString());
 
@@ -43,6 +43,7 @@ export default function Logs() {
     data.forEach((entry) => {
       const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
       mapped[dayKey] = entry.structured;
+      mapped[dayKey] = entry.targets;
     });
 
     setEntries(mapped);
