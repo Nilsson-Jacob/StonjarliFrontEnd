@@ -7,10 +7,6 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
 
   const fetchTargets = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
     const { data, error } = await supabase
       .from("targets")
       .select("*")
