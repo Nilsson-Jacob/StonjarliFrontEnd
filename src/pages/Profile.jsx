@@ -173,7 +173,6 @@ const styles = {
   title: {
     textAlign: "center",
     marginBottom: 20,
-    display: "flex",
   },
   targetsGrid: {
     display: "grid",
