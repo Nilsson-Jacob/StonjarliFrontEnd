@@ -123,6 +123,7 @@ export default function Logs() {
             {entry?.structured?.activities?.map((e, index) => (
               <div key={index}>
                 <div style={{ fontSize: 13, color: "#fff" }}>
+                  Training:
                   {e.activity_type}: {e.anchor_metric?.weight}kg{" "}
                   {e.anchor_metric?.reps}x{e.anchor_metric?.sets}
                 </div>
@@ -132,8 +133,18 @@ export default function Logs() {
             {entry?.targets?.map((e, index) => (
               <div key={index}>
                 <div style={{ fontSize: 13, color: "#fff" }}>
-                  {e.protein && <p>Protein: {e.protein}</p>}
-                  {e.sleep && <p>Sleep: {e.sleep}</p>}
+                  Targets:
+                  {e.protein && (
+                    <div style={{ fontSize: 9, color: "#fff" }}>
+                      {" "}
+                      Protein: {e.protein}
+                    </div>
+                  )}
+                  {e.sleep && (
+                    <div style={{ fontSize: 9, color: "#fff" }}>
+                      Sleep: {e.sleep}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
