@@ -43,6 +43,7 @@ export default function Profile() {
         user_id: user.id,
         name: newTarget.name,
         target_value: Number(newTarget.value),
+        unit: "kg",
       })
       .select();
 
