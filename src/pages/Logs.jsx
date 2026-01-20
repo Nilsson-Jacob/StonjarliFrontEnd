@@ -120,7 +120,7 @@ export default function Logs() {
               {formattedDate}
             </span>
 
-            {entry?.activities?.map((e, index) => (
+            {entry?.structured?.activities?.map((e, index) => (
               <div key={index}>
                 <div style={{ fontSize: 13, color: "#fff" }}>
                   {e.activity_type}: {e.anchor_metric?.weight}kg{" "}
