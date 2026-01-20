@@ -9,7 +9,6 @@ export default function Profile() {
   const [newTarget, setNewTarget] = useState({
     name: "",
     value: "",
-    evaluation: "under",
   });
 
   // Fetch existing targets
@@ -44,7 +43,6 @@ export default function Profile() {
         user_id: user.id,
         name: newTarget.name,
         target_value: Number(newTarget.value),
-        evaluation: newTarget.evaluation,
       })
       .select();
 
@@ -114,7 +112,7 @@ export default function Profile() {
                 style={styles.input}
               />
 
-              <div style={{ marginTop: 12 }}>
+              {/* <div style={{ marginTop: 12 }}>
                 <p style={{ fontSize: 12, marginBottom: 6 }}>
                   Evaluation style
                 </p>
@@ -139,7 +137,7 @@ export default function Profile() {
                     )
                   )}
                 </div>
-              </div>
+              </div> */}
 
               <div style={styles.modalActions}>
                 <button
@@ -170,6 +168,8 @@ const styles = {
     color: "#fff",
     padding: 20,
     paddingTop: 60,
+    display: "flex",
+    flexDirection: "row",
   },
   title: {
     textAlign: "center",
