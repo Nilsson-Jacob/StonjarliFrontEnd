@@ -124,6 +124,15 @@ export default function Logs() {
                 </div>
               </div>
             ))}
+
+            {entry?.targets?.map((e, index) => (
+              <div key={index}>
+                <div style={{ fontSize: 13, color: "#fff" }}>
+                  Protein: {e.protein}
+                  Sleep: {e.sleep}
+                </div>
+              </div>
+            ))}
           </motion.div>
         );
 

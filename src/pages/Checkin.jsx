@@ -61,10 +61,12 @@ export default function Home() {
 
     const payload = {
       date: todayKey,
-      targets: {
-        protein: protein,
-        sleep: sleep,
-      },
+      targets: [
+        {
+          protein: protein,
+        },
+        { sleep: sleep },
+      ],
     };
 
     try {
