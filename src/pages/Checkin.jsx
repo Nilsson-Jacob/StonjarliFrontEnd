@@ -1,3 +1,231 @@
+// src/pages/Home.jsx
+import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { supabase } from "../components/supabaseClient";
+
+const serverApi = "https://stonjarliserver.onrender.com";
+
+export default function Home() {
+  const [step, setStep] = useState("home");
+  const [targets, setTargets] = useState([]);
+  const [currentTargetIndex, setCurrentTargetIndex] = useState(0);
+  const [answers, setAnswers] = useState([]);
+
+  const [recording, setRecording] = useState(false);
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+
+  const today = new Date().toLocaleDateString();
+
+  // ===== Load targets from DB =====
+  useEffect(() => {
+    const fetchTargets = async () => {
+      const { data, error } = await supabase.from("targets").select("*");
+      if (error) console.error(error);
+      else setTargets(data);
+    };
+    fetchTargets();
+  }, []);
+
+  // ===== Recording Logic =====
+  const handleStart = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const mediaRecorder = new MediaRecorder(stream);
+    mediaRecorderRef.current = mediaRecorder;
+    audioChunksRef.current = [];
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunksRef.current.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      const audioBlob = new Blob(audioChunksRef.current, {
+        type: mediaRecorder.mimeType,
+      });
+
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "training.webm");
+
+      await fetch(serverApi + "/transcribe", {
+        method: "POST",
+        body: formData,
+      });
+
+      setStep("targets");
+    };
+
+    mediaRecorder.start();
+    setRecording(true);
+  };
+
+  const handleStop = () => {
+    mediaRecorderRef.current.stop();
+    setRecording(false);
+  };
+
+  // ===== Save daily checkin =====
+  const saveDailyCheckin = async () => {
+    const todayKey = new Date().toISOString().split("T")[0];
+
+    const payload = {
+      date: todayKey,
+      targets: answers,
+    };
+
+    await fetch(serverApi + "/targets", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    setAnswers([]);
+    setCurrentTargetIndex(0);
+    setStep("home");
+  };
+
+  const handleTargetAnswer = (value) => {
+    const currentTarget = targets[currentTargetIndex];
+
+    setAnswers((prev) => [...prev, { target_id: currentTarget.id, value }]);
+
+    if (currentTargetIndex < targets.length - 1) {
+      setCurrentTargetIndex((i) => i + 1);
+    } else {
+      saveDailyCheckin();
+    }
+  };
+
+  const Card = ({ children, onClick }) => (
+    <div onClick={onClick} style={cardStyle}>
+      {children}
+    </div>
+  );
+
+  const ChoiceCard = ({ target }) => (
+    <div style={cardStyle}>
+      <h3>
+        {target.icon} {target.name}
+      </h3>
+
+      <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
+        {["less", "equal", "above"].map((opt) => (
+          <button
+            key={opt}
+            onClick={() => handleTargetAnswer(opt)}
+            style={{
+              ...choiceButton,
+              background: "#1a1a22",
+              color: "#fff",
+            }}
+          >
+            {opt.toUpperCase()}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
+  return (
+    <div style={styles.page}>
+      {step === "home" && (
+        <div style={cardContainer}>
+          <Card onClick={() => setStep("training")}>🎤 Checkin Training</Card>
+          <Card onClick={() => setStep("training")}>📅 Checkin : {today}</Card>
+        </div>
+      )}
+
+      {step === "training" && (
+        <div style={cardContainer}>
+          <div style={cardStyle}>
+            <motion.div
+              animate={
+                recording ? { scale: [1, 1.4, 1], rotate: [0, 180, 360] } : {}
+              }
+              transition={{ duration: 1.5, repeat: Infinity }}
+              style={orbStyle}
+            />
+            <button
+              onClick={recording ? handleStop : handleStart}
+              style={mainButton}
+            >
+              {recording ? "Finish" : "Start Talking"}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === "targets" && targets[currentTargetIndex] && (
+        <div style={cardContainer}>
+          <ChoiceCard target={targets[currentTargetIndex]} />
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ===== Styles stay unchanged ===== */
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "linear-gradient(180deg, #4e0329 0%, #0f0f14 100%)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+  },
+};
+
+const cardContainer = {
+  width: "100%",
+  maxWidth: 360,
+  display: "flex",
+  flexDirection: "column",
+  gap: 20,
+};
+
+const cardStyle = {
+  background: "#1a1a22",
+  borderRadius: 20,
+  padding: 24,
+  minHeight: 140,
+  color: "#fff",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 18,
+  fontWeight: "bold",
+  boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+};
+
+const orbStyle = {
+  width: 120,
+  height: 120,
+  borderRadius: "50%",
+  background: "linear-gradient(180deg, #ddb52f 0%, #4e0329 100%)",
+  marginBottom: 20,
+};
+
+const mainButton = {
+  border: "none",
+  borderRadius: 12,
+  padding: "12px 20px",
+  background: "#ddb52f",
+  color: "#4e0329",
+  fontWeight: "bold",
+  fontSize: 16,
+};
+
+const choiceButton = {
+  flex: 1,
+  padding: "10px",
+  border: "none",
+  borderRadius: 10,
+  fontWeight: "bold",
+};
+
+/*
+
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 
@@ -244,7 +472,14 @@ const choiceButton = {
   fontWeight: "bold",
 };
 
-/*import React, { useState, useRef } from "react";
+
+
+
+/*
+----------------------------------------
+
+
+import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
 
 const serverApi = "https://stonjarliserver.onrender.com";
