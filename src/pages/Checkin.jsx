@@ -17,6 +17,8 @@ export default function Home() {
 
   const today = new Date().toLocaleDateString();
 
+  console.log(answer);
+
   // ===== Load targets from Supabase =====
   useEffect(() => {
     const fetchTargets = async () => {
