@@ -23,8 +23,13 @@ export default function Home() {
   useEffect(() => {
     const fetchTargets = async () => {
       const { data, error } = await supabase.from("targets").select("*");
-      if (error) console.error(error);
-      else setTargets(data);
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("logdata: " + data);
+
+        setTargets(data);
+      }
     };
     fetchTargets();
   }, []);
