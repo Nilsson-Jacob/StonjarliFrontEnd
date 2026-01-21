@@ -182,7 +182,7 @@ export default function Home() {
         <div style={cardContainer}>
           <Card onClick={() => setStep("training")}>🎤 Checkin Training</Card>
 
-          <Card onClick={() => setStep("protein")}>📅 Checkin : {today}</Card>
+          <Card onClick={() => setStep("targets")}>📅 Checkin : {today}</Card>
         </div>
       )}
 
@@ -217,8 +217,6 @@ export default function Home() {
           <ChoiceCard target={targets[currentTargetIndex]} />
         </div>
       )}
-
-      {targets.length > 0 && <div>{targets[0].name}</div>}
 
       {/*  
       {step === "protein" && (
