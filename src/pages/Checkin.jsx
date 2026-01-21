@@ -49,7 +49,6 @@ export default function Home() {
 
           const data = await res.json();
           setAnswer(data);
-          console.log(answer);
           setStep("home");
         };
 
@@ -60,6 +59,8 @@ export default function Home() {
       startRecording();
     }
   }, [step, recording]);
+
+  console.log(answer);
 
   // ===== Load targets from DB =====
   useEffect(() => {
