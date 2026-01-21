@@ -22,9 +22,44 @@ export default function Home() {
   // ===== Auto-start recording when entering training =====
   useEffect(() => {
     if (step === "training" && !recording) {
-      handleStart();
+      const startRecording = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+        });
+        const mediaRecorder = new MediaRecorder(stream);
+        mediaRecorderRef.current = mediaRecorder;
+        audioChunksRef.current = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunksRef.current.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunksRef.current, {
+            type: mediaRecorder.mimeType,
+          });
+
+          const formData = new FormData();
+          formData.append("audio", audioBlob, "training.webm");
+
+          const res = await fetch(serverApi + "/transcribe", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await res.json();
+          setAnswer(data);
+          console.log(data);
+          setStep("home");
+        };
+
+        mediaRecorder.start();
+        setRecording(true);
+      };
+
+      startRecording();
     }
-  }, [step]);
+  }, [step, recording]);
 
   // ===== Load targets from DB =====
   useEffect(() => {
@@ -44,7 +79,7 @@ export default function Home() {
   const today = new Date().toLocaleDateString();
 
   // ===== Recording Logic =====
-  const handleStart = async () => {
+  /* const handleStart = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
@@ -75,7 +110,7 @@ export default function Home() {
 
     mediaRecorder.start();
     setRecording(true);
-  };
+  };*/
 
   const handleStop = () => {
     mediaRecorderRef.current.stop();
