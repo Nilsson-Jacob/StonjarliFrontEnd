@@ -115,6 +115,7 @@ export default function Home() {
   const handleStop = () => {
     mediaRecorderRef.current.stop();
     setRecording(false);
+    setStep("home");
   };
 
   const saveDailyCheckin = async () => {
