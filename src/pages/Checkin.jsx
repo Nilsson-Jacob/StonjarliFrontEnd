@@ -153,8 +153,6 @@ export default function Home() {
   );*/
   const ChoiceCard = ({ target }) => (
     <div style={cardStyle}>
-      <div>hej</div>
-
       <h3>
         {target.icon} {target.name}
       </h3>
@@ -220,7 +218,7 @@ export default function Home() {
         </div>
       )}
 
-      <div>{targets}</div>
+      <div>{targets[0].name}</div>
 
       {/*  
       {step === "protein" && (
