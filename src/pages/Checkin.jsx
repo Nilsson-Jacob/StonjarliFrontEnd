@@ -1,5 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { supabase } from "../components/supabaseClient";
 
 const serverApi = "https://stonjarliserver.onrender.com";
 
@@ -75,12 +76,12 @@ export default function Home() {
 
     const payload = {
       date: todayKey,
-      targets: [
+      /* targets: [
         {
           protein: protein,
         },
         { sleep: sleep },
-      ],
+      ],*/
     };
 
     try {
