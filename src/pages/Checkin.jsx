@@ -77,7 +77,7 @@ export default function Home() {
 
   const saveDailyCheckin = async () => {
     const todayKey = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    console.log("Answers: " + answers);
+    console.log("Answers: " + JSON.stringify(answers));
 
     const payload = {
       date: todayKey,
@@ -114,6 +114,7 @@ export default function Home() {
       setCurrentTargetIndex((i) => i + 1);
     } else {
       saveDailyCheckin();
+      setStep("home");
     }
   };
 
@@ -156,7 +157,9 @@ export default function Home() {
       <h3>
         {target.icon} {target.name}
       </h3>
-
+      <h4>
+        Target: {target.target_value} {target.unit}
+      </h4>
       <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
         {["less", "equal", "above"].map((opt) => (
           <button
