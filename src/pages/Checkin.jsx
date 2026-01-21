@@ -220,6 +220,8 @@ export default function Home() {
         </div>
       )}
 
+      <div>{targets}</div>
+
       {/*  
       {step === "protein" && (
         <div style={cardContainer}>
