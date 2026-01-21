@@ -218,7 +218,7 @@ export default function Home() {
         </div>
       )}
 
-      <div>{targets[0].name}</div>
+      {targets.length > 0 && <div>{targets[0].name}</div>}
 
       {/*  
       {step === "protein" && (
