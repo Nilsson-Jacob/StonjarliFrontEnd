@@ -19,6 +19,13 @@ export default function Home() {
   //const [sleep, setSleep] = useState(null); // less | equal | above
   const [answer, setAnswer] = useState(null);
 
+  // ===== Auto-start recording when entering training =====
+  useEffect(() => {
+    if (step === "training" && !recording) {
+      handleStart();
+    }
+  }, [step]);
+
   // ===== Load targets from DB =====
   useEffect(() => {
     const fetchTargets = async () => {
@@ -205,12 +212,14 @@ export default function Home() {
               transition={{ duration: 1.5, repeat: Infinity }}
               style={orbStyle}
             />
-            <button
-              onClick={recording ? handleStop : handleStart}
-              style={mainButton}
-            >
-              {recording ? "Finish" : "Start Talking"}
-            </button>
+            {recording && (
+              <button
+                onClick={recording ? handleStop : handleStart}
+                style={mainButton}
+              >
+                Finish
+              </button>
+            )}
           </div>
         </div>
       )}
