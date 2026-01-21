@@ -153,6 +153,8 @@ export default function Home() {
   );*/
   const ChoiceCard = ({ target }) => (
     <div style={cardStyle}>
+      <div>hej</div>
+
       <h3>
         {target.icon} {target.name}
       </h3>
