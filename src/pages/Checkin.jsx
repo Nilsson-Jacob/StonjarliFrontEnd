@@ -248,10 +248,7 @@ export default function Home() {
               style={orbStyle}
             />
             {recording && (
-              <button
-                onClick={recording ? handleStop : handleStart}
-                style={mainButton}
-              >
+              <button onClick={handleStop} style={mainButton}>
                 Finish
               </button>
             )}
