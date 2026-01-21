@@ -118,7 +118,7 @@ export default function Profile() {
                 placeholder="Unit"
                 value={newTarget.unit}
                 onChange={(e) =>
-                  setNewTarget({ ...newTarget, unit: e.target.unit })
+                  setNewTarget({ ...newTarget, unit: e.target.value })
                 }
                 style={styles.input}
               />
