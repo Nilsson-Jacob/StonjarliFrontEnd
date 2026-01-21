@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+/*import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 
@@ -246,8 +246,8 @@ const choiceButton = {
   borderRadius: 10,
   fontWeight: "bold",
 };
-
-/*import React, { useState, useRef, useEffect } from "react";
+*/
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 
@@ -329,7 +329,7 @@ export default function Home() {
   const today = new Date().toLocaleDateString();
 
   // ===== Recording Logic =====
-   const handleStart = async () => {
+  /*const handleStart = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
@@ -360,7 +360,7 @@ export default function Home() {
 
     mediaRecorder.start();
     setRecording(true);
-  };
+  };*/
 
   const handleStop = () => {
     mediaRecorderRef.current.stop();
@@ -379,7 +379,7 @@ export default function Home() {
           protein: protein,
         },
         { sleep: sleep },
-      ],
+      ],*/
     };
 
     try {
@@ -444,7 +444,8 @@ export default function Home() {
         ))}
       </div>
     </div>
-  );
+  );*/
+
   const ChoiceCard = ({ target }) => (
     <div style={cardStyle}>
       <h3>
@@ -536,7 +537,7 @@ export default function Home() {
           />
         </div>
       )}
-        }
+        */}
     </div>
   );
 }
@@ -602,4 +603,3 @@ const choiceButton = {
   borderRadius: 10,
   fontWeight: "bold",
 };
-*/
