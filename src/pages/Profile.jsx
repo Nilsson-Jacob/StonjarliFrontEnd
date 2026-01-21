@@ -43,7 +43,7 @@ export default function Profile() {
         user_id: user.id,
         name: newTarget.name,
         target_value: Number(newTarget.value),
-        unit: "kg",
+        unit: newTarget.unit,
       })
       .select();
 
@@ -109,6 +109,16 @@ export default function Profile() {
                 value={newTarget.value}
                 onChange={(e) =>
                   setNewTarget({ ...newTarget, value: e.target.value })
+                }
+                style={styles.input}
+              />
+
+              <input
+                type="text"
+                placeholder="Unit"
+                value={newTarget.unit}
+                onChange={(e) =>
+                  setNewTarget({ ...newTarget, unit: e.target.unit })
                 }
                 style={styles.input}
               />
