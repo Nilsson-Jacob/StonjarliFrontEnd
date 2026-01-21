@@ -155,13 +155,16 @@ export default function Home() {
           <div style={cardStyle}>
             <motion.div
               animate={{
-                scale: recording ? [1, 1.4, 1] : 1,
-                rotate: recording ? [0, 180, 360] : 0,
-                borderRadius: recording ? ["20%", "50%", "20%"] : "20%",
+                rotate: recording ? 360 : 0, // continuous spin
+                scale: recording ? [1, 1.2, 1] : 1, // subtle pulsing
               }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              transition={{
+                rotate: { repeat: Infinity, duration: 1, ease: "linear" }, // infinite rotation
+                scale: { repeat: Infinity, duration: 0.8, yoyo: Infinity }, // pulse
+              }}
               style={orbStyle}
             />
+
             <button
               onClick={handleStop}
               style={mainButton}
