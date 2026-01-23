@@ -2,6 +2,32 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 
+const EditIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M3 21l3.75-.75L20 7l-3-3L3.75 17.25 3 21z"
+      stroke="white"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M14 4l3 3"
+      stroke="white"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path d="M2 22h20" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
 export default function Profile() {
   const [targets, setTargets] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -59,10 +85,19 @@ export default function Profile() {
       {/* Floating + button */}
 
       <h2 style={styles.title}>Your Targets</h2>
-      <div onClick={() => setShowCreateModal(true)} style={styles.floatingAdd}>
-        +
+      <div style={styles.editContainer}>
+        <div
+          onClick={() => setShowCreateModal(true)}
+          style={styles.floatingAdd}
+        >
+          +
+        </div>
+        <div onClick={() => setShowCreateModal(true)}>
+          <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
+            <EditIcon />
+          </div>
+        </div>
       </div>
-
       <div style={styles.targetsGrid}>
         {targets.map((t) => (
           <div key={t.id} style={styles.targetCard}>
@@ -196,12 +231,27 @@ const styles = {
     textAlign: "center",
     boxShadow: "0 6px 14px rgba(0,0,0,0.4)",
   },
+  editContainer: {
+    height: 60,
+  },
   floatingAdd: {
     width: 60,
-    height: 60,
+    //height: 60,
     marginRight: 10,
     display: "relative",
-    alignItems: "center",
+    alignItems: "left",
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "white",
+    cursor: "pointer",
+    zIndex: 100,
+  },
+  floatingEdit: {
+    width: 60,
+    // height: 60,
+    marginRight: 10,
+    display: "relative",
+    alignItems: "left",
     fontSize: 26,
     fontWeight: "bold",
     color: "white",
