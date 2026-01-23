@@ -39,6 +39,19 @@ export default function Profile() {
     value: "",
   });
 
+  const deleteTarget = async (targetId) => {
+    const { data, error } = await supabase
+      .from("targets")
+      .delete("*")
+      .eq("id", targetId);
+
+    console.log(data);
+
+    if (error) {
+      console.log("table delete error");
+    }
+  };
+
   // Fetch existing targets
   useEffect(() => {
     fetchTargets();
@@ -103,6 +116,7 @@ export default function Profile() {
       <div style={styles.targetsGrid}>
         {targets.map((t) => (
           <div key={t.id} style={styles.targetCard}>
+            {editModal && <button onClick={deleteTarget(t.id)}> </button>}
             <h4>{t.name}</h4>
             <p style={{ fontSize: 13 }}>
               {t.evaluation?.toUpperCase()} {t.target_value}
