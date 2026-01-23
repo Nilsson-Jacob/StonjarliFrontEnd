@@ -39,7 +39,7 @@ export default function Profile() {
     value: "",
   });
 
-  const deleteTarget = async (targetId) => {
+  async function deleteTarget(targetId) {
     const { data, error } = await supabase
       .from("targets")
       .delete("*")
@@ -50,7 +50,7 @@ export default function Profile() {
     if (error) {
       console.log("table delete error");
     }
-  };
+  }
 
   // Fetch existing targets
   useEffect(() => {
