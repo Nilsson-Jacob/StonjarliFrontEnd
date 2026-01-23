@@ -325,6 +325,14 @@ const styles = {
     gap: 10,
     marginTop: 18,
   },
+  deleteButton: {
+    marginLeft: 20,
+    padding: 10,
+    borderRadius: 10,
+    border: "none",
+    background: "#333",
+    color: "#fff",
+  },
   cancelButton: {
     flex: 1,
     padding: 10,
