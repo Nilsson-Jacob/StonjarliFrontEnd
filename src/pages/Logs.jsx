@@ -29,8 +29,6 @@ export default function Logs() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
 
-  const fetchTargetsCount = useCallback(async () => {});
-
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);

@@ -116,7 +116,11 @@ export default function Profile() {
       <div style={styles.targetsGrid}>
         {targets.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            {editModal && <button onClick={deleteTarget(t.id)}> </button>}
+            {editModal && (
+              <button onClick={deleteTarget(t.id)} title="-">
+                {" "}
+              </button>
+            )}
             <h4>{t.name}</h4>
             <p style={{ fontSize: 13 }}>
               {t.evaluation?.toUpperCase()} {t.target_value}
