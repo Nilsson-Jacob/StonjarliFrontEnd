@@ -101,12 +101,14 @@ export default function Profile() {
 
       <h2 style={styles.title}>Your Targets</h2>
       <div style={styles.editContainer}>
-        {/* <div
-          onClick={() => setShowCreateModal(true)}
-          style={styles.floatingAdd}
-        >
-          +
-        </div> */}
+        {editModal && (
+          <div
+            onClick={() => setShowCreateModal(true)}
+            style={styles.floatingAdd}
+          >
+            +
+          </div>
+        )}
         <div onClick={() => setEditModal(!editModal)}>
           <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
             <EditIcon />
