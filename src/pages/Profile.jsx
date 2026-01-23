@@ -4,9 +4,9 @@ import { supabase } from "../components/supabaseClient";
 
 const EditIcon = () => (
   <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
+    width="40"
+    height="40"
+    viewBox="0 0 44 44"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -111,7 +111,7 @@ export default function Profile() {
         ))}
         {editModal && (
           <div style={styles.targetCard}>
-            <h3>+</h3>
+            <div style={{ alignItems: "center", fontSize: "2rem" }}>+</div>
           </div>
         )}
       </div>
