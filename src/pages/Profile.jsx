@@ -94,7 +94,7 @@ export default function Profile() {
         >
           +
         </div> */}
-        <div onClick={() => setEditModal(true)}>
+        <div onClick={() => setEditModal(!editModal)}>
           <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
             <EditIcon />
           </div>
@@ -102,20 +102,18 @@ export default function Profile() {
       </div>
       <div style={styles.targetsGrid}>
         {targets.map((t) => (
-          <div>
-            <div key={t.id} style={styles.targetCard}>
-              <h4>{t.name}</h4>
-              <p style={{ fontSize: 13 }}>
-                {t.evaluation?.toUpperCase()} {t.target_value}
-              </p>
-            </div>
-            {editModal && (
-              <div style={styles.targetCard}>
-                <h3>+</h3>
-              </div>
-            )}
+          <div key={t.id} style={styles.targetCard}>
+            <h4>{t.name}</h4>
+            <p style={{ fontSize: 13 }}>
+              {t.evaluation?.toUpperCase()} {t.target_value}
+            </p>
           </div>
         ))}
+        {editModal && (
+          <div style={styles.targetCard}>
+            <h3>+</h3>
+          </div>
+        )}
       </div>
 
       {/* Create Target Modal */}
