@@ -40,6 +40,10 @@ export default function Profile() {
   });
 
   const deleteTarget = async (targetId) => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     const { data, error } = await supabase
       .from("targets")
       .delete("*")
