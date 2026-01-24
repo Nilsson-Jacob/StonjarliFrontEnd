@@ -45,11 +45,19 @@ export default function Profile() {
       .delete("*")
       .eq("id", targetId);
 
-    console.log(data);
-
     if (error) {
       console.log("table delete error");
     }
+
+    console.log("this is targets: " + JSON.stringify(targets));
+
+    const { targets, TargetsError } = await supabase
+      .from("targets")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true });
+
+    if (!TargetsError) setTargets(targets);
   };
 
   // Fetch existing targets
