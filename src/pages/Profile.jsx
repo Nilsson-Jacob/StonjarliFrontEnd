@@ -44,7 +44,7 @@ export default function Profile() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("targets")
       .delete("*")
       .eq("id", targetId);
@@ -55,13 +55,13 @@ export default function Profile() {
 
     console.log("this is targets: " + JSON.stringify(targets));
 
-    const { targets, TargetsError } = await supabase
+    const { target, TargetsError } = await supabase
       .from("targets")
       .select("*")
       .eq("user_id", user.id)
       .order("created_at", { ascending: true });
 
-    if (!TargetsError) setTargets(targets);
+    if (!TargetsError) setTargets(target);
   };
 
   // Fetch existing targets
