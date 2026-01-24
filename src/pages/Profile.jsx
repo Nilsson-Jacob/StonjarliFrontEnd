@@ -40,28 +40,18 @@ export default function Profile() {
   });
 
   const deleteTarget = async (targetId) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
     const { error } = await supabase
       .from("targets")
-      .delete("*")
+      .delete()
       .eq("id", targetId);
 
     if (error) {
-      console.log("table delete error");
+      console.error("Delete failed:", error);
+      return;
     }
 
-    console.log("this is targets: " + JSON.stringify(targets));
-
-    const { target, TargetsError } = await supabase
-      .from("targets")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: true });
-
-    if (!TargetsError) setTargets(target);
+    // Remove from state immediately
+    setTargets((prev) => prev.filter((t) => t.id !== targetId));
   };
 
   // Fetch existing targets
@@ -113,14 +103,14 @@ export default function Profile() {
 
       <h2 style={styles.title}>Your Targets</h2>
       <div style={styles.editContainer}>
-        {editModal && (
+        {/* {editModal && ( 
           <div
             onClick={() => setShowCreateModal(true)}
             style={styles.floatingAdd}
           >
             +
           </div>
-        )}
+        )}*/}
         <div onClick={() => setEditModal(!editModal)}>
           <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
             <EditIcon />
@@ -142,7 +132,10 @@ export default function Profile() {
           </div>
         ))}
         {editModal && (
-          <div style={styles.targetCard}>
+          <div
+            style={styles.targetCard}
+            onClick={() => setShowCreateModal(true)}
+          >
             <div style={{ alignItems: "center", fontSize: "2rem" }}>+</div>
           </div>
         )}
