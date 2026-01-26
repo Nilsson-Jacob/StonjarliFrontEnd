@@ -549,7 +549,7 @@ const styles = {
     minHeight: "100vh",
     //background: "linear-gradient(180deg, #4e0329 0%, #0f0f14 100%)",
     background:
-      "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(11, 11, 68) 100%)",
+      "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(29,29,58) 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
