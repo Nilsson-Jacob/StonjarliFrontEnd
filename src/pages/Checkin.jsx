@@ -447,7 +447,7 @@ export default function Home() {
     }
   };
 
-  const handleTargetAnswer = (value) => {
+  const handleTargetAnswer = async (value) => {
     const currentTarget = targets[currentTargetIndex];
 
     setAnswers((prev) => [...prev, { target_id: currentTarget.id, value }]);
@@ -455,7 +455,7 @@ export default function Home() {
     if (currentTargetIndex < targets.length - 1) {
       setCurrentTargetIndex((i) => i + 1);
     } else {
-      saveDailyCheckin();
+      await saveDailyCheckin();
       setStep("home");
     }
   };
