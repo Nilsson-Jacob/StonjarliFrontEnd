@@ -291,7 +291,14 @@ export default function Home() {
           const formData = new FormData();
           formData.append("audio", audioBlob, "training.webm");
 
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+
           const res = await fetch(serverApi + "/transcribe", {
+            headers: {
+              Authorization: `Bearer ${session.access_token}`,
+            },
             method: "POST",
             body: formData,
           });
@@ -368,25 +375,67 @@ export default function Home() {
     setStep("home");
   };
 
-  const saveDailyCheckin = async () => {
+  /*const saveDailyCheckin = async () => {
     const todayKey = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
     console.log("Answers: " + JSON.stringify(answers));
 
     const payload = {
       date: todayKey,
-      /* targets: [
-        {
-          protein: protein,
-        },
-        { sleep: sleep },
-      ],*/
+
     };
 
     try {
+
+        const {
+            data: { session },
+          } = await supabase.auth.getSession();
+
+
       const res = await fetch(serverApi + "/targets", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        
+      });
+
+      const data = await res.json();
+      console.log("Daily entry saved:", data);
+    } catch (err) {
+      console.error("Failed saving daily checkin:", err);
+    }
+  };*/
+  const saveDailyCheckin = async () => {
+    const todayKey = new Date().toISOString().split("T")[0];
+
+    const formattedTargets = answers.map((a) => {
+      const target = targets.find((t) => t.id === a.target_id);
+
+      return {
+        name: target.name,
+        value: a.value,
+        met: a.value === "equal" || a.value === "above",
+      };
+    });
+
+    const payload = {
+      date: todayKey,
+      targets: formattedTargets,
+    };
+
+    console.log("Sending payload:", payload);
+
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const res = await fetch(serverApi + "/targets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify(payload),
       });
