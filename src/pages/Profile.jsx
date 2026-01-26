@@ -127,7 +127,7 @@ export default function Profile() {
             )}
             <h4>{t.name}</h4>
             <p style={{ fontSize: 13 }}>
-              {t.evaluation?.toUpperCase()} {t.target_value}
+              {t.evaluation?.toUpperCase()} {t.target_value} {t.unit}
             </p>
           </div>
         ))}
