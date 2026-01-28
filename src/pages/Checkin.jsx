@@ -375,37 +375,7 @@ export default function Home() {
     setStep("home");
   };
 
-  /*const saveDailyCheckin = async () => {
-    const todayKey = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-    console.log("Answers: " + JSON.stringify(answers));
-
-    const payload = {
-      date: todayKey,
-
-    };
-
-    try {
-
-        const {
-            data: { session },
-          } = await supabase.auth.getSession();
-
-
-      const res = await fetch(serverApi + "/targets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-        
-      });
-
-      const data = await res.json();
-      console.log("Daily entry saved:", data);
-    } catch (err) {
-      console.error("Failed saving daily checkin:", err);
-    }
-  };*/
+  /*
   const saveDailyCheckin = async () => {
     const todayKey = new Date().toISOString().split("T")[0];
 
@@ -445,8 +415,49 @@ export default function Home() {
     } catch (err) {
       console.error("Failed saving daily checkin:", err);
     }
+  };*/
+  const saveDailyCheckin = async (finalAnswers) => {
+    const todayKey = new Date().toISOString().split("T")[0];
+
+    const formattedTargets = finalAnswers.map((a) => {
+      const target = targets.find((t) => t.id === a.target_id);
+
+      return {
+        name: target.name,
+        value: a.value,
+        met: a.value === "equal" || a.value === "above",
+      };
+    });
+
+    const payload = {
+      date: todayKey,
+      targets: formattedTargets,
+    };
+
+    console.log("Sending payload:", payload);
+
+    try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const res = await fetch(serverApi + "/targets", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      console.log("Daily entry saved:", data);
+    } catch (err) {
+      console.error("Failed saving daily checkin:", err);
+    }
   };
 
+  /*
   const handleTargetAnswer = async (value) => {
     const currentTarget = targets[currentTargetIndex];
 
@@ -455,8 +466,24 @@ export default function Home() {
     if (currentTargetIndex < targets.length - 1) {
       setCurrentTargetIndex((i) => i + 1);
     } else {
-      await saveDailyCheckin();
+      saveDailyCheckin();
       setStep("home");
+    }
+  };*/
+  const handleTargetAnswer = (value) => {
+    const currentTarget = targets[currentTargetIndex];
+
+    const nextAnswers = [...answers, { target_id: currentTarget.id, value }];
+
+    setAnswers(nextAnswers);
+
+    if (currentTargetIndex < targets.length - 1) {
+      setCurrentTargetIndex((i) => i + 1);
+    } else {
+      saveDailyCheckin(nextAnswers);
+      setStep("home");
+      setCurrentTargetIndex(0);
+      setAnswers([]);
     }
   };
 
