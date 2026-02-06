@@ -16,10 +16,10 @@ const Colors = {
   card: "#1a1a22",
   text: "#ffffff",
   muted: "#888",
-  green: "0 0 12px rgba(3, 168, 72, 0.99)",
-  orange: "0 0 12px rgba(61, 197, 143, 0.99)",
-  red: "0 0 12px rgba(176, 75, 61, 0.99)",
-  mid: "0 0 12px rgba(53, 160, 98, 0.99)",
+  green: "#1f8f4e",
+  orange: "#c46a2b",
+  red: "#8b2f2f",
+  mid: "#3f7fa6",
 };
 
 const DAY_BOX_SIZE = 80;
