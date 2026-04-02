@@ -152,7 +152,13 @@ export default function Home() {
             display: "flex",
           }}
         >
-          <div style={{ marginBottom: 16, display: "flex" }}>
+          <div
+            style={{
+              marginBottom: 16,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <h2 style={{ marginBottom: 12 }}>
               {format(currentMonth, "MMMM yyyy")}
             </h2>
@@ -166,13 +172,76 @@ export default function Home() {
               ▶
             </button>
           </div>
-          <button style={{ display: "flex" }}>Create new event</button>
+          <button style={{ display: "flex" }} onClick={() => {}}>
+            Create new event
+          </button>
         </div>
       </div>
 
       {renderCells()}
 
       <AnimatePresence>
+        {createNewEvent && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.75)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 1000,
+            }}
+            onClick={() => setSelectedDay(null)}
+          >
+            <motion.div
+              layoutId={selectedDay.dayKey}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: "blue",
+                borderRadius: 20,
+                padding: 20,
+                width: "92%",
+                maxWidth: 420,
+                color: "#fff",
+                boxShadow: "blue",
+                maxHeight: "80vh",
+                overflowY: "auto",
+              }}
+            >
+              <h3>{selectedDay.fullDate}</h3>
+
+              {selectedDay.entry ? (
+                <>
+                  <h4 style={{ marginTop: 12 }}>Training</h4>(
+                  <p style={{ opacity: 0.7 }}>No training logged.</p>)
+                </>
+              ) : (
+                <p>No data for this day.</p>
+              )}
+
+              <button
+                onClick={() => setSelectedDay(null)}
+                style={{
+                  marginTop: 20,
+                  width: "100%",
+                  padding: 12,
+                  border: "none",
+                  borderRadius: 12,
+                  background: "#000",
+                  color: "#fff",
+                  fontWeight: "bold",
+                }}
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+
         {selectedDay && (
           <motion.div
             initial={{ opacity: 0 }}
