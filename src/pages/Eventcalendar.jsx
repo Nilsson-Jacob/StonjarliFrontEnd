@@ -167,13 +167,13 @@ export default function Home() {
             </h2>
             <div style={{ flexDirection: "row" }}>
               <button
-                style={{ width: 40 }}
+                style={{ width: 40, height: 22 }}
                 onClick={() => setCurrentMonth(addDays(currentMonth, -30))}
               >
                 ◀
               </button>
               <button
-                style={{ marginLeft: 10, width: 40 }}
+                style={{ marginLeft: 10, width: 40, height: 22 }}
                 onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
               >
                 ▶
@@ -216,7 +216,7 @@ export default function Home() {
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
-                maxWidth: 800,
+                minWidth: 1000,
                 color: "#fff",
                 boxShadow: "blue",
                 maxHeight: "80vh",
@@ -269,7 +269,7 @@ export default function Home() {
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
-                maxWidth: 800,
+                minWidth: 1000,
                 color: "#fff",
                 boxShadow: "blue",
                 maxHeight: "80vh",
