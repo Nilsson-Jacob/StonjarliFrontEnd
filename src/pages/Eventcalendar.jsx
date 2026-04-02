@@ -165,6 +165,7 @@ export default function Home() {
             <span style={{ fontSize: 12, fontWeight: 600 }}>
               {formattedDate}
             </span>
+            {entry.title && <div>{entry.title}</div>}
           </motion.div>
         );
 
@@ -413,10 +414,6 @@ export default function Home() {
                 overflowY: "auto",
               }}
             >
-              <h3>{selectedDay.fullDate}</h3>
-
-              {selectedDay.entry && <strong>{a.title}</strong>}
-
               <button
                 onClick={() => setSelectedDay(null)}
                 style={{
