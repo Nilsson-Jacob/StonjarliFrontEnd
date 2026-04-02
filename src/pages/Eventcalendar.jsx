@@ -183,7 +183,15 @@ export default function Home() {
               {formattedDate}
             </span>
 
-            <div>{entry?.title}</div>
+            <div
+              style={{
+                background: "orange",
+                textAlign: "center",
+                marginBottom: 20,
+              }}
+            >
+              {entry?.title}
+            </div>
           </motion.div>
         );
 
