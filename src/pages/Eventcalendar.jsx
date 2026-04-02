@@ -98,6 +98,8 @@ export default function Home() {
       .select()
       .single();
 
+    console.log("error here?" + data);
+
     // 2. Insert items
     const itemsToInsert = items.map((item) => ({
       event_id: event.id,
