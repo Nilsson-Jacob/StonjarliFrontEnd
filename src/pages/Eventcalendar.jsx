@@ -22,7 +22,7 @@ const Colors = {
   mid: "#3f7fa6",
 };
 
-const DAY_BOX_SIZE = 110;
+const DAY_BOX_SIZE = 120;
 
 export default function Home() {
   const [entries, setEntries] = useState({});
@@ -90,7 +90,7 @@ export default function Home() {
               })
             }
             style={{
-              width: DAY_BOX_SIZE, //"95%",
+              width: "95%",
               height: DAY_BOX_SIZE,
               background: "grey",
               padding: 8,
