@@ -1,5 +1,5 @@
-import React /*, { useEffect, useState }*/ from "react";
-//import { supabase } from "../components/supabaseClient";
+import React, { useEffect, useState } from "react";
+import { supabase } from "../components/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 import {
@@ -95,14 +95,12 @@ export default function Home() {
               height: DAY_BOX_SIZE,
               padding: 8,
               borderRadius: 12,
-              background: color,
               opacity: isSameMonth(currentDay, monthStart) ? 1 : 0.35,
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
               position: "relative",
               cursor: "pointer",
-              boxShadow: glow,
             }}
             whileTap={{ scale: 0.94 }}
           >
