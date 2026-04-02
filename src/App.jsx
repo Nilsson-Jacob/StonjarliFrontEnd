@@ -17,16 +17,22 @@ import Insights from "./pages/Insights";
 import Tabs from "./components/TabBar";
 import Profile from "./pages/Profile";
 
+import Eventcalendar from "./pages/Eventcalendar";
+import CafeNavBar from "./components/CafeNavBar";
+
 function App() {
   return (
     <Router>
-      {/* <NavBar /> */}
+      {/* <NavBar /> 
 
-      <Tabs />
+      <Tabs /> */}
+      <CafeNavBar />
 
       <Routes>
         {/* Public */}
         <Route path="/auth" element={<Auth />} />
+
+        <Route path="/event-overview" element={<Eventcalendar />} />
 
         {/* Default */}
         <Route
