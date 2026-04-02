@@ -34,6 +34,19 @@ export default function Home() {
   const [eventTitle, setEventTitle] = useState("");
   const [eventDate, setEventDate] = useState(""); // YYYY-MM-DD
   const [eventType, setEventType] = useState(""); // e.g., 'slowrun'
+  const [items, setItems] = useState([]);
+
+  const defaultItemsByType = {
+    slowrun: ["Semla", "Croissant"],
+  };
+
+  useEffect(() => {
+    if (!eventType) return;
+
+    const defaults = defaultItemsByType[eventType] || [];
+
+    setItems(defaults.map((name) => ({ name })));
+  }, [eventType]);
 
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
@@ -284,6 +297,37 @@ export default function Home() {
                 <option value="slowrun">Slowrun</option>
               </select>
 
+              {items.map((item, index) => (
+                <div
+                  key={index}
+                  style={{ display: "flex", gap: 10, marginTop: 8 }}
+                >
+                  <input
+                    value={item.name}
+                    onChange={(e) => {
+                      const updated = [...items];
+                      updated[index].name = e.target.value;
+                      setItems(updated);
+                    }}
+                    style={{ flex: 1, padding: 8 }}
+                  />
+
+                  <button
+                    onClick={() => {
+                      setItems(items.filter((_, i) => i !== index));
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              ))}
+              <button
+                onClick={() => setItems([...items, { name: "" }])}
+                style={{ marginTop: 10 }}
+              >
+                + Add item
+              </button>
+
               <button
                 onClick={handleCreateEvent}
                 style={{
@@ -313,7 +357,7 @@ export default function Home() {
                   fontWeight: "bold",
                 }}
               >
-                Cancell
+                Cancel
               </button>
             </motion.div>
           </motion.div>
