@@ -79,17 +79,41 @@ export default function Home() {
     fetchEntries();
   }, [fetchEntries]);
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async () => {
     if (!eventTitle || !eventDate || !eventType)
       return alert("Fill all fields!");
 
     // Call your backend / Supabase insert here
     console.log({ eventTitle, eventDate, eventType });
 
+    // 1. Create event
+    const { data: event } = await supabase
+      .from("events")
+      .insert({
+        title: eventTitle,
+        date: eventDate,
+        event_type_id: eventType,
+      })
+      .select()
+      .single();
+
+    // 2. Insert items
+    const itemsToInsert = items.map((item) => ({
+      event_id: event.id,
+      name: item.name,
+    }));
+
+    await supabase.from("items").insert(itemsToInsert);
+
+    // 3. Reset
+    setItems([]);
+    setCreateNewEvent(false);
+
     // Optionally reset form
     setEventTitle("");
     setEventDate("");
     setEventType("");
+
     setCreateNewEvent(false);
   };
   function renderCells() {
@@ -321,12 +345,6 @@ export default function Home() {
                   </button>
                 </div>
               ))}
-              <button
-                onClick={() => setItems([...items, { name: "" }])}
-                style={{ marginTop: 10 }}
-              >
-                + Add item
-              </button>
 
               <button
                 onClick={handleCreateEvent}
