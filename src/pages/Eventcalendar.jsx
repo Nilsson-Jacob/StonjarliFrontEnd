@@ -206,7 +206,7 @@ export default function Home() {
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
-                maxWidth: 420,
+                maxWidth: 80,
                 color: "#fff",
                 boxShadow: "blue",
                 maxHeight: "80vh",
