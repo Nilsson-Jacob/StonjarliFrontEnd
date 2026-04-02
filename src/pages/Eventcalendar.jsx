@@ -165,7 +165,7 @@ export default function Home() {
             <span style={{ fontSize: 12, fontWeight: 600 }}>
               {formattedDate}
             </span>
-            {entry.title && <div>{entry.title}</div>}
+            {entry?.title && <div>{entry.title}</div>}
           </motion.div>
         );
 
