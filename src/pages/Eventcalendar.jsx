@@ -66,8 +66,19 @@ export default function Home() {
     fetchEntries();
   }, [fetchEntries]);
 
-  function createNewEvent() {}
+  const handleCreateEvent = () => {
+    if (!eventTitle || !eventDate || !eventType)
+      return alert("Fill all fields!");
 
+    // Call your backend / Supabase insert here
+    console.log({ eventTitle, eventDate, eventType });
+
+    // Optionally reset form
+    setEventTitle("");
+    setEventDate("");
+    setEventType("");
+    setCreateNewEvent(false);
+  };
   function renderCells() {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
@@ -274,7 +285,7 @@ export default function Home() {
               </select>
 
               <button
-                onClick={() => createNewEvent()}
+                onClick={handleCreateEvent}
                 style={{
                   marginTop: 20,
                   width: "50%",
