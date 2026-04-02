@@ -146,8 +146,15 @@ export default function Home() {
     >
       <h2 style={{ marginBottom: 12 }}>{format(currentMonth, "MMMM yyyy")}</h2>
 
-      <div style={{ alignItems: "center", flexDirection: "column" }}>
-        <div style={{ marginBottom: 16, flex: 1 }}>
+      <div
+        style={{
+          alignItems: "center",
+          display: "flex",
+          alignContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <div style={{ marginBottom: 16, display: "flex" }}>
           <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
             ◀
           </button>
@@ -158,7 +165,7 @@ export default function Home() {
             ▶
           </button>
         </div>
-        <button style={{ flex: 1 }}>Create new event</button>
+        <button style={{ display: "flex" }}>Create new event</button>
       </div>
 
       {renderCells()}
