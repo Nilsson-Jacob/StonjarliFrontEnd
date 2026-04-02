@@ -146,16 +146,18 @@ export default function Home() {
     >
       <h2 style={{ marginBottom: 12 }}>{format(currentMonth, "MMMM yyyy")}</h2>
 
-      <div style={{ marginBottom: 16 }}>
-        <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
-          ◀
-        </button>
-        <button
-          style={{ marginLeft: 10 }}
-          onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
-        >
-          ▶
-        </button>
+      <div style={{ alignItems: "center", flexDirection: "column" }}>
+        <div style={{ marginBottom: 16 }}>
+          <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
+            ◀
+          </button>
+          <button
+            style={{ marginLeft: 10 }}
+            onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
+          >
+            ▶
+          </button>
+        </div>
       </div>
 
       {renderCells()}
