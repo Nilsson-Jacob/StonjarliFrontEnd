@@ -188,6 +188,7 @@ export default function Home() {
                 background: "orange",
                 textAlign: "center",
                 marginBottom: 20,
+                textDecorationColor: "aliceblue",
               }}
             >
               {entry?.title}
