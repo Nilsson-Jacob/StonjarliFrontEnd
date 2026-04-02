@@ -29,7 +29,8 @@ const defaultItemsByType = {
 };
 
 export default function Home() {
-  // const [entries, setEntries] = useState({});
+  const [entries, setEntries] = useState({});
+
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [createNewEvent, setCreateNewEvent] = useState(false);
@@ -47,6 +48,37 @@ export default function Home() {
 
     setItems(defaults.map((name) => ({ name })));
   }, [eventType]);
+
+  const fetchEntries = useCallback(async () => {
+    const start = startOfMonth(currentMonth);
+    const end = endOfMonth(currentMonth);
+
+    const { data, error } = await supabase
+      .from("events")
+      .select("date, title")
+      .gte("date", start.toISOString())
+      .lte("date", end.toISOString());
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const mapped = {};
+    data.forEach((entry) => {
+      const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
+      mapped[dayKey] = {
+        title: entry.title,
+        date: entry.date,
+      };
+    });
+
+    setEntries(mapped);
+  }, [currentMonth]);
+
+  useEffect(() => {
+    fetchEntries();
+  }, [fetchEntries]);
 
   const handleCreateEvent = async () => {
     if (!eventTitle || !eventDate || !eventType)
