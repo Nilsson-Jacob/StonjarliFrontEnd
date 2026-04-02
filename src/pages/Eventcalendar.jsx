@@ -40,6 +40,21 @@ export default function Home() {
   const [eventDate, setEventDate] = useState(""); // YYYY-MM-DD
   const [eventType, setEventType] = useState(""); // e.g., 'slowrun'
   const [items, setItems] = useState([]);
+  const [eventTypes, setEventTypes] = useState([]);
+
+  useEffect(() => {
+    const fetchEventTypes = async () => {
+      const { data, error } = await supabase.from("event_types").select("*");
+
+      if (error) {
+        console.error(error);
+      } else {
+        setEventTypes(data);
+      }
+    };
+
+    fetchEventTypes();
+  }, []);
 
   useEffect(() => {
     if (!eventType) return;
@@ -322,7 +337,12 @@ export default function Home() {
                 }}
               >
                 <option value="">Select type</option>
-                <option value="slowrun">Slowrun</option>
+
+                {eventTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
               </select>
 
               {items.map((item, index) => (
