@@ -445,7 +445,6 @@ export default function Home() {
               ) : (
                 <p style={{ opacity: 0.7 }}>No training logged.</p>
               )}
-              ) : (<p>No data for this day.</p>)
               <button
                 onClick={() => setSelectedDay(null)}
                 style={{
