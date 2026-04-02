@@ -90,10 +90,11 @@ export default function Home() {
               })
             }
             style={{
-              width: "100%",
+              width: DAY_BOX_SIZE, //"95%",
               height: DAY_BOX_SIZE,
-              background: "orange",
+              background: "grey",
               padding: 8,
+              marginRight: 2,
               borderRadius: 12,
               opacity: isSameMonth(currentDay, monthStart) ? 1 : 0.35,
               display: "flex",
