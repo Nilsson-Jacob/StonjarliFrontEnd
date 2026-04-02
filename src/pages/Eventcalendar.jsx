@@ -173,9 +173,13 @@ export default function Home() {
               ▶
             </button>
           </div>
-          <button style={{ display: "flex" }} onClick={setCreateNewEvent(true)}>
+          <motion.button
+            layoutId="create-event"
+            style={{ display: "flex" }}
+            onClick={() => setCreateNewEvent(true)}
+          >
             Create new event
-          </button>
+          </motion.button>
         </div>
       </div>
 
@@ -184,9 +188,9 @@ export default function Home() {
       <AnimatePresence>
         {createNewEvent && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
             style={{
               position: "fixed",
               inset: 0,
@@ -198,14 +202,14 @@ export default function Home() {
             }}
           >
             <motion.div
-              layoutId={selectedDay.dayKey}
+              layoutId="create-event"
               onClick={(e) => e.stopPropagation()}
               style={{
                 background: "blue",
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
-                maxWidth: 80,
+                maxWidth: 800,
                 color: "#fff",
                 boxShadow: "blue",
                 maxHeight: "80vh",
