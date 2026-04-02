@@ -90,7 +90,7 @@ export default function Home() {
               })
             }
             style={{
-              width: "98%",
+              width: "95%",
               height: DAY_BOX_SIZE,
               background: "grey",
               padding: 8,
