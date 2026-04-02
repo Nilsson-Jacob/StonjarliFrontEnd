@@ -162,18 +162,18 @@ export default function Home() {
               flexDirection: "column",
             }}
           >
-            <h2 style={{ marginBottom: 6, fontSize: 16 }}>
+            <h2 style={{ marginBottom: 6, fontSize: 30 }}>
               {format(currentMonth, "MMMM yyyy")}
             </h2>
             <div style={{ flexDirection: "row" }}>
               <button
-                style={{ height: 40 }}
+                style={{ width: 40 }}
                 onClick={() => setCurrentMonth(addDays(currentMonth, -30))}
               >
                 ◀
               </button>
               <button
-                style={{ marginLeft: 10, height: 40 }}
+                style={{ marginLeft: 10, width: 40 }}
                 onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
               >
                 ▶
