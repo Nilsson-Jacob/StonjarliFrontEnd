@@ -30,6 +30,11 @@ export default function Home() {
   const [selectedDay, setSelectedDay] = useState(null);
   const [createNewEvent, setCreateNewEvent] = useState(false);
 
+  //inputs:
+  const [eventTitle, setEventTitle] = useState("");
+  const [eventDate, setEventDate] = useState(""); // YYYY-MM-DD
+  const [eventType, setEventType] = useState(""); // e.g., 'slowrun'
+
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
@@ -60,6 +65,8 @@ export default function Home() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
+
+  function createNewEvent() {}
 
   function renderCells() {
     const monthStart = startOfMonth(currentMonth);
@@ -225,12 +232,52 @@ export default function Home() {
             >
               <h3>New event</h3>
               <p>No data for this day.</p>
+              <input
+                type="text"
+                placeholder="Event title"
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: 10,
+                  marginTop: 12,
+                  borderRadius: 8,
+                  border: "1px solid #ccc",
+                }}
+              />
+
+              <input
+                type="date"
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: 10,
+                  marginTop: 12,
+                  borderRadius: 8,
+                  border: "1px solid #ccc",
+                }}
+              />
+              <select
+                value={eventType}
+                onChange={(e) => setEventType(e.target.value)}
+                style={{
+                  width: "100%",
+                  padding: 10,
+                  marginTop: 12,
+                  borderRadius: 8,
+                  border: "1px solid #ccc",
+                }}
+              >
+                <option value="">Select type</option>
+                <option value="slowrun">Slowrun</option>
+              </select>
 
               <button
-                onClick={() => setCreateNewEvent(false)}
+                onClick={() => createNewEvent()}
                 style={{
                   marginTop: 20,
-                  width: "100%",
+                  width: "50%",
                   padding: 12,
                   border: "none",
                   borderRadius: 12,
@@ -239,7 +286,23 @@ export default function Home() {
                   fontWeight: "bold",
                 }}
               >
-                Close
+                Create
+              </button>
+
+              <button
+                onClick={() => setCreateNewEvent(false)}
+                style={{
+                  marginTop: 20,
+                  width: "50%",
+                  padding: 12,
+                  border: "none",
+                  borderRadius: 12,
+                  background: "#000",
+                  color: "#fff",
+                  fontWeight: "bold",
+                }}
+              >
+                Cancell
               </button>
             </motion.div>
           </motion.div>
