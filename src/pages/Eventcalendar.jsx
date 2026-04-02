@@ -28,6 +28,7 @@ export default function Home() {
   const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
+  const [createNewEvent, setCreateNewEvent] = useState(false);
 
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
@@ -172,7 +173,7 @@ export default function Home() {
               ▶
             </button>
           </div>
-          <button style={{ display: "flex" }} onClick={() => {}}>
+          <button style={{ display: "flex" }} onClick={setCreateNewEvent(true)}>
             Create new event
           </button>
         </div>
@@ -195,10 +196,10 @@ export default function Home() {
               alignItems: "center",
               zIndex: 1000,
             }}
-            onClick={() => setSelectedDay(null)}
+            //onClick={() => setSelectedDay(null)}
           >
             <motion.div
-              layoutId={selectedDay.dayKey}
+              //layoutId={selectedDay.dayKey}
               onClick={(e) => e.stopPropagation()}
               style={{
                 background: "blue",
@@ -212,19 +213,11 @@ export default function Home() {
                 overflowY: "auto",
               }}
             >
-              <h3>{selectedDay.fullDate}</h3>
-
-              {selectedDay.entry ? (
-                <>
-                  <h4 style={{ marginTop: 12 }}>Training</h4>(
-                  <p style={{ opacity: 0.7 }}>No training logged.</p>)
-                </>
-              ) : (
-                <p>No data for this day.</p>
-              )}
+              <h3>New event</h3>
+              <p>No data for this day.</p>
 
               <button
-                onClick={() => setSelectedDay(null)}
+                onClick={() => setCreateNewEvent(false)}
                 style={{
                   marginTop: 20,
                   width: "100%",
