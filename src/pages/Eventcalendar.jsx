@@ -415,33 +415,7 @@ export default function Home() {
             >
               <h3>{selectedDay.fullDate}</h3>
 
-              {selectedDay.entry ? (
-                <>
-                  <h4 style={{ marginTop: 12 }}>Training</h4>(
-                  {selectedDay.entry.title ? (
-                    selectedDay.entry.title.map((a, i) => {
-                      return (
-                        <div
-                          key={i}
-                          style={{
-                            background: "rgba(0,0,0,0.25)",
-                            borderRadius: 12,
-                            padding: 10,
-                            marginBottom: 8,
-                          }}
-                        >
-                          <strong>{a.title}</strong>
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p style={{ opacity: 0.7 }}>No training logged.</p>
-                  )}
-                  <p style={{ opacity: 0.7 }}>No training logged.</p>)
-                </>
-              ) : (
-                <p>No data for this day.</p>
-              )}
+              {selectedDay.entry && <strong>{a.title}</strong>}
 
               <button
                 onClick={() => setSelectedDay(null)}
