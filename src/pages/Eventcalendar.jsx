@@ -66,7 +66,7 @@ export default function Home() {
 
     const mapped = {};
     data.forEach((entry) => {
-      const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
+      const dayKey = format(new Date(entry.date), "yyyy-MM-dd");
       mapped[dayKey] = {
         title: entry.title,
         date: entry.date,
@@ -132,7 +132,7 @@ export default function Home() {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
         const dayKey = format(currentDay, "yyyy-MM-dd");
-        //const entry = entries[dayKey];
+        const entry = entries[dayKey];
 
         days.push(
           <motion.div
@@ -141,7 +141,7 @@ export default function Home() {
             onClick={() =>
               setSelectedDay({
                 dayKey,
-                //entry,
+                entry,
                 formattedDate,
                 fullDate: format(currentDay, "MMMM d, yyyy"),
               })
