@@ -147,23 +147,35 @@ export default function Home() {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
+          justifyContent: "center",
         }}
       >
-        <h2 style={{ margin: 0 }}>{format(currentMonth, "MMMM yyyy")}</h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "600px", // eller maxWidth
+          }}
+        >
+          {/* Vänster */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <h2 style={{ margin: 0 }}>{format(currentMonth, "MMMM yyyy")}</h2>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
-            ◀
-          </button>
-          <button onClick={() => setCurrentMonth(addDays(currentMonth, 30))}>
-            ▶
-          </button>
+            <button
+              onClick={() => setCurrentMonth(addMonths(currentMonth, -1))}
+            >
+              ◀
+            </button>
+
+            <button onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}>
+              ▶
+            </button>
+          </div>
+
+          {/* Höger */}
+          <button>Create new event</button>
         </div>
-
-        <button>Create new event</button>
       </div>
 
       {renderCells()}
