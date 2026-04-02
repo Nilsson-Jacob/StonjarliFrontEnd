@@ -22,7 +22,7 @@ const Colors = {
   mid: "#3f7fa6",
 };
 
-const DAY_BOX_SIZE = 180;
+const DAY_BOX_SIZE = 110;
 
 export default function Home() {
   const [entries, setEntries] = useState({});
@@ -92,6 +92,7 @@ export default function Home() {
             style={{
               width: "100%",
               height: DAY_BOX_SIZE,
+              background: "orange",
               padding: 8,
               borderRadius: 12,
               opacity: isSameMonth(currentDay, monthStart) ? 1 : 0.35,
