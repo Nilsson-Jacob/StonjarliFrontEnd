@@ -151,6 +151,8 @@ export default function Home() {
             alignItems: "center",
             flexDirection: "row",
             display: "flex",
+            justifyContent: "space-between",
+            width: 200,
           }}
         >
           <div
@@ -163,15 +165,19 @@ export default function Home() {
             <h2 style={{ marginBottom: 12 }}>
               {format(currentMonth, "MMMM yyyy")}
             </h2>
-            <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
-              ◀
-            </button>
-            <button
-              style={{ marginLeft: 10 }}
-              onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
-            >
-              ▶
-            </button>
+            <div style={{ flexDirection: "row" }}>
+              <button
+                onClick={() => setCurrentMonth(addDays(currentMonth, -30))}
+              >
+                ◀
+              </button>
+              <button
+                style={{ marginLeft: 10 }}
+                onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
+              >
+                ▶
+              </button>
+            </div>
           </div>
           <motion.button
             layoutId="create-event"
