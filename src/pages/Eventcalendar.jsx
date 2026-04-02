@@ -24,6 +24,10 @@ const Colors = {
 
 const DAY_BOX_SIZE = 120;
 
+const defaultItemsByType = {
+  slowrun: ["Semla", "Croissant"],
+};
+
 export default function Home() {
   const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -35,10 +39,6 @@ export default function Home() {
   const [eventDate, setEventDate] = useState(""); // YYYY-MM-DD
   const [eventType, setEventType] = useState(""); // e.g., 'slowrun'
   const [items, setItems] = useState([]);
-
-  const defaultItemsByType = {
-    slowrun: ["Semla", "Croissant"],
-  };
 
   useEffect(() => {
     if (!eventType) return;
