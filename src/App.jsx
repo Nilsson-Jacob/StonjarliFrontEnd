@@ -14,7 +14,7 @@ import Auth from "./pages/Auth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Logs from "./pages/Logs";
 import Insights from "./pages/Insights";
-import Tabs from "./components/TabBar";
+//import Tabs from "./components/TabBar";
 import Profile from "./pages/Profile";
 
 import Eventcalendar from "./pages/Eventcalendar";
