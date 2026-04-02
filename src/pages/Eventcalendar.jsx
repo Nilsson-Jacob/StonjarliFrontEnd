@@ -144,8 +144,6 @@ export default function Home() {
         paddingTop: 60,
       }}
     >
-      <h2 style={{ marginBottom: 12 }}>{format(currentMonth, "MMMM yyyy")}</h2>
-
       <div
         style={{
           alignItems: "center",
@@ -154,6 +152,9 @@ export default function Home() {
           flexDirection: "row",
         }}
       >
+        <h2 style={{ marginBottom: 12 }}>
+          {format(currentMonth, "MMMM yyyy")}
+        </h2>
         <div style={{ marginBottom: 16, display: "flex" }}>
           <button onClick={() => setCurrentMonth(addDays(currentMonth, -30))}>
             ◀
