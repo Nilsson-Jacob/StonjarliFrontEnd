@@ -182,7 +182,7 @@ export default function Home() {
             <span style={{ fontSize: 12, fontWeight: 600 }}>
               {formattedDate}
             </span>
-            <div>{entry}</div>
+            <div>{entry.title}</div>
           </motion.div>
         );
 
