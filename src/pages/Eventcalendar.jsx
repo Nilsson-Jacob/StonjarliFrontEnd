@@ -29,7 +29,7 @@ const defaultItemsByType = {
 };
 
 export default function Home() {
-  const [entries, setEntries] = useState({});
+  // const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
   const [createNewEvent, setCreateNewEvent] = useState(false);
@@ -47,37 +47,6 @@ export default function Home() {
 
     setItems(defaults.map((name) => ({ name })));
   }, [eventType]);
-
-  const fetchEntries = useCallback(async () => {
-    const start = startOfMonth(currentMonth);
-    const end = endOfMonth(currentMonth);
-
-    const { data, error } = await supabase
-      .from("daily_entries")
-      .select("created_at, structured, targets")
-      .gte("created_at", start.toISOString())
-      .lte("created_at", end.toISOString());
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    const mapped = {};
-    data.forEach((entry) => {
-      const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
-      mapped[dayKey] = {
-        structured: entry.structured,
-        targets: entry.targets || [],
-      };
-    });
-
-    setEntries(mapped);
-  }, [currentMonth]);
-
-  useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);
 
   const handleCreateEvent = async () => {
     if (!eventTitle || !eventDate || !eventType)
@@ -131,7 +100,7 @@ export default function Home() {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
         const dayKey = format(currentDay, "yyyy-MM-dd");
-        const entry = entries[dayKey];
+        //const entry = entries[dayKey];
 
         days.push(
           <motion.div
@@ -140,7 +109,7 @@ export default function Home() {
             onClick={() =>
               setSelectedDay({
                 dayKey,
-                entry,
+                //entry,
                 formattedDate,
                 fullDate: format(currentDay, "MMMM d, yyyy"),
               })
