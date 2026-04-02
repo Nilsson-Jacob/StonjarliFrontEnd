@@ -70,7 +70,7 @@ export default function Home() {
 
     const { data, error } = await supabase
       .from("events")
-      .select("date, title")
+      .select("date, title, id")
       .gte("date", start.toISOString())
       .lte("date", end.toISOString());
 
@@ -85,6 +85,7 @@ export default function Home() {
       mapped[dayKey] = {
         title: entry.title,
         date: entry.date,
+        id: entry.id,
       };
     });
 
@@ -450,6 +451,10 @@ export default function Home() {
               {selectedDay.entry ? (
                 <>
                   <h2>{selectedDay.entry.title}</h2>
+                  <h2>
+                    Share link:
+                    {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
+                  </h2>
                 </>
               ) : (
                 <p style={{ opacity: 0.7 }}>No training logged.</p>
