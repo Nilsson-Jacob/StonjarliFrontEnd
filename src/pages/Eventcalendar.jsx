@@ -199,7 +199,7 @@ export default function Home() {
             //onClick={() => setSelectedDay(null)}
           >
             <motion.div
-              //layoutId={selectedDay.dayKey}
+              layoutId="100"
               onClick={(e) => e.stopPropagation()}
               style={{
                 background: "blue",
