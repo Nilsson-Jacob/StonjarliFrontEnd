@@ -73,7 +73,7 @@ export default function Home() {
         console.log("here and: " + JSON.stringify(bookingData));
 
         await supabase.from("booking_items").insert({
-          event_id: bookingData.id,
+          booking_id: bookingData.id,
           item_id: element.id,
         });
       });
