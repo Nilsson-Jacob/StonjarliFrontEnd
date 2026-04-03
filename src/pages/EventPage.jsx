@@ -62,10 +62,19 @@ export default function Home() {
           <span style={{ fontSize: 30, fontWeight: 300 }}>Bageri Baka</span>
         </div>
       </div>
-      <div style={{ justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+        }}
+      >
         {eventData && (
           <div>
-            <span style={{ font: 40 }}>{eventData.title}</span>
+            <span style={{ fontSize: 40, fontWeight: 600 }}>
+              {eventData.title} - {eventData.date}
+            </span>
           </div>
         )}
         {items && (
