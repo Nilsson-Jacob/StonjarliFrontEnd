@@ -55,10 +55,13 @@ export default function Home() {
       return;
     }
 
+    const token = crypto.randomUUID();
+
     const { data: bookingData } = await supabase.from("bookings").insert({
       event_id: eventId,
       name,
       email,
+      booking_token: token,
     });
 
     selectedItems.forEach(async (element) => {
