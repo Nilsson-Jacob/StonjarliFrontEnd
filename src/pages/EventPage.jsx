@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "../components/supabaseClient";
 
 export default function Home() {
   const { eventId } = useParams();
