@@ -73,7 +73,7 @@ export default function Home() {
         {eventData && (
           <div>
             <span style={{ fontSize: 25, fontWeight: 500 }}>
-              {eventData.title} - {eventData.date.substring(0, 10)}
+              {eventData.title} - {eventData?.date?.substring(0, 10)}
             </span>
           </div>
         )}
