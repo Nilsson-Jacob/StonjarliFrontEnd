@@ -26,9 +26,9 @@ const Colors = {
 
 const DAY_BOX_SIZE = 120;
 
-const defaultItemsByType = {
+/*const defaultItemsByType = {
   slowrun: ["Semla", "Croissant"],
-};
+};*/
 
 export default function Home() {
   const [entries, setEntries] = useState({});
@@ -44,6 +44,8 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [eventTypes, setEventTypes] = useState([]);
 
+  //const [eventTypeItems, setEventTypeItems] = useState({});
+
   useEffect(() => {
     const fetchEventTypes = async () => {
       const { data, error } = await supabase.from("event_types").select("*");
@@ -58,12 +60,25 @@ export default function Home() {
     fetchEventTypes();
   }, []);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (!eventType) return;
 
-    const defaults = defaultItemsByType[eventType] || [];
+    //const defaults = defaultItemsByType[eventType] || [];
 
-    setItems(defaults.map((name) => ({ name })));
+    const { data, error } = await supabase
+      .from("event_type_items")
+      .select("*")
+      .eq("event_type_id", eventType);
+
+    if (error) {
+      console.error(error);
+    } else {
+      console.log("EventTypes: " + data.toString());
+
+      setEventTypes(data);
+    }
+
+    setItems(data.map((name) => ({ name })));
   }, [eventType]);
 
   const fetchEntries = useCallback(async () => {
