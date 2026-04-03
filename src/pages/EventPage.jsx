@@ -12,6 +12,7 @@ export default function Home() {
   /* const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);*/
+  const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +38,16 @@ export default function Home() {
     fetchData();
   }, [eventId]);
 
+  const handleItemToggle = (item) => {
+    const exists = selectedItems.find((i) => i.id === item.id);
+
+    if (exists) {
+      setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
+    } else {
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
+
   return (
     <div>
       <div
@@ -57,8 +68,25 @@ export default function Home() {
         </div>
       )}
       {items && (
-        <div>
-          <span style={{ font: 20 }}>{items.toString()}</span>
+        <div style={{ marginTop: 16 }}>
+          {items.map((item) => (
+            <label
+              key={item.id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 8,
+              }}
+            >
+              <input
+                type="checkbox"
+                value={item.id}
+                onChange={(e) => handleItemToggle(item)}
+              />
+              {item.name}
+            </label>
+          ))}
         </div>
       )}
     </div>
