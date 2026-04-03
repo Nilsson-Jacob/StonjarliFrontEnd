@@ -62,33 +62,35 @@ export default function Home() {
           <span style={{ fontSize: 30, fontWeight: 300 }}>Bageri Baka</span>
         </div>
       </div>
-      {eventData && (
-        <div>
-          <span style={{ font: 40 }}>{eventData.title}</span>
-        </div>
-      )}
-      {items && (
-        <div style={{ marginTop: 16 }}>
-          {items.map((item) => (
-            <label
-              key={item.id}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginBottom: 8,
-              }}
-            >
-              <input
-                type="checkbox"
-                value={item.id}
-                onChange={(e) => handleItemToggle(item)}
-              />
-              {item.name}
-            </label>
-          ))}
-        </div>
-      )}
+      <div style={{ justifyContent: "center" }}>
+        {eventData && (
+          <div>
+            <span style={{ font: 40 }}>{eventData.title}</span>
+          </div>
+        )}
+        {items && (
+          <div style={{ marginTop: 16 }}>
+            {items.map((item) => (
+              <label
+                key={item.id}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 8,
+                  marginBottom: 8,
+                }}
+              >
+                <input
+                  type="checkbox"
+                  value={item.id}
+                  onChange={(e) => handleItemToggle(item)}
+                />
+                {item.name}
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
