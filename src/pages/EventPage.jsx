@@ -66,7 +66,7 @@ export default function Home() {
       });
 
       selectedItems.forEach(async (element) => {
-        console.log("here and: " + JSON.stringify(element));
+        console.log("here and: " + JSON.stringify(bookingData));
 
         await supabase.from("booking_items").insert({
           event_id: bookingData.id,
