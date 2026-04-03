@@ -55,21 +55,27 @@ export default function Home() {
       return;
     }
 
-    const token = crypto.randomUUID();
+    try {
+      const token = crypto.randomUUID();
 
-    const { data: bookingData } = await supabase.from("bookings").insert({
-      event_id: eventId,
-      name,
-      email,
-      booking_token: token,
-    });
-
-    selectedItems.forEach(async (element) => {
-      await supabase.from("booking_items").insert({
-        event_id: bookingData.id,
-        item_id: element.id,
+      const { data: bookingData } = await supabase.from("bookings").insert({
+        event_id: eventId,
+        name,
+        email,
+        booking_token: token,
       });
-    });
+
+      selectedItems.forEach(async (element) => {
+        console.log("here and: " + JSON.stringify(element));
+
+        await supabase.from("booking_items").insert({
+          event_id: bookingData.id,
+          item_id: element.id,
+        });
+      });
+    } catch (error) {
+      console.log("error : " + error);
+    }
 
     alert("Booked!");
   };
