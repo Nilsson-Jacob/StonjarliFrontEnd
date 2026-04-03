@@ -75,7 +75,13 @@ export default function Home() {
         console.log("EventTypes: " + JSON.stringify(data));
 
         // setEventTypes(data);
-        setItems(data.map((name) => ({ name })));
+        //setItems(data.map((name) => ({ name })));
+        setItems(
+          data.map((item) => ({
+            id: item.id,
+            name: item.name,
+          }))
+        );
       }
     };
 
@@ -378,7 +384,7 @@ export default function Home() {
 
                 {items.map((item, index) => (
                   <div
-                    key={index}
+                    key={item.id}
                     style={{ display: "flex", gap: 10, marginTop: 8 }}
                   >
                     <input
