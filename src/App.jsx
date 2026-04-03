@@ -18,7 +18,7 @@ import Insights from "./pages/Insights";
 import Profile from "./pages/Profile";
 
 import Eventcalendar from "./pages/Eventcalendar";
-import CafeNavBar from "./components/CafeNavBar";
+//import CafeNavBar from "./components/CafeNavBar";
 import EventPage from "./pages/EventPage";
 
 function App() {
@@ -26,8 +26,9 @@ function App() {
     <Router>
       {/* <NavBar /> 
 
-      <Tabs /> */}
+      <Tabs /> 
       <CafeNavBar />
+      */}
 
       <Routes>
         {/* Public */}
