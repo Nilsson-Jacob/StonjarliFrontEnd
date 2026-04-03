@@ -4,6 +4,38 @@ export default function Home() {
   const { eventId } = useParams();
   console.log("here: " + eventId);
 
+  const [eventData, setEventData] = useState({}); // YYYY-MM-DD
+  const [items, setItems] = useState([]);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: eventData } = await supabase
+          .from("events")
+          .select("*")
+          .eq("id", eventId)
+          .single();
+
+        const { data: eventItems } = await supabase
+          .from("items")
+          .select("*")
+          .eq("id", eventId)
+          .single();
+
+        setEventData(eventData);
+        setItems(eventItems);
+      } catch (error) {
+        console.log("error: " + error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <div
