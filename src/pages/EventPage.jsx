@@ -10,8 +10,7 @@ export default function Home() {
   const [items, setItems] = useState([]);
 
   const [name, setName] = useState("");
-  /*const [email, setEmail] = useState("");
-  const [selectedItem, setSelectedItem] = useState(null);*/
+  const [email, setEmail] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
@@ -46,6 +45,24 @@ export default function Home() {
     } else {
       setSelectedItems([...selectedItems, item]);
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // 🔥 important
+
+    if (!name || !email || !selectedItems) {
+      alert("Fill everything");
+      return;
+    }
+
+    await supabase.from("bookings").insert({
+      event_id: eventId,
+      name,
+      email,
+      item_id: selectedItems,
+    });
+
+    alert("Booked!");
   };
 
   return (
