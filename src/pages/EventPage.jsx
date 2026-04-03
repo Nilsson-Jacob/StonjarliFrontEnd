@@ -55,7 +55,10 @@ export default function Home() {
       {eventData && (
         <div>
           <span style={{ font: 40 }}>{eventData.title}</span>
-
+        </div>
+      )}
+      {items && (
+        <div>
           <span style={{ font: 20 }}>{items.toString()}</span>
         </div>
       )}
