@@ -52,7 +52,7 @@ export default function Home() {
     <div>
       <div
         style={{
-          height: "10vh",
+          height: "7vh",
           background: "#ece7db",
           justifyContent: "center",
           display: "flex",
@@ -72,13 +72,17 @@ export default function Home() {
       >
         {eventData && (
           <div>
-            <span style={{ fontSize: 40, fontWeight: 600 }}>
-              {eventData.title} - {eventData.date}
+            <span style={{ fontSize: 25, fontWeight: 500 }}>
+              {eventData.title} - {eventData.date.substring(0, 10)}
             </span>
           </div>
         )}
+
+        <input type="text">Namn: </input>
+
         {items && (
           <div style={{ marginTop: 16 }}>
+            <span>Val av frukost:</span>
             {items.map((item) => (
               <label
                 key={item.id}
