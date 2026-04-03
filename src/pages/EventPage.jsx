@@ -36,7 +36,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [eventId]);
 
   return (
     <div>
@@ -52,7 +52,13 @@ export default function Home() {
           <span style={{ fontSize: 30, fontWeight: 300 }}>Bageri Baka</span>
         </div>
       </div>
-      Hej {eventId.toString()}
+      {eventData && (
+        <div>
+          <span style={{ font: 40 }}>{eventData.title}</span>
+
+          <span style={{ font: 20 }}>{items.toString()}</span>
+        </div>
+      )}
     </div>
   );
 }
