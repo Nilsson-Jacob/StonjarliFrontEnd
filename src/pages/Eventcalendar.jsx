@@ -72,14 +72,12 @@ export default function Home() {
       if (error) {
         console.error(error);
       } else {
-        console.log("EventTypes: " + data.toString());
+        console.log("EventTypes: " + JSON.stringify(data));
 
-        setEventTypes(data);
+        // setEventTypes(data);
+        setItems(data.map((name) => ({ name })));
       }
-
-      setItems(data.map((name) => ({ name })));
     };
-    //const defaults = defaultItemsByType[eventType] || [];
 
     fetchEventTypeItems();
   }, [eventType]);
