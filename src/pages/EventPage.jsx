@@ -9,9 +9,9 @@ export default function Home() {
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
 
-  const [name, setName] = useState("");
+  /* const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);*/
 
   useEffect(() => {
     const fetchData = async () => {
