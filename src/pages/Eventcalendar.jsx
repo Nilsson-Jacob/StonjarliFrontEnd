@@ -11,6 +11,8 @@ import {
   isSameMonth,
 } from "date-fns";
 
+import CafeNavBar from "../components/CafeNavBar";
+
 const Colors = {
   bg: "#0f0f14",
   card: "#1a1a22",
@@ -221,263 +223,266 @@ export default function Home() {
   }
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: Colors.bg,
-        color: Colors.text,
-        padding: 12,
-        paddingTop: 60,
-      }}
-    >
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div
-          style={{
-            alignItems: "center",
-            flexDirection: "row",
-            display: "flex",
-            justifyContent: "space-between",
-            width: 300,
-          }}
-        >
+    <div>
+      <CafeNavBar />
+      <div
+        style={{
+          minHeight: "100vh",
+          background: Colors.bg,
+          color: Colors.text,
+          padding: 12,
+          paddingTop: 60,
+        }}
+      >
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <div
             style={{
-              marginBottom: 16,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <h2 style={{ marginBottom: 6, fontSize: 30 }}>
-              {format(currentMonth, "MMMM yyyy")}
-            </h2>
-            <div style={{ flexDirection: "row" }}>
-              <button
-                style={{ width: 40, height: 22 }}
-                onClick={() => setCurrentMonth(addDays(currentMonth, -30))}
-              >
-                ◀
-              </button>
-              <button
-                style={{ marginLeft: 10, width: 40, height: 22 }}
-                onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
-              >
-                ▶
-              </button>
-            </div>
-          </div>
-          <motion.button
-            layoutId="create-event"
-            style={{ display: "flex" }}
-            onClick={() => setCreateNewEvent(true)}
-          >
-            Create new event
-          </motion.button>
-        </div>
-      </div>
-
-      {renderCells()}
-
-      <AnimatePresence>
-        {createNewEvent && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.75)",
-              display: "flex",
-              justifyContent: "center",
               alignItems: "center",
-              zIndex: 1000,
+              flexDirection: "row",
+              display: "flex",
+              justifyContent: "space-between",
+              width: 300,
             }}
           >
-            <motion.div
-              layoutId="create-event"
-              onClick={(e) => e.stopPropagation()}
+            <div
               style={{
-                background: "blue",
-                borderRadius: 20,
-                padding: 20,
-                width: "92%",
-                minWidth: 1000,
-                color: "#fff",
-                boxShadow: "blue",
-                maxHeight: "80vh",
-                overflowY: "auto",
+                marginBottom: 16,
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              <h3>New event</h3>
-              <p>No data for this day.</p>
-              <input
-                type="text"
-                placeholder="Event title"
-                value={eventTitle}
-                onChange={(e) => setEventTitle(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: 10,
-                  marginTop: 12,
-                  borderRadius: 8,
-                  border: "1px solid #ccc",
-                }}
-              />
-
-              <input
-                type="date"
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: 10,
-                  marginTop: 12,
-                  borderRadius: 8,
-                  border: "1px solid #ccc",
-                }}
-              />
-              <select
-                value={eventType}
-                onChange={(e) => setEventType(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: 10,
-                  marginTop: 12,
-                  borderRadius: 8,
-                  border: "1px solid #ccc",
-                }}
-              >
-                <option value="">Select type</option>
-
-                {eventTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </select>
-
-              {items.map((item, index) => (
-                <div
-                  key={index}
-                  style={{ display: "flex", gap: 10, marginTop: 8 }}
+              <h2 style={{ marginBottom: 6, fontSize: 30 }}>
+                {format(currentMonth, "MMMM yyyy")}
+              </h2>
+              <div style={{ flexDirection: "row" }}>
+                <button
+                  style={{ width: 40, height: 22 }}
+                  onClick={() => setCurrentMonth(addDays(currentMonth, -30))}
                 >
-                  <input
-                    value={item.name}
-                    onChange={(e) => {
-                      const updated = [...items];
-                      updated[index].name = e.target.value;
-                      setItems(updated);
-                    }}
-                    style={{ flex: 1, padding: 8 }}
-                  />
+                  ◀
+                </button>
+                <button
+                  style={{ marginLeft: 10, width: 40, height: 22 }}
+                  onClick={() => setCurrentMonth(addDays(currentMonth, 30))}
+                >
+                  ▶
+                </button>
+              </div>
+            </div>
+            <motion.button
+              layoutId="create-event"
+              style={{ display: "flex" }}
+              onClick={() => setCreateNewEvent(true)}
+            >
+              Create new event
+            </motion.button>
+          </div>
+        </div>
 
-                  <button
-                    onClick={() => {
-                      setItems(items.filter((_, i) => i !== index));
-                    }}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
+        {renderCells()}
 
-              <button
-                onClick={handleCreateEvent}
-                style={{
-                  marginTop: 20,
-                  width: "50%",
-                  padding: 12,
-                  border: "none",
-                  borderRadius: 12,
-                  background: "#000",
-                  color: "#fff",
-                  fontWeight: "bold",
-                }}
-              >
-                Create
-              </button>
-
-              <button
-                onClick={() => setCreateNewEvent(false)}
-                style={{
-                  marginTop: 20,
-                  width: "50%",
-                  padding: 12,
-                  border: "none",
-                  borderRadius: 12,
-                  background: "#000",
-                  color: "#fff",
-                  fontWeight: "bold",
-                }}
-              >
-                Cancel
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-
-        {selectedDay && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              background: "rgba(0,0,0,0.75)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 1000,
-            }}
-            onClick={() => setSelectedDay(null)}
-          >
+        <AnimatePresence>
+          {createNewEvent && (
             <motion.div
-              layoutId={selectedDay.dayKey}
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               style={{
-                background: "blue",
-                borderRadius: 20,
-                padding: 20,
-                width: "92%",
-                minWidth: 1000,
-                color: "#fff",
-                boxShadow: "blue",
-                maxHeight: "80vh",
-                overflowY: "auto",
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.75)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 1000,
               }}
             >
-              <h3>{selectedDay.fullDate}</h3>
-              {selectedDay.entry ? (
-                <>
-                  <h2>{selectedDay.entry.title}</h2>
-                  <h2>
-                    Share link:
-                    {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
-                  </h2>
-                </>
-              ) : (
-                <p style={{ opacity: 0.7 }}>No training logged.</p>
-              )}
-              <button
-                onClick={() => setSelectedDay(null)}
+              <motion.div
+                layoutId="create-event"
+                onClick={(e) => e.stopPropagation()}
                 style={{
-                  marginTop: 20,
-                  width: "100%",
-                  padding: 12,
-                  border: "none",
-                  borderRadius: 12,
-                  background: "#000",
+                  background: "blue",
+                  borderRadius: 20,
+                  padding: 20,
+                  width: "92%",
+                  minWidth: 1000,
                   color: "#fff",
-                  fontWeight: "bold",
+                  boxShadow: "blue",
+                  maxHeight: "80vh",
+                  overflowY: "auto",
                 }}
               >
-                Close
-              </button>
+                <h3>New event</h3>
+                <p>No data for this day.</p>
+                <input
+                  type="text"
+                  placeholder="Event title"
+                  value={eventTitle}
+                  onChange={(e) => setEventTitle(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: 10,
+                    marginTop: 12,
+                    borderRadius: 8,
+                    border: "1px solid #ccc",
+                  }}
+                />
+
+                <input
+                  type="date"
+                  value={eventDate}
+                  onChange={(e) => setEventDate(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: 10,
+                    marginTop: 12,
+                    borderRadius: 8,
+                    border: "1px solid #ccc",
+                  }}
+                />
+                <select
+                  value={eventType}
+                  onChange={(e) => setEventType(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: 10,
+                    marginTop: 12,
+                    borderRadius: 8,
+                    border: "1px solid #ccc",
+                  }}
+                >
+                  <option value="">Select type</option>
+
+                  {eventTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.name}
+                    </option>
+                  ))}
+                </select>
+
+                {items.map((item, index) => (
+                  <div
+                    key={index}
+                    style={{ display: "flex", gap: 10, marginTop: 8 }}
+                  >
+                    <input
+                      value={item.name}
+                      onChange={(e) => {
+                        const updated = [...items];
+                        updated[index].name = e.target.value;
+                        setItems(updated);
+                      }}
+                      style={{ flex: 1, padding: 8 }}
+                    />
+
+                    <button
+                      onClick={() => {
+                        setItems(items.filter((_, i) => i !== index));
+                      }}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+
+                <button
+                  onClick={handleCreateEvent}
+                  style={{
+                    marginTop: 20,
+                    width: "50%",
+                    padding: 12,
+                    border: "none",
+                    borderRadius: 12,
+                    background: "#000",
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Create
+                </button>
+
+                <button
+                  onClick={() => setCreateNewEvent(false)}
+                  style={{
+                    marginTop: 20,
+                    width: "50%",
+                    padding: 12,
+                    border: "none",
+                    borderRadius: 12,
+                    background: "#000",
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Cancel
+                </button>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+
+          {selectedDay && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.75)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                zIndex: 1000,
+              }}
+              onClick={() => setSelectedDay(null)}
+            >
+              <motion.div
+                layoutId={selectedDay.dayKey}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  background: "blue",
+                  borderRadius: 20,
+                  padding: 20,
+                  width: "92%",
+                  minWidth: 1000,
+                  color: "#fff",
+                  boxShadow: "blue",
+                  maxHeight: "80vh",
+                  overflowY: "auto",
+                }}
+              >
+                <h3>{selectedDay.fullDate}</h3>
+                {selectedDay.entry ? (
+                  <>
+                    <h2>{selectedDay.entry.title}</h2>
+                    <h2>
+                      Share link:
+                      {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
+                    </h2>
+                  </>
+                ) : (
+                  <p style={{ opacity: 0.7 }}>No training logged.</p>
+                )}
+                <button
+                  onClick={() => setSelectedDay(null)}
+                  style={{
+                    marginTop: 20,
+                    width: "100%",
+                    padding: 12,
+                    border: "none",
+                    borderRadius: 12,
+                    background: "#000",
+                    color: "#fff",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Close
+                </button>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }
