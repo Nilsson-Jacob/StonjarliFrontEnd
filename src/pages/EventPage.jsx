@@ -83,7 +83,7 @@ export default function Home() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           style={{
-            width: "100%",
+            width: "40vw",
             padding: 10,
             marginTop: 12,
             borderRadius: 8,
