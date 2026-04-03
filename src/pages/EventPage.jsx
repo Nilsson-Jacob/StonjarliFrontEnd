@@ -9,8 +9,8 @@ export default function Home() {
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
 
-  /* const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  /*const [email, setEmail] = useState("");
   const [selectedItem, setSelectedItem] = useState(null);*/
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -78,7 +78,18 @@ export default function Home() {
           </div>
         )}
 
-        <input type="text">Namn: </input>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{
+            width: "100%",
+            padding: 10,
+            marginTop: 12,
+            borderRadius: 8,
+            border: "1px solid #ccc",
+          }}
+        />
 
         {items && (
           <div style={{ marginTop: 16 }}>
