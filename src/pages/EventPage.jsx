@@ -10,10 +10,13 @@ export default function Home() {
         style={{
           height: "10vh",
           background: "#ece7db",
-          alignContent: "center",
+          justifyContent: "center",
+          display: "flex",
         }}
       >
-        <span>Bageri Baka</span>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <span style={{ fontSize: 30, fontWeight: 300 }}>Bageri Baka</span>
+        </div>
       </div>
       Hej {eventId.toString()}
     </div>
