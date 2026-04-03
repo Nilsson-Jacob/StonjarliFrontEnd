@@ -25,8 +25,7 @@ export default function Home() {
         const { data: eventItems } = await supabase
           .from("items")
           .select("*")
-          .eq("event_id", eventId)
-          .single();
+          .eq("event_id", eventId);
 
         setEventData(eventData);
         setItems(eventItems);
