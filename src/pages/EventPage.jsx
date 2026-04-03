@@ -6,7 +6,9 @@ export default function Home() {
 
   return (
     <div>
-      <div style={{ height: 200, background: "blue", alignItems: "center" }}>
+      <div
+        style={{ height: "10vh", background: "#ece7db", alignItems: "center" }}
+      >
         <h2>Bageri Baka</h2>
       </div>
       Hej {eventId.toString()}
