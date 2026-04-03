@@ -60,25 +60,28 @@ export default function Home() {
     fetchEventTypes();
   }, []);
 
-  useEffect(async () => {
-    if (!eventType) return;
+  useEffect(() => {
+    const fetchEventTypeItems = async () => {
+      if (!eventType) return;
 
+      const { data, error } = await supabase
+        .from("event_type_items")
+        .select("*")
+        .eq("event_type_id", eventType);
+
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("EventTypes: " + data.toString());
+
+        setEventTypes(data);
+      }
+
+      setItems(data.map((name) => ({ name })));
+    };
     //const defaults = defaultItemsByType[eventType] || [];
 
-    const { data, error } = await supabase
-      .from("event_type_items")
-      .select("*")
-      .eq("event_type_id", eventType);
-
-    if (error) {
-      console.error(error);
-    } else {
-      console.log("EventTypes: " + data.toString());
-
-      setEventTypes(data);
-    }
-
-    setItems(data.map((name) => ({ name })));
+    fetchEventTypeItems();
   }, [eventType]);
 
   const fetchEntries = useCallback(async () => {
