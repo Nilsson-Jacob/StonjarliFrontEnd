@@ -55,11 +55,17 @@ export default function Home() {
       return;
     }
 
-    await supabase.from("bookings").insert({
+    const { data: bookingData } = await supabase.from("bookings").insert({
       event_id: eventId,
       name,
       email,
-      item_id: selectedItems,
+    });
+
+    selectedItems.forEach(async (element) => {
+      await supabase.from("booking_items").insert({
+        event_id: bookingData.id,
+        item_id: element.id,
+      });
     });
 
     alert("Booked!");
