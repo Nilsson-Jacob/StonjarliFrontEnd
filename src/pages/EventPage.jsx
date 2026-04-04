@@ -70,11 +70,12 @@ export default function Home() {
         .single();
 
       selectedItems.forEach(async (element) => {
-        console.log("here and: " + JSON.stringify(bookingData));
+        console.log("here and: " + JSON.stringify(element));
 
         await supabase.from("booking_items").insert({
           booking_id: bookingData.id,
           item_id: element.id,
+          name: element.name,
         });
       });
     } catch (error) {
