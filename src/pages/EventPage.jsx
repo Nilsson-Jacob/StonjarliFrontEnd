@@ -116,12 +116,14 @@ export default function Home() {
         )}
         <form onSubmit={handleSubmit}>
           <input
+            style={{ marginTop: 10 }}
             placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
           <input
+            style={{ display: "block", marginTop: 10 }}
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
