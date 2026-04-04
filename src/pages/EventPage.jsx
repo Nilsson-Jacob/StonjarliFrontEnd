@@ -98,45 +98,6 @@ export default function Home() {
           <span style={{ fontSize: 30, fontWeight: 300 }}>Bageri Baka</span>
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <input
-          placeholder="Your name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-
-        <input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-
-        {items && (
-          <div style={{ marginTop: 16 }}>
-            <span>Val av frukost:</span>
-            {items.map((item) => (
-              <label
-                key={item.id}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  marginBottom: 8,
-                }}
-              >
-                <input
-                  type="checkbox"
-                  value={item.id}
-                  onChange={(e) => handleItemToggle(item)}
-                />
-                {item.name}
-              </label>
-            ))}
-          </div>
-        )}
-
-        <button type="submit">Book</button>
-      </form>
 
       <div
         style={{
@@ -146,7 +107,46 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        {eventData && (
+        <form onSubmit={handleSubmit}>
+          <input
+            placeholder="Your name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+
+          <input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          {items && (
+            <div style={{ marginTop: 16 }}>
+              <span>Val av frukost:</span>
+              {items.map((item) => (
+                <label
+                  key={item.id}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    marginBottom: 8,
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    value={item.id}
+                    onChange={(e) => handleItemToggle(item)}
+                  />
+                  {item.name}
+                </label>
+              ))}
+            </div>
+          )}
+
+          <button type="submit">Book</button>
+        </form>
+        {/* eventData && (
           <div>
             <span style={{ fontSize: 25, fontWeight: 500 }}>
               {eventData.title} - {eventData?.date?.substring(0, 10)}
@@ -189,7 +189,7 @@ export default function Home() {
               </label>
             ))}
           </div>
-        )}
+        )*/}
       </div>
     </div>
   );
