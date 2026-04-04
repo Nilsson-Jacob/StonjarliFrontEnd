@@ -132,6 +132,7 @@ export default function Home() {
         title: eventTitle,
         date: eventDate,
         event_type_id: eventType,
+        max_capacity: eventMaxCap,
       })
       .select()
       .single();
