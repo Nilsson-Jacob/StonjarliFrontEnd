@@ -107,6 +107,13 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
+        {eventData && (
+          <div>
+            <span style={{ fontSize: 25, fontWeight: 500 }}>
+              {eventData.title} - {eventData?.date?.substring(0, 10)}
+            </span>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <input
             placeholder="Your name"
