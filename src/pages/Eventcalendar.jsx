@@ -26,10 +26,6 @@ const Colors = {
 
 const DAY_BOX_SIZE = 120;
 
-/*const defaultItemsByType = {
-  slowrun: ["Semla", "Croissant"],
-};*/
-
 export default function Home() {
   const [entries, setEntries] = useState({});
 
@@ -334,110 +330,123 @@ export default function Home() {
                   overflowY: "auto",
                 }}
               >
-                <h3>New event</h3>
-                <p>No data for this day.</p>
-                <input
-                  type="text"
-                  placeholder="Event title"
-                  value={eventTitle}
-                  onChange={(e) => setEventTitle(e.target.value)}
+                <form
+                  onSubmit={handleCreateEvent}
                   style={{
-                    width: "100%",
-                    padding: 10,
-                    marginTop: 12,
-                    borderRadius: 8,
-                    border: "1px solid #ccc",
-                  }}
-                />
-
-                <input
-                  type="date"
-                  value={eventDate}
-                  onChange={(e) => setEventDate(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: 10,
-                    marginTop: 12,
-                    borderRadius: 8,
-                    border: "1px solid #ccc",
-                  }}
-                />
-                <select
-                  value={eventType}
-                  onChange={(e) => setEventType(e.target.value)}
-                  style={{
-                    width: "100%",
-                    padding: 10,
-                    marginTop: 12,
-                    borderRadius: 8,
-                    border: "1px solid #ccc",
+                    background: "blue",
+                    borderRadius: 20,
+                    padding: 20,
+                    width: "92%",
+                    minWidth: 1000,
+                    color: "#fff",
                   }}
                 >
-                  <option value="">Select type</option>
+                  <h3>New event</h3>
+                  <p>No data for this day.</p>
+                  <input
+                    type="text"
+                    placeholder="Event title"
+                    value={eventTitle}
+                    onChange={(e) => setEventTitle(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: 10,
+                      marginTop: 12,
+                      borderRadius: 8,
+                      border: "1px solid #ccc",
+                    }}
+                  />
 
-                  {eventTypes.map((type) => (
-                    <option key={type.id} value={type.id}>
-                      {type.name}
-                    </option>
-                  ))}
-                </select>
-
-                {items.map((item, index) => (
-                  <div
-                    key={item.id}
-                    style={{ display: "flex", gap: 10, marginTop: 8 }}
+                  <input
+                    required
+                    type="date"
+                    value={eventDate}
+                    onChange={(e) => setEventDate(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: 10,
+                      marginTop: 12,
+                      borderRadius: 8,
+                      border: "1px solid #ccc",
+                    }}
+                  />
+                  <select
+                    value={eventType}
+                    onChange={(e) => setEventType(e.target.value)}
+                    style={{
+                      width: "100%",
+                      padding: 10,
+                      marginTop: 12,
+                      borderRadius: 8,
+                      border: "1px solid #ccc",
+                    }}
                   >
-                    <input
-                      value={item.name}
-                      onChange={(e) => {
-                        const updated = [...items];
-                        updated[index].name = e.target.value;
-                        setItems(updated);
-                      }}
-                      style={{ flex: 1, padding: 8 }}
-                    />
+                    <option value="">Select type</option>
 
-                    <button
-                      onClick={() => {
-                        setItems(items.filter((_, i) => i !== index));
-                      }}
+                    {eventTypes.map((type) => (
+                      <option key={type.id} value={type.id}>
+                        {type.name}
+                      </option>
+                    ))}
+                  </select>
+
+                  {items.map((item, index) => (
+                    <div
+                      key={item.id}
+                      style={{ display: "flex", gap: 10, marginTop: 8 }}
                     >
-                      ✕
-                    </button>
-                  </div>
-                ))}
+                      <input
+                        value={item.name}
+                        onChange={(e) => {
+                          const updated = [...items];
+                          updated[index].name = e.target.value;
+                          setItems(updated);
+                        }}
+                        style={{ flex: 1, padding: 8 }}
+                      />
 
-                <button
-                  onClick={handleCreateEvent}
-                  style={{
-                    marginTop: 20,
-                    width: "50%",
-                    padding: 12,
-                    border: "none",
-                    borderRadius: 12,
-                    background: "#000",
-                    color: "#fff",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Create
-                </button>
+                      <button
+                        onClick={() => {
+                          setItems(items.filter((_, i) => i !== index));
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
 
-                <button
-                  onClick={() => setCreateNewEvent(false)}
-                  style={{
-                    marginTop: 20,
-                    width: "50%",
-                    padding: 12,
-                    border: "none",
-                    borderRadius: 12,
-                    background: "#000",
-                    color: "#fff",
-                    fontWeight: "bold",
-                  }}
-                >
-                  Cancel
-                </button>
+                  <button
+                    type="submit"
+                    style={{
+                      marginTop: 20,
+                      width: "50%",
+                      padding: 12,
+                      border: "none",
+                      borderRadius: 12,
+                      background: "#000",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Create
+                  </button>
+
+                  <button
+                    onClick={() => setCreateNewEvent(false)}
+                    style={{
+                      marginTop: 20,
+                      width: "50%",
+                      padding: 12,
+                      border: "none",
+                      borderRadius: 12,
+                      background: "#000",
+                      color: "#fff",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </form>
               </motion.div>
             </motion.div>
           )}
