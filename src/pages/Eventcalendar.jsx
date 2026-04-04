@@ -40,6 +40,8 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [eventTypes, setEventTypes] = useState([]);
 
+  const [eventMaxCap, setEventMaxCap] = useState(0); // YYYY-MM-DD
+
   //const [eventTypeItems, setEventTypeItems] = useState({});
 
   useEffect(() => {
@@ -363,7 +365,7 @@ export default function Home() {
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
                     style={{
-                      width: "100%",
+                      width: "50%",
                       padding: 10,
                       marginTop: 12,
                       borderRadius: 8,
@@ -374,7 +376,7 @@ export default function Home() {
                     value={eventType}
                     onChange={(e) => setEventType(e.target.value)}
                     style={{
-                      width: "100%",
+                      width: "50%",
                       padding: 10,
                       marginTop: 12,
                       borderRadius: 8,
@@ -414,6 +416,19 @@ export default function Home() {
                       </button>
                     </div>
                   ))}
+
+                  <input
+                    type="number"
+                    value={eventDate}
+                    onChange={(e) => setEventMaxCap(e.target.value)}
+                    style={{
+                      width: "50%",
+                      padding: 10,
+                      marginTop: 12,
+                      borderRadius: 8,
+                      border: "1px solid #ccc",
+                    }}
+                  />
 
                   <button
                     type="submit"
