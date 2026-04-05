@@ -315,7 +315,9 @@ export default function Home() {
     setCreateNewEvent(false);
   };*/
 
-  const handleCreateEvent = async () => {
+  const handleCreateEvent = async (e) => {
+    e.preventDefault(); // 🔥 THIS STOPS THE REFRESH
+
     if (!eventTitle || !eventDate || !eventType) {
       alert("Fill all fields!");
       return;
