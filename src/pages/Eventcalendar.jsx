@@ -724,7 +724,7 @@ export default function Home() {
                     {/*selectedDay.entry?.items?.forEach((element) => {
                       <h2>{JSON.stringify(element)}</h2>;
                     })*/}
-                    {JSON.stringify(selectedDay.entry?.items)}
+                    {JSON.stringify(selectedDay.entry)}
                   </>
                 ) : (
                   <p style={{ opacity: 0.7 }}>No training logged.</p>
