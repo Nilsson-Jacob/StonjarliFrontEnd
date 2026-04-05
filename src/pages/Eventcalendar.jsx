@@ -724,12 +724,12 @@ export default function Home() {
                     {/*selectedDay.entry?.items?.forEach((element) => {
                       <h2>{JSON.stringify(element)}</h2>;
                     })*/}
-                    {Object.entries(selectedDay.entry?.items).forEach(
-                      ([name, count]) => {
-                        <h2>
+                    {Object.entries(selectedDay.entry?.items || {}).map(
+                      ([name, count]) => (
+                        <h2 key={name}>
                           {name} : {count}
-                        </h2>;
-                      }
+                        </h2>
+                      )
                     )}
                   </>
                 ) : (
