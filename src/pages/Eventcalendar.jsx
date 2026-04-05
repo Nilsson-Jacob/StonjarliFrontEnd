@@ -724,7 +724,11 @@ export default function Home() {
                     {/*selectedDay.entry?.items?.forEach((element) => {
                       <h2>{JSON.stringify(element)}</h2>;
                     })*/}
-                    {JSON.stringify(selectedDay.entry)}
+                    {Object.entries(selectedDay.entry?.items).forEach(
+                      ([name, count]) => {
+                        console.log(name, count);
+                      }
+                    )}
                   </>
                 ) : (
                   <p style={{ opacity: 0.7 }}>No training logged.</p>
