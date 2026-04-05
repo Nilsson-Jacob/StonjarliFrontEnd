@@ -726,7 +726,9 @@ export default function Home() {
                     })*/}
                     {Object.entries(selectedDay.entry?.items).forEach(
                       ([name, count]) => {
-                        console.log(name, count);
+                        <h2>
+                          {name} : {count}
+                        </h2>;
                       }
                     )}
                   </>
