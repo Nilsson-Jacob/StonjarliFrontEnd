@@ -414,7 +414,7 @@ export default function Home() {
                   <p>No data for this day.</p>
                   <input
                     type="text"
-                    placeholder="Event title"
+                    placeholder="Event name"
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
                     style={{
@@ -486,7 +486,7 @@ export default function Home() {
 
                   <input
                     type="number"
-                    value={eventDate}
+                    value={eventMaxCap}
                     onChange={(e) => setEventMaxCap(e.target.value)}
                     style={{
                       width: "50%",
@@ -573,7 +573,11 @@ export default function Home() {
                       {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
                     </h2>
 
-                    <h3>Max Cap: {selectedDay.entry.max_capacity}</h3>
+                    <h3>
+                      Number of bookings / max capacity:{" "}
+                      {selectedDay.entry.numberOfBookings} /{" "}
+                      {selectedDay.entry.max_capacity}
+                    </h3>
                   </>
                 ) : (
                   <p style={{ opacity: 0.7 }}>No training logged.</p>
