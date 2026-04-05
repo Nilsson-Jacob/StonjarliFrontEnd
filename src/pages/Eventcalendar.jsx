@@ -128,9 +128,61 @@ export default function Home() {
     setEntries(mapped);
   }, [currentMonth]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     fetchEntries();
-  }, [fetchEntries]);
+  }, [fetchEntries]);*/
+
+  /*const fetchBookings = useCallback(async () => {
+
+  });
+
+  useEffect(() => {
+    fetchBookings();
+  }, [])*/
+
+  const fetchBookings = useCallback(async () => {
+    const { data, error } = await supabase.from("bookings").select("event_id");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // Count bookings per event_id
+    const bookingsCount = {};
+
+    data.forEach((booking) => {
+      if (!bookingsCount[booking.event_id]) {
+        bookingsCount[booking.event_id] = 0;
+      }
+      bookingsCount[booking.event_id]++;
+    });
+
+    // Merge into entries
+    setEntries((prev) => {
+      const updated = { ...prev };
+
+      Object.keys(updated).forEach((dayKey) => {
+        const entry = updated[dayKey];
+
+        updated[dayKey] = {
+          ...entry,
+          numberOfBookings: bookingsCount[entry.id] || 0,
+        };
+      });
+
+      return updated;
+    });
+  }, []);
+
+  useEffect(() => {
+    const loadData = async () => {
+      await fetchEntries();
+      await fetchBookings();
+    };
+
+    loadData();
+  }, [fetchEntries, fetchBookings]);
 
   const handleCreateEvent = async () => {
     if (!eventTitle || !eventDate || !eventType)
