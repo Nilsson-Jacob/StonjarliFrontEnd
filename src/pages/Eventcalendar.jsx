@@ -246,7 +246,7 @@ export default function Home() {
         totalBookings++;
 
         booking.booking_items?.forEach((item) => {
-          const name = item.item_name;
+          const name = item.name;
 
           if (!itemCounts[name]) {
             itemCounts[name] = 0;
