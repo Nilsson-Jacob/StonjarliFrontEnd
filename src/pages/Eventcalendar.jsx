@@ -87,6 +87,7 @@ export default function Home() {
 
     fetchEventTypeItems();
   }, [eventType]);
+  /*
 
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
@@ -107,14 +108,7 @@ export default function Home() {
     data.forEach(async (entry) => {
       const dayKey = format(new Date(entry.date), "yyyy-MM-dd");
 
-      /*const { bookings, bookingError } = await supabase
-        .from("bookings")
-        .select("name, email")
-        .eq("event_id", entry.id);
 
-      console.log(
-        "bookings: " + JSON.stringify(bookings) + " error? : " + bookingError
-      );*/
 
       mapped[dayKey] = {
         title: entry.title,
@@ -128,20 +122,44 @@ export default function Home() {
     setEntries(mapped);
   }, [currentMonth]);
 
-  /*useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);*/
-
-  /*const fetchBookings = useCallback(async () => {
-
-  });
-
-  useEffect(() => {
-    fetchBookings();
-  }, [])*/
-
   const fetchBookings = useCallback(async () => {
     const { data, error } = await supabase.from("bookings").select("event_id");
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // Count bookings per event_id
+    const bookingsCount = {};
+
+    data.forEach((booking) => {
+      if (!bookingsCount[booking.event_id]) {
+        bookingsCount[booking.event_id] = 0;
+      }
+      bookingsCount[booking.event_id]++;
+    });
+
+
+    // Merge into entries
+    setEntries((prev) => {
+      const updated = { ...prev };
+
+      Object.keys(updated).forEach((dayKey) => {
+        const entry = updated[dayKey];
+
+        updated[dayKey] = {
+          ...entry,
+          numberOfBookings: bookingsCount[entry.id] || 0,
+        };
+      });
+
+      return updated;
+    });
+  }, []);
+
+  const fetchBookingItems = useCallback(async () => {
+    const { data, error } = await supabase.from("booking_items").select("booking_id");
 
     if (error) {
       console.error(error);
@@ -175,14 +193,85 @@ export default function Home() {
     });
   }, []);
 
+
   useEffect(() => {
     const loadData = async () => {
       await fetchEntries();
       await fetchBookings();
+      await fetchBookingItems();
     };
 
     loadData();
   }, [fetchEntries, fetchBookings]);
+
+*/
+  const fetchEntries = useCallback(async () => {
+    const start = startOfMonth(currentMonth);
+    const end = endOfMonth(currentMonth);
+
+    const { data, error } = await supabase
+      .from("events")
+      .select(
+        `
+        id,
+        title,
+        date,
+        max_capacity,
+        bookings (
+          id,
+          booking_items (
+            name,
+            quantity
+          )
+        )
+      `
+      )
+      .gte("date", start.toISOString())
+      .lte("date", end.toISOString());
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const mapped = {};
+
+    data.forEach((event) => {
+      const dayKey = format(new Date(event.date), "yyyy-MM-dd");
+
+      let totalBookings = 0;
+      const itemCounts = {};
+
+      event.bookings?.forEach((booking) => {
+        totalBookings++;
+
+        booking.booking_items?.forEach((item) => {
+          const name = item.item_name;
+
+          if (!itemCounts[name]) {
+            itemCounts[name] = 0;
+          }
+
+          itemCounts[name] += item.quantity || 1;
+        });
+      });
+
+      mapped[dayKey] = {
+        id: event.id,
+        title: event.title,
+        date: event.date,
+        max_capacity: event.max_capacity,
+        numberOfBookings: totalBookings,
+        items: itemCounts,
+      };
+    });
+
+    setEntries(mapped);
+  }, [currentMonth]);
+
+  useEffect(() => {
+    fetchEntries();
+  }, [fetchEntries]);
 
   const handleCreateEvent = async () => {
     if (!eventTitle || !eventDate || !eventType)
@@ -574,9 +663,9 @@ export default function Home() {
                     </h2>
 
                     <h3>
-                      Number of bookings / max capacity:{" "}
+                      Number of bookings / max capacity: (
                       {selectedDay.entry.numberOfBookings} /{" "}
-                      {selectedDay.entry.max_capacity}
+                      {selectedDay.entry.max_capacity})
                     </h3>
                   </>
                 ) : (
