@@ -121,7 +121,7 @@ export default function Home() {
         date: entry.date,
         id: entry.id,
         max_capacity: entry.max_capacity,
-        numberOfBookings: bookings.length,
+        numberOfBookings: bookings?.length,
       };
     });
 
