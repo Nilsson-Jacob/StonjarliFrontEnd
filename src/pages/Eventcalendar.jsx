@@ -40,7 +40,9 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [eventTypes, setEventTypes] = useState([]);
 
+  // Event Info
   const [eventMaxCap, setEventMaxCap] = useState(0); // YYYY-MM-DD
+  //const [eventBookingsMade, setEventBookingsMade] = useState(0); // YYYY-MM-DD
 
   //const [eventTypeItems, setEventTypeItems] = useState({});
 
@@ -92,7 +94,7 @@ export default function Home() {
 
     const { data, error } = await supabase
       .from("events")
-      .select("date, title, id")
+      .select("date, title, id, max_capacity")
       .gte("date", start.toISOString())
       .lte("date", end.toISOString());
 
@@ -102,12 +104,22 @@ export default function Home() {
     }
 
     const mapped = {};
-    data.forEach((entry) => {
+    data.forEach(async (entry) => {
       const dayKey = format(new Date(entry.date), "yyyy-MM-dd");
+
+      const { bookings, bookingError } = await supabase
+        .from("bookings")
+        .select("name, email")
+        .eq("event_id", entry.id);
+
+      console.log("bookings: " + JSON.stringify(bookings));
+
       mapped[dayKey] = {
         title: entry.title,
         date: entry.date,
         id: entry.id,
+        max_capacity: entry.max_capacity,
+        numberOfBookings: bookings.length,
       };
     });
 
@@ -506,6 +518,8 @@ export default function Home() {
                       Share link:
                       {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
                     </h2>
+
+                    <h3>Max Cap: {selectedDay.entry.max_capacity}</h3>
                   </>
                 ) : (
                   <p style={{ opacity: 0.7 }}>No training logged.</p>
