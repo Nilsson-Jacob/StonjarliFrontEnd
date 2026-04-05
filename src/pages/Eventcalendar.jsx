@@ -273,6 +273,7 @@ export default function Home() {
     fetchEntries();
   }, [fetchEntries]);
 
+  /*
   const handleCreateEvent = async () => {
     if (!eventTitle || !eventDate || !eventType)
       return alert("Fill all fields!");
@@ -312,7 +313,57 @@ export default function Home() {
     setEventType("");
 
     setCreateNewEvent(false);
+  };*/
+
+  const handleCreateEvent = async () => {
+    if (!eventTitle || !eventDate || !eventType) {
+      alert("Fill all fields!");
+      return;
+    }
+
+    // 1. Create event
+    const { data: event, error: eventError } = await supabase
+      .from("events")
+      .insert({
+        title: eventTitle,
+        date: eventDate,
+        event_type_id: eventType,
+        max_capacity: eventMaxCap,
+      })
+      .select()
+      .single();
+
+    if (eventError) {
+      console.error("Event insert error:", eventError);
+      return;
+    }
+
+    console.log("Created event:", event);
+
+    // 2. Insert items (only if items exist)
+    if (items.length > 0) {
+      const itemsToInsert = items.map((item) => ({
+        event_id: event.id,
+        name: item.name,
+      }));
+
+      const { error: itemsError } = await supabase
+        .from("items")
+        .insert(itemsToInsert);
+
+      if (itemsError) {
+        console.error("Items insert error:", itemsError);
+      }
+    }
+
+    // 3. Reset
+    setItems([]);
+    setCreateNewEvent(false);
+    setEventTitle("");
+    setEventDate("");
+    setEventType("");
   };
+
   function renderCells() {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
