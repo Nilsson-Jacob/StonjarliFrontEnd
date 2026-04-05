@@ -107,21 +107,21 @@ export default function Home() {
     data.forEach(async (entry) => {
       const dayKey = format(new Date(entry.date), "yyyy-MM-dd");
 
-      const { bookings, bookingError } = await supabase
+      /*const { bookings, bookingError } = await supabase
         .from("bookings")
         .select("name, email")
         .eq("event_id", entry.id);
 
       console.log(
         "bookings: " + JSON.stringify(bookings) + " error? : " + bookingError
-      );
+      );*/
 
       mapped[dayKey] = {
         title: entry.title,
         date: entry.date,
         id: entry.id,
         max_capacity: entry.max_capacity,
-        numberOfBookings: bookings?.length,
+        //numberOfBookings: bookings?.length,
       };
     });
 
