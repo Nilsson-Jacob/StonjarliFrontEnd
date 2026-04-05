@@ -112,7 +112,9 @@ export default function Home() {
         .select("name, email")
         .eq("event_id", entry.id);
 
-      console.log("bookings: " + JSON.stringify(bookings));
+      console.log(
+        "bookings: " + JSON.stringify(bookings) + " error? : " + bookingError
+      );
 
       mapped[dayKey] = {
         title: entry.title,
