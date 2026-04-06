@@ -226,6 +226,10 @@ export default function Home() {
               transition={{ delay: 0.3 }}
             >
               <h2>✅ Booking confirmed!</h2>
+              <h4>
+                email will be sent, please use the link in email to cancel if
+                needed
+              </h4>
             </motion.div>
           )}
         </AnimatePresence>
