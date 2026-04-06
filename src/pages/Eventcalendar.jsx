@@ -411,7 +411,7 @@ export default function Home() {
             }}
             whileTap={{ scale: 0.94 }}
           >
-            <span style={{ fontSize: 12, fontWeight: 600 }}>
+            <span style={{ fontSize: 20, fontWeight: 700 }}>
               {formattedDate}
             </span>
 
