@@ -522,7 +522,8 @@ export default function Home() {
                 background: "grey",
                 color: "#fff",
                 fontWeight: "bold",
-                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
               }}
               onClick={() => setCreateNewEvent(true)}
             >
@@ -755,7 +756,7 @@ export default function Home() {
                         setTimeout(() => setCopied(false), 2000);
                       }}
                     >
-                      {copied ? "Copied!" : "Copy share link"}
+                      {copied ? "Copied!" : "Copy link to share"}
                     </button>
 
                     <h3>

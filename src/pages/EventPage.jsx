@@ -170,13 +170,13 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{
                 opacity: 0,
-                y: -300,
-                scale: 0.6,
-                rotate: -15,
+                y: -600,
+                scale: 0.7,
+                rotate: -10,
               }}
               transition={{
-                duration: 4,
-                ease: "easeInOut",
+                duration: 0.9,
+                ease: [0.22, 1, 0.36, 1], // custom cubic-bezier (fast start, slow end)
               }}
             >
               <input
