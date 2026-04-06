@@ -45,6 +45,7 @@ export default function Home() {
   //const [eventBookingsMade, setEventBookingsMade] = useState(0); // YYYY-MM-DD
 
   //const [eventTypeItems, setEventTypeItems] = useState({});
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const fetchEventTypes = async () => {
@@ -721,10 +722,22 @@ export default function Home() {
                 {selectedDay.entry ? (
                   <>
                     <h2>{selectedDay.entry.title}</h2>
-                    <h2>
+
+                    {/*<h2>
                       Share link:
                       {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
-                    </h2>
+                    </h2> */}
+                    <button
+                      onClick={() => {
+                        const shareLink = `${window.location.origin}/event/${selectedDay.entry.id}`;
+
+                        navigator.clipboard.writeText(shareLink);
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 2000);
+                      }}
+                    >
+                      {copied ? "Copied!" : "Copy share link"}
+                    </button>
 
                     <h3>
                       Number of bookings / max capacity: (
