@@ -628,6 +628,7 @@ export default function Home() {
 
                   <input
                     type="number"
+                    placeholder="Max number of participants"
                     value={eventMaxCap}
                     onChange={(e) => setEventMaxCap(e.target.value)}
                     style={{
@@ -721,9 +722,7 @@ export default function Home() {
                       {selectedDay.entry.max_capacity})
                     </h3>
 
-                    {/*selectedDay.entry?.items?.forEach((element) => {
-                      <h2>{JSON.stringify(element)}</h2>;
-                    })*/}
+                    <h3>Orders</h3>
                     {Object.entries(selectedDay.entry?.items || {}).map(
                       ([name, count]) => (
                         <h2 key={name}>
