@@ -170,12 +170,12 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{
                 opacity: 0,
-                y: -400,
+                y: -300,
                 scale: 0.6,
                 rotate: -15,
               }}
               transition={{
-                duration: 0.9,
+                duration: 2,
                 ease: "easeInOut",
               }}
             >
