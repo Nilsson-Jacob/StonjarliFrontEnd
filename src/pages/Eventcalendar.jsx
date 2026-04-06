@@ -380,6 +380,7 @@ export default function Home() {
       for (let i = 0; i < 7; i++) {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
+        const dayOfWeek = format(currentDay, "EEEE");
         const dayKey = format(currentDay, "yyyy-MM-dd");
         const entry = entries[dayKey];
 
@@ -412,7 +413,7 @@ export default function Home() {
             whileTap={{ scale: 0.94 }}
           >
             <span style={{ fontSize: 20, fontWeight: 700 }}>
-              {formattedDate}
+              {formattedDate} - {dayOfWeek}
             </span>
 
             {entry && (
