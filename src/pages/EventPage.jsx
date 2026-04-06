@@ -15,6 +15,8 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
+  const [booked, setBooked] = useState(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -217,7 +219,17 @@ export default function Home() {
               <button type="submit">Book</button>
             </motion.form>
           )}
+          {booked && (
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              <h2>✅ Booking confirmed!</h2>
+            </motion.div>
+          )}
         </AnimatePresence>
+
         {/* eventData && (
           <div>
             <span style={{ fontSize: 25, fontWeight: 500 }}>
