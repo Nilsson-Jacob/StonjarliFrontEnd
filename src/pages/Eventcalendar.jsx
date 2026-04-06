@@ -482,7 +482,7 @@ export default function Home() {
               flexDirection: "row",
               display: "flex",
               justifyContent: "space-between",
-              width: 300,
+              width: "30vw",
             }}
           >
             <div
@@ -515,13 +515,14 @@ export default function Home() {
               style={{
                 display: "flex",
                 marginTop: 20,
-                width: "12vw",
+                width: "14vw",
                 padding: 12,
                 border: "none",
                 borderRadius: 12,
                 background: "grey",
                 color: "#fff",
                 fontWeight: "bold",
+                textAlign: "center",
               }}
               onClick={() => setCreateNewEvent(true)}
             >
