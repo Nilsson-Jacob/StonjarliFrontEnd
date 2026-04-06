@@ -101,7 +101,6 @@ export default function Home() {
       <div
         style={{
           height: "7vh",
-          background: "#ece7db",
           justifyContent: "center",
           display: "flex",
           background: Colors.bg,
