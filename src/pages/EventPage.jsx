@@ -175,7 +175,7 @@ export default function Home() {
                 rotate: -15,
               }}
               transition={{
-                duration: 2,
+                duration: 4,
                 ease: "easeInOut",
               }}
             >
