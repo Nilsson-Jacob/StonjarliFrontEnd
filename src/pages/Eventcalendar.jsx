@@ -515,11 +515,11 @@ export default function Home() {
               style={{
                 display: "flex",
                 marginTop: 20,
-                width: "4vw",
+                width: "12vw",
                 padding: 12,
                 border: "none",
                 borderRadius: 12,
-                background: "#000",
+                background: "grey",
                 color: "#fff",
                 fontWeight: "bold",
               }}
