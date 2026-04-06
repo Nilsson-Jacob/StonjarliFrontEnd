@@ -563,6 +563,8 @@ export default function Home() {
                   boxShadow: "blue",
                   maxHeight: "80vh",
                   overflowY: "auto",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
               >
                 <form
@@ -571,7 +573,7 @@ export default function Home() {
                     background: "grey",
                     borderRadius: 20,
                     padding: 20,
-                    width: "92%",
+                    width: "85%",
                     minWidth: 1000,
                     color: "#fff",
                   }}
@@ -583,7 +585,7 @@ export default function Home() {
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
                     style={{
-                      width: "100%",
+                      width: "20%",
                       padding: 10,
                       marginTop: 12,
                       borderRadius: 8,
@@ -597,7 +599,7 @@ export default function Home() {
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
                     style={{
-                      width: "50%",
+                      width: "20%",
                       padding: 10,
                       marginTop: 12,
                       borderRadius: 8,
@@ -608,7 +610,7 @@ export default function Home() {
                     value={eventType}
                     onChange={(e) => setEventType(e.target.value)}
                     style={{
-                      width: "50%",
+                      width: "20%",
                       padding: 10,
                       marginTop: 12,
                       borderRadius: 8,
