@@ -359,6 +359,8 @@ export default function Home() {
       }
     }
 
+    fetchEntries(); // <-- this will reload events
+
     // 3. Reset
     setItems([]);
     setCreateNewEvent(false);
