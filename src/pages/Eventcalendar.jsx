@@ -420,11 +420,10 @@ export default function Home() {
                 style={{
                   background: "orange",
                   textAlign: "center",
-                  marginBottom: 20,
                 }}
               >
                 <h3>{entry.title}</h3>
-                <h4>
+                <h4 style={{ marginBottom: 20 }}>
                   Bookings: {entry.numberOfBookings}/{entry.max_capacity}
                 </h4>
               </div>
