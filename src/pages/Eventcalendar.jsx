@@ -512,7 +512,17 @@ export default function Home() {
             </div>
             <motion.button
               layoutId="create-event"
-              style={{ display: "flex" }}
+              style={{
+                display: "flex",
+                marginTop: 20,
+                width: "4vw",
+                padding: 12,
+                border: "none",
+                borderRadius: 12,
+                background: "#000",
+                color: "#fff",
+                fontWeight: "bold",
+              }}
               onClick={() => setCreateNewEvent(true)}
             >
               Create new event
