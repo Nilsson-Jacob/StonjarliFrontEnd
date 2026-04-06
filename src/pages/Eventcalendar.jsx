@@ -41,7 +41,7 @@ export default function Home() {
   const [eventTypes, setEventTypes] = useState([]);
 
   // Event Info
-  const [eventMaxCap, setEventMaxCap] = useState(0); // YYYY-MM-DD
+  const [eventMaxCap, setEventMaxCap] = useState(""); // YYYY-MM-DD
   //const [eventBookingsMade, setEventBookingsMade] = useState(0); // YYYY-MM-DD
 
   //const [eventTypeItems, setEventTypeItems] = useState({});
@@ -330,7 +330,7 @@ export default function Home() {
         title: eventTitle,
         date: eventDate,
         event_type_id: eventType,
-        max_capacity: eventMaxCap,
+        max_capacity: Number(eventMaxCap),
       })
       .select()
       .single();
