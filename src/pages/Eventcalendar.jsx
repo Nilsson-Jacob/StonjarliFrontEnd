@@ -753,14 +753,51 @@ export default function Home() {
                       {selectedDay.entry.max_capacity})
                     </h3>
 
-                    <h3>Orders</h3>
+                    {/*<h3>Orders</h3>
                     {Object.entries(selectedDay.entry?.items || {}).map(
                       ([name, count]) => (
                         <h2 key={name}>
                           {name} : {count}
                         </h2>
                       )
-                    )}
+                    )*/}
+                    <h3>Orders</h3>
+
+                    <table
+                      style={{
+                        width: "100%",
+                        marginTop: 10,
+                        borderCollapse: "collapse",
+                        background: "#1a1a22",
+                        borderRadius: 8,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <thead style={{ background: "#2a2a35" }}>
+                        <tr>
+                          <th style={{ textAlign: "left", padding: 10 }}>
+                            Item
+                          </th>
+                          <th style={{ textAlign: "left", padding: 10 }}>
+                            Quantity
+                          </th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        {Object.entries(selectedDay.entry?.items || {}).map(
+                          ([name, count]) => (
+                            <tr
+                              key={name}
+                              style={{ borderTop: "1px solid #333" }}
+                            >
+                              <td style={{ padding: 10 }}>{name}</td>
+                              <td style={{ padding: 10 }}>{count}</td>
+                            </tr>
+                          )
+                        )}
+                      </tbody>
+                    </table>
                   </>
                 ) : (
                   <p style={{ opacity: 0.7 }}>No training logged.</p>
