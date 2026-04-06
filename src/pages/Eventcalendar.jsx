@@ -421,13 +421,15 @@ export default function Home() {
                   background: "orange",
                   textAlign: "center",
                   alignSelf: "center",
-                  maxHeight: 105,
+                  width: "90%",
+                  height: "70%",
+                  borderRadius: 5,
                 }}
               >
-                <h3>{entry.title}</h3>
-                <h4>
+                <h4>{entry.title}</h4>
+                <h5>
                   Bookings: {entry.numberOfBookings}/{entry.max_capacity}
-                </h4>
+                </h5>
               </div>
             )}
           </motion.div>
