@@ -419,7 +419,7 @@ export default function Home() {
             {entry && (
               <div
                 style={{
-                  background: Colors.orange,
+                  background: Colors.bg,
                   textAlign: "center",
                   alignSelf: "center",
                   width: "90%",

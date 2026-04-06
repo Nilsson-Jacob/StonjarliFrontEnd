@@ -101,10 +101,9 @@ export default function Home() {
       <div
         style={{
           height: "7vh",
+          background: "#ece7db",
           justifyContent: "center",
           display: "flex",
-          background: Colors.bg,
-          color: Colors.text,
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -118,6 +117,8 @@ export default function Home() {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
+          background: Colors.bg,
+          color: Colors.text,
         }}
       >
         {eventData && (
