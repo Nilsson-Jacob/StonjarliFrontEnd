@@ -728,6 +728,14 @@ export default function Home() {
                       {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
                     </h2> */}
                     <button
+                      style={{
+                        padding: 12,
+                        border: "none",
+                        borderRadius: 12,
+                        background: "#000",
+                        color: "#fff",
+                        fontWeight: "bold",
+                      }}
                       onClick={() => {
                         const shareLink = `${window.location.origin}/event/${selectedDay.entry.id}`;
 
@@ -761,7 +769,7 @@ export default function Home() {
                   onClick={() => setSelectedDay(null)}
                   style={{
                     marginTop: 20,
-                    width: "100%",
+                    width: "40%",
                     padding: 12,
                     border: "none",
                     borderRadius: 12,
