@@ -706,7 +706,7 @@ export default function Home() {
                 layoutId={selectedDay.dayKey}
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  background: Colors.card,
+                  background: "grey", //Colors.card,
                   borderRadius: 20,
                   padding: 20,
                   width: "92%",
