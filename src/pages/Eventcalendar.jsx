@@ -423,11 +423,11 @@ export default function Home() {
                   alignSelf: "center",
                   width: "90%",
                   height: "70%",
-                  borderRadius: 5,
+                  borderRadius: 15,
                 }}
               >
                 <h4>{entry.title}</h4>
-                <h5>
+                <h5 style={{ margin: 5 }}>
                   Bookings: {entry.numberOfBookings}/{entry.max_capacity}
                 </h5>
               </div>
