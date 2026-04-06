@@ -420,11 +420,12 @@ export default function Home() {
                 background: "orange",
                 textAlign: "center",
                 marginBottom: 20,
-                textDecorationColor: "aliceblue",
               }}
             >
-              {entry?.title}
-              {entry?.numberOfBookings} / {entry?.max_capacity}
+              <h3>{entry?.title}</h3>
+              <h4>
+                Bookings: {entry?.numberOfBookings}/{entry?.max_capacity}
+              </h4>
             </div>
           </motion.div>
         );
