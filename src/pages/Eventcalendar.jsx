@@ -419,7 +419,7 @@ export default function Home() {
             {entry && (
               <div
                 style={{
-                  background: Colors.bg,
+                  background: "orange",
                   textAlign: "center",
                   alignSelf: "center",
                   width: "90%",
@@ -703,7 +703,7 @@ export default function Home() {
                 layoutId={selectedDay.dayKey}
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  background: "blue",
+                  background: Colors.bg,
                   borderRadius: 20,
                   padding: 20,
                   width: "92%",

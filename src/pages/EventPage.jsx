@@ -97,7 +97,7 @@ export default function Home() {
   };
 
   return (
-    <div>
+    <div style={{ background: Colors.bg }}>
       <div
         style={{
           height: "7vh",
@@ -117,8 +117,8 @@ export default function Home() {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
-          background: Colors.bg,
-          color: Colors.text,
+          background: Colors.card,
+          maxWidth: 500,
         }}
       >
         {eventData && (
