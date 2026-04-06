@@ -413,7 +413,7 @@ export default function Home() {
             whileTap={{ scale: 0.94 }}
           >
             <span style={{ fontSize: 13, fontWeight: 600 }}>
-              {formattedDate} - {dayOfWeek}
+              {formattedDate} - {dayOfWeek.substring(0, 3)}
             </span>
 
             {entry && (
