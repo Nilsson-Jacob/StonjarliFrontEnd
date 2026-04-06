@@ -104,6 +104,8 @@ export default function Home() {
           background: "#ece7db",
           justifyContent: "center",
           display: "flex",
+          background: Colors.bg,
+          color: Colors.text,
         }}
       >
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -126,10 +128,7 @@ export default function Home() {
             </span>
           </div>
         )}
-        <form
-          onSubmit={handleSubmit}
-          style={{ background: Colors.bg, color: Colors.text }}
-        >
+        <form onSubmit={handleSubmit}>
           <input
             style={{ marginTop: 10 }}
             placeholder="Your name"
