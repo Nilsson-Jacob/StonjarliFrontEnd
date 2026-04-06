@@ -224,12 +224,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
+              style={{ justifyContent: "center" }}
             >
               <h2>✅ Booking confirmed!</h2>
-              <h4>
-                email will be sent, please use the link in email to cancel if
-                needed
-              </h4>
+              <h4>Please use the link in email to cancel if needed</h4>
             </motion.div>
           )}
         </AnimatePresence>
