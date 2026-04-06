@@ -412,7 +412,7 @@ export default function Home() {
             }}
             whileTap={{ scale: 0.94 }}
           >
-            <span style={{ fontSize: 20, fontWeight: 700 }}>
+            <span style={{ fontSize: 13, fontWeight: 600 }}>
               {formattedDate} - {dayOfWeek}
             </span>
 
