@@ -566,7 +566,7 @@ export default function Home() {
                 <form
                   onSubmit={handleCreateEvent}
                   style={{
-                    background: "blue",
+                    background: "grey",
                     borderRadius: 20,
                     padding: 20,
                     width: "92%",

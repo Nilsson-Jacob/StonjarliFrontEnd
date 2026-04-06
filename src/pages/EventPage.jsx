@@ -25,6 +25,8 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
+  const [booked, setBooked] = useState("false");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -94,7 +96,8 @@ export default function Home() {
       console.log("error : " + error);
     }
 
-    alert("Booked!");
+    console.log("Booked!");
+    setBooked(true);
   };
 
   return (
@@ -120,7 +123,7 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        {eventData && (
+        {eventData && !booked && (
           <div>
             <span style={{ fontSize: 25, fontWeight: 500 }}>
               {eventData.title} - {eventData?.date?.substring(0, 10)}
