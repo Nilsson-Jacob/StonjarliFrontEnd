@@ -419,7 +419,7 @@ export default function Home() {
             {entry && (
               <div
                 style={{
-                  background: "orange",
+                  background: Colors.orange,
                   textAlign: "center",
                   alignSelf: "center",
                   width: "90%",
@@ -538,12 +538,12 @@ export default function Home() {
                 layoutId="create-event"
                 onClick={(e) => e.stopPropagation()}
                 style={{
-                  background: "blue",
+                  background: Colors.card,
                   borderRadius: 20,
                   padding: 20,
                   width: "92%",
                   minWidth: 1000,
-                  color: "#fff",
+                  color: Colors.text, //"#fff",
                   boxShadow: "blue",
                   maxHeight: "80vh",
                   overflowY: "auto",

@@ -2,6 +2,17 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../components/supabaseClient";
 
+const Colors = {
+  bg: "#0f0f14",
+  card: "#1a1a22",
+  text: "#ffffff",
+  muted: "#888",
+  green: "#1f8f4e",
+  orange: "#c46a2b",
+  red: "#8b2f2f",
+  mid: "#3f7fa6",
+};
+
 export default function Home() {
   const { eventId } = useParams();
   console.log("here: " + eventId);
@@ -115,7 +126,10 @@ export default function Home() {
             </span>
           </div>
         )}
-        <form onSubmit={handleSubmit}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ background: Colors.bg, color: Colors.text }}
+        >
           <input
             style={{ marginTop: 10 }}
             placeholder="Your name"
