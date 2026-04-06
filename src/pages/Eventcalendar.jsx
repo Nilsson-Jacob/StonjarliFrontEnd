@@ -369,8 +369,11 @@ export default function Home() {
   function renderCells() {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
+    /*
     const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+    const endDate = endOfWeek(monthEnd);*/
+    const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
+    const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
     const rows = [];
     let days = [];
