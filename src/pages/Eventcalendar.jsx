@@ -415,18 +415,20 @@ export default function Home() {
               {formattedDate}
             </span>
 
-            <div
-              style={{
-                background: "orange",
-                textAlign: "center",
-                marginBottom: 20,
-              }}
-            >
-              <h3>{entry?.title}</h3>
-              <h4>
-                Bookings: {entry?.numberOfBookings}/{entry?.max_capacity}
-              </h4>
-            </div>
+            {entry && (
+              <div
+                style={{
+                  background: "orange",
+                  textAlign: "center",
+                  marginBottom: 20,
+                }}
+              >
+                <h3>{entry.title}</h3>
+                <h4>
+                  Bookings: {entry.numberOfBookings}/{entry.max_capacity}
+                </h4>
+              </div>
+            )}
           </motion.div>
         );
 
