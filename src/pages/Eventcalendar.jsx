@@ -420,10 +420,12 @@ export default function Home() {
                 style={{
                   background: "orange",
                   textAlign: "center",
+                  alignSelf: "center",
+                  maxHeight: 105,
                 }}
               >
                 <h3>{entry.title}</h3>
-                <h4 style={{ marginBottom: 20 }}>
+                <h4>
                   Bookings: {entry.numberOfBookings}/{entry.max_capacity}
                 </h4>
               </div>
