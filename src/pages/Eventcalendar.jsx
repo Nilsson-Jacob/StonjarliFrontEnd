@@ -570,55 +570,69 @@ export default function Home() {
                 <form
                   onSubmit={handleCreateEvent}
                   style={{
-                    background: "grey",
+                    background: "#2a2a35", // Darker card background
                     borderRadius: 20,
-                    padding: 20,
-                    width: "85%",
-                    minWidth: 1000,
+                    padding: 40,
+                    width: "90%",
+                    maxWidth: 600, // Limit width for better readability
                     color: "#fff",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    boxShadow: "0 10px 25px rgba(0,0,0,0.3)", // subtle shadow
+                    gap: 16, // consistent spacing
                   }}
                 >
-                  <h3>New event</h3>
+                  <h2 style={{ marginBottom: 20 }}>Create New Event</h2>
+
+                  {/* Event Name */}
                   <input
                     type="text"
                     placeholder="Event name"
                     value={eventTitle}
                     onChange={(e) => setEventTitle(e.target.value)}
                     style={{
-                      width: "20%",
-                      padding: 10,
-                      marginTop: 12,
-                      borderRadius: 8,
-                      border: "1px solid #ccc",
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: "1px solid #555",
+                      background: "#1a1a22",
+                      color: "#fff",
+                      fontSize: 16,
                     }}
                   />
 
+                  {/* Event Date */}
                   <input
-                    required
                     type="date"
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
                     style={{
-                      width: "20%",
-                      padding: 10,
-                      marginTop: 12,
-                      borderRadius: 8,
-                      border: "1px solid #ccc",
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: "1px solid #555",
+                      background: "#1a1a22",
+                      color: "#fff",
+                      fontSize: 16,
                     }}
                   />
+
+                  {/* Event Type */}
                   <select
                     value={eventType}
                     onChange={(e) => setEventType(e.target.value)}
                     style={{
-                      width: "20%",
-                      padding: 10,
-                      marginTop: 12,
-                      borderRadius: 8,
-                      border: "1px solid #ccc",
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: "1px solid #555",
+                      background: "#1a1a22",
+                      color: "#fff",
+                      fontSize: 16,
                     }}
                   >
                     <option value="">Select type</option>
-
                     {eventTypes.map((type) => (
                       <option key={type.id} value={type.id}>
                         {type.name}
@@ -626,10 +640,16 @@ export default function Home() {
                     ))}
                   </select>
 
+                  {/* Items */}
                   {items.map((item, index) => (
                     <div
                       key={item.id}
-                      style={{ display: "flex", gap: 10, marginTop: 8 }}
+                      style={{
+                        display: "flex",
+                        gap: 10,
+                        width: "100%",
+                        alignItems: "center",
+                      }}
                     >
                       <input
                         value={item.name}
@@ -638,12 +658,29 @@ export default function Home() {
                           updated[index].name = e.target.value;
                           setItems(updated);
                         }}
-                        style={{ flex: 1, padding: 8 }}
+                        style={{
+                          flex: 1,
+                          padding: 10,
+                          borderRadius: 10,
+                          border: "1px solid #555",
+                          background: "#1a1a22",
+                          color: "#fff",
+                          fontSize: 16,
+                        }}
                       />
-
                       <button
-                        onClick={() => {
-                          setItems(items.filter((_, i) => i !== index));
+                        type="button"
+                        onClick={() =>
+                          setItems(items.filter((_, i) => i !== index))
+                        }
+                        style={{
+                          padding: "8px 12px",
+                          borderRadius: 8,
+                          border: "none",
+                          background: "#c42f2f",
+                          color: "#fff",
+                          cursor: "pointer",
+                          fontWeight: "bold",
                         }}
                       >
                         ✕
@@ -651,51 +688,68 @@ export default function Home() {
                     </div>
                   ))}
 
+                  {/* Max Participants */}
                   <input
                     type="number"
                     placeholder="Max number of participants"
-                    value={eventMaxCap}
+                    value={eventMaxCap || ""}
                     onChange={(e) => setEventMaxCap(e.target.value)}
                     style={{
-                      width: "50%",
-                      padding: 10,
-                      marginTop: 12,
-                      borderRadius: 8,
-                      border: "1px solid #ccc",
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: "1px solid #555",
+                      background: "#1a1a22",
+                      color: "#fff",
+                      fontSize: 16,
                     }}
                   />
 
-                  <button
-                    type="submit"
+                  {/* Buttons */}
+                  <div
                     style={{
+                      display: "flex",
+                      gap: 16,
                       marginTop: 20,
-                      width: "50%",
-                      padding: 12,
-                      border: "none",
-                      borderRadius: 12,
-                      background: "#000",
-                      color: "#fff",
-                      fontWeight: "bold",
+                      width: "100%",
+                      justifyContent: "space-between",
                     }}
                   >
-                    Create
-                  </button>
+                    <button
+                      type="submit"
+                      style={{
+                        flex: 1,
+                        padding: 14,
+                        borderRadius: 12,
+                        border: "none",
+                        background: "#1f8f4e",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        fontSize: 16,
+                      }}
+                    >
+                      Create
+                    </button>
 
-                  <button
-                    onClick={() => setCreateNewEvent(false)}
-                    style={{
-                      marginTop: 20,
-                      width: "50%",
-                      padding: 12,
-                      border: "none",
-                      borderRadius: 12,
-                      background: "#000",
-                      color: "#fff",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Cancel
-                  </button>
+                    <button
+                      type="button"
+                      onClick={() => setCreateNewEvent(false)}
+                      style={{
+                        flex: 1,
+                        padding: 14,
+                        borderRadius: 12,
+                        border: "none",
+                        background: "#c42f2f",
+                        color: "#fff",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                        fontSize: 16,
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </form>
               </motion.div>
             </motion.div>
