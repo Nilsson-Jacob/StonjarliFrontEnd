@@ -2,17 +2,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../components/supabaseClient";
 
-/*
-const Colors = {
-  bg: "#0f0f14",
-  card: "#1a1a22",
-  text: "#ffffff",
-  muted: "#888",
-  green: "#1f8f4e",
-  orange: "#c46a2b",
-  red: "#8b2f2f",
-  mid: "#3f7fa6",
-};*/
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const { eventId } = useParams();
@@ -24,8 +14,6 @@ export default function Home() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
-
-  const [booked, setBooked] = useState("false");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,13 +111,14 @@ export default function Home() {
           flexDirection: "column",
         }}
       >
-        {eventData && !booked && (
+        {eventData && (
           <div>
             <span style={{ fontSize: 25, fontWeight: 500 }}>
               {eventData.title} - {eventData?.date?.substring(0, 10)}
             </span>
           </div>
         )}
+        {/*
         <form onSubmit={handleSubmit}>
           <input
             style={{ marginTop: 10 }}
@@ -170,7 +159,65 @@ export default function Home() {
           )}
 
           <button type="submit">Book</button>
-        </form>
+        </form>*/}
+        <AnimatePresence>
+          {!booked && (
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={{ opacity: 1, y: 0, scale: 1 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{
+                opacity: 0,
+                y: -200,
+                scale: 0.8,
+                rotate: -5,
+              }}
+              transition={{
+                duration: 0.6,
+                ease: "easeInOut",
+              }}
+            >
+              <input
+                style={{ marginTop: 10 }}
+                placeholder="Your name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+
+              <input
+                style={{ display: "block", marginTop: 10 }}
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              {items && (
+                <div style={{ marginTop: 16 }}>
+                  <span>Val av frukost:</span>
+                  {items.map((item) => (
+                    <label
+                      key={item.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        marginBottom: 8,
+                      }}
+                    >
+                      <input
+                        type="checkbox"
+                        onChange={() => handleItemToggle(item)}
+                      />
+                      {item.name}
+                    </label>
+                  ))}
+                </div>
+              )}
+
+              <button type="submit">Book</button>
+            </motion.form>
+          )}
+        </AnimatePresence>
         {/* eventData && (
           <div>
             <span style={{ fontSize: 25, fontWeight: 500 }}>
