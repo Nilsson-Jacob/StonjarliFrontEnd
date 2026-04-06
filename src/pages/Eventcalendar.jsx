@@ -512,6 +512,7 @@ export default function Home() {
             </div>
             <motion.button
               layoutId="create-event"
+              aria-label="Create new event"
               style={{
                 display: "flex",
                 marginTop: 20,
@@ -525,9 +526,7 @@ export default function Home() {
                 textAlign: "center",
               }}
               onClick={() => setCreateNewEvent(true)}
-            >
-              Create new event
-            </motion.button>
+            ></motion.button>
           </div>
         </div>
 
