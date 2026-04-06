@@ -424,6 +424,7 @@ export default function Home() {
               }}
             >
               {entry?.title}
+              {entry?.numberOfBookings} / {entry?.max_capacity}
             </div>
           </motion.div>
         );
@@ -553,7 +554,6 @@ export default function Home() {
                   }}
                 >
                   <h3>New event</h3>
-                  <p>No data for this day.</p>
                   <input
                     type="text"
                     placeholder="Event name"
