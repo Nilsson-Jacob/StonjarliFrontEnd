@@ -85,7 +85,7 @@ export default function Home() {
 
       /*
       Send email for cancel booking */
-
+      /*
       await supabase.functions.invoke("sendBookingEmail", {
         body: JSON.stringify({
           name,
@@ -93,7 +93,22 @@ export default function Home() {
           eventTitle: eventData.title,
           cancelLink: `${window.location.origin}/cancel/${token}`,
         }),
-      });
+      });*/
+      await fetch(
+        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            eventTitle: eventData.title,
+            cancelLink: `${window.location.origin}/cancel/${token}`,
+          }),
+        }
+      );
     } catch (error) {
       console.log("error : " + error);
     }
