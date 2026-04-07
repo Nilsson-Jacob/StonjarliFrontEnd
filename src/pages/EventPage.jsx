@@ -100,8 +100,8 @@ export default function Home() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
-            Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY}`,
+            // apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+            //Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY}`,
           },
           body: JSON.stringify({
             name,
