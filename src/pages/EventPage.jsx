@@ -82,6 +82,18 @@ export default function Home() {
           name: element.name,
         });
       });
+
+      /*
+      Send email for cancel booking */
+
+      await supabase.functions.invoke("sendBookingEmail", {
+        body: JSON.stringify({
+          name,
+          email,
+          eventTitle: eventData.title,
+          cancelLink: `${window.location.origin}/cancel/${token}`,
+        }),
+      });
     } catch (error) {
       console.log("error : " + error);
     }
