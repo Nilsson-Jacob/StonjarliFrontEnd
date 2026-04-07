@@ -433,7 +433,7 @@ export default function Home() {
                   borderRadius: 15,
                 }}
               >
-                <h4>{entry.title}</h4>
+                <h4 style={{ marginBottom: 0 }}>{entry.title}</h4>
                 <h5 style={{ margin: 5 }}>
                   Bookings: {entry.numberOfBookings}/{entry.max_capacity}
                 </h5>
@@ -823,14 +823,6 @@ export default function Home() {
                       {selectedDay.entry.max_capacity})
                     </h3>
 
-                    {/*<h3>Orders</h3>
-                    {Object.entries(selectedDay.entry?.items || {}).map(
-                      ([name, count]) => (
-                        <h2 key={name}>
-                          {name} : {count}
-                        </h2>
-                      )
-                    )*/}
                     <h3>Orders</h3>
 
                     <table
