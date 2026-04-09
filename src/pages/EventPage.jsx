@@ -1,6 +1,251 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "../components/supabaseClient";
+import { motion, AnimatePresence } from "framer-motion";
+
+export default function EventPage() {
+  const { eventId } = useParams();
+
+  const [eventData, setEventData] = useState({});
+  const [items, setItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const [booked, setBooked] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data: eventData } = await supabase
+          .from("events")
+          .select("*")
+          .eq("id", eventId)
+          .single();
+
+        const { data: eventItems } = await supabase
+          .from("items")
+          .select("*")
+          .eq("event_id", eventId);
+
+        setEventData(eventData);
+        setItems(eventItems);
+      } catch (error) {
+        console.log("error: " + error);
+      }
+    };
+
+    fetchData();
+  }, [eventId]);
+
+  const handleItemToggle = (item) => {
+    const exists = selectedItems.find((i) => i.id === item.id);
+    if (exists) {
+      setSelectedItems(selectedItems.filter((i) => i.id !== item.id));
+    } else {
+      setSelectedItems([...selectedItems, item]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email || selectedItems.length === 0) {
+      alert("Fill all fields and select at least one item");
+      return;
+    }
+
+    try {
+      const token = crypto.randomUUID();
+
+      const { data: bookingData } = await supabase
+        .from("bookings")
+        .insert({
+          event_id: eventId,
+          name,
+          email,
+          booking_token: token,
+        })
+        .select()
+        .single();
+
+      for (let element of selectedItems) {
+        await supabase.from("booking_items").insert({
+          booking_id: bookingData.id,
+          item_id: element.id,
+          name: element.name,
+        });
+      }
+
+      // Call your edge function to send email
+      await fetch(
+        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            eventTitle: eventData.title,
+            cancelLink: `${window.location.origin}/cancel/${token}`,
+          }),
+        }
+      );
+
+      setBooked(true);
+    } catch (error) {
+      console.log("error : " + error);
+    }
+  };
+
+  // Styles
+  const containerStyle = {
+    background: "#f7f7f7",
+    minHeight: "100vh",
+    padding: 16,
+    display: "flex",
+    justifyContent: "center",
+  };
+
+  const cardStyle = {
+    width: "100%",
+    maxWidth: 420,
+    padding: 20,
+    borderRadius: 12,
+    boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+    background: "white",
+  };
+
+  const headerStyle = {
+    height: 60,
+    background: "#ece7db",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 16,
+    borderRadius: 8,
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: 12,
+    marginTop: 12,
+    borderRadius: 8,
+    border: "1px solid #ccc",
+    fontSize: 16,
+  };
+
+  const buttonStyle = {
+    marginTop: 24,
+    width: "100%",
+    padding: 14,
+    borderRadius: 10,
+    border: "none",
+    background: "#000",
+    color: "white",
+    fontSize: 16,
+  };
+
+  const itemLabelStyle = (selected) => ({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "12px 14px",
+    borderRadius: 10,
+    border: selected ? "2px solid #000" : "1px solid #ddd",
+    marginBottom: 10,
+    cursor: "pointer",
+  });
+
+  return (
+    <div style={containerStyle}>
+      <div style={{ width: "100%", maxWidth: 420 }}>
+        <div style={headerStyle}>
+          <span style={{ fontSize: 22 }}>Bageri Baka</span>
+        </div>
+
+        <div style={cardStyle}>
+          {eventData && (
+            <div style={{ marginBottom: 20 }}>
+              <h2 style={{ margin: 0 }}>{eventData.title}</h2>
+              <p style={{ margin: 0, color: "#666" }}>
+                {eventData?.date?.substring(0, 10)}
+              </p>
+            </div>
+          )}
+
+          <AnimatePresence>
+            {!booked ? (
+              <motion.form
+                onSubmit={handleSubmit}
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                <input
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  style={inputStyle}
+                />
+                <input
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={inputStyle}
+                />
+
+                {items && (
+                  <div style={{ marginTop: 16 }}>
+                    <span style={{ fontWeight: 500 }}>Select items:</span>
+                    {items.map((item) => {
+                      const selected = selectedItems.find(
+                        (i) => i.id === item.id
+                      );
+                      return (
+                        <label
+                          key={item.id}
+                          style={itemLabelStyle(selected)}
+                          onClick={() => handleItemToggle(item)}
+                        >
+                          <span>{item.name}</span>
+                          <input
+                            type="checkbox"
+                            checked={!!selected}
+                            readOnly
+                          />
+                        </label>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <button type="submit" style={buttonStyle}>
+                  Book
+                </button>
+              </motion.form>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                style={{ textAlign: "center" }}
+              >
+                <h2>✅ Booking confirmed!</h2>
+                <p>Please use the link in the email to cancel if needed.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/*import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "../components/supabaseClient";
 
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -119,7 +364,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* Header */}
       <div
         style={{
           height: "7vh",
@@ -132,7 +376,6 @@ export default function Home() {
         <span style={{ fontSize: 28, fontWeight: 400 }}>Bageri Baka</span>
       </div>
 
-      {/* Center container */}
       <div
         style={{
           display: "flex",
@@ -149,7 +392,6 @@ export default function Home() {
             background: "white",
           }}
         >
-          {/* Event info */}
           {eventData && (
             <div style={{ marginBottom: 20, textAlign: "center" }}>
               <h2 style={{ margin: 0 }}>{eventData.title}</h2>
@@ -167,7 +409,6 @@ export default function Home() {
                 exit={{ opacity: 0, y: -200 }}
                 transition={{ duration: 0.5 }}
               >
-                {/* Inputs */}
                 <input
                   placeholder="Your name"
                   value={name}
@@ -182,7 +423,6 @@ export default function Home() {
                   style={inputStyle}
                 />
 
-                {/* Items */}
                 {items && (
                   <div style={{ marginTop: 16 }}>
                     <p style={{ marginBottom: 8, fontWeight: 500 }}>
@@ -229,7 +469,6 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Button */}
                 <button
                   type="submit"
                   style={{
@@ -249,7 +488,6 @@ export default function Home() {
               </motion.form>
             )}
 
-            {/* Success */}
             {booked && (
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
