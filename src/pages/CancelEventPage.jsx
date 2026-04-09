@@ -20,10 +20,16 @@ export default function CancelBooking() {
           .from("bookings")
           .select("*")
           .eq("booking_token", token)
+          .is("cancelled_at", null)
           .single();
 
-        if (error || !bookingData) {
+        if (error) {
           setStatus("error");
+          return;
+        }
+
+        if (!bookingData) {
+          setStatus("cancelled");
           return;
         }
 
