@@ -59,9 +59,9 @@ export default function CancelBooking() {
   const handleCancel = async () => {
     const { error } = await supabase
       .from("bookings")
-      .update({ cancelled_at: "2025-10-10" })
+      .update({ cancelled_at: new Date().toISOString() })
       .eq("booking_token", token)
-      .eq("cancelled_at", "");
+      .is("cancelled_at", null);
 
     if (error) {
       alert("Failed to cancel");
