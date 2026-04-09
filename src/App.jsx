@@ -20,6 +20,7 @@ import Profile from "./pages/Profile";
 import Eventcalendar from "./pages/Eventcalendar";
 //import CafeNavBar from "./components/CafeNavBar";
 import EventPage from "./pages/EventPage";
+import CancelBooking from "./pages/CancelEventPage";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
 
         <Route path="/event-overview" element={<Eventcalendar />} />
         <Route path="/event/:eventId" element={<EventPage />} />
+        <Route path="/cancel/:token" element={<CancelBooking />} />
 
         {/* Default */}
         <Route
