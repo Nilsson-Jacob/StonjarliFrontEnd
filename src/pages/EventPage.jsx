@@ -5,7 +5,7 @@ import { supabase } from "../components/supabaseClient";
 import { motion, AnimatePresence } from "framer-motion";
 
 const inputStyle = {
-  width: "100%",
+  width: "95%",
   padding: 10,
   marginTop: 10,
   borderRadius: 8,
