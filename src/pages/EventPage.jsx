@@ -83,17 +83,6 @@ export default function Home() {
         });
       });
 
-      /*
-      Send email for cancel booking */
-      /*
-      await supabase.functions.invoke("sendBookingEmail", {
-        body: JSON.stringify({
-          name,
-          email,
-          eventTitle: eventData.title,
-          cancelLink: `${window.location.origin}/cancel/${token}`,
-        }),
-      });*/
       await fetch(
         "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
         {
@@ -119,6 +108,157 @@ export default function Home() {
     setBooked(true);
   };
 
+  return (
+    <div>
+      {/* Header */}
+      <div
+        style={{
+          height: "7vh",
+          background: "#ece7db",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <span style={{ fontSize: 28, fontWeight: 400 }}>Bageri Baka</span>
+      </div>
+
+      {/* Center container */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: 40,
+        }}
+      >
+        <div
+          style={{
+            width: 400,
+            padding: 24,
+            borderRadius: 12,
+            boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+            background: "white",
+          }}
+        >
+          {/* Event info */}
+          {eventData && (
+            <div style={{ marginBottom: 20, textAlign: "center" }}>
+              <h2 style={{ margin: 0 }}>{eventData.title}</h2>
+              <p style={{ margin: 0, color: "#666" }}>
+                {eventData?.date?.substring(0, 10)}
+              </p>
+            </div>
+          )}
+
+          <AnimatePresence>
+            {!booked && (
+              <motion.form
+                onSubmit={handleSubmit}
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, y: -200 }}
+                transition={{ duration: 0.5 }}
+              >
+                {/* Inputs */}
+                <input
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  style={inputStyle}
+                />
+
+                <input
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={inputStyle}
+                />
+
+                {/* Items */}
+                {items && (
+                  <div style={{ marginTop: 16 }}>
+                    <p style={{ marginBottom: 8, fontWeight: 500 }}>
+                      Choose breakfast:
+                    </p>
+
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                      }}
+                    >
+                      {items.map((item) => {
+                        const selected = selectedItems.find(
+                          (i) => i.id === item.id
+                        );
+
+                        return (
+                          <label
+                            key={item.id}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              padding: "10px 12px",
+                              borderRadius: 8,
+                              border: selected
+                                ? "2px solid #000"
+                                : "1px solid #ddd",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <span>{item.name}</span>
+                            <input
+                              type="checkbox"
+                              checked={!!selected}
+                              onChange={() => handleItemToggle(item)}
+                            />
+                          </label>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Button */}
+                <button
+                  type="submit"
+                  style={{
+                    marginTop: 24,
+                    width: "100%",
+                    padding: 12,
+                    borderRadius: 8,
+                    border: "none",
+                    background: "#000",
+                    color: "white",
+                    fontSize: 16,
+                    cursor: "pointer",
+                  }}
+                >
+                  Book
+                </button>
+              </motion.form>
+            )}
+
+            {/* Success */}
+            {booked && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{ textAlign: "center" }}
+              >
+                <h2>✅ Booking confirmed!</h2>
+                <p>Check your email to manage your booking.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/*
   return (
     <div>
       <div
@@ -149,48 +289,7 @@ export default function Home() {
             </span>
           </div>
         )}
-        {/*
-        <form onSubmit={handleSubmit}>
-          <input
-            style={{ marginTop: 10 }}
-            placeholder="Your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <input
-            style={{ display: "block", marginTop: 10 }}
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-
-          {items && (
-            <div style={{ marginTop: 16 }}>
-              <span>Val av frukost:</span>
-              {items.map((item) => (
-                <label
-                  key={item.id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    marginBottom: 8,
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    value={item.id}
-                    onChange={(e) => handleItemToggle(item)}
-                  />
-                  {item.name}
-                </label>
-              ))}
-            </div>
-          )}
-
-          <button type="submit">Book</button>
-        </form>*/}
+        
         <AnimatePresence>
           {!booked && (
             <motion.form
@@ -304,8 +403,9 @@ export default function Home() {
               </label>
             ))}
           </div>
-        )*/}
+        )*/
+/*}
       </div>
     </div>
   );
-}
+}*/
