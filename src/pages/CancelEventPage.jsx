@@ -78,7 +78,8 @@ export default function CancelBooking() {
 
   // UI states
   if (status === "loading") return <p>Loading booking...</p>;
-  if (status === "error") return <p>❌ Invalid booking link</p>;
+  if (status === "error")
+    return <p>❌ Invalid booking link or already cancelled</p>;
 
   if (status === "cancelled") {
     return (
