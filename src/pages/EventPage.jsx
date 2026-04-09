@@ -4,6 +4,15 @@ import { supabase } from "../components/supabaseClient";
 
 import { motion, AnimatePresence } from "framer-motion";
 
+const inputStyle = {
+  width: "100%",
+  padding: 10,
+  marginTop: 10,
+  borderRadius: 8,
+  border: "1px solid #ccc",
+  fontSize: 14,
+};
+
 export default function Home() {
   const { eventId } = useParams();
   console.log("here: " + eventId);
