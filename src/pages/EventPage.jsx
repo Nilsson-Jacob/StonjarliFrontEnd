@@ -228,7 +228,7 @@ export default function Home() {
                   type="submit"
                   style={{
                     marginTop: 24,
-                    width: "100%",
+                    width: "95%",
                     padding: 12,
                     borderRadius: 8,
                     border: "none",
