@@ -61,7 +61,7 @@ export default function CancelBooking() {
       .from("bookings")
       .update({ cancelled_at: "2025-10-10" })
       .eq("booking_token", token)
-      .eq("cancelled", false);
+      .eq("cancelled_at", null);
 
     if (error) {
       alert("Failed to cancel");
