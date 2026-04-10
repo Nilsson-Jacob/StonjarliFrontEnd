@@ -83,8 +83,6 @@ export default function Home() {
         .single();
 
       selectedItems.forEach(async (element) => {
-        console.log("here and: " + JSON.stringify(element));
-
         await supabase.from("booking_items").insert({
           booking_id: bookingData.id,
           item_id: element.id,
@@ -113,7 +111,6 @@ export default function Home() {
       console.log("error : " + error);
     }
 
-    console.log("Booked!");
     setBooked(true);
   };
 
@@ -152,6 +149,9 @@ export default function Home() {
               <h2 style={{ margin: 0 }}>{eventData.title}</h2>
               <p style={{ margin: 0, color: "#666" }}>
                 {eventData?.date?.substring(0, 10)}
+              </p>
+              <p style={{ margin: 0, color: "#666" }}>
+                {eventData?.max_capacity}
               </p>
             </div>
           )}
