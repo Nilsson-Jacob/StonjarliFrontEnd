@@ -228,7 +228,8 @@ export default function Home() {
       `
       )
       .gte("date", start.toISOString())
-      .lte("date", end.toISOString());
+      .lte("date", end.toISOString())
+      .is("bookings.cancelled_at", null);
 
     if (error) {
       console.error(error);
