@@ -159,8 +159,8 @@ export default function Home() {
                 {eventData?.date?.substring(0, 10)}
               </p>
               <p style={{ margin: 0, color: "#666" }}>
-                Number of available spots{" "}
-                {Number(eventData?.max_capacity) - bookingCount}
+                Number of available spots {eventData?.max_capacity}-
+                {bookingCount}
               </p>
             </div>
           )}
