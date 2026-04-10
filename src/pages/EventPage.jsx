@@ -162,7 +162,6 @@ export default function Home() {
               <p style={{ margin: 0, color: "#666" }}>
                 Number of available spots{" "}
                 {Number(eventData?.max_capacity) - Number(bookingCount?.count)}-
-                {bookingCount.valueOf}
               </p>
             </div>
           )}
