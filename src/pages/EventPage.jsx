@@ -123,6 +123,12 @@ export default function Home() {
     setBooked(true);
   };
 
+  const capacity = eventData?.max_capacity ?? 0;
+  const bookedCount = bookingCount?.count ?? 0;
+
+  const spotsLeft = capacity - bookedCount;
+  const hasSpots = spotsLeft > 0;
+
   return (
     <div>
       <div
@@ -163,16 +169,16 @@ export default function Home() {
               {eventData?.max_capacity && bookingCount?.count && (
                 <p style={{ margin: 0, color: "#666" }}>
                   Number of available spots:
+                  {spotsLeft} -
                   {(eventData?.max_capacity ?? 0) - (bookingCount?.count ?? 0)}
                 </p>
               )}
             </div>
           )}
 
-          {eventData?.max_capacity > bookingCount?.count && (
-            <div>No available spots</div>
-          )}
-          {eventData?.max_capacity > bookingCount?.count && (
+          {!hasSpots && <div>No available spots</div>}
+
+          {hasSpots && !booked && (
             <AnimatePresence>
               {!booked && (
                 <motion.form
