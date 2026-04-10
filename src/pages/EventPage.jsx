@@ -160,16 +160,18 @@ export default function Home() {
                 {eventData?.date?.substring(0, 10)}
               </p>
 
-              {eventData.max_capacity && bookingCount.count && (
+              {eventData?.max_capacity && bookingCount?.count && (
                 <p style={{ margin: 0, color: "#666" }}>
                   Number of available spots:
-                  {(eventData?.max_capacity ?? 0) -
-                    (bookingCount?.count ?? 0)}{" "}
+                  {(eventData?.max_capacity ?? 0) - (bookingCount?.count ?? 0)}
                 </p>
               )}
             </div>
           )}
 
+          {eventData?.max_capacity > bookingCount?.count && (
+            <div>No available spots</div>
+          )}
           {eventData?.max_capacity > bookingCount?.count && (
             <AnimatePresence>
               {!booked && (
