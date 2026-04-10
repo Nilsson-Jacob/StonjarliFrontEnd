@@ -44,7 +44,7 @@ export default function Home() {
         const { data: bookingCount } = await supabase
           .from("bookings")
           .select("count")
-          .is("event_id", eventId)
+          .eq("event_id", eventId)
           .is("cancelled_at", null);
 
         setBookingCount(bookingCount);
