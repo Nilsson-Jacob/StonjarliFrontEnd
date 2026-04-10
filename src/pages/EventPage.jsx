@@ -19,6 +19,7 @@ export default function Home() {
 
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
+  const [bookingCount, setBookingCount] = useState(0);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -39,6 +40,13 @@ export default function Home() {
           .from("items")
           .select("*")
           .eq("event_id", eventId);
+
+        const { data: bookingCount } = await supabase
+          .from("bookings")
+          .select("count")
+          .is("cancelled_at", null);
+
+        setBookingCount(bookingCount);
 
         setEventData(eventData);
         setItems(eventItems);
@@ -151,7 +159,8 @@ export default function Home() {
                 {eventData?.date?.substring(0, 10)}
               </p>
               <p style={{ margin: 0, color: "#666" }}>
-                {eventData?.max_capacity}
+                Number of available spots{" "}
+                {Number(eventData?.max_capacity) - bookingCount}
               </p>
             </div>
           )}
