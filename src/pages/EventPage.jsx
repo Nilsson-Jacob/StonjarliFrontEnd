@@ -44,6 +44,7 @@ export default function Home() {
         const { data: bookingCount } = await supabase
           .from("bookings")
           .select("count")
+          .is("event_id", eventId)
           .is("cancelled_at", null);
 
         setBookingCount(bookingCount);
@@ -159,7 +160,8 @@ export default function Home() {
                 {eventData?.date?.substring(0, 10)}
               </p>
               <p style={{ margin: 0, color: "#666" }}>
-                Number of available spots {eventData?.max_capacity}-
+                Number of available spots{" "}
+                {Number(eventData?.max_capacity) - Number(bookingCount.count)}-
                 {bookingCount.valueOf}
               </p>
             </div>
