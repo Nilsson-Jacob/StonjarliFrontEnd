@@ -135,6 +135,7 @@ export default function Home() {
 
   return (
     <div>
+      {/*
       <div
         style={{
           height: "7vh",
@@ -145,7 +146,7 @@ export default function Home() {
         }}
       >
         <span style={{ fontSize: 28, fontWeight: 400 }}>Bageri Baka</span>
-      </div>
+      </div>*/}
 
       <div
         style={{
@@ -160,18 +161,18 @@ export default function Home() {
             padding: 24,
             borderRadius: 12,
             boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-            background: "white",
+            background: "#5c1e2e",
+            color: "#DBACB4",
           }}
         >
           {eventData && (
             <div style={{ marginBottom: 20, textAlign: "center" }}>
+              <h1>Bageri Baka</h1>
               <h2 style={{ margin: 0 }}>{eventData.title}</h2>
-              <p style={{ margin: 0, color: "#666" }}>
-                {eventData?.date?.substring(0, 10)}
-              </p>
+              <p style={{ margin: 0 }}>{eventData?.date?.substring(0, 10)}</p>
 
               {!booked && (
-                <p style={{ margin: 0, color: "#666" }}>
+                <p style={{ margin: 0 }}>
                   Number of available spots: {spotsLeft}
                 </p>
               )}
