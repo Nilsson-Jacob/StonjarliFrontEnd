@@ -27,6 +27,10 @@ export default function Home() {
 
   const [booked, setBooked] = useState(false);
 
+  if (!eventData || !bookingCount) {
+    return null; // or a loader
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
