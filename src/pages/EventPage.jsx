@@ -158,10 +158,10 @@ export default function Home() {
           style={{
             width: 500,
             padding: 24,
-            borderRadius: 12,
             boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
             background: "#5c1e2e",
             color: "#DBACB4",
+            height: 1000,
           }}
         >
           {eventData && (
