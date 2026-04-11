@@ -90,7 +90,14 @@ export default function CancelBooking() {
   }
 
   return (
-    <div style={{ textAlign: "center", marginTop: 40 }}>
+    <div
+      style={{
+        textAlign: "center",
+        marginTop: 40,
+        background: "#5c1e2e",
+        color: "#DBACB4",
+      }}
+    >
       <h2>Cancel booking</h2>
 
       {eventData && (
