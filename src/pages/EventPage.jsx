@@ -129,8 +129,8 @@ export default function Home() {
   const spotsLeft = capacity - bookedCount;
   const hasSpots = spotsLeft > 0;
 
-  if (!eventData || !bookingCount) {
-    return null; // or a loader
+  if (eventData?.max_capacity == null || bookingCount?.count == null) {
+    return null; // or loader
   }
 
   return (
