@@ -83,7 +83,15 @@ export default function CancelBooking() {
 
   if (status === "cancelled") {
     return (
-      <div style={{ textAlign: "center", marginTop: 40 }}>
+      <div
+        style={{
+          textAlign: "center",
+          background: "#5c1e2e",
+          color: "#DBACB4",
+          height: 1000,
+          marginTop: -20,
+        }}
+      >
         <h2>❌ Booking cancelled</h2>
       </div>
     );
