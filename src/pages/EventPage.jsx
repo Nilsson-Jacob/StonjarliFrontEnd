@@ -124,7 +124,7 @@ export default function Home() {
   };
 
   const capacity = eventData?.max_capacity ?? 0;
-  const bookedCount = bookingCount?.count ?? 0;
+  const bookedCount = bookingCount?.[0]?.count ?? 0;
 
   const spotsLeft = capacity - bookedCount;
   const hasSpots = spotsLeft > 0;
