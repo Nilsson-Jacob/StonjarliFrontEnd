@@ -579,6 +579,8 @@ export default function Home() {
                     width: "90%",
                     maxWidth: 600, // Limit width for better readability
                     color: "#fff",
+                    maxHeight: "80vh", // 👈 KEY
+                    overflowY: "auto", // 👈 KEY
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
