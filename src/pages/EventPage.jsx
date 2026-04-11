@@ -152,7 +152,6 @@ export default function Home() {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: 40,
         }}
       >
         <div
