@@ -130,7 +130,6 @@ export default function Home() {
   const hasSpots = spotsLeft > 0;
 
   if (capacity === 0 && bookedCount === 0) {
-    console.log("maxcap: " + capacity + "    booking: " + bookedCount);
     return null; // or loader
   }
 
@@ -177,108 +176,106 @@ export default function Home() {
             </div>
           )}
 
-          {!hasSpots && <div>No available spots</div>}
+          {!hasSpots && !booked && <div>No available spots</div>}
 
-          {hasSpots && !booked && (
-            <AnimatePresence>
-              {!booked && (
-                <motion.form
-                  onSubmit={handleSubmit}
-                  initial={{ opacity: 1 }}
-                  exit={{ opacity: 0, y: -200 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <input
-                    placeholder="Your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    style={inputStyle}
-                  />
+          <AnimatePresence>
+            {hasSpots && !booked && (
+              <motion.form
+                onSubmit={handleSubmit}
+                initial={{ opacity: 1 }}
+                exit={{ opacity: 0, y: -200 }}
+                transition={{ duration: 0.5 }}
+              >
+                <input
+                  placeholder="Your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  style={inputStyle}
+                />
 
-                  <input
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    style={inputStyle}
-                  />
+                <input
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={inputStyle}
+                />
 
-                  {items && (
-                    <div style={{ marginTop: 16 }}>
-                      <p style={{ marginBottom: 8, fontWeight: 500 }}>
-                        Choose breakfast:
-                      </p>
+                {items && (
+                  <div style={{ marginTop: 16 }}>
+                    <p style={{ marginBottom: 8, fontWeight: 500 }}>
+                      Choose breakfast:
+                    </p>
 
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                          gap: 8,
-                        }}
-                      >
-                        {items.map((item) => {
-                          const selected = selectedItems.find(
-                            (i) => i.id === item.id
-                          );
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 8,
+                      }}
+                    >
+                      {items.map((item) => {
+                        const selected = selectedItems.find(
+                          (i) => i.id === item.id
+                        );
 
-                          return (
-                            <label
-                              key={item.id}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                padding: "10px 12px",
-                                borderRadius: 8,
-                                border: selected
-                                  ? "2px solid #000"
-                                  : "1px solid #ddd",
-                                cursor: "pointer",
-                              }}
-                            >
-                              <span>{item.name}</span>
-                              <input
-                                type="checkbox"
-                                checked={!!selected}
-                                onChange={() => handleItemToggle(item)}
-                              />
-                            </label>
-                          );
-                        })}
-                      </div>
+                        return (
+                          <label
+                            key={item.id}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                              padding: "10px 12px",
+                              borderRadius: 8,
+                              border: selected
+                                ? "2px solid #000"
+                                : "1px solid #ddd",
+                              cursor: "pointer",
+                            }}
+                          >
+                            <span>{item.name}</span>
+                            <input
+                              type="checkbox"
+                              checked={!!selected}
+                              onChange={() => handleItemToggle(item)}
+                            />
+                          </label>
+                        );
+                      })}
                     </div>
-                  )}
+                  </div>
+                )}
 
-                  <button
-                    type="submit"
-                    style={{
-                      marginTop: 24,
-                      width: "95%",
-                      padding: 12,
-                      borderRadius: 8,
-                      border: "none",
-                      background: "#000",
-                      color: "white",
-                      fontSize: 16,
-                      cursor: "pointer",
-                    }}
-                  >
-                    Book
-                  </button>
-                </motion.form>
-              )}
-
-              {booked && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  style={{ textAlign: "center" }}
+                <button
+                  type="submit"
+                  style={{
+                    marginTop: 24,
+                    width: "95%",
+                    padding: 12,
+                    borderRadius: 8,
+                    border: "none",
+                    background: "#000",
+                    color: "white",
+                    fontSize: 16,
+                    cursor: "pointer",
+                  }}
                 >
-                  <h2>✅ Booking confirmed!</h2>
-                  <p>Check your email to manage your booking.</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
+                  Book
+                </button>
+              </motion.form>
+            )}
+
+            {booked && (
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                style={{ textAlign: "center" }}
+              >
+                <h2>✅ Booking confirmed!</h2>
+                <p>Check your email to manage your booking.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
