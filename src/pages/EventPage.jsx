@@ -27,10 +27,6 @@ export default function Home() {
 
   const [booked, setBooked] = useState(false);
 
-  if (!eventData || !bookingCount) {
-    return null; // or a loader
-  }
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -132,6 +128,10 @@ export default function Home() {
 
   const spotsLeft = capacity - bookedCount;
   const hasSpots = spotsLeft > 0;
+
+  if (!eventData || !bookingCount) {
+    return null; // or a loader
+  }
 
   return (
     <div>
