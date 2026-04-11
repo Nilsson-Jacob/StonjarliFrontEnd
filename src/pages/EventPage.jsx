@@ -129,7 +129,7 @@ export default function Home() {
   const spotsLeft = capacity - bookedCount;
   const hasSpots = spotsLeft > 0;
 
-  if (capacity == 0 && bookedCount == 0) {
+  if (capacity === 0 && bookedCount === 0) {
     console.log("maxcap: " + capacity + "    booking: " + bookedCount);
     return null; // or loader
   }
