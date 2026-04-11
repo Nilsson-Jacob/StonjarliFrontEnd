@@ -130,6 +130,12 @@ export default function Home() {
   const hasSpots = spotsLeft > 0;
 
   if (eventData?.max_capacity == null || bookingCount?.count == null) {
+    console.log(
+      "maxcap: " +
+        eventData?.max_capacity +
+        "    booking: " +
+        bookingCount?.count
+    );
     return null; // or loader
   }
 
