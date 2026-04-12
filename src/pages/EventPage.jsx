@@ -143,7 +143,12 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "#5c1e2e",
+      }}
+    >
       {/*
       <div
         style={{
