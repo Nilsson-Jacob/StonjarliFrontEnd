@@ -88,124 +88,7 @@ export default function Home() {
 
     fetchEventTypeItems();
   }, [eventType]);
-  /*
 
-  const fetchEntries = useCallback(async () => {
-    const start = startOfMonth(currentMonth);
-    const end = endOfMonth(currentMonth);
-
-    const { data, error } = await supabase
-      .from("events")
-      .select("date, title, id, max_capacity")
-      .gte("date", start.toISOString())
-      .lte("date", end.toISOString());
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    const mapped = {};
-    data.forEach(async (entry) => {
-      const dayKey = format(new Date(entry.date), "yyyy-MM-dd");
-
-
-
-      mapped[dayKey] = {
-        title: entry.title,
-        date: entry.date,
-        id: entry.id,
-        max_capacity: entry.max_capacity,
-        //numberOfBookings: bookings?.length,
-      };
-    });
-
-    setEntries(mapped);
-  }, [currentMonth]);
-
-  const fetchBookings = useCallback(async () => {
-    const { data, error } = await supabase.from("bookings").select("event_id");
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    // Count bookings per event_id
-    const bookingsCount = {};
-
-    data.forEach((booking) => {
-      if (!bookingsCount[booking.event_id]) {
-        bookingsCount[booking.event_id] = 0;
-      }
-      bookingsCount[booking.event_id]++;
-    });
-
-
-    // Merge into entries
-    setEntries((prev) => {
-      const updated = { ...prev };
-
-      Object.keys(updated).forEach((dayKey) => {
-        const entry = updated[dayKey];
-
-        updated[dayKey] = {
-          ...entry,
-          numberOfBookings: bookingsCount[entry.id] || 0,
-        };
-      });
-
-      return updated;
-    });
-  }, []);
-
-  const fetchBookingItems = useCallback(async () => {
-    const { data, error } = await supabase.from("booking_items").select("booking_id");
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-
-    // Count bookings per event_id
-    const bookingsCount = {};
-
-    data.forEach((booking) => {
-      if (!bookingsCount[booking.event_id]) {
-        bookingsCount[booking.event_id] = 0;
-      }
-      bookingsCount[booking.event_id]++;
-    });
-
-    // Merge into entries
-    setEntries((prev) => {
-      const updated = { ...prev };
-
-      Object.keys(updated).forEach((dayKey) => {
-        const entry = updated[dayKey];
-
-        updated[dayKey] = {
-          ...entry,
-          numberOfBookings: bookingsCount[entry.id] || 0,
-        };
-      });
-
-      return updated;
-    });
-  }, []);
-
-
-  useEffect(() => {
-    const loadData = async () => {
-      await fetchEntries();
-      await fetchBookings();
-      await fetchBookingItems();
-    };
-
-    loadData();
-  }, [fetchEntries, fetchBookings]);
-
-*/
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
@@ -275,50 +158,8 @@ export default function Home() {
     fetchEntries();
   }, [fetchEntries]);
 
-  /*
-  const handleCreateEvent = async () => {
-    if (!eventTitle || !eventDate || !eventType)
-      return alert("Fill all fields!");
-
-    // Call your backend / Supabase insert here
-    console.log({ eventTitle, eventDate, eventType });
-
-    // 1. Create event
-    const { data: event } = await supabase
-      .from("events")
-      .insert({
-        title: eventTitle,
-        date: eventDate,
-        event_type_id: eventType,
-        max_capacity: eventMaxCap,
-      })
-      .select()
-      .single();
-
-    console.log("error here?" + event);
-
-    // 2. Insert items
-    const itemsToInsert = items.map((item) => ({
-      event_id: event.id,
-      name: item.name,
-    }));
-
-    await supabase.from("items").insert(itemsToInsert);
-
-    // 3. Reset
-    setItems([]);
-    setCreateNewEvent(false);
-
-    // Optionally reset form
-    setEventTitle("");
-    setEventDate("");
-    setEventType("");
-
-    setCreateNewEvent(false);
-  };*/
-
   const handleCreateEvent = async (e) => {
-    e.preventDefault(); // 🔥 THIS STOPS THE REFRESH
+    e.preventDefault();
 
     if (!eventTitle || !eventDate || !eventType) {
       alert("Fill all fields!");
@@ -660,7 +501,12 @@ export default function Home() {
                         value={item.name}
                         onChange={(e) => {
                           const updated = [...items];
-                          updated[index].name = e.target.value;
+
+                          updated[index] = {
+                            ...updated[index],
+                            name: e.target.value,
+                          };
+
                           setItems(updated);
                         }}
                         style={{
@@ -692,6 +538,27 @@ export default function Home() {
                       </button>
                     </div>
                   ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setItems([
+                        ...items,
+                        { id: crypto.randomUUID(), name: "" },
+                      ])
+                    }
+                    style={{
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: "1px dashed #666",
+                      background: "transparent",
+                      color: "#aaa",
+                      cursor: "pointer",
+                      fontSize: 14,
+                    }}
+                  >
+                    + Add item
+                  </button>
 
                   {/* Max Participants */}
                   <input

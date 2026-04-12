@@ -188,7 +188,7 @@ export default function Home() {
                 {eventData?.date?.substring(11, 16)}
               </p>
 
-              {!booked && (
+              {!booked && hasSpots && (
                 <p style={{ margin: 0 }}>
                   Number of available spots: {spotsLeft}
                 </p>
