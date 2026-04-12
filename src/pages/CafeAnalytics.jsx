@@ -119,85 +119,87 @@ export default function Home() {
   };
 
   return (
-    <div
-      style={{
-        padding: 16,
-        background: "#f7f7f7",
-        minHeight: "100vh",
-      }}
-    >
+    <>
       <CafeNavBar />
 
-      {/* Stats */}
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <div style={cardStyle}>
-          <h3>{stats.totalBookings}</h3>
-          <p>Total bookings</p>
-        </div>
-
-        <div style={cardStyle}>
-          <h3>{stats.returnRate}%</h3>
-          <p>Returning customers</p>
-          <small>
-            {stats.returningCustomers} / {stats.totalCustomers}
-          </small>
-        </div>
-
-        <div style={cardStyle}>
-          <h3>{stats.cancelled}</h3>
-          <p>Cancellations</p>
-        </div>
-      </div>
-
-      {/* Chart */}
       <div
         style={{
-          marginTop: 30,
           padding: 16,
-          background: "white",
-          borderRadius: 12,
-          boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
+          background: "#f7f7f7",
+          minHeight: "100vh",
         }}
       >
-        <h4>Bookings over time</h4>
-        <ResponsiveContainer width="100%" height={250}>
-          <LineChart data={chartData}>
-            <CartesianGrid />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Line type="monotone" dataKey="count" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
-      {/* Popular items */}
-      <div
-        style={{
-          marginTop: 30,
-          padding: 16,
-          background: "white",
-          borderRadius: 12,
-          boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
-        }}
-      >
-        <h4>🥐 Most popular items</h4>
-
-        {popularItems.slice(0, 5).map((item) => (
-          <div
-            key={item.name}
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              padding: "8px 0",
-              borderBottom: "1px solid #eee",
-            }}
-          >
-            <span>{item.name}</span>
-            <strong>{item.count}</strong>
+        {/* Stats */}
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+          <div style={cardStyle}>
+            <h3>{stats.totalBookings}</h3>
+            <p>Total bookings</p>
           </div>
-        ))}
+
+          <div style={cardStyle}>
+            <h3>{stats.returnRate}%</h3>
+            <p>Returning customers</p>
+            <small>
+              {stats.returningCustomers} / {stats.totalCustomers}
+            </small>
+          </div>
+
+          <div style={cardStyle}>
+            <h3>{stats.cancelled}</h3>
+            <p>Cancellations</p>
+          </div>
+        </div>
+
+        {/* Chart */}
+        <div
+          style={{
+            marginTop: 30,
+            padding: 16,
+            background: "white",
+            borderRadius: 12,
+            boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
+          }}
+        >
+          <h4>Bookings over time</h4>
+          <ResponsiveContainer width="100%" height={250}>
+            <LineChart data={chartData}>
+              <CartesianGrid />
+              <XAxis dataKey="date" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="count" />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Popular items */}
+        <div
+          style={{
+            marginTop: 30,
+            padding: 16,
+            background: "white",
+            borderRadius: 12,
+            boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
+          }}
+        >
+          <h4>🥐 Most popular items</h4>
+
+          {popularItems.slice(0, 5).map((item) => (
+            <div
+              key={item.name}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                padding: "8px 0",
+                borderBottom: "1px solid #eee",
+              }}
+            >
+              <span>{item.name}</span>
+              <strong>{item.count}</strong>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
