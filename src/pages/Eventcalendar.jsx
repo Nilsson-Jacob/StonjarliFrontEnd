@@ -609,7 +609,7 @@ export default function Home() {
 
                   {/* Event Date */}
                   <input
-                    type="date"
+                    type="datetime"
                     value={eventDate}
                     onChange={(e) => setEventDate(e.target.value)}
                     style={{
