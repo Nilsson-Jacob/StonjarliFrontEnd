@@ -161,6 +161,7 @@ export default function Home() {
         style={{
           display: "flex",
           justifyContent: "center",
+          background: "#5c1e2e",
         }}
       >
         <div
@@ -187,10 +188,14 @@ export default function Home() {
                   Number of available spots: {spotsLeft}
                 </p>
               )}
+
+              {!booked && !hasSpots && (
+                <p style={{ margin: 0 }}>
+                  Event is fully booked, in queue: {spotsLeft}
+                </p>
+              )}
             </div>
           )}
-
-          {!hasSpots && !booked && <div>No available spots</div>}
 
           <AnimatePresence>
             {hasSpots && !booked && (
