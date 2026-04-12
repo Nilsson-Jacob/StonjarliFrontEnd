@@ -170,7 +170,7 @@ export default function Home() {
               <h2 style={{ margin: 0 }}>{eventData.title}</h2>
               <p style={{ margin: 0 }}>
                 {eventData?.date?.substring(0, 10)} -{" "}
-                {eventData?.date?.substring(11, 15)}
+                {eventData?.date?.substring(11, 16)}
               </p>
 
               {!booked && (
