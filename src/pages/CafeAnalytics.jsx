@@ -12,8 +12,8 @@ import {
 } from "recharts";
 
 export default function Home() {
-  // const [bookings, setBookings] = useState([]);
-  //const [items, setItems] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [items, setItems] = useState([]);
   const [chartData, setChartData] = useState([]);
 
   const [stats, setStats] = useState({
@@ -23,6 +23,8 @@ export default function Home() {
     totalBookings: 0,
     cancelled: 0,
   });
+
+  console.log("bookings + items: " + bookings + " : " + items);
 
   const [popularItems, setPopularItems] = useState([]);
 
