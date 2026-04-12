@@ -28,6 +28,15 @@ export default function Home() {
   const [booked, setBooked] = useState(false);
 
   useEffect(() => {
+    if (booked) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [booked]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const { data: eventData } = await supabase
