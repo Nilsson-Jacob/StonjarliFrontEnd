@@ -12,8 +12,8 @@ import {
 } from "recharts";
 
 export default function Home() {
-  const [bookings, setBookings] = useState([]);
-  const [items, setItems] = useState([]);
+  // const [bookings, setBookings] = useState([]);
+  //const [items, setItems] = useState([]);
   const [chartData, setChartData] = useState([]);
 
   const [stats, setStats] = useState({
