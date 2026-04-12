@@ -182,7 +182,7 @@ export default function Home() {
             padding: 16,
             background: "#1a1a22",
             borderRadius: 12,
-            boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
+            boxShadow: "0 6px 20px rgba(79, 231, 63, 0.05)",
           }}
         >
           <h4>Most popular items</h4>
