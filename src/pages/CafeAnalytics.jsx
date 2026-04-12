@@ -9,6 +9,8 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
+  BarChart,
+  Bar,
 } from "recharts";
 
 import CafeNavBar from "../components/CafeNavBar";
@@ -172,7 +174,6 @@ export default function Home() {
           </ResponsiveContainer>
         </div>
 
-        {/* Popular items */}
         <div
           style={{
             marginTop: 30,
@@ -184,20 +185,15 @@ export default function Home() {
         >
           <h4>🥐 Most popular items</h4>
 
-          {popularItems.slice(0, 5).map((item) => (
-            <div
-              key={item.name}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                padding: "8px 0",
-                borderBottom: "1px solid #eee",
-              }}
-            >
-              <span>{item.name}</span>
-              <strong>{item.count}</strong>
-            </div>
-          ))}
+          <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={popularItems.slice(0, 6)}>
+              <CartesianGrid />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Bar dataKey="count" label />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </>
