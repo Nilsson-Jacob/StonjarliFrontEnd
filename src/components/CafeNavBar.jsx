@@ -13,7 +13,7 @@ const CafeNavBar = () => {
         <li className={location.pathname === "/event-overview" ? "active" : ""}>
           <Link to="/event-overview">Overview</Link>
         </li>
-        <li className={location.pathname === "/event-overview" ? "active" : ""}>
+        <li className={location.pathname === "/analytics" ? "active" : ""}>
           <Link to="/analytics">Data</Link>
         </li>
       </ul>
