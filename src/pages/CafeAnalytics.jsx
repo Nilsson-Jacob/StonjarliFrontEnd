@@ -115,7 +115,7 @@ export default function Home() {
     minWidth: 120,
     padding: 16,
     borderRadius: 12,
-    background: "white",
+    background: "#1a1a22",
     boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
     textAlign: "center",
   };
