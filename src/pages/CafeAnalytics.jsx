@@ -158,9 +158,10 @@ export default function Home() {
           style={{
             marginTop: 30,
             padding: 16,
-            background: "white",
+            background: "#1a1a22",
             borderRadius: 12,
             boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
+            color: "white",
           }}
         >
           <h4>Bookings over time</h4>
@@ -179,7 +180,7 @@ export default function Home() {
           style={{
             marginTop: 30,
             padding: 16,
-            background: "white",
+            background: "#1a1a22",
             borderRadius: 12,
             boxShadow: "0 6px 20px rgba(0,0,0,0.05)",
           }}
