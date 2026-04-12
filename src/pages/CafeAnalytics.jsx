@@ -193,7 +193,7 @@ export default function Home() {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="count" label />
+              <Bar dataKey="count" fill="#4fe73f" label />
             </BarChart>
           </ResponsiveContainer>
         </div>
