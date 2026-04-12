@@ -112,7 +112,8 @@ export default function CancelBooking() {
       {eventData && (
         <p>
           <strong>{eventData.title}</strong> –{" "}
-          {eventData?.date?.substring(0, 10)}
+          {eventData?.date?.substring(0, 10)} -{" "}
+          {eventData?.date?.substring(11, 16)}{" "}
         </p>
       )}
 
