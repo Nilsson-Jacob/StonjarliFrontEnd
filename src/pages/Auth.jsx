@@ -1,33 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { supabase } from "../components/supabaseClient";
-
-const Colors = {
-  primary500: "#72063c",
-  primary600: "#640233",
-  primary700: "#4e0329",
-  primary800: "#4e0329",
-  primary1000: "#4e0335",
-  accent500: "#ddb52f",
-};
+import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState("signin"); // signin | signup | magic
   const [message, setMessage] = useState("");
 
-  useEffect(() => {
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (session) {
-          console.log("Logged in:", session.user);
-        }
-      }
-    );
-
-    return () => listener.subscription.unsubscribe();
-  }, []);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,33 +16,14 @@ export default function Auth() {
     setMessage("");
 
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-        if (error) throw error;
-        setMessage("Check your email to confirm your account.");
-      }
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (mode === "signin") {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-        if (error) throw error;
-      }
+      if (error) throw error;
 
-      if (mode === "magic") {
-        const { error } = await supabase.auth.signInWithOtp({
-          email,
-          options: {
-            emailRedirectTo: window.location.origin,
-          },
-        });
-        if (error) throw error;
-        setMessage("Magic link sent. Check your email.");
-      }
+      navigate("/event-overview");
     } catch (err) {
       setMessage(err.message);
     } finally {
@@ -72,14 +34,7 @@ export default function Auth() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Maxhapp</h1>
-        <p style={styles.subtitle}>
-          {mode === "signup"
-            ? "Create your account"
-            : mode === "magic"
-            ? "Sign in with magic link"
-            : "Welcome back"}
-        </p>
+        <h1 style={styles.title}>Sign in</h1>
 
         <form onSubmit={handleSubmit} style={styles.form}>
           <input
@@ -91,41 +46,21 @@ export default function Auth() {
             required
           />
 
-          {mode !== "magic" && (
-            <input
-              style={styles.input}
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          )}
+          <input
+            style={styles.input}
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
           <button style={styles.button} disabled={loading}>
-            {loading
-              ? "Loading..."
-              : mode === "signup"
-              ? "Sign up"
-              : mode === "magic"
-              ? "Send magic link"
-              : "Sign in"}
+            {loading ? "Signing in..." : "Sign in"}
           </button>
         </form>
 
         {message && <p style={styles.message}>{message}</p>}
-
-        <div style={styles.switches}>
-          <button onClick={() => setMode("signin")} style={styles.link}>
-            Sign in
-          </button>
-          <button onClick={() => setMode("signup")} style={styles.link}>
-            Sign up
-          </button>
-          {/* <button onClick={() => setMode("magic")} style={styles.link}>
-            Magic link
-          </button> */}
-        </div>
       </div>
     </div>
   );
@@ -137,74 +72,56 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "linear-gradient(180deg, #4e0329 0%, #ddb52f 100%)",
+    background: "#0f0f14", // matches your dark theme
   },
 
   card: {
-    background: Colors.primary600,
-    padding: "40px",
-    borderRadius: "24px",
+    background: "#1a1a22",
+    padding: "32px",
+    borderRadius: "16px",
     width: "100%",
-    maxWidth: "380px",
-    boxShadow: "0 20px 40px rgba(0,0,0,0.35)",
+    maxWidth: "360px",
+    boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
     textAlign: "center",
   },
 
   title: {
-    color: "white",
-    fontSize: "32px",
-    marginBottom: "8px",
-  },
-
-  subtitle: {
-    color: Colors.accent500,
-    marginBottom: "24px",
+    color: "#fff",
+    fontSize: "24px",
+    marginBottom: "20px",
   },
 
   form: {
     display: "flex",
     flexDirection: "column",
-    gap: "14px",
+    gap: "12px",
   },
 
   input: {
-    padding: "14px",
-    borderRadius: "14px",
-    border: "none",
-    fontSize: "16px",
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #444",
+    background: "#111",
+    color: "#fff",
+    fontSize: "15px",
     outline: "none",
   },
 
   button: {
     marginTop: "10px",
-    padding: "14px",
-    borderRadius: "18px",
+    padding: "12px",
+    borderRadius: "10px",
     border: "none",
-    background: Colors.accent500,
-    color: Colors.primary700,
+    background: "#4fe73f", // same green accent you used earlier
+    color: "#000",
     fontWeight: "600",
-    fontSize: "16px",
+    fontSize: "15px",
     cursor: "pointer",
-  },
-
-  switches: {
-    marginTop: "24px",
-    display: "flex",
-    justifyContent: "space-between",
-  },
-
-  link: {
-    background: "none",
-    border: "none",
-    color: "#fff",
-    cursor: "pointer",
-    fontSize: "14px",
-    opacity: 0.8,
   },
 
   message: {
-    marginTop: "16px",
-    color: Colors.accent500,
+    marginTop: "14px",
+    color: "#ff4d6d",
     fontSize: "14px",
   },
 };
