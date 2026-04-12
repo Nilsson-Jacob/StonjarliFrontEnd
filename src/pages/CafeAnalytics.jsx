@@ -11,6 +11,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import CafeNavBar from "../components/CafeNavBar";
+
 export default function Home() {
   const [bookings, setBookings] = useState([]);
   const [items, setItems] = useState([]);
@@ -124,7 +126,7 @@ export default function Home() {
         minHeight: "100vh",
       }}
     >
-      <h2 style={{ marginBottom: 20 }}>📊 Analytics</h2>
+      <CafeNavBar />
 
       {/* Stats */}
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
