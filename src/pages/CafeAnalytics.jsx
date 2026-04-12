@@ -190,8 +190,8 @@ export default function Home() {
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={popularItems.slice(0, 6)}>
               <CartesianGrid />
-              <XAxis dataKey="name" />
-              <YAxis />
+              <XAxis dataKey="name" fill="white" />
+              <YAxis fill="white" />
               <Tooltip />
               <Bar dataKey="count" fill="#4fe73f" label />
             </BarChart>
