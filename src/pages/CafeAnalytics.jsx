@@ -127,8 +127,9 @@ export default function Home() {
       <div
         style={{
           padding: 16,
-          background: "#f7f7f7",
+          background: "#0f0f14",
           minHeight: "100vh",
+          color: "#ffffff",
         }}
       >
         {/* Stats */}
