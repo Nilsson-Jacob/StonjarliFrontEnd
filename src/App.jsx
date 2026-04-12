@@ -36,7 +36,15 @@ function App() {
         {/* Public */}
         <Route path="/auth" element={<Auth />} />
 
-        <Route path="/event-overview" element={<Eventcalendar />} />
+        <Route
+          path="/event-overview"
+          element={
+            <ProtectedRoute>
+              <Eventcalendar />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/event/:eventId" element={<EventPage />} />
         <Route path="/cancel/:token" element={<CancelBooking />} />
         <Route path="/analytics" element={<CafeAnalytics />} />
