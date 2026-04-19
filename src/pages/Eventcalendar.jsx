@@ -94,6 +94,10 @@ export default function Home() {
     fetchEventTypeItems();
   }, [eventType]);
 
+  const handleSendFeedbackEmail = function () {
+    console.log("to be send: " + feedbackEmail);
+  };
+
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
