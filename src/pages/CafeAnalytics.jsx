@@ -20,6 +20,8 @@ export default function Home() {
   const [items, setItems] = useState([]);
   const [chartData, setChartData] = useState([]);
 
+  const [feedback, setFeedback] = useState([]);
+
   const [stats, setStats] = useState({
     totalCustomers: 0,
     returningCustomers: 0,
@@ -43,6 +45,12 @@ export default function Home() {
       const { data: itemsData } = await supabase
         .from("booking_items")
         .select("*");
+
+      const { data: feedbackData } = await supabase
+        .from("email_replies")
+        .select("*");
+
+      setFeedback(feedbackData || []);
 
       setBookings(bookingsData || []);
       setItems(itemsData || []);
@@ -109,6 +117,23 @@ export default function Home() {
 
     fetchData();
   }, []);
+
+  const groupedFeedback = {};
+
+  feedback.forEach((f) => {
+    if (!groupedFeedback[f.event_id]) {
+      groupedFeedback[f.event_id] = [];
+    }
+    groupedFeedback[f.event_id].push(f);
+  });
+
+  const feedbackByEvent = Object.entries(groupedFeedback).map(
+    ([eventId, items]) => ({
+      eventId,
+      count: items.length,
+      items,
+    })
+  );
 
   const cardStyle = {
     flex: 1,
@@ -197,6 +222,59 @@ export default function Home() {
             </BarChart>
           </ResponsiveContainer>
         </div>
+      </div>
+
+      {/* Feedback section */}
+      <div
+        style={{
+          marginTop: 30,
+          padding: 16,
+          background: "#1a1a22",
+          borderRadius: 12,
+        }}
+      >
+        <h4>Customer feedback</h4>
+
+        {feedbackByEvent.length === 0 ? (
+          <p style={{ opacity: 0.6 }}>No feedback yet</p>
+        ) : (
+          feedbackByEvent.map((event) => (
+            <details
+              key={event.eventId}
+              style={{
+                marginTop: 12,
+                padding: 12,
+                background: "#0f0f14",
+                borderRadius: 10,
+              }}
+            >
+              <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
+                Event {event.eventId} — {event.count} responses
+              </summary>
+
+              <div style={{ marginTop: 10 }}>
+                {event.items.map((f) => (
+                  <div
+                    key={f.id}
+                    style={{
+                      padding: 10,
+                      marginBottom: 8,
+                      background: "#1a1a22",
+                      borderRadius: 8,
+                    }}
+                  >
+                    <p style={{ margin: 0, fontWeight: "bold" }}>
+                      {f.name} ({f.email})
+                    </p>
+                    <p style={{ margin: "6px 0 0", opacity: 0.8 }}>
+                      {f.message}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </details>
+          ))
+        )}
       </div>
     </>
   );
