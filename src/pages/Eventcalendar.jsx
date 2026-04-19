@@ -724,8 +724,8 @@ export default function Home() {
                       >
                         <input
                           value={feedbackEmail}
-                          onChange={setFeedbackEmail(feedbackEmail)}
-                        ></input>
+                          onChange={(e) => setFeedbackEmail(e.target.value)}
+                        />
                         <button>send Email</button>
                       </motion.div>
                     )}
