@@ -713,7 +713,7 @@ export default function Home() {
                           left: 0,
                           width: "100vw",
                           height: "100vh",
-                          background: "rgba(0,0,0,0.5)",
+                          background: "rgba(0,0,0,0.6)",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -729,24 +729,72 @@ export default function Home() {
                             width: "90%",
                             maxWidth: 600,
                             color: Colors.text,
-                            boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+                            boxShadow: "0 15px 40px rgba(0,0,0,0.4)",
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 16,
                           }}
                         >
-                          <h2>Send feedback email</h2>
+                          <h2 style={{ margin: 0 }}>Draft feedback email</h2>
 
-                          <input
+                          {/* Multiline textarea */}
+                          <textarea
                             value={feedbackEmail}
                             onChange={(e) => setFeedbackEmail(e.target.value)}
+                            placeholder="Write your message here..."
                             style={{
                               width: "100%",
-                              padding: 12,
-                              borderRadius: 10,
-                              border: "1px solid #555",
-                              marginTop: 10,
+                              minHeight: 180,
+                              padding: 14,
+                              borderRadius: 12,
+                              border: "1px solid #444",
+                              background: "#1a1a22", // darker field
+                              color: "#fff",
+                              fontSize: 15,
+                              resize: "vertical",
+                              outline: "none",
+                              lineHeight: 1.5,
                             }}
                           />
 
-                          <button style={{ marginTop: 20 }}>Send Email</button>
+                          {/* Buttons */}
+                          <div
+                            style={{
+                              display: "flex",
+                              gap: 12,
+                              justifyContent: "flex-end",
+                            }}
+                          >
+                            <button
+                              onClick={() => setCreateFeedbackEmail(false)}
+                              style={{
+                                padding: "10px 16px",
+                                borderRadius: 10,
+                                border: "none",
+                                background: "#444",
+                                color: "#fff",
+                                cursor: "pointer",
+                              }}
+                            >
+                              Cancel
+                            </button>
+
+                            <button
+                              onClick={handleSendFeedbackEmail} // hook this up
+                              style={{
+                                padding: "10px 18px",
+                                borderRadius: 10,
+                                border: "none",
+                                background: "#1f8f4e",
+                                color: "#fff",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                              }}
+                            >
+                              Send Email
+                            </button>
+                          </div>
                         </motion.div>
                       </motion.div>
                     )}
