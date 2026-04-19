@@ -706,27 +706,48 @@ export default function Home() {
 
                     {createFeedbackEmail && (
                       <motion.div
-                        layoutId="create-feedbackemail"
-                        onClick={(e) => e.stopPropagation()}
+                        onClick={() => setCreateFeedbackEmail(false)}
                         style={{
-                          background: Colors.card,
-                          borderRadius: 20,
-                          padding: 20,
-                          width: "92%",
-                          minWidth: 1000,
-                          color: Colors.text, //"#fff",
-                          boxShadow: "blue",
-                          maxHeight: "80vh",
-                          overflowY: "auto",
+                          position: "fixed",
+                          top: 0,
+                          left: 0,
+                          width: "100vw",
+                          height: "100vh",
+                          background: "rgba(0,0,0,0.5)",
                           display: "flex",
+                          alignItems: "center",
                           justifyContent: "center",
+                          zIndex: 1000,
                         }}
                       >
-                        <input
-                          value={feedbackEmail}
-                          onChange={(e) => setFeedbackEmail(e.target.value)}
-                        />
-                        <button>send Email</button>
+                        <motion.div
+                          onClick={(e) => e.stopPropagation()}
+                          style={{
+                            background: Colors.card,
+                            borderRadius: 20,
+                            padding: 30,
+                            width: "90%",
+                            maxWidth: 600,
+                            color: Colors.text,
+                            boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+                          }}
+                        >
+                          <h2>Send feedback email</h2>
+
+                          <input
+                            value={feedbackEmail}
+                            onChange={(e) => setFeedbackEmail(e.target.value)}
+                            style={{
+                              width: "100%",
+                              padding: 12,
+                              borderRadius: 10,
+                              border: "1px solid #555",
+                              marginTop: 10,
+                            }}
+                          />
+
+                          <button style={{ marginTop: 20 }}>Send Email</button>
+                        </motion.div>
                       </motion.div>
                     )}
 
