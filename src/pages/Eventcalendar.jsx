@@ -721,7 +721,13 @@ export default function Home() {
                           display: "flex",
                           justifyContent: "center",
                         }}
-                      ></motion.div>
+                      >
+                        <input
+                          value={feedbackEmail}
+                          onChange={setFeedbackEmail(feedbackEmail)}
+                        ></input>
+                        <button>send Email</button>
+                      </motion.div>
                     )}
 
                     <h3>
