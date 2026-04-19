@@ -94,7 +94,27 @@ export default function Home() {
     fetchEventTypeItems();
   }, [eventType]);
 
-  const handleSendFeedbackEmail = function () {
+  const handleSendFeedbackEmail = async function () {
+    try {
+      await fetch(
+        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            // apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+            //Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY}`,
+          },
+          body: JSON.stringify({
+            eventId: selectedDay.entry.event_id,
+            feedbackEmail: feedbackEmail,
+          }),
+        }
+      );
+    } catch (error) {
+      console.log("error : " + error);
+    }
+
     console.log("to be send: " + feedbackEmail);
   };
 
@@ -702,6 +722,7 @@ export default function Home() {
                         background: "#000",
                         color: "#fff",
                         fontWeight: "bold",
+                        marginLeft: 20,
                       }}
                       onClick={() => setCreateFeedbackEmail(true)}
                     >
