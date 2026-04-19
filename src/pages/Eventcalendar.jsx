@@ -49,7 +49,14 @@ export default function Home() {
 
   const [createFeedbackEmail, setCreateFeedbackEmail] = useState(false);
   const [feedbackEmail, setFeedbackEmail] = useState(
-    "Hi @name, thank you for being part of"
+    `
+Hi {{name}},
+
+thank you for being part of {{event}}, I would love to hear what you thought.
+
+Best regards,
+{{company}}
+`
   );
 
   useEffect(() => {
