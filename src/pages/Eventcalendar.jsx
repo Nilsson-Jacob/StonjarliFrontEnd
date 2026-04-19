@@ -47,6 +47,11 @@ export default function Home() {
   //const [eventTypeItems, setEventTypeItems] = useState({});
   const [copied, setCopied] = useState(false);
 
+  const [createFeedbackEmail, setCreateFeedbackEmail] = useState(false);
+  const [feedbackEmail, setFeedbackEmail] = useState(
+    "Hi @name, thank you for being part of"
+  );
+
   useEffect(() => {
     const fetchEventTypes = async () => {
       const { data, error } = await supabase.from("event_types").select("*");
@@ -209,6 +214,7 @@ export default function Home() {
     setEventTitle("");
     setEventDate("");
     setEventType("");
+    setEventMaxCap("");
   };
 
   function renderCells() {
@@ -663,10 +669,6 @@ export default function Home() {
                   <>
                     <h2>{selectedDay.entry.title}</h2>
 
-                    {/*<h2>
-                      Share link:
-                      {`${window.location.origin}/event/${selectedDay.entry.id}}`}{" "}
-                    </h2> */}
                     <button
                       style={{
                         padding: 12,
@@ -686,6 +688,41 @@ export default function Home() {
                     >
                       {copied ? "Copied!" : "Copy link to share"}
                     </button>
+
+                    <motion.button
+                      layoutId="create-feedbackemail"
+                      style={{
+                        padding: 12,
+                        border: "none",
+                        borderRadius: 12,
+                        background: "#000",
+                        color: "#fff",
+                        fontWeight: "bold",
+                      }}
+                      onClick={() => setCreateFeedbackEmail(true)}
+                    >
+                      Draft and send Feedback email
+                    </motion.button>
+
+                    {createFeedbackEmail && (
+                      <motion.div
+                        layoutId="create-feedbackemail"
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                          background: Colors.card,
+                          borderRadius: 20,
+                          padding: 20,
+                          width: "92%",
+                          minWidth: 1000,
+                          color: Colors.text, //"#fff",
+                          boxShadow: "blue",
+                          maxHeight: "80vh",
+                          overflowY: "auto",
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                      ></motion.div>
+                    )}
 
                     <h3>
                       Number of bookings / max capacity: (
