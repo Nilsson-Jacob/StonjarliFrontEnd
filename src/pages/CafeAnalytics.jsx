@@ -48,7 +48,7 @@ export default function Home() {
 
       const { data: feedbackData } = await supabase
         .from("email_replies")
-        .select("*");
+        .select("*, events(title)");
 
       setFeedback(feedbackData || []);
 
@@ -248,7 +248,7 @@ export default function Home() {
                 }}
               >
                 <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
-                  Event {event.eventId} — {event.count} responses
+                  Event {event.events.title} — {event.count} responses
                 </summary>
 
                 <div style={{ marginTop: 10 }}>
