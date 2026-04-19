@@ -106,7 +106,7 @@ export default function Home() {
             //Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY}`,
           },
           body: JSON.stringify({
-            eventId: selectedDay.entry.event_id,
+            eventId: selectedDay.entry.id,
             feedbackEmail: feedbackEmail,
           }),
         }
