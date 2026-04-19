@@ -97,7 +97,7 @@ export default function Home() {
   const handleSendFeedbackEmail = async function () {
     try {
       await fetch(
-        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
+        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendFeedbackEmail",
         {
           method: "POST",
           headers: {
