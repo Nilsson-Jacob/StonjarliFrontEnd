@@ -249,7 +249,8 @@ export default function Home() {
               >
                 <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
                   Event {event.items?.[0]?.events?.title || "Unknown event"}:{" "}
-                  {event.items?.[0]?.events?.date} :{event.count} responses
+                  {event.items?.[0]?.events?.date?.substring(0, 10)} :
+                  {event.count} responses
                 </summary>
 
                 <div style={{ marginTop: 10 }}>
