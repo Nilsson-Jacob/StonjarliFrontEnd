@@ -226,7 +226,7 @@ export default function Home() {
               {!booked && (!hasSpots || queueCount > 0) && (
                 <>
                   <p style={{ margin: 0 }}>
-                    Event is fully booked: {queueCount.count} in queue
+                    Event is fully booked: {queueCount} in queue
                   </p>
                   <h3>
                     If you fill in your email below we can send an email if a
