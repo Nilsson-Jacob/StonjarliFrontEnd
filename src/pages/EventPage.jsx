@@ -66,18 +66,16 @@ export default function Home() {
 
         const { count, error } = await supabase
           .from("waitlist")
-          .select("*", { count: "exact" })
-          .eq("event_id", eventId)
-          .eq("status", "waiting");
+          .select("*", { count: "exact" });
+        //  .eq("event_id", eventId)
+        //  .eq("status", "waiting");
         if (error) {
           console.log(error);
         }
 
         const { data: queueCount } = await supabase
           .from("waitlist")
-          .select("count")
-          .eq("event_id", eventId)
-          .eq("status", "waiting");
+          .select("count");
 
         setBookingCount(bookingCount);
         setEventData(eventData);
