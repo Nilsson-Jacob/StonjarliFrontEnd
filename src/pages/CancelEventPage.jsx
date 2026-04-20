@@ -69,6 +69,20 @@ export default function CancelBooking() {
       .eq("booking_token", token)
       .is("cancelled_at", null);
 
+    //Send email if there is a waitlist
+    await fetch(
+      "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendWaitlistEmail",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          event_id: eventData.id,
+        }),
+      }
+    );
+
     if (error) {
       alert("Failed to cancel");
     } else {
