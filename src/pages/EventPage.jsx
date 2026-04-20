@@ -66,10 +66,9 @@ export default function Home() {
 
         const { count, error } = await supabase
           .from("waitlist")
-          .select("*", { count: "exact", head: true })
+          .select("*", { count: "exact" })
           .eq("event_id", eventId)
           .eq("status", "waiting");
-
         if (error) {
           console.log(error);
         }
