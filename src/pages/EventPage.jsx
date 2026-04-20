@@ -64,11 +64,15 @@ export default function Home() {
           .eq("event_id", eventId)
           .is("cancelled_at", null);*/
 
-        const { count } = await supabase
+        const { count, error } = await supabase
           .from("waitlist")
           .select("*", { count: "exact", head: true })
           .eq("event_id", eventId)
           .eq("status", "waiting");
+
+        if (error) {
+          console.log(error);
+        }
 
         const { data: queueCount } = await supabase
           .from("waitlist")
