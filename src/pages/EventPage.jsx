@@ -204,9 +204,7 @@ export default function Home() {
 
               {!booked && !hasSpots && (
                 <>
-                  <p style={{ margin: 0 }}>
-                    Event is fully booked, in queue: {spotsLeft}
-                  </p>
+                  <p style={{ margin: 0 }}>Event is fully booked</p>
                   <h3>
                     If you fill in your email below we can send an email if a
                     spot becomes available
