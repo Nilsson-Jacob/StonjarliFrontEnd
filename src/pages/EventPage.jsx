@@ -227,7 +227,7 @@ export default function Home() {
                 </p>
               )}
 
-              {!booked && (!hasSpots || queueCount > 0) && (
+              {!booked && !hasSpots && (
                 <>
                   <p style={{ margin: 0 }}>
                     Event is fully booked: {queueCount} in queue
@@ -267,7 +267,7 @@ export default function Home() {
           )}
 
           <AnimatePresence>
-            {hasSpots && !booked && (queueCount === 0 || claim) && (
+            {hasSpots && !booked && (
               <motion.form
                 onSubmit={handleSubmit}
                 initial={{ opacity: 1 }}
