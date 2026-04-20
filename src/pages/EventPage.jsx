@@ -25,6 +25,10 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
 
+  //Notify
+  const [notifyEmail, setNotifyEmail] = useState("");
+  const [waitlisted, setWaitlisted] = useState(false);
+
   const [booked, setBooked] = useState(false);
 
   useEffect(() => {
@@ -67,6 +71,23 @@ export default function Home() {
 
     fetchData();
   }, [eventId]);
+
+  const notifyMe = async function () {
+    if (!notifyEmail) {
+      alert("fill out email");
+      return;
+    }
+
+    supabase
+      .from("waitlist")
+      .insert({
+        email: notifyEmail,
+        eventId: eventId,
+      })
+      .select("*");
+
+    setWaitlisted(true);
+  };
 
   const handleItemToggle = (item) => {
     const exists = selectedItems.find((i) => i.id === item.id);
@@ -149,19 +170,6 @@ export default function Home() {
         background: "#5c1e2e",
       }}
     >
-      {/*
-      <div
-        style={{
-          height: "7vh",
-          background: "#ece7db",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <span style={{ fontSize: 28, fontWeight: 400 }}>Bageri Baka</span>
-      </div>*/}
-
       <div
         style={{
           display: "flex",
@@ -195,9 +203,40 @@ export default function Home() {
               )}
 
               {!booked && !hasSpots && (
-                <p style={{ margin: 0 }}>
-                  Event is fully booked, in queue: {spotsLeft}
-                </p>
+                <>
+                  <p style={{ margin: 0 }}>
+                    Event is fully booked, in queue: {spotsLeft}
+                  </p>
+                  <h3>
+                    If you fill in your email below we can send an email if a
+                    spot becomes available
+                  </h3>
+                  <input
+                    placeholder="Email"
+                    value={notifyEmail}
+                    onChange={(e) => setNotifyEmail(e.target.value)}
+                    style={inputStyle}
+                  />
+                  <button
+                    onClick={notifyMe}
+                    style={{
+                      marginTop: 24,
+                      width: "95%",
+                      padding: 12,
+                      borderRadius: 8,
+                      border: "none",
+                      background: "#000",
+                      color: "white",
+                      fontSize: 16,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Notify me
+                  </button>
+                  {waitlisted && (
+                    <h3>Thank you we will notify you if a spot is available</h3>
+                  )}
+                </>
               )}
             </div>
           )}
