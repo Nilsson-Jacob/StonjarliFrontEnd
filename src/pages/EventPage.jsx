@@ -70,7 +70,7 @@ export default function Home() {
 
         setEventData(eventData);
         setItems(eventItems);
-        setQueueCount(queueCount);
+        setQueueCount(queueCount.count);
       } catch (error) {
         console.log("error: " + error);
       }
