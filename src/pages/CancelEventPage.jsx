@@ -70,7 +70,7 @@ export default function CancelBooking() {
       .is("cancelled_at", null);
 
     //Send email if there is a waitlist
-    fetch(
+    await fetch(
       "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendWaitlistEmail",
       {
         method: "POST",
