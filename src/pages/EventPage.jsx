@@ -66,7 +66,7 @@ export default function Home() {
 
         const { data: queueCount } = await supabase
           .from("waitlist")
-          .select("count")
+          .select("count(*)")
           .eq("event_id", eventId)
           .eq("status", "waiting");
 
