@@ -60,7 +60,7 @@ Best regards,
 `
   );
 
-  const [user, setUser] = useState(null);
+  const [_user, setUser] = useState(null);
   const [companyId, setCompanyId] = useState(null);
 
   useEffect(() => {
