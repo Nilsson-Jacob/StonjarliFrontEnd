@@ -13,6 +13,11 @@ const inputStyle = {
   fontSize: 14,
 };
 
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+console.log("USER:", user);
+
 export default function Home() {
   const { eventId, claim } = useParams();
 
@@ -109,6 +114,7 @@ export default function Home() {
       event_id: eventId,
       email: notifyEmail,
       claim_token: claimToken,
+      company_id: eventData.company_id,
     });
 
     setWaitlisted(true);
@@ -142,6 +148,7 @@ export default function Home() {
           name,
           email,
           booking_token: token,
+          company_id: eventData.company_id,
         })
         .select()
         .single();
