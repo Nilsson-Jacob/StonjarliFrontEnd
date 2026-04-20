@@ -15,8 +15,6 @@ const inputStyle = {
 
 export default function Home() {
   const { eventId } = useParams();
-  console.log("here: " + eventId);
-
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
   const [bookingCount, setBookingCount] = useState({});
@@ -28,6 +26,7 @@ export default function Home() {
   //Notify
   const [notifyEmail, setNotifyEmail] = useState("");
   const [waitlisted, setWaitlisted] = useState(false);
+  const [queueCount, setQueueCount] = useState(0);
 
   const [booked, setBooked] = useState(false);
 
@@ -60,10 +59,17 @@ export default function Home() {
           .eq("event_id", eventId)
           .is("cancelled_at", null);
 
+        const { data: queueCount } = await supabase
+          .from("waitlist")
+          .select("count")
+          .eq("event_id", eventId)
+          .is("status", "waiting");
+
         setBookingCount(bookingCount);
 
         setEventData(eventData);
         setItems(eventItems);
+        setNumberInQueue(queueCount);
       } catch (error) {
         console.log("error: " + error);
       }
@@ -78,13 +84,13 @@ export default function Home() {
       return;
     }
 
-    supabase
-      .from("waitlist")
-      .insert({
-        email: notifyEmail,
-        eventId: eventId,
-      })
-      .select("*");
+    const claimToken = crypto.randomUUID();
+
+    await supabase.from("waitlist").insert({
+      eventId,
+      email,
+      claim_token: claimToken,
+    });
 
     setWaitlisted(true);
   };
@@ -204,7 +210,9 @@ export default function Home() {
 
               {!booked && !hasSpots && (
                 <>
-                  <p style={{ margin: 0 }}>Event is fully booked</p>
+                  <p style={{ margin: 0 }}>
+                    Event is fully booked: {queueCount} in queue
+                  </p>
                   <h3>
                     If you fill in your email below we can send an email if a
                     spot becomes available
