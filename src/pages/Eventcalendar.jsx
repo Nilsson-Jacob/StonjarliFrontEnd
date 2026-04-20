@@ -244,7 +244,7 @@ Best regards,
         date: eventDate,
         event_type_id: eventType,
         max_capacity: Number(eventMaxCap),
-        companyId: companyId,
+        company_id: companyId,
       })
       .select()
       .single();
