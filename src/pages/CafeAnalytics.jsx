@@ -48,7 +48,7 @@ export default function Home() {
 
       const { data: feedbackData } = await supabase
         .from("email_replies")
-        .select("*, events(title)");
+        .select("*, events(title,date)");
 
       setFeedback(feedbackData || []);
 
@@ -128,12 +128,10 @@ export default function Home() {
   });
 
   const feedbackByEvent = Object.entries(groupedFeedback).map(
-    ([eventId, items, title, date]) => ({
+    ([eventId, items]) => ({
       eventId,
       count: items.length,
       items,
-      title,
-      date,
     })
   );
 
@@ -250,8 +248,8 @@ export default function Home() {
                 }}
               >
                 <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
-                  Event {event.items?.[0]?.events?.title || "Unknown event"}—{" "}
-                  {event.count} responses
+                  Event {event.items?.[0]?.events?.title || "Unknown event"}:{" "}
+                  {event.items?.[0]?.events?.title} :{event.count} responses
                 </summary>
 
                 <div style={{ marginTop: 10 }}>
