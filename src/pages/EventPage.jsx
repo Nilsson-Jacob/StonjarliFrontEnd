@@ -64,24 +64,26 @@ export default function Home() {
           .eq("event_id", eventId)
           .is("cancelled_at", null);*/
 
-        const { count, error } = await supabase
+        /*const { count, error } = await supabase
           .from("waitlist")
           .select("*", { count: "exact" });
         //  .eq("event_id", eventId)
         //  .eq("status", "waiting");
         if (error) {
           console.log(error);
-        }
+        }*/
 
         const { data: queueCount } = await supabase
           .from("waitlist")
-          .select("count");
+          .select("count")
+          .eq("event_id", eventId)
+          .eq("status", "waiting");
 
         setBookingCount(bookingCount);
         setEventData(eventData);
         setItems(eventItems);
 
-        setQueueCount(queueCount + count);
+        setQueueCount(queueCount);
       } catch (error) {
         console.log("error: " + error);
       }
