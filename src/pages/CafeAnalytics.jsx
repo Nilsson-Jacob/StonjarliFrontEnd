@@ -128,10 +128,12 @@ export default function Home() {
   });
 
   const feedbackByEvent = Object.entries(groupedFeedback).map(
-    ([eventId, items]) => ({
+    ([eventId, items, title, date]) => ({
       eventId,
       count: items.length,
       items,
+      title,
+      date,
     })
   );
 
