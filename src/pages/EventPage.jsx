@@ -13,11 +13,6 @@ const inputStyle = {
   fontSize: 14,
 };
 
-const {
-  data: { user },
-} = await supabase.auth.getUser();
-console.log("USER:", user);
-
 export default function Home() {
   const { eventId, claim } = useParams();
 
@@ -141,7 +136,7 @@ export default function Home() {
     try {
       const token = crypto.randomUUID();
 
-      const { data: bookingData } = await supabase
+      const { data: bookingData, error } = await supabase
         .from("bookings")
         .insert({
           event_id: eventId,
@@ -152,6 +147,9 @@ export default function Home() {
         })
         .select()
         .single();
+
+      console.log("BOOKING DATA:", bookingData);
+      console.log("BOOKING ERROR:", error);
 
       selectedItems.forEach(async (element) => {
         await supabase.from("booking_items").insert({
