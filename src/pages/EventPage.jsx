@@ -64,9 +64,9 @@ export default function Home() {
           .eq("event_id", eventId)
           .is("cancelled_at", null);*/
 
-        const { count } = await supabase
+        const { data: queueCount } = await supabase
           .from("waitlist")
-          .select("*", { count: "exact", head: true })
+          .select("count")
           .eq("event_id", eventId)
           .eq("status", "waiting");
 
@@ -74,7 +74,7 @@ export default function Home() {
 
         setEventData(eventData);
         setItems(eventItems);
-        setQueueCount(count ?? 0);
+        setQueueCount(queueCount);
       } catch (error) {
         console.log("error: " + error);
       }
