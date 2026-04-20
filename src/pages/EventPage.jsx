@@ -14,7 +14,8 @@ const inputStyle = {
 };
 
 export default function Home() {
-  const { eventId } = useParams();
+  const { eventId, claim } = useParams();
+
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
   const [bookingCount, setBookingCount] = useState({});
@@ -83,7 +84,7 @@ export default function Home() {
         setEventData(eventData);
         setItems(eventItems);
 
-        setQueueCount(queueCount);
+        setQueueCount(queueCount[0].count);
       } catch (error) {
         console.log("error: " + error);
       }
@@ -222,7 +223,7 @@ export default function Home() {
                 </p>
               )}
 
-              {!booked && !hasSpots && (
+              {!booked && (!hasSpots || queueCount > 0) && (
                 <>
                   <p style={{ margin: 0 }}>
                     Event is fully booked: {queueCount.count} in queue
@@ -262,7 +263,7 @@ export default function Home() {
           )}
 
           <AnimatePresence>
-            {hasSpots && !booked && (
+            {hasSpots && !booked && (queueCount === 0 || claim) && (
               <motion.form
                 onSubmit={handleSubmit}
                 initial={{ opacity: 1 }}
