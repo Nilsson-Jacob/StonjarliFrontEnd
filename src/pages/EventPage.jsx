@@ -91,7 +91,6 @@ export default function Home() {
       event_id: eventId,
       email: notifyEmail,
       claim_token: claimToken,
-      status: "waiting",
     });
 
     setWaitlisted(true);
