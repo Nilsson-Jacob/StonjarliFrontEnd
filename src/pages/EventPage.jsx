@@ -88,9 +88,10 @@ export default function Home() {
     const claimToken = crypto.randomUUID();
 
     await supabase.from("waitlist").insert({
-      eventId,
+      event_id: eventId,
       email,
       claim_token: claimToken,
+      status: "waiting",
     });
 
     setWaitlisted(true);
@@ -238,7 +239,7 @@ export default function Home() {
                       cursor: "pointer",
                     }}
                   >
-                    Notify me
+                    Add me to queue
                   </button>
                   {waitlisted && (
                     <h3>Thank you we will notify you if a spot is available</h3>
