@@ -63,7 +63,7 @@ export default function Home() {
           .from("waitlist")
           .select("count")
           .eq("event_id", eventId)
-          .is("status", "waiting");
+          .eq("status", "waiting");
 
         setBookingCount(bookingCount);
 
