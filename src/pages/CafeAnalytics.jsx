@@ -250,8 +250,8 @@ export default function Home() {
                 }}
               >
                 <summary style={{ cursor: "pointer", fontWeight: "bold" }}>
-                  Event {JSON.stringify(event?.events?.title)} — {event.count}{" "}
-                  responses
+                  Event {event.items?.[0]?.events?.title || "Unknown event"}—{" "}
+                  {event.count} responses
                 </summary>
 
                 <div style={{ marginTop: 10 }}>
