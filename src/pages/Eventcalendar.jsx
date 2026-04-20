@@ -60,6 +60,38 @@ Best regards,
 `
   );
 
+  const [user, setUser] = useState(null);
+  const [companyId, setCompanyId] = useState(null);
+
+  useEffect(() => {
+    const loadUserAndCompany = async () => {
+      // 1. Get logged-in user
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      setUser(user);
+
+      // 2. Get company_id
+      const { data, error } = await supabase
+        .from("company_users")
+        .select("company_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching company:", error);
+        return;
+      }
+
+      setCompanyId(data.company_id);
+    };
+
+    loadUserAndCompany();
+  }, []);
+
   useEffect(() => {
     const fetchEventTypes = async () => {
       const { data, error } = await supabase.from("event_types").select("*");
@@ -212,6 +244,7 @@ Best regards,
         date: eventDate,
         event_type_id: eventType,
         max_capacity: Number(eventMaxCap),
+        companyId: companyId,
       })
       .select()
       .single();
@@ -344,6 +377,10 @@ Best regards,
     }
 
     return rows;
+  }
+
+  if (!companyId) {
+    return <div>Loading...</div>;
   }
 
   return (
