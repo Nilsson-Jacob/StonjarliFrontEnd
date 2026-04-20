@@ -89,7 +89,7 @@ export default function Home() {
 
     await supabase.from("waitlist").insert({
       event_id: eventId,
-      email,
+      email: notifyEmail,
       claim_token: claimToken,
       status: "waiting",
     });
