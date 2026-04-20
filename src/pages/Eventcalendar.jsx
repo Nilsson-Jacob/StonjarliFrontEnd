@@ -10,6 +10,7 @@ import {
   format,
   isSameMonth,
   isToday,
+  isBefore,
 } from "date-fns";
 
 import CafeNavBar from "../components/CafeNavBar";
@@ -722,21 +723,23 @@ Best regards,
                       {copied ? "Copied!" : "Copy link to share"}
                     </button>
 
-                    <motion.button
-                      layoutId="create-feedbackemail"
-                      style={{
-                        padding: 12,
-                        border: "none",
-                        borderRadius: 12,
-                        background: "#000",
-                        color: "#fff",
-                        fontWeight: "bold",
-                        marginLeft: 20,
-                      }}
-                      onClick={() => setCreateFeedbackEmail(true)}
-                    >
-                      Draft and send Feedback email
-                    </motion.button>
+                    {isBefore(selectedDay.daykey, new Date()) && (
+                      <motion.button
+                        layoutId="create-feedbackemail"
+                        style={{
+                          padding: 12,
+                          border: "none",
+                          borderRadius: 12,
+                          background: "#000",
+                          color: "#fff",
+                          fontWeight: "bold",
+                          marginLeft: 20,
+                        }}
+                        onClick={() => setCreateFeedbackEmail(true)}
+                      >
+                        Draft and send Feedback email
+                      </motion.button>
+                    )}
 
                     {createFeedbackEmail && (
                       <motion.div
