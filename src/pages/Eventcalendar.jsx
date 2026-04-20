@@ -9,6 +9,7 @@ import {
   addDays,
   format,
   isSameMonth,
+  isToday,
 } from "date-fns";
 
 import CafeNavBar from "../components/CafeNavBar";
@@ -285,7 +286,7 @@ Best regards,
             style={{
               width: "93%",
               height: DAY_BOX_SIZE,
-              background: "grey",
+              background: isToday(currentDay) ? "green" : "grey",
               padding: 8,
               marginRight: 2,
               borderRadius: 12,
