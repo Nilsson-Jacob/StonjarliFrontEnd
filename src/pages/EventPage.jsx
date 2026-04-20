@@ -16,6 +16,10 @@ const inputStyle = {
 export default function Home() {
   const { eventId, claim } = useParams();
 
+  const par = useParams();
+  console.log("claim: " + claim);
+  console.log("par: " + JSON.stringify(par));
+
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
   const [bookingCount, setBookingCount] = useState({});
