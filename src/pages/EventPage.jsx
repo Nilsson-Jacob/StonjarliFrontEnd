@@ -74,6 +74,7 @@ export default function Home() {
 
         setEventData(eventData);
         setItems(eventItems);
+
         setQueueCount(queueCount);
       } catch (error) {
         console.log("error: " + error);
@@ -216,7 +217,7 @@ export default function Home() {
               {!booked && !hasSpots && (
                 <>
                   <p style={{ margin: 0 }}>
-                    Event is fully booked: {queueCount} in queue
+                    Event is fully booked: {queueCount[0].count} in queue
                   </p>
                   <h3>
                     If you fill in your email below we can send an email if a
