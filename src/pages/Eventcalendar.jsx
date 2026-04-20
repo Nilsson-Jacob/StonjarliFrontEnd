@@ -118,11 +118,12 @@ Best regards,
           }),
         }
       );
+
+      alert("Email has been sent");
+      setCreateFeedbackEmail(false);
     } catch (error) {
       console.log("error : " + error);
     }
-
-    console.log("to be send: " + feedbackEmail);
   };
 
   const fetchEntries = useCallback(async () => {
