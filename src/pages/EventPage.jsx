@@ -67,8 +67,8 @@ export default function Home() {
         const { data: queueCount } = await supabase
           .from("waitlist")
           .select("count")
-          .eq("event_id", eventId)
-          .eq("status", "waiting");
+          .eq("event_id", eventId);
+        //.eq("status", "waiting");
 
         setBookingCount(bookingCount);
 
@@ -217,7 +217,7 @@ export default function Home() {
               {!booked && !hasSpots && (
                 <>
                   <p style={{ margin: 0 }}>
-                    Event is fully booked: {queueCount[0].count} in queue
+                    Event is fully booked: {queueCount.count} in queue
                   </p>
                   <h3>
                     If you fill in your email below we can send an email if a
