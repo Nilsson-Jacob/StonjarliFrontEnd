@@ -16,7 +16,7 @@ export default function CancelBooking() {
     const fetchBooking = async () => {
       try {
         // 1. Get booking by token
-        const { data: bookingData, error } = await supabase
+        /* const { data: bookingData, error } = await supabase
           .from("bookings")
           .select("*")
           .eq("booking_token", token)
@@ -31,26 +31,51 @@ export default function CancelBooking() {
         if (!bookingData) {
           setStatus("cancelled");
           return;
-        }
+        }*/
+
+        const { data: bookingData, error } = await supabase
+          .from("bookings")
+          .select(
+            `
+    *,
+    events (
+      *,
+      companies (
+        name,
+        primary_color,
+        secondary_color
+      )
+    ),
+    booking_items (
+      id,
+      name,
+      quantity
+    )
+  `
+          )
+          .eq("booking_token", token)
+          .is("cancelled_at", null)
+          .single();
 
         setBooking(bookingData);
 
         // 2. Get event
-        const { data: event } = await supabase
+        /* const { data: event } = await supabase
           .from("events")
           .select("*")
           .eq("id", bookingData.event_id)
-          .single();
+          .single();*/
 
-        setEventData(event);
+        //setEventData(event);
+        setEventData(bookingData.events);
 
         // 3. Get booking items
-        const { data: bookingItems } = await supabase
+        /*const { data: bookingItems } = await supabase
           .from("booking_items")
           .select("*")
-          .eq("booking_id", bookingData.id);
+          .eq("booking_id", bookingData.id);*/
 
-        setItems(bookingItems);
+        setItems(bookingData.booking_items);
 
         setStatus("loaded");
       } catch (err) {
@@ -61,6 +86,9 @@ export default function CancelBooking() {
 
     fetchBooking();
   }, [token]);
+
+  const primary = eventData?.companies?.primary_color;
+  const secondary = eventData?.companies?.secondary_color;
 
   const handleCancel = async () => {
     const { error } = await supabase
@@ -100,8 +128,10 @@ export default function CancelBooking() {
       <div
         style={{
           textAlign: "center",
-          background: "#5c1e2e",
-          color: "#DBACB4",
+          //background: "#5c1e2e",
+          //color: "#DBACB4",
+          background: primary,
+          color: secondary,
           height: 1000,
           marginTop: -20,
         }}
