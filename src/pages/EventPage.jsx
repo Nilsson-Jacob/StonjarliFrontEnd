@@ -14,11 +14,7 @@ const inputStyle = {
 };
 
 export default function Home() {
-  const { eventId, claim } = useParams();
-
-  const par = useParams();
-  console.log("claim: " + claim);
-  console.log("par: " + JSON.stringify(par));
+  const { eventId } = useParams();
 
   const [eventData, setEventData] = useState({}); // YYYY-MM-DD
   const [items, setItems] = useState([]);
@@ -47,11 +43,24 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: eventData } = await supabase
+        /*const { data: eventData } = await supabase
           .from("events")
           .select("*")
           .eq("id", eventId)
-          .single();
+          .single();*/
+
+        const { data: eventData } = await supabase.from("events").select(`
+    id,
+    title,
+    date,
+    company_id,
+    companies (
+      id,
+      name,
+      primary_color,
+      secondary_color
+    )
+  `);
 
         const { data: eventItems } = await supabase
           .from("items")
@@ -63,20 +72,6 @@ export default function Home() {
           .select("count")
           .eq("event_id", eventId)
           .is("cancelled_at", null);
-        /* const { count: bookingCount } = await supabase
-          .from("bookings")
-          .select("*", { count: "exact", head: true })
-          .eq("event_id", eventId)
-          .is("cancelled_at", null);*/
-
-        /*const { count, error } = await supabase
-          .from("waitlist")
-          .select("*", { count: "exact" });
-        //  .eq("event_id", eventId)
-        //  .eq("status", "waiting");
-        if (error) {
-          console.log(error);
-        }*/
 
         const { data: queueCount } = await supabase
           .from("waitlist")
