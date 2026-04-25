@@ -60,7 +60,7 @@ Best regards,
 `
   );
 
-  const [user, setUser] = useState(null);
+  //const [user, setUser] = useState(null);
   const [companyId, setCompanyId] = useState(null);
 
   useEffect(() => {
@@ -181,7 +181,7 @@ Best regards,
       )
       .gte("date", start.toISOString())
       .lte("date", end.toISOString())
-      .eq("company_id", user.id)
+      .eq("company_id", companyId)
       .is("bookings.cancelled_at", null);
 
     if (error) {
