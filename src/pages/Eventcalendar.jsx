@@ -72,7 +72,7 @@ Best regards,
 
       if (!user) return;
 
-      setUser(user);
+      // setUser(user);
 
       // 2. Get company_id
       const { data, error } = await supabase
