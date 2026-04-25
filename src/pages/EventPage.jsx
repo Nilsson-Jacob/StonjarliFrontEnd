@@ -222,7 +222,7 @@ export default function Home() {
         >
           {eventData && (
             <div style={{ marginBottom: 20, textAlign: "center" }}>
-              <h1>Bageri Baka</h1>
+              <h1>{eventData?.companies?.name}</h1>
               <h2 style={{ margin: 0 }}>{eventData.title}</h2>
               <p style={{ margin: 0 }}>
                 {eventData?.date?.substring(0, 10)} -{" "}
@@ -230,9 +230,12 @@ export default function Home() {
               </p>
 
               {!booked && hasSpots && (
-                <p style={{ margin: 0 }}>
-                  Number of available spots: {spotsLeft}
-                </p>
+                <>
+                  <p style={{ margin: 0 }}>
+                    Number of available spots: {spotsLeft}
+                  </p>
+                  <p>Adress: </p>
+                </>
               )}
 
               {!booked && !hasSpots && (
