@@ -34,21 +34,81 @@ export default function Home() {
 
   const [popularItems, setPopularItems] = useState([]);
 
+  const [companyId, setCompanyId] = useState(null);
+
+  useEffect(() => {
+    const loadUserAndCompany = async () => {
+      // 1. Get logged-in user
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      // setUser(user);
+
+      // 2. Get company_id
+      const { data, error } = await supabase
+        .from("company_users")
+        .select("company_id")
+        .eq("user_id", user.id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching company:", error);
+        return;
+      }
+
+      setCompanyId(data.company_id);
+    };
+
+    loadUserAndCompany();
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       // BOOKINGS
+      /* const { data: bookingsData } = await supabase
+        .from("bookings")
+        .select("*");*/
+
       const { data: bookingsData } = await supabase
         .from("bookings")
-        .select("*");
+        .select("*")
+        .eq("company_id", companyId);
 
       // BOOKING ITEMS
+      /* const { data: itemsData } = await supabase
+        .from("booking_items")
+        .select("*");*/
       const { data: itemsData } = await supabase
         .from("booking_items")
-        .select("*");
+        .select(
+          `
+    *,
+    bookings!inner(company_id)
+  `
+        )
+        .eq("bookings.company_id", companyId);
+
+      /*
+      const { data: feedbackData } = await supabase
+        .from("email_replies")
+        .select("*, events(title,date)");*/
 
       const { data: feedbackData } = await supabase
         .from("email_replies")
-        .select("*, events(title,date)");
+        .select(
+          `
+    *,
+    events!inner(
+      title,
+      date,
+      company_id
+    )
+  `
+        )
+        .eq("events.company_id", companyId);
 
       setFeedback(feedbackData || []);
 
