@@ -33,7 +33,7 @@ export default function CancelBooking() {
           return;
         }*/
 
-        const { data: bookingData, error } = await supabase
+        const { data: bookingData } = await supabase
           .from("bookings")
           .select(
             `
