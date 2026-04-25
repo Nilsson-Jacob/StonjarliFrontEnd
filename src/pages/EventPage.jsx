@@ -49,7 +49,10 @@ export default function Home() {
           .eq("id", eventId)
           .single();*/
 
-        const { data: eventData } = await supabase.from("events").select(`
+        const { data: eventData } = await supabase
+          .from("events")
+          .select(
+            `
     id,
     title,
     date,
@@ -60,7 +63,10 @@ export default function Home() {
       primary_color,
       secondary_color
     )
-  `);
+  `
+          )
+          .eq("id", eventId)
+          .single();
 
         const { data: eventItems } = await supabase
           .from("items")
