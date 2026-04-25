@@ -94,7 +94,10 @@ Best regards,
 
   useEffect(() => {
     const fetchEventTypes = async () => {
-      const { data, error } = await supabase.from("event_types").select("*");
+      const { data, error } = await supabase
+        .from("event_types")
+        .select("*")
+        .eq("company_id", companyId);
 
       if (error) {
         console.error(error);
@@ -104,7 +107,7 @@ Best regards,
     };
 
     fetchEventTypes();
-  }, []);
+  }, [companyId]);
 
   useEffect(() => {
     const fetchEventTypeItems = async () => {
@@ -113,8 +116,8 @@ Best regards,
       const { data, error } = await supabase
         .from("event_type_items")
         .select("*")
-        .eq("event_type_id", eventType);
-
+        .eq("event_type_id", eventType)
+        .eq("company_id", companyId);
       if (error) {
         console.error(error);
       } else {
@@ -132,7 +135,7 @@ Best regards,
     };
 
     fetchEventTypeItems();
-  }, [eventType]);
+  }, [eventType, companyId]);
 
   const handleSendFeedbackEmail = async function () {
     try {
