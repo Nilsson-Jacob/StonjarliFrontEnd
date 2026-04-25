@@ -222,7 +222,7 @@ Best regards,
     });
 
     setEntries(mapped);
-  }, [currentMonth]);
+  }, [currentMonth, companyId]);
 
   useEffect(() => {
     fetchEntries();
