@@ -216,7 +216,8 @@ export default function Home() {
             //background: "#5c1e2e",
             background: eventData?.companies?.primary_color,
 
-            color: "#DBACB4",
+            //color: "#DBACB4",
+            color: eventData?.companies?.secondary_color,
             height: 1000,
           }}
         >
