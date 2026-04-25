@@ -196,14 +196,16 @@ export default function Home() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#5c1e2e",
+        //background: "#5c1e2e",
+        background: eventData?.companies?.primary_color,
       }}
     >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
-          background: "#5c1e2e",
+          // background: "#5c1e2e",
+          background: eventData?.companies?.primary_color,
         }}
       >
         <div
@@ -211,7 +213,9 @@ export default function Home() {
             width: 500,
             padding: 24,
             boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-            background: "#5c1e2e",
+            //background: "#5c1e2e",
+            background: eventData?.companies?.primary_color,
+
             color: "#DBACB4",
             height: 1000,
           }}
