@@ -43,20 +43,18 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        /*
         const { data: eventData } = await supabase
           .from("events")
           .select("*")
           .eq("id", eventId)
-          .single();
-        /*
+          .single();*/
+
         const { data: eventData } = await supabase
           .from("events")
           .select(
             `
-    id,
-    title,
-    date,
-    company_id,
+    *,
     companies (
       id,
       name,
@@ -66,7 +64,7 @@ export default function Home() {
   `
           )
           .eq("id", eventId)
-          .single(); */
+          .single();
 
         const { data: eventItems } = await supabase
           .from("items")
