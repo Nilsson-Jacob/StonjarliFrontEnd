@@ -98,6 +98,13 @@ export default function CancelBooking() {
       .is("cancelled_at", null)
       .select();
 
+    const { data: testData } = await supabase
+      .from("bookings")
+      .select("*")
+      .eq("booking_token", token);
+
+    console.log("TEST:", testData);
+
     if (error) {
       alert("Failed to cancel");
     } else if (!data || data.length === 0) {
