@@ -91,30 +91,33 @@ export default function CancelBooking() {
   const secondary = eventData?.companies?.secondary_color;
 
   const handleCancel = async () => {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("bookings")
       .update({ cancelled_at: new Date().toISOString() })
       .eq("booking_token", token)
-      .is("cancelled_at", null);
-
-    //Send email if there is a waitlist
-    fetch(
-      "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendWaitlistEmail",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          eventId: eventData.id,
-        }),
-      }
-    );
+      .is("cancelled_at", null)
+      .select();
 
     if (error) {
       alert("Failed to cancel");
+    } else if (!data || data.length === 0) {
+      alert("Booking not found or already cancelled");
     } else {
       setStatus("cancelled");
+
+      //Send email if there is a waitlist
+      fetch(
+        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendWaitlistEmail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            eventId: eventData.id,
+          }),
+        }
+      );
     }
   };
 
