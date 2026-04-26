@@ -75,9 +75,7 @@ export default function Home() {
 
   // Event Info
   const [eventMaxCap, setEventMaxCap] = useState(""); // YYYY-MM-DD
-  //const [eventBookingsMade, setEventBookingsMade] = useState(0); // YYYY-MM-DD
-
-  //const [eventTypeItems, setEventTypeItems] = useState({});
+  const [newTypeLabel, setNewTypeLabel] = useState("");
   const [copied, setCopied] = useState(false);
 
   const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
@@ -333,6 +331,7 @@ Best regards,
       .insert({
         name: newTypeName,
         company_id: companyId,
+        label: newTypeLabel,
       })
       .select()
       .single();
@@ -578,6 +577,14 @@ Best regards,
                         style={inputStyle}
                       />
 
+                      <input
+                        type="text"
+                        placeholder="Type label for select (e.g. Select breakfast)"
+                        value={newTypeLabel}
+                        onChange={(e) => setNewTypeLabel(e.target.value)}
+                        style={inputStyle}
+                      />
+
                       {newTypeItems.map((item, index) => (
                         <div key={item.id} style={{ display: "flex", gap: 10 }}>
                           <input
@@ -612,8 +619,36 @@ Best regards,
                         + Add item
                       </button>
 
-                      <button onClick={handleCreateType}>Save</button>
-                      <button onClick={() => setShowCreateTypeModal(false)}>
+                      <button
+                        style={{
+                          flex: 1,
+                          padding: 14,
+                          borderRadius: 12,
+                          border: "none",
+                          background: "#1f8f4e",
+                          color: "#fff",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                          fontSize: 16,
+                        }}
+                        onClick={handleCreateType}
+                      >
+                        Save
+                      </button>
+                      <button
+                        style={{
+                          flex: 1,
+                          padding: 14,
+                          borderRadius: 12,
+                          border: "none",
+                          background: "#1f8f4e",
+                          color: "#fff",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                          fontSize: 16,
+                        }}
+                        onClick={() => setShowCreateTypeModal(false)}
+                      >
                         Cancel
                       </button>
                     </div>
