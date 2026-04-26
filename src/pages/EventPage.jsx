@@ -76,10 +76,10 @@ export default function Home() {
           .eq("id", eventId)
           .single();
 
-        const { data: eventItems } = await supabase
+        /* const { data: eventItems } = await supabase
           .from("items")
           .select("*")
-          .eq("event_id", eventId);
+          .eq("event_id", eventId);*/
 
         const { data: bookingCount } = await supabase
           .from("bookings")
@@ -95,7 +95,9 @@ export default function Home() {
 
         setBookingCount(bookingCount);
         setEventData(eventData);
-        setItems(eventItems);
+        //setItems(eventItems);
+
+        setItems(eventData.event_types.event_type_items);
 
         setQueueCount(queueCount[0].count);
       } catch (error) {
