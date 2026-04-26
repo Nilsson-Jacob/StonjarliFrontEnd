@@ -35,6 +35,7 @@ const inputStyle = {
   background: "#1a1a22",
   color: "#fff",
   fontSize: 16,
+  marginTop: 10,
 };
 
 const overlayStyle = {
@@ -57,7 +58,6 @@ const modalStyle = {
   width: "90%",
   maxWidth: 500,
   color: "#fff",
-  marginBottom: 20,
 };
 
 export default function Home() {
@@ -613,6 +613,9 @@ Best regards,
                       ))}
 
                       <button
+                        style={{
+                          marginTop: 15,
+                        }}
                         onClick={() =>
                           setNewTypeItems([
                             ...newTypeItems,
@@ -633,6 +636,7 @@ Best regards,
                             fontWeight: "bold",
                             cursor: "pointer",
                             fontSize: 16,
+                            marginTop: 15,
                           }}
                           onClick={handleCreateType}
                         >
@@ -649,6 +653,7 @@ Best regards,
                             cursor: "pointer",
                             fontSize: 16,
                             marginLeft: 10,
+                            marginTop: 15,
                           }}
                           onClick={() => setShowCreateTypeModal(false)}
                         >
