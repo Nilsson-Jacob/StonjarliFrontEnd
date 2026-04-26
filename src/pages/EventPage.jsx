@@ -61,6 +61,16 @@ export default function Home() {
       primary_color,
       secondary_color
     )
+      ,
+    event_types (
+      id,
+      name,
+      label,
+      event_type_items (
+        id,
+        name
+      )
+    )
   `
           )
           .eq("id", eventId)
@@ -306,7 +316,7 @@ export default function Home() {
                 {items && (
                   <div style={{ marginTop: 16 }}>
                     <p style={{ marginBottom: 8, fontWeight: 500 }}>
-                      Choose breakfast:
+                      {eventData} Choose breakfast:
                     </p>
 
                     <div

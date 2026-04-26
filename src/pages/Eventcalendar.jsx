@@ -752,7 +752,9 @@ Best regards,
                         {type.name}
                       </option>
                     ))}
-                    <option value="create_new">➕ Create new type</option>
+                    <option value="create_new">
+                      ... Create new event type
+                    </option>
                   </select>
 
                   {/* Items */}
