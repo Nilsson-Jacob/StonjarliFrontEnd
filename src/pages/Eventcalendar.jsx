@@ -586,7 +586,10 @@ Best regards,
                       />
 
                       {newTypeItems.map((item, index) => (
-                        <div key={item.id} style={{ display: "flex", gap: 10 }}>
+                        <div
+                          key={item.id}
+                          style={{ display: "flex", gap: 10, marginBottom: 15 }}
+                        >
                           <input
                             value={item.name}
                             onChange={(e) => {
