@@ -176,7 +176,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [companyId]);
 
   const groupedFeedback = {};
 
