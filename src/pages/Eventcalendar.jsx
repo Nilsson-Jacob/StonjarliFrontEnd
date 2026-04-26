@@ -303,6 +303,7 @@ Best regards,
       const itemsToInsert = items.map((item) => ({
         event_id: event.id,
         name: item.name,
+        company_id: companyId,
       }));
 
       const { error: itemsError } = await supabase
