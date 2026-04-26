@@ -316,7 +316,7 @@ export default function Home() {
                 {items && (
                   <div style={{ marginTop: 16 }}>
                     <p style={{ marginBottom: 8, fontWeight: 500 }}>
-                      {eventData} Choose breakfast:
+                      {eventData?.event_types?.label ?? "Choose breakfast"}:
                     </p>
 
                     <div
