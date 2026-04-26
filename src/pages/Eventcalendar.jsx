@@ -27,6 +27,38 @@ const Colors = {
 
 const DAY_BOX_SIZE = 120;
 
+const inputStyle = {
+  width: "100%",
+  padding: 12,
+  borderRadius: 10,
+  border: "1px solid #555",
+  background: "#1a1a22",
+  color: "#fff",
+  fontSize: 16,
+};
+
+const overlayStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100vw",
+  height: "100vh",
+  background: "rgba(0,0,0,0.6)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+};
+
+const modalStyle = {
+  background: "#2a2a35",
+  padding: 30,
+  borderRadius: 16,
+  width: "90%",
+  maxWidth: 500,
+  color: "#fff",
+};
+
 export default function Home() {
   const [entries, setEntries] = useState({});
 
@@ -51,6 +83,8 @@ export default function Home() {
   const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
   const [newTypeName, setNewTypeName] = useState("");
   const [newTypeItems, setNewTypeItems] = useState([]);
+  const [eventAddress, setEventAddress] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
 
   const [createFeedbackEmail, setCreateFeedbackEmail] = useState(false);
   const [feedbackEmail, setFeedbackEmail] = useState(
