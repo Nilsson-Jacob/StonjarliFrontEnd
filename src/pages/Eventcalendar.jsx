@@ -57,6 +57,7 @@ const modalStyle = {
   width: "90%",
   maxWidth: 500,
   color: "#fff",
+  marginBottom: 20,
 };
 
 export default function Home() {
