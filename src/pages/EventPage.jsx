@@ -235,7 +235,8 @@ export default function Home() {
                   <p style={{ margin: 0 }}>
                     Number of available spots: {spotsLeft}
                   </p>
-                  <p>Adress: </p>
+                  <p>Adress: {eventData?.address}</p>
+                  <h4>{eventData?.description}</h4>
                 </>
               )}
 
