@@ -145,8 +145,10 @@ export default function CancelBooking() {
     <div
       style={{
         textAlign: "center",
-        background: "#5c1e2e",
-        color: "#DBACB4",
+        //background: "#5c1e2e",
+        background: primary,
+        color: secondary,
+        //color: "#DBACB4",
         height: 1000,
         marginTop: -20,
       }}
