@@ -313,12 +313,12 @@ export default function Home() {
                   style={inputStyle}
                 />
 
+                <p style={{ marginBottom: 8, fontWeight: 500 }}>
+                  {eventData?.event_types?.label ?? "Choose breakfast"}
+                </p>
+
                 {items && (
                   <div style={{ marginTop: 16 }}>
-                    <p style={{ marginBottom: 8, fontWeight: 500 }}>
-                      {eventData?.event_types?.label ?? "Choose breakfast"}:
-                    </p>
-
                     <div
                       style={{
                         display: "flex",
