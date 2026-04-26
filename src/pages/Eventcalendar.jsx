@@ -618,39 +618,39 @@ Best regards,
                       >
                         + Add item
                       </button>
-
-                      <button
-                        style={{
-                          flex: 1,
-                          padding: 14,
-                          borderRadius: 12,
-                          border: "none",
-                          background: "#1f8f4e",
-                          color: "#fff",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          fontSize: 16,
-                        }}
-                        onClick={handleCreateType}
-                      >
-                        Save
-                      </button>
-                      <button
-                        style={{
-                          flex: 1,
-                          padding: 14,
-                          borderRadius: 12,
-                          border: "none",
-                          background: "#1f8f4e",
-                          color: "#fff",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          fontSize: 16,
-                        }}
-                        onClick={() => setShowCreateTypeModal(false)}
-                      >
-                        Cancel
-                      </button>
+                      <div>
+                        <button
+                          style={{
+                            padding: 14,
+                            borderRadius: 12,
+                            border: "none",
+                            background: "#1f8f4e",
+                            color: "#fff",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            fontSize: 16,
+                          }}
+                          onClick={handleCreateType}
+                        >
+                          Save
+                        </button>
+                        <button
+                          style={{
+                            padding: 14,
+                            borderRadius: 12,
+                            border: "none",
+                            background: "#c42f2f",
+                            color: "#fff",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            fontSize: 16,
+                            marginLeft: 10,
+                          }}
+                          onClick={() => setShowCreateTypeModal(false)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
                     </div>
                   </div>
                 )}
