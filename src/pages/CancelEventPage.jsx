@@ -105,6 +105,9 @@ export default function CancelBooking() {
 
     console.log("TEST:", testData);
 
+    const { data: user } = await supabase.auth.getUser();
+    console.log(user);
+
     if (error) {
       alert("Failed to cancel");
     } else if (!data || data.length === 0) {
