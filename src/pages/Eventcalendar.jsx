@@ -48,6 +48,10 @@ export default function Home() {
   //const [eventTypeItems, setEventTypeItems] = useState({});
   const [copied, setCopied] = useState(false);
 
+  const [showCreateTypeModal, setShowCreateTypeModal] = useState(false);
+  const [newTypeName, setNewTypeName] = useState("");
+  const [newTypeItems, setNewTypeItems] = useState([]);
+
   const [createFeedbackEmail, setCreateFeedbackEmail] = useState(false);
   const [feedbackEmail, setFeedbackEmail] = useState(
     `
@@ -248,6 +252,8 @@ Best regards,
         event_type_id: eventType,
         max_capacity: Number(eventMaxCap),
         company_id: companyId,
+        address: eventAddress || null,
+        description: eventDescription || null,
       })
       .select()
       .single();
@@ -284,6 +290,42 @@ Best regards,
     setEventDate("");
     setEventType("");
     setEventMaxCap("");
+  };
+
+  const handleCreateType = async () => {
+    // 1. Create event type
+    const { data: type, error } = await supabase
+      .from("event_types")
+      .insert({
+        name: newTypeName,
+        company_id: companyId,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // 2. Create items
+    if (newTypeItems.length > 0) {
+      const itemsToInsert = newTypeItems.map((item) => ({
+        name: item.name,
+        event_type_id: type.id,
+      }));
+
+      await supabase.from("event_type_items").insert(itemsToInsert);
+    }
+
+    // 3. Update UI
+    setEventTypes([...eventTypes, type]);
+    setEventType(type.id);
+
+    // 4. Reset + close
+    setNewTypeName("");
+    setNewTypeItems([]);
+    setShowCreateTypeModal(false);
   };
 
   function renderCells() {
@@ -490,6 +532,60 @@ Best regards,
                   justifyContent: "center",
                 }}
               >
+                {showCreateTypeModal && (
+                  <div style={overlayStyle}>
+                    <div style={modalStyle}>
+                      <h3>Create Event Type</h3>
+
+                      <input
+                        placeholder="Type name"
+                        value={newTypeName}
+                        onChange={(e) => setNewTypeName(e.target.value)}
+                        style={inputStyle}
+                      />
+
+                      {newTypeItems.map((item, index) => (
+                        <div key={item.id} style={{ display: "flex", gap: 10 }}>
+                          <input
+                            value={item.name}
+                            onChange={(e) => {
+                              const updated = [...newTypeItems];
+                              updated[index].name = e.target.value;
+                              setNewTypeItems(updated);
+                            }}
+                            style={inputStyle}
+                          />
+                          <button
+                            onClick={() =>
+                              setNewTypeItems(
+                                newTypeItems.filter((_, i) => i !== index)
+                              )
+                            }
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      ))}
+
+                      <button
+                        onClick={() =>
+                          setNewTypeItems([
+                            ...newTypeItems,
+                            { id: crypto.randomUUID(), name: "" },
+                          ])
+                        }
+                      >
+                        + Add item
+                      </button>
+
+                      <button onClick={handleCreateType}>Save</button>
+                      <button onClick={() => setShowCreateTypeModal(false)}>
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 <form
                   onSubmit={handleCreateEvent}
                   style={{
@@ -543,10 +639,31 @@ Best regards,
                     }}
                   />
 
+                  <input
+                    type="text"
+                    placeholder="Address (optional)"
+                    value={eventAddress}
+                    onChange={(e) => setEventAddress(e.target.value)}
+                    style={inputStyle}
+                  />
+
+                  <textarea
+                    placeholder="Short description (optional)"
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
+                    style={{ ...inputStyle, minHeight: 80 }}
+                  />
+
                   {/* Event Type */}
                   <select
                     value={eventType}
-                    onChange={(e) => setEventType(e.target.value)}
+                    onChange={(e) => {
+                      if (e.target.value === "create_new") {
+                        setShowCreateTypeModal(true);
+                      } else {
+                        setEventType(e.target.value);
+                      }
+                    }}
                     style={{
                       width: "100%",
                       padding: 12,
@@ -563,6 +680,7 @@ Best regards,
                         {type.name}
                       </option>
                     ))}
+                    <option value="create_new">➕ Create new type</option>
                   </select>
 
                   {/* Items */}
