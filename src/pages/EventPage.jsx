@@ -158,23 +158,25 @@ export default function Home() {
         });
       });
 
-      await fetch(
-        "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
-            //Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY}`,
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            eventTitle: eventData.title,
-            cancelLink: `${window.location.origin}/cancel/${token}`,
-          }),
-        }
-      );
+      if (bookingData && !(bookingData.length === 0)) {
+        await fetch(
+          "https://chwjjrgyubbdjqawlolx.supabase.co/functions/v1/sendBookingEmail",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              // apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
+              //Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY}`,
+            },
+            body: JSON.stringify({
+              name,
+              email,
+              eventTitle: eventData.title,
+              cancelLink: `${window.location.origin}/cancel/${token}`,
+            }),
+          }
+        );
+      }
     } catch (error) {
       console.log("error : " + error);
     }
