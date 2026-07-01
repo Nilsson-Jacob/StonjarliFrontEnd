@@ -466,18 +466,18 @@ export default function Home() {
             />
             {recording && (
               <button onClick={handleStop} style={mainButton}>
-                Finish
+                Done
               </button>
             )}
           </div>
         </div>
       )}
 
-      {step === "targets" && targets[currentTargetIndex] && (
+      {/*step === "targets" && targets[currentTargetIndex] && (
         <div style={cardContainer}>
           <ChoiceCard target={targets[currentTargetIndex]} />
         </div>
-      )}
+      )*/}
     </div>
   );
 }
