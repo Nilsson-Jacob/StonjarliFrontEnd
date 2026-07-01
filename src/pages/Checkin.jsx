@@ -78,6 +78,7 @@ export default function Home() {
           return;
         }
 
+        console.log("SESSION TOKEN:", session?.access_token);
         const res = await fetch(serverApi + "/transcribe", {
           method: "POST",
           headers: {
@@ -460,7 +461,7 @@ export default function Home() {
           <ChoiceCard target={targets[currentTargetIndex]} />
         </div>
       )*/
- /*   </div>
+/*   </div>
   );
 }
 
