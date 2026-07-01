@@ -290,6 +290,7 @@ const mainButton = {
   fontSize: 16,
 };
 
+/*
 const choiceButton = {
   flex: 1,
   padding: "10px",
@@ -297,3 +298,4 @@ const choiceButton = {
   borderRadius: 10,
   fontWeight: "bold",
 };
+*/
