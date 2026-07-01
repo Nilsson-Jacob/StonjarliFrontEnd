@@ -335,87 +335,12 @@ export default function Home() {
 
   const today = new Date().toLocaleDateString();
 
-  // ===== Recording Logic =====
-  /*const handleStart = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    const mediaRecorder = new MediaRecorder(stream);
-    mediaRecorderRef.current = mediaRecorder;
-    audioChunksRef.current = [];
-
-    mediaRecorder.ondataavailable = (e) => {
-      if (e.data.size > 0) audioChunksRef.current.push(e.data);
-    };
-
-    mediaRecorder.onstop = async () => {
-      const audioBlob = new Blob(audioChunksRef.current, {
-        type: mediaRecorder.mimeType,
-      });
-
-      const formData = new FormData();
-      formData.append("audio", audioBlob, "training.webm");
-
-      const res = await fetch(serverApi + "/transcribe", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-      setAnswer(data);
-      console.log(answer);
-      setStep("home");
-    };
-
-    mediaRecorder.start();
-    setRecording(true);
-  };*/
-
   const handleStop = () => {
     mediaRecorderRef.current.stop();
     setRecording(false);
     setStep("home");
   };
 
-  /*
-  const saveDailyCheckin = async () => {
-    const todayKey = new Date().toISOString().split("T")[0];
-
-    const formattedTargets = answers.map((a) => {
-      const target = targets.find((t) => t.id === a.target_id);
-
-      return {
-        name: target.name,
-        value: a.value,
-        met: a.value === "equal" || a.value === "above",
-      };
-    });
-
-    const payload = {
-      date: todayKey,
-      targets: formattedTargets,
-    };
-
-    console.log("Sending payload:", payload);
-
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      const res = await fetch(serverApi + "/targets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      console.log("Daily entry saved:", data);
-    } catch (err) {
-      console.error("Failed saving daily checkin:", err);
-    }
-  };*/
   const saveDailyCheckin = async (finalAnswers) => {
     const todayKey = new Date().toISOString().split("T")[0];
 
@@ -458,18 +383,6 @@ export default function Home() {
   };
 
   /*
-  const handleTargetAnswer = async (value) => {
-    const currentTarget = targets[currentTargetIndex];
-
-    setAnswers((prev) => [...prev, { target_id: currentTarget.id, value }]);
-
-    if (currentTargetIndex < targets.length - 1) {
-      setCurrentTargetIndex((i) => i + 1);
-    } else {
-      saveDailyCheckin();
-      setStep("home");
-    }
-  };*/
   const handleTargetAnswer = (value) => {
     const currentTarget = targets[currentTargetIndex];
 
@@ -485,7 +398,7 @@ export default function Home() {
       setCurrentTargetIndex(0);
       setAnswers([]);
     }
-  };
+  };*/
 
   // ===== UI Components =====
   const Card = ({ children, onClick }) => (
@@ -493,34 +406,6 @@ export default function Home() {
       {children}
     </div>
   );
-
-  /*
-  const ChoiceCard = ({ title, value, setValue, onNext, onSubmit }) => (
-    <div style={cardStyle}>
-      <h3>{title}</h3>
-      <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-        {["less", "equal", "above"].map((opt) => (
-          <button
-            key={opt}
-            onClick={() => {
-              setValue(opt);
-              if (onSubmit) {
-                saveDailyCheckin();
-              }
-              onNext();
-            }}
-            style={{
-              ...choiceButton,
-              background: value === opt ? "#ddb52f" : "#1a1a22",
-              color: value === opt ? "#4e0329" : "#fff",
-            }}
-          >
-            {opt.toUpperCase()}
-          </button>
-        ))}
-      </div>
-    </div>
-  );*/
 
   const ChoiceCard = ({ target }) => (
     <div style={cardStyle}>
@@ -552,11 +437,14 @@ export default function Home() {
   return (
     <div style={styles.page}>
       {step === "home" && (
-        <div style={cardContainer}>
-          <Card onClick={() => setStep("training")}>🎤 Checkin Training</Card>
+        <>
+          <h2>{today}</h2>
+          <div style={cardContainer}>
+            <Card onClick={() => setStep("training")}>Log Training</Card>
 
-          <Card onClick={() => setStep("targets")}>📅 Checkin : {today}</Card>
-        </div>
+            {/** <Card onClick={() => setStep("targets")}>📅 Checkin : {today}</Card> */}
+          </div>
+        </>
       )}
 
       {step === "training" && (
@@ -589,31 +477,6 @@ export default function Home() {
           <ChoiceCard target={targets[currentTargetIndex]} />
         </div>
       )}
-
-      {/*  
-      {step === "protein" && (
-        <div style={cardContainer}>
-          <ChoiceCard
-            title="Protein intake goal?"
-            value={protein}
-            setValue={setProtein}
-            onNext={() => setStep("sleep")}
-          />
-        </div>
-      )}
-
-      {step === "sleep" && (
-        <div style={cardContainer}>
-          <ChoiceCard
-            title="Sleep goal?"
-            value={sleep}
-            setValue={setSleep}
-            onNext={() => setStep("home")}
-            onSubmit={true}
-          />
-        </div>
-      )}
-        */}
     </div>
   );
 }
@@ -623,7 +486,6 @@ export default function Home() {
 const styles = {
   page: {
     minHeight: "100vh",
-    //background: "linear-gradient(180deg, #4e0329 0%, #0f0f14 100%)",
     background:
       "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(29,29,58) 100%)",
     display: "flex",
