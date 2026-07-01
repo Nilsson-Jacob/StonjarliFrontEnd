@@ -70,6 +70,7 @@ export default function Home() {
   console.log(answer);
 
   // ===== Load targets from DB =====
+  /*
   useEffect(() => {
     const fetchTargets = async () => {
       const { data, error } = await supabase.from("targets").select("*");
@@ -82,7 +83,7 @@ export default function Home() {
       }
     };
     fetchTargets();
-  }, []);
+  }, []);*/
 
   const today = new Date().toLocaleDateString();
 
