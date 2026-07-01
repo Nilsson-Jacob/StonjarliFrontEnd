@@ -407,6 +407,7 @@ export default function Home() {
     </div>
   );
 
+  /*
   const ChoiceCard = ({ target }) => (
     <div style={cardStyle}>
       <h3>
@@ -431,7 +432,7 @@ export default function Home() {
         ))}
       </div>
     </div>
-  );
+  );*/
 
   // ===== Render Logic =====
   return (
