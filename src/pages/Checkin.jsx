@@ -6,6 +6,233 @@ const serverApi = "https://stonjarliserver.onrender.com";
 
 export default function Home() {
   const [step, setStep] = useState("home");
+  const [recording, setRecording] = useState(false);
+  const [answer, setAnswer] = useState(null);
+
+  const mediaRecorderRef = useRef(null);
+  const audioChunksRef = useRef([]);
+  const streamRef = useRef(null);
+
+  const [session, setSession] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
+
+  const today = new Date().toLocaleDateString();
+
+  // ===== Load Supabase session ONCE =====
+  useEffect(() => {
+    const loadSession = async () => {
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setAuthReady(true);
+    };
+
+    loadSession();
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, newSession) => {
+        setSession(newSession);
+      }
+    );
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
+
+  // ===== START RECORDING =====
+  const startRecording = async () => {
+    if (!authReady) {
+      console.error("Auth not ready yet");
+      return;
+    }
+
+    if (!session?.access_token) {
+      console.error("User not logged in");
+      return;
+    }
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+
+    streamRef.current = stream;
+
+    const mediaRecorder = new MediaRecorder(stream);
+    mediaRecorderRef.current = mediaRecorder;
+    audioChunksRef.current = [];
+
+    mediaRecorder.ondataavailable = (e) => {
+      if (e.data.size > 0) audioChunksRef.current.push(e.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+      try {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: mediaRecorder.mimeType,
+        });
+
+        const formData = new FormData();
+        formData.append("audio", audioBlob, "training.webm");
+
+        // 🔐 SAFE CHECK
+        if (!session?.access_token) {
+          console.error("Missing session token at upload time");
+          return;
+        }
+
+        const res = await fetch(serverApi + "/transcribe", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${session.access_token}`,
+          },
+          body: formData,
+        });
+
+        const data = await res.json();
+        setAnswer(data);
+        setStep("home");
+      } catch (err) {
+        console.error("Transcription error:", err);
+      } finally {
+        // cleanup mic
+        streamRef.current?.getTracks().forEach((t) => t.stop());
+      }
+    };
+
+    mediaRecorder.start();
+    setRecording(true);
+  };
+
+  // ===== STOP RECORDING =====
+  const handleStop = () => {
+    if (mediaRecorderRef.current && recording) {
+      mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
+  };
+
+  // ===== AUTO START WHEN ENTERING TRAINING =====
+  useEffect(() => {
+    if (step === "training") {
+      startRecording();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  // ===== UI =====
+  const Card = ({ children, onClick }) => (
+    <div onClick={onClick} style={cardStyle}>
+      {children}
+    </div>
+  );
+
+  return (
+    <div style={styles.page}>
+      {step === "home" && (
+        <div style={cardContainer}>
+          <Card onClick={() => setStep("training")}>
+            Log Training - {today}
+          </Card>
+
+          {answer && (
+            <div style={cardStyle}>
+              <pre style={{ whiteSpace: "pre-wrap" }}>
+                {JSON.stringify(answer, null, 2)}
+              </pre>
+            </div>
+          )}
+        </div>
+      )}
+
+      {step === "training" && (
+        <div style={cardContainer}>
+          <div style={cardStyle}>
+            <motion.div
+              animate={
+                recording
+                  ? {
+                      scale: [1, 1.4, 1],
+                      rotate: [0, 180, 360],
+                      borderRadius: ["20%", "50%", "20%"],
+                    }
+                  : {}
+              }
+              transition={{ duration: 1.5, repeat: Infinity }}
+              style={orbStyle}
+            />
+
+            {recording && (
+              <button onClick={handleStop} style={mainButton}>
+                Done
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ===== STYLES =====
+const styles = {
+  page: {
+    minHeight: "100vh",
+    background:
+      "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(29,29,58) 100%)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 16,
+  },
+};
+
+const cardContainer = {
+  width: "100%",
+  maxWidth: 360,
+  display: "flex",
+  flexDirection: "column",
+  gap: 20,
+};
+
+const cardStyle = {
+  background: "#1a1a22",
+  borderRadius: 20,
+  padding: 24,
+  minHeight: 140,
+  color: "#fff",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: 18,
+  fontWeight: "bold",
+  boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+};
+
+const orbStyle = {
+  width: 120,
+  height: 120,
+  borderRadius: "50%",
+  background: "linear-gradient(180deg, #ddb52f 0%, #4e0329 100%)",
+  marginBottom: 20,
+};
+
+const mainButton = {
+  border: "none",
+  borderRadius: 12,
+  padding: "12px 20px",
+  background: "#ddb52f",
+  color: "#4e0329",
+  fontWeight: "bold",
+  fontSize: 16,
+}; /*}
+
+/*import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { supabase } from "../components/supabaseClient";
+
+const serverApi = "https://stonjarliserver.onrender.com";
+
+export default function Home() {
+  const [step, setStep] = useState("home");
   // const [targets, setTargets] = useState([]);
   // const [currentTargetIndex, setCurrentTargetIndex] = useState(0);
   // const [answers, setAnswers] = useState([]);
@@ -83,8 +310,8 @@ export default function Home() {
       }
     };
     fetchTargets();
-  }, []);*/
-
+  }, []);*/ /*}
+/*
   const today = new Date().toLocaleDateString();
 
   const handleStop = () => {
@@ -135,7 +362,7 @@ export default function Home() {
     }
   };*/
 
-  /*
+/*
   const handleTargetAnswer = (value) => {
     const currentTarget = targets[currentTargetIndex];
 
@@ -153,8 +380,9 @@ export default function Home() {
     }
   };*/
 
-  // ===== UI Components =====
-  const Card = ({ children, onClick }) => (
+// ===== UI Components =====
+
+/*  const Card = ({ children, onClick }) => (
     <div onClick={onClick} style={cardStyle}>
       {children}
     </div>
@@ -187,17 +415,18 @@ export default function Home() {
     </div>
   );*/
 
-  // ===== Render Logic =====
-  return (
+// ===== Render Logic =====
+/*  return (
     <div style={styles.page}>
       {step === "home" && (
         <>
-          <h2>{today}</h2>
           <div style={cardContainer}>
-            <Card onClick={() => setStep("training")}>Log Training</Card>
+            <Card onClick={() => setStep("training")}>
+              Log Training - {today}
+            </Card>
 
-            {/** <Card onClick={() => setStep("targets")}>📅 Checkin : {today}</Card> */}
-          </div>
+            {/** <Card onClick={() => setStep("targets")}>📅 Checkin : {today}</Card> */
+/*          </div>
         </>
       )}
 
@@ -230,8 +459,8 @@ export default function Home() {
         <div style={cardContainer}>
           <ChoiceCard target={targets[currentTargetIndex]} />
         </div>
-      )*/}
-    </div>
+      )*/
+ /*   </div>
   );
 }
 
