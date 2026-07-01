@@ -26,11 +26,14 @@ import CafeAnalytics from "./pages/CafeAnalytics";
 function App() {
   return (
     <Router>
-      {/* <NavBar /> 
+      {
+        /*<NavBar />*/
 
-      <Tabs /> 
+        <Tabs />
+        /*
       <CafeNavBar />
-      */}
+      */
+      }
 
       <Routes>
         {/* Public */}
