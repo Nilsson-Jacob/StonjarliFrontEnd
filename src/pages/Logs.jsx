@@ -262,7 +262,7 @@ export default function Logs() {
                 <>
                   <h4 style={{ marginTop: 12 }}>Training</h4>
 
-                  {selectedDay.entry.training_type == "run" &&
+                  {selectedDay.entry.training_type === "run" &&
                     selectedDay.entry.structured.activities.map((a, i) => {
                       const improved =
                         a.anchor_metric?.weight > (a.previous_max_weight || 0);
