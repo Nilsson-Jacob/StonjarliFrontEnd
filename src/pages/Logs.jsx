@@ -49,7 +49,7 @@ export default function Logs() {
       const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
       mapped[dayKey] = {
         structured: entry.structured,
-        targets: entry.targets || [],
+        // targets: entry.targets || [],
       };
     });
 
@@ -72,16 +72,18 @@ export default function Logs() {
     );
   }
 
+  /*
   function getTargetsScore(entry) {
     const targets = entry?.targets || [];
     const total = targets.length;
     const hit = targets.filter((t) => t.met === true).length;
     return { hit, total };
-  }
+  }*/
 
   function getDayColor(entry) {
     if (!entry) return Colors.card;
 
+    /*
     const trainingImproved = didTrainingImprove(entry);
     const { hit, total } = getTargetsScore(entry);
     const targetRatio = total > 0 ? hit / total : 0;
@@ -90,8 +92,8 @@ export default function Logs() {
 
     if (score >= 1.8) return Colors.green;
     if (score >= 1.2) return Colors.mid;
-    if (score >= 0.6) return Colors.orange;
-    return Colors.red;
+    if (score >= 0.6) return Colors.orange;*/
+    return Colors.mid;
   }
 
   function getGlow(color) {
@@ -117,7 +119,7 @@ export default function Logs() {
         const entry = entries[dayKey];
 
         const trainingImproved = didTrainingImprove(entry);
-        const { hit, total } = getTargetsScore(entry);
+        //const { hit, total } = getTargetsScore(entry);
 
         const color = getDayColor(entry);
         const glow = getGlow(color);
@@ -165,12 +167,14 @@ export default function Logs() {
                 alignItems: "center",
               }}
             >
+              {/* 
               {trainingImproved && <span title="Training Improved">💪</span>}
               {total > 0 && (
                 <span title="Targets hit">
                   {hit}/{total} 🎯
                 </span>
               )}
+                */}
             </div>
           </motion.div>
         );
@@ -278,7 +282,7 @@ export default function Logs() {
                             <strong>{a.activity_type} 🏃</strong>
                             <div style={{ fontSize: 13 }}>
                               {a.anchor_metric?.distance_km} km ·{" "}
-                              {a.anchor_metric?.time_minutes}
+                              {a.anchor_metric?.time_minutes} min
                             </div>
                             <div
                               style={{
@@ -320,11 +324,12 @@ export default function Logs() {
                     <p style={{ opacity: 0.7 }}>No training logged.</p>
                   )}
 
+                  {/* 
                   <h4 style={{ marginTop: 14 }}>Targets</h4>
                   <p>
                     🎯 {getTargetsScore(selectedDay.entry).hit}/
                     {getTargetsScore(selectedDay.entry).total} targets hit
-                  </p>
+                  </p> */}
                 </>
               ) : (
                 <p>No data for this day.</p>
