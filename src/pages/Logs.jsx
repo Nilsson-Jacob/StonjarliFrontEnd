@@ -262,68 +262,59 @@ export default function Logs() {
                 <>
                   <h4 style={{ marginTop: 12 }}>Training</h4>
 
-                  {selectedDay.entry.training_type === "run" &&
-                    selectedDay.entry.structured.activities.map((a, i) => {
-                      const improved =
-                        a.anchor_metric?.weight > (a.previous_max_weight || 0);
-
-                      return (
-                        <div
-                          key={i}
-                          style={{
-                            background: "rgba(0,0,0,0.25)",
-                            borderRadius: 12,
-                            padding: 10,
-                            marginBottom: 8,
-                          }}
-                        >
-                          <strong>{a.activity_type}</strong>
-                          <div style={{ fontSize: 13 }}>
-                            {a.anchor_metric?.distance_km} km ·{" "}
-                            {a.anchor_metric?.time_minutes}
-                          </div>
-                          <div
-                            style={{
-                              fontSize: 12,
-                              marginTop: 4,
-                              color: improved ? "#7CFFB2" : "#ff9c9c",
-                            }}
-                          ></div>
-                        </div>
-                      );
-                    })}
-
                   {selectedDay.entry.structured?.activities?.length > 0 ? (
                     selectedDay.entry.structured.activities.map((a, i) => {
-                      const improved =
-                        a.anchor_metric?.weight > (a.previous_max_weight || 0);
-
-                      return (
-                        <div
-                          key={i}
-                          style={{
-                            background: "rgba(0,0,0,0.25)",
-                            borderRadius: 12,
-                            padding: 10,
-                            marginBottom: 8,
-                          }}
-                        >
-                          <strong>{a.activity_type}</strong>
-                          <div style={{ fontSize: 13 }}>
-                            {a.anchor_metric?.weight}kg ·{" "}
-                            {a.anchor_metric?.reps}x{a.anchor_metric?.sets}
-                          </div>
+                      if (a.activity_type === "run") {
+                        return (
                           <div
+                            key={i}
                             style={{
-                              fontSize: 12,
-                              marginTop: 4,
-                              color: improved ? "#7CFFB2" : "#ff9c9c",
+                              background: "rgba(0,0,0,0.25)",
+                              borderRadius: 12,
+                              padding: 10,
+                              marginBottom: 8,
                             }}
                           >
-                            {improved ? "💪 New PR!" : "No PR today"}
+                            <strong>{a.activity_type} 🏃</strong>
+                            <div style={{ fontSize: 13 }}>
+                              {a.anchor_metric?.distance_km} km ·{" "}
+                              {a.anchor_metric?.time_minutes}
+                            </div>
+                            <div
+                              style={{
+                                fontSize: 12,
+                                marginTop: 4,
+                                color: "#7CFFB2",
+                              }}
+                            ></div>
                           </div>
-                        </div>
-                      );
+                        );
+                      } else {
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              background: "rgba(0,0,0,0.25)",
+                              borderRadius: 12,
+                              padding: 10,
+                              marginBottom: 8,
+                            }}
+                          >
+                            <strong>{a.activity_type}</strong>
+                            <div style={{ fontSize: 13 }}>
+                              {a.anchor_metric?.weight}kg ·{" "}
+                              {a.anchor_metric?.reps}x{a.anchor_metric?.sets}
+                            </div>
+                            <div
+                              style={{
+                                fontSize: 12,
+                                marginTop: 4,
+                                color: "#7CFFB2",
+                              }}
+                            ></div>
+                          </div>
+                        );
+                      }
                     })
                   ) : (
                     <p style={{ opacity: 0.7 }}>No training logged.</p>
