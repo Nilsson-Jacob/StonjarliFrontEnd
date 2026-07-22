@@ -59,6 +59,7 @@ export default function Logs() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
+  /*
 
   function didTrainingImprove(entry) {
     if (!entry?.structured?.activities) return false;
@@ -71,7 +72,7 @@ export default function Logs() {
       (a) => a.anchor_metric?.weight > (a.previous_max_weight || 0)
     );
   }
-
+*/
   /*
   function getTargetsScore(entry) {
     const targets = entry?.targets || [];
@@ -118,7 +119,7 @@ export default function Logs() {
         const dayKey = format(currentDay, "yyyy-MM-dd");
         const entry = entries[dayKey];
 
-        const trainingImproved = didTrainingImprove(entry);
+        //const trainingImproved = didTrainingImprove(entry);
         //const { hit, total } = getTargetsScore(entry);
 
         const color = getDayColor(entry);
