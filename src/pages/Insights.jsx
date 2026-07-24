@@ -21,7 +21,8 @@ export default function Insights() {
   async function fetchInsights() {
     const { data, error } = await supabase
       .from("daily_entries")
-      .select("created_at, structured");
+      .select("created_at, structured")
+      .eq("user_id", user.id);
 
     if (error) {
       console.error(error);
