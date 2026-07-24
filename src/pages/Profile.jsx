@@ -118,25 +118,25 @@ export default function Profile() {
       <div style={styles.targetsGrid}>
         {targets.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            {editModal && (
+            {/*editModal && (
               <button onClick={() => deleteTarget(t.id)} title="-">
                 {" "}
               </button>
-            )}
+            )*/}
             <h4>{t.name}</h4>
             <p style={{ fontSize: 13 }}>
               {t.evaluation?.toUpperCase()} {t.target_value} {t.unit}
             </p>
           </div>
         ))}
-        {editModal && (
+        {/*editModal && (
           <div
             style={styles.targetCard}
             onClick={() => setShowCreateModal(true)}
           >
             <div style={{ alignItems: "center", fontSize: "2rem" }}>+</div>
           </div>
-        )}
+        )*/}
       </div>
       {/* Create Target Modal */}
       <AnimatePresence>
