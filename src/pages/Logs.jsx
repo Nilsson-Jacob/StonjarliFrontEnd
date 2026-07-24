@@ -92,7 +92,15 @@ export default function Logs() {
       return;
     }
 
-    if (entry.structured)
+    if (!entry.structured) {
+      return;
+    }
+
+    if (!entry.structured.activities) {
+      return;
+    }
+
+    if (entry.structured.activities.length > 0)
       switch (entry.structured.activities[0].training_type) {
         case "gym":
           return <span>🏋️‍♂️</span>;
