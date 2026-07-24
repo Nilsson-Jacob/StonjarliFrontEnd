@@ -101,7 +101,7 @@ export default function Profile() {
     <div style={styles.page}>
       {/* Floating + button */}
 
-      <h2 style={styles.title}>Your Targets</h2>
+      <h2 style={styles.title}>Competitions</h2>
       <div style={styles.editContainer}>
         {/* {editModal && ( 
           <div
@@ -190,33 +190,6 @@ export default function Profile() {
                 style={styles.input}
               />
 
-              {/* <div style={{ marginTop: 12 }}>
-                <p style={{ fontSize: 12, marginBottom: 6 }}>
-                  Evaluation style
-                </p>
-                <div style={styles.evaluationGrid}>
-                  {["under", "slightly under", "slightly above", "above"].map(
-                    (opt) => (
-                      <button
-                        key={opt}
-                        onClick={() =>
-                          setNewTarget({ ...newTarget, evaluation: opt })
-                        }
-                        style={{
-                          ...styles.evalButton,
-                          background:
-                            newTarget.evaluation === opt ? "#ddb52f" : "#111",
-                          color:
-                            newTarget.evaluation === opt ? "#4e0329" : "#fff",
-                        }}
-                      >
-                        {opt?.toUpperCase()}
-                      </button>
-                    )
-                  )}
-                </div>
-              </div> */}
-
               <div style={styles.modalActions}>
                 <button
                   style={styles.cancelButton}
@@ -232,6 +205,8 @@ export default function Profile() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <h2 style={styles.title}>Profile</h2>
     </div>
   );
 }
