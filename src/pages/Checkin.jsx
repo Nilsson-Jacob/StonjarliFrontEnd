@@ -69,6 +69,8 @@ export default function Home() {
           type: mediaRecorder.mimeType,
         });
 
+        console.log("Medie size:", audioBlob.size, audioBlob.type);
+
         const formData = new FormData();
         formData.append("audio", audioBlob, "training.webm");
 
@@ -100,16 +102,17 @@ export default function Home() {
 
         const data = await res.json();
         setAnswer(data);
-        setStep("home");
+        //setStep("home");
       } catch (err) {
         console.error("Transcription error:", err);
       } finally {
         // cleanup mic
+        setStep("home");
         streamRef.current?.getTracks().forEach((t) => t.stop());
       }
     };
 
-    mediaRecorder.start();
+    mediaRecorder.start(1000);
     setRecording(true);
   };
 
