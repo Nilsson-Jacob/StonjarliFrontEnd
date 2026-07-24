@@ -24,6 +24,10 @@ const Colors = {
 
 const DAY_BOX_SIZE = 80;
 
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
 export default function Logs() {
   const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -36,6 +40,7 @@ export default function Logs() {
     const { data, error } = await supabase
       .from("daily_entries")
       .select("created_at, structured, targets")
+      .eq("user_id", user.id)
       .gte("created_at", start.toISOString())
       .lte("created_at", end.toISOString());
 
