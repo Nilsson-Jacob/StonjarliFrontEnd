@@ -171,7 +171,7 @@ export default function Logs() {
                 right: 6,
                 display: "flex",
                 gap: 6,
-                fontSize: 35,
+                fontSize: 27,
                 alignItems: "center",
               }}
             >
