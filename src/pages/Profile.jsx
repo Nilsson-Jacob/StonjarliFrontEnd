@@ -62,7 +62,7 @@ export default function Profile() {
       .eq("id", user.id)
       .single();
 
-    setTagName(profile);
+    setTagName(profile.tag_name);
 
     if (!error) setTargets(data);
   };
@@ -208,7 +208,7 @@ export default function Profile() {
         <input
           type="text"
           value={tagName}
-          onChange={(e) => setNewTarget({ ...newTarget, unit: e.target.value })}
+          onChange={(e) => setTagName(e.target.value)}
           style={{
             ...styles.input,
             height: 30,
