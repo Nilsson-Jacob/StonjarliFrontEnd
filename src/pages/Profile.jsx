@@ -204,7 +204,14 @@ export default function Profile() {
         )}
       </AnimatePresence>
       <h2 style={styles.title}>Profile</h2>
-      <div style={{ alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 16,
+        }}
+      >
         <input
           type="text"
           placeholder="Jacob97"
@@ -215,11 +222,14 @@ export default function Profile() {
             height: 30,
             width: "80%",
             textAlign: "center",
+            fontSize: 34,
           }}
-        />{" "}
-      </div>
-      <div onClick={() => setShowCreateModal(true)} style={styles.floatingAdd}>
-        +
+        />
+        <div onClick={() => setEditModal(!editModal)}>
+          <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
+            <EditIcon />
+          </div>
+        </div>
       </div>
     </div>
   );
