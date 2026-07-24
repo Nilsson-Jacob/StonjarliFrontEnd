@@ -33,27 +33,12 @@ export default function Profile() {
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const [editTag, setEditTag] = useState(false);
+  const [tagName, setTagName] = useState("");
 
   const [newTarget, setNewTarget] = useState({
     name: "",
     value: "",
   });
-
-  /*
-  const deleteTarget = async (targetId) => {
-    const { error } = await supabase
-      .from("targets")
-      .delete()
-      .eq("id", targetId);
-
-    if (error) {
-      console.error("Delete failed:", error);
-      return;
-    }
-
-    // Remove from state immediately
-    setTargets((prev) => prev.filter((t) => t.id !== targetId));
-  };*/
 
   // Fetch existing targets
   useEffect(() => {
@@ -70,6 +55,13 @@ export default function Profile() {
       .select("*")
       .eq("user_id", user.id)
       .order("created_at", { ascending: true });
+
+    const { profile } = await supabase
+      .from("profiles")
+      .select("tag_name")
+      .single();
+
+    setTagName(profile);
 
     if (!error) setTargets(data);
   };
@@ -214,8 +206,7 @@ export default function Profile() {
       >
         <input
           type="text"
-          placeholder="Jacob97"
-          value={newTarget.unit}
+          value={"newTarget.unit"}
           onChange={(e) => setNewTarget({ ...newTarget, unit: e.target.value })}
           style={{
             ...styles.input,
@@ -224,6 +215,7 @@ export default function Profile() {
             textAlign: "center",
             fontSize: 34,
           }}
+          disabled={!editTag}
         />
         <div onClick={() => setEditTag(!editTag)}>
           <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
