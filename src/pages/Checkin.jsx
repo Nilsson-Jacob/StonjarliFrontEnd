@@ -13,12 +13,13 @@ export default function Home() {
   const audioChunksRef = useRef([]);
   const streamRef = useRef(null);
 
-  const [session, setSession] = useState(null);
+  //const [session, setSession] = useState(null);
   const [authReady, setAuthReady] = useState(false);
 
   const today = new Date().toLocaleDateString();
 
   // ===== Load Supabase session ONCE =====
+  /*
   useEffect(() => {
     const loadSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -35,6 +36,17 @@ export default function Home() {
     );
 
     return () => listener.subscription.unsubscribe();
+  }, []);*/
+  useEffect(() => {
+    const loadSession = async () => {
+      const { data } = await supabase.auth.getSession();
+
+      if (data.session) {
+        setAuthReady(true);
+      }
+    };
+
+    loadSession();
   }, []);
 
   // ===== START RECORDING =====
