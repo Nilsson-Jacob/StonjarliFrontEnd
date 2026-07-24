@@ -206,10 +206,13 @@ export default function Profile() {
       <h2 style={styles.title}>Profile</h2>
       <input
         type="text"
-        placeholder="Unit"
+        placeholder="Jacob97"
         value={newTarget.unit}
         onChange={(e) => setNewTarget({ ...newTarget, unit: e.target.value })}
-        style={styles.input}
+        style={[
+          ...styles.input,
+          { height: 130, width: "80%", textAlign: "center" },
+        ]}
       />{" "}
     </div>
   );
