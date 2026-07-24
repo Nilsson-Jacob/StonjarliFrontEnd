@@ -38,6 +38,7 @@ export default function Home() {
   }, []);
 
   // ===== START RECORDING =====
+  /*
   const startRecording = async () => {
     if (!authReady) {
       console.error("Auth not ready yet");
@@ -82,13 +83,7 @@ export default function Home() {
 
         console.log("SESSION TOKEN:", session?.access_token);
 
-        /* const res = await fetch(serverApi + "/transcribe", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${session.access_token}`,
-          },
-          body: formData,
-        });*/
+
         const res = await fetch(
           "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/transcribe",
           {
@@ -114,12 +109,110 @@ export default function Home() {
 
     mediaRecorder.start(1000);
     setRecording(true);
+  };*/
+  const startRecording = async () => {
+    if (!authReady) {
+      console.error("Auth not ready yet");
+      return;
+    }
+
+    const {
+      data: { session: currentSession },
+    } = await supabase.auth.getSession();
+
+    if (!currentSession?.access_token) {
+      console.error("User not logged in");
+      return;
+    }
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+    });
+
+    streamRef.current = stream;
+
+    const options = {
+      mimeType: "audio/webm;codecs=opus",
+    };
+
+    const mediaRecorder = MediaRecorder.isTypeSupported(options.mimeType)
+      ? new MediaRecorder(stream, options)
+      : new MediaRecorder(stream);
+
+    mediaRecorderRef.current = mediaRecorder;
+
+    audioChunksRef.current = [];
+
+    mediaRecorder.ondataavailable = (e) => {
+      console.log("Chunk:", e.data.size);
+
+      if (e.data.size > 0) {
+        audioChunksRef.current.push(e.data);
+      }
+    };
+
+    mediaRecorder.onstop = async () => {
+      try {
+        const audioBlob = new Blob(audioChunksRef.current, {
+          type: mediaRecorder.mimeType,
+        });
+
+        console.log("FINAL AUDIO:", audioBlob.size, audioBlob.type);
+
+        if (audioBlob.size < 5000) {
+          console.error("Recording too short");
+          return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("audio", audioBlob, "training.webm");
+
+        const res = await fetch(
+          "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/transcribe",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${currentSession.access_token}`,
+            },
+            body: formData,
+          }
+        );
+
+        const data = await res.json();
+
+        console.log("TRANSCRIBE RESULT:", data);
+
+        setAnswer(data);
+      } catch (err) {
+        console.error("Transcription error:", err);
+      } finally {
+        streamRef.current?.getTracks().forEach((track) => track.stop());
+
+        audioChunksRef.current = [];
+
+        setStep("home");
+      }
+    };
+
+    // IMPORTANT
+    mediaRecorder.start(1000);
+
+    setRecording(true);
   };
 
   // ===== STOP RECORDING =====
+  /*
   const handleStop = () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
+      setRecording(false);
+    }
+  };*/
+  const handleStop = () => {
+    if (mediaRecorderRef.current && recording) {
+      mediaRecorderRef.current.stop();
+
       setRecording(false);
     }
   };
