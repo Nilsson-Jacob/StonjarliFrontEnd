@@ -59,6 +59,7 @@ export default function Profile() {
     const { profile } = await supabase
       .from("profiles")
       .select("tag_name")
+      .eq("id", user.id)
       .single();
 
     setTagName(profile);
