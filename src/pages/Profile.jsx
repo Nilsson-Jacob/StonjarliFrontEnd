@@ -206,7 +206,7 @@ export default function Profile() {
       >
         <input
           type="text"
-          value={"newTarget.unit"}
+          value={tagName}
           onChange={(e) => setNewTarget({ ...newTarget, unit: e.target.value })}
           style={{
             ...styles.input,
