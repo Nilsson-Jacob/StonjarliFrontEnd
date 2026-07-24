@@ -100,7 +100,6 @@ export default function Profile() {
   return (
     <div style={styles.page}>
       {/* Floating + button */}
-
       <h2 style={styles.title}>Competitions</h2>
       <div style={styles.editContainer}>
         {/* {editModal && ( 
@@ -140,7 +139,6 @@ export default function Profile() {
           </div>
         )}
       </div>
-
       {/* Create Target Modal */}
       <AnimatePresence>
         {showCreateModal && (
@@ -205,9 +203,14 @@ export default function Profile() {
           </motion.div>
         )}
       </AnimatePresence>
-
       <h2 style={styles.title}>Profile</h2>
-      <input type="text" placeholder="her" aria-label="Your tagname"></input>
+      <input
+        type="text"
+        placeholder="Unit"
+        value={newTarget.unit}
+        onChange={(e) => setNewTarget({ ...newTarget, unit: e.target.value })}
+        style={styles.input}
+      />{" "}
     </div>
   );
 }
@@ -334,120 +337,3 @@ const styles = {
     fontWeight: "bold",
   },
 };
-
-/*import React, { useState } from "react";
-
-const Profile = () => {
-  const [sleepGoal, setSleepGoal] = useState(7);
-  const [proteinGoal, setProteinGoal] = useState(150);
-
-  const handleSave = () => {
-    const goals = {
-      sleep_hours: sleepGoal,
-      protein_grams: proteinGoal,
-    };
-    console.log("Saved goals:", goals);
-    alert("Goals saved");
-  };
-
-  return (
-    <div style={styles.page}>
-      <h2 style={styles.title}>Your Targets</h2>
-
-      <div style={styles.goalsRow}>
-        <div style={styles.goalCard}>
-          <h4>😴 Sleep</h4>
-          <input
-            type="number"
-            min="4"
-            max="12"
-            step="0.5"
-            value={sleepGoal}
-            onChange={(e) => setSleepGoal(Number(e.target.value))}
-            style={styles.input}
-          />
-          <span style={styles.unit}>hours</span>
-        </div>
-
-        <div style={styles.goalCard}>
-          <h4>🥩 Protein</h4>
-          <input
-            type="number"
-            min="50"
-            max="400"
-            step="5"
-            value={proteinGoal}
-            onChange={(e) => setProteinGoal(Number(e.target.value))}
-            style={styles.input}
-          />
-          <span style={styles.unit}>grams</span>
-        </div>
-      </div>
-
-      <button style={styles.saveButton} onClick={handleSave}>
-        Save Targets
-      </button>
-    </div>
-  );
-};
-
-export default Profile;
-
-
-const styles = {
-  page: {
-    minHeight: "100vh",
-    padding: 20,
-    paddingTop: 40,
-    background:
-      "linear-gradient(180deg,rgba(57, 13, 35, 0.77) 0%,rgb(29, 29, 58) 100%)",
-    color: "#fff",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  goalsRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: 14,
-    marginBottom: 30,
-  },
-  goalCard: {
-    flex: 1,
-    background: "rgba(0,0,0,0.35)",
-    borderRadius: 12,
-    padding: 14,
-    textAlign: "center",
-    boxShadow: "0 6px 14px rgba(0,0,0,0.4)",
-  },
-  input: {
-    width: "100%",
-    padding: 8,
-    borderRadius: 8,
-    border: "none",
-    marginTop: 8,
-    fontSize: 14,
-    background: "#111",
-    color: "#fff",
-    textAlign: "center",
-  },
-  unit: {
-    display: "block",
-    marginTop: 4,
-    fontSize: 12,
-    color: "#ddb52f",
-  },
-  saveButton: {
-    width: "100%",
-    padding: 12,
-    borderRadius: 12,
-    border: "none",
-    background: "linear-gradient(90deg, #ddb52f, #4e0329)",
-    color: "#000",
-    fontWeight: "bold",
-    fontSize: 15,
-    cursor: "pointer",
-  },
-};
-*/
