@@ -222,7 +222,7 @@ export default function Logs() {
         color: Colors.text,
         padding: 12,
         paddingTop: 60,
-        overflowX: auto,
+        overflowX: "auto",
       }}
     >
       <h2 style={{ marginBottom: 12 }}>{format(currentMonth, "MMMM yyyy")}</h2>
