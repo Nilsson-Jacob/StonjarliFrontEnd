@@ -79,13 +79,24 @@ export default function Home() {
         }
 
         console.log("SESSION TOKEN:", session?.access_token);
-        const res = await fetch(serverApi + "/transcribe", {
+
+        /* const res = await fetch(serverApi + "/transcribe", {
           method: "POST",
           headers: {
             Authorization: `Bearer ${session.access_token}`,
           },
           body: formData,
-        });
+        });*/
+        const res = await fetch(
+          "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/transcribe",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${session.access_token}`,
+            },
+            body: formData,
+          }
+        );
 
         const data = await res.json();
         setAnswer(data);
