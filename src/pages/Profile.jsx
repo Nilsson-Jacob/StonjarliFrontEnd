@@ -39,6 +39,7 @@ export default function Profile() {
     value: "",
   });
 
+  /*
   const deleteTarget = async (targetId) => {
     const { error } = await supabase
       .from("targets")
@@ -52,7 +53,7 @@ export default function Profile() {
 
     // Remove from state immediately
     setTargets((prev) => prev.filter((t) => t.id !== targetId));
-  };
+  };*/
 
   // Fetch existing targets
   useEffect(() => {
