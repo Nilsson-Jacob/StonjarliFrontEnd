@@ -88,7 +88,7 @@ export default function Logs() {
 
   function returnTrainingTypeEmoji(entry) {
     console.log("entry: " + JSON.stringify(entry));
-    if (entry.training_type)
+    if (entry)
       switch (entry.training_type) {
         case "gym":
           return <span>🏋️‍♂️</span>;
