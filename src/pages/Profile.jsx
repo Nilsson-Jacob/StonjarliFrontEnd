@@ -56,7 +56,7 @@ export default function Profile() {
       .eq("user_id", user.id)
       .order("created_at", { ascending: true });
 
-    const { profile } = await supabase
+    const { data: profile } = await supabase
       .from("profiles")
       .select("tag_name")
       .eq("id", user.id)
