@@ -11,6 +11,10 @@ import {
 } from "recharts";
 import { format } from "date-fns";
 
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
 export default function Insights() {
   const [activityData, setActivityData] = useState({});
 
