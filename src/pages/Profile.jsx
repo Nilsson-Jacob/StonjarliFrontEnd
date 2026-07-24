@@ -209,10 +209,12 @@ export default function Profile() {
         placeholder="Jacob97"
         value={newTarget.unit}
         onChange={(e) => setNewTarget({ ...newTarget, unit: e.target.value })}
-        style={[
+        style={{
           ...styles.input,
-          { height: 130, width: "80%", textAlign: "center" },
-        ]}
+          height: 130,
+          width: "80%",
+          textAlign: "center",
+        }}
       />{" "}
     </div>
   );
