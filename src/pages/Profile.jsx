@@ -32,7 +32,7 @@ export default function Profile() {
   const [targets, setTargets] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
-  const [editModal, setEditModal] = useState(false);
+  const [editTag, setEditTag] = useState(false);
 
   const [newTarget, setNewTarget] = useState({
     name: "",
@@ -110,10 +110,9 @@ export default function Profile() {
             +
           </div>
         )}*/}
-        <div onClick={() => setEditModal(!editModal)}>
-          <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
-            <EditIcon />
-          </div>
+
+        <div onClick={() => setShowCreateModal(true)}>
+          <div style={{ alignItems: "center", fontSize: "2rem" }}>+</div>
         </div>
       </div>
       <div style={styles.targetsGrid}>
@@ -225,7 +224,7 @@ export default function Profile() {
             fontSize: 34,
           }}
         />
-        <div onClick={() => setEditModal(!editModal)}>
+        <div onClick={() => setEditTag(!editTag)}>
           <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
             <EditIcon />
           </div>
