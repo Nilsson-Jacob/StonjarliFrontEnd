@@ -106,7 +106,10 @@ export default function Logs() {
           return <span>🏋️‍♂️</span>;
         case "run":
           return <span>🏃</span>;
-
+        case "sport":
+          return <span>⚽️</span>;
+        case "swim":
+          return <span>🏊</span>;
         default:
           break;
       }

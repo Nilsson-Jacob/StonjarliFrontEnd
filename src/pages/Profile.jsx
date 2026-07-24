@@ -207,6 +207,9 @@ export default function Profile() {
       </AnimatePresence>
 
       <h2 style={styles.title}>Profile</h2>
+      <input type="text" placeholder="her" aria-label="Your tagname">
+        Name
+      </input>
     </div>
   );
 }
