@@ -143,13 +143,15 @@ export default function Home() {
 
     streamRef.current = stream;
 
+    /*
     const options = {
       mimeType: "audio/webm;codecs=opus",
     };
 
     const mediaRecorder = MediaRecorder.isTypeSupported(options.mimeType)
       ? new MediaRecorder(stream, options)
-      : new MediaRecorder(stream);
+      : new MediaRecorder(stream);*/
+    const mediaRecorder = new MediaRecorder(stream);
 
     mediaRecorderRef.current = mediaRecorder;
 

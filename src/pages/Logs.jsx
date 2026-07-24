@@ -64,27 +64,6 @@ export default function Logs() {
   useEffect(() => {
     fetchEntries();
   }, [fetchEntries]);
-  /*
-
-  function didTrainingImprove(entry) {
-    if (!entry?.structured?.activities) return false;
-
-    if (entry.structured.liftImproved !== undefined) {
-      return entry.structured.liftImproved;
-    }
-
-    return entry.structured.activities.some(
-      (a) => a.anchor_metric?.weight > (a.previous_max_weight || 0)
-    );
-  }
-*/
-  /*
-  function getTargetsScore(entry) {
-    const targets = entry?.targets || [];
-    const total = targets.length;
-    const hit = targets.filter((t) => t.met === true).length;
-    return { hit, total };
-  }*/
 
   function getDayColor(entry) {
     if (!entry) return Colors.card;
@@ -107,6 +86,20 @@ export default function Logs() {
     return "none";
   }
 
+  function returnTrainingTypeEmoji(entry) {
+    console.log("entry: " + JSON.stringify(entry));
+    if (entry.training_type)
+      switch (entry.training_type) {
+        case "gym":
+          return <span>🏋️‍♂️</span>;
+        case "run":
+          return <span>🏃</span>;
+
+        default:
+          break;
+      }
+  }
+
   function renderCells() {
     const monthStart = startOfMonth(currentMonth);
     const monthEnd = endOfMonth(monthStart);
@@ -123,9 +116,6 @@ export default function Logs() {
         const formattedDate = format(currentDay, "d");
         const dayKey = format(currentDay, "yyyy-MM-dd");
         const entry = entries[dayKey];
-
-        //const trainingImproved = didTrainingImprove(entry);
-        //const { hit, total } = getTargetsScore(entry);
 
         const color = getDayColor(entry);
         const glow = getGlow(color);
@@ -181,6 +171,7 @@ export default function Logs() {
                 </span>
               )}
                 */}
+              {returnTrainingTypeEmoji(entry)}
             </div>
           </motion.div>
         );
