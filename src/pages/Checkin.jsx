@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 
-const serverApi = "https://stonjarliserver.onrender.com";
+//const serverApi = "https://stonjarliserver.onrender.com";
 
 export default function Home() {
   const [step, setStep] = useState("home");
