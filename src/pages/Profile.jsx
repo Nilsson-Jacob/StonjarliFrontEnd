@@ -44,6 +44,8 @@ export default function Profile() {
   const [gladiatorInput, setGladiatorInput] = useState("");
   const [gladiators, setGladiators] = useState([]);
 
+  const [competitionMembers, setCompetitionMembers] = useState({});
+
   useEffect(() => {
     const loadSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -60,6 +62,77 @@ export default function Profile() {
   useEffect(() => {
     fetchTargets();
   }, []);
+
+  useEffect(() => {
+    competitions.forEach((c) => {
+      fetchCompetitionMembers(c.id);
+    });
+  }, [competitions]);
+
+  const fetchCompetitionMembers = async (competitionId) => {
+    const { data: members, error } = await supabase
+      .from("competition_members")
+      .select(
+        `
+        user_id,
+        profiles (
+          tag_name
+        )
+      `
+      )
+      .eq("competition_id", competitionId);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const userIds = members.map((m) => m.user_id);
+
+    const monday = new Date();
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+
+    const { data: workouts } = await supabase
+      .from("daily_entries")
+      .select(
+        `
+        user_id,
+        created_at
+      `
+      )
+      .in("user_id", userIds)
+      .gte("created_at", monday.toISOString())
+      .lte("created_at", sunday.toISOString());
+
+    const formatted = members.map((m) => {
+      const days = {};
+
+      for (let i = 0; i < 7; i++) {
+        const date = new Date(monday);
+        date.setDate(monday.getDate() + i);
+
+        const key = date.toISOString().slice(0, 10);
+
+        days[key] = workouts?.some(
+          (w) => w.user_id === m.user_id && w.created_at.startsWith(key)
+        );
+      }
+
+      return {
+        user_id: m.user_id,
+        tag_name: m.profiles.tag_name,
+        days,
+      };
+    });
+
+    setCompetitionMembers((prev) => ({
+      ...prev,
+      [competitionId]: formatted,
+    }));
+  };
 
   const fetchTargets = async () => {
     const {
@@ -143,7 +216,36 @@ export default function Profile() {
       <div style={styles.targetsGrid}>
         {competitions.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            <h4 style={{ marginTop: 0 }}> {t.name} </h4>
+            <h4 style={{ marginTop: -25 }}> {t.name} </h4>
+            <div style={styles.competitionTable}>
+              <div style={styles.daysRow}>
+                <div style={styles.nameColumn}></div>
+
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(
+                  (day) => (
+                    <div style={styles.day}>{day}</div>
+                  )
+                )}
+              </div>
+
+              {competitionMembers[t.id]?.map((member) => (
+                <div style={styles.memberRow} key={member.user_id}>
+                  <div style={styles.nameColumn}>{member.tag_name}</div>
+
+                  {Object.values(member.days).map((done, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        ...styles.dayBox,
+                        background: done ? "#38c172" : "rgba(255,255,255,0.15)",
+                      }}
+                    >
+                      {done ? "✓" : ""}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
@@ -286,7 +388,7 @@ const styles = {
     flexDirection: "column",
     justifyContent: "flex-start",
     alignItems: "center",
-    minHeight: 120,
+    minHeight: 65,
   },
   editContainer: {
     height: 60,
@@ -381,5 +483,44 @@ const styles = {
     background: "linear-gradient(90deg,#ddb52f,#4e0329)",
     color: "#000",
     fontWeight: "bold",
+  },
+  competitionTable: {
+    width: "100%",
+    marginTop: 10,
+  },
+
+  daysRow: {
+    display: "grid",
+    gridTemplateColumns: "100px repeat(7,1fr)",
+    gap: 4,
+    fontSize: 12,
+  },
+
+  memberRow: {
+    display: "grid",
+    gridTemplateColumns: "100px repeat(7,1fr)",
+    gap: 4,
+    marginTop: 6,
+    alignItems: "center",
+  },
+
+  nameColumn: {
+    textAlign: "left",
+    overflow: "hidden",
+    fontSize: 13,
+  },
+
+  day: {
+    textAlign: "center",
+    fontSize: 12,
+  },
+
+  dayBox: {
+    height: 25,
+    borderRadius: 6,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    fontSize: 12,
   },
 };
