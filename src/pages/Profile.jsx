@@ -41,6 +41,7 @@ export default function Profile() {
 
   const [newCompetitionName, setNewCompetitionName] = useState("");
 
+  const [gladiatorInput, setGladiatorInput] = useState("");
   const [newGladiator, setNewGladiator] = useState("");
   const [gladiators, setGladiators] = useState([]);
 
@@ -120,7 +121,7 @@ export default function Profile() {
           Authorization: `Bearer ${currentSession.access_token}`,
         },
         body: {
-          name: "Summer Challenge",
+          name: newCompetitionName,
           members: gladiators,
         },
       });
@@ -176,28 +177,36 @@ export default function Profile() {
 
               <input
                 type="text"
-                placeholder="Competitor tagname"
-                value={newGladiator}
-                onChange={(e) => setNewGladiator(e.target.value)}
+                placeholder="Competitor"
+                value={gladiatorInput}
+                onChange={(e) => setGladiatorInput(e.target.value)}
                 style={styles.input}
               />
 
               <button
                 style={styles.saveButton}
                 onClick={() => {
-                  if (!newGladiator.trim()) return;
+                  if (!gladiatorInput.trim()) return;
 
-                  setGladiators([...gladiators, newGladiator.trim()]);
-
-                  setNewGladiator("");
+                  setGladiators([...gladiators, gladiatorInput.trim()]);
+                  setGladiatorInput("");
                 }}
               >
-                Add Gladiator
+                Add competitor
               </button>
 
               <div>
                 {gladiators.map((g, index) => (
-                  <div key={index}>{g}</div>
+                  <div key={index}>
+                    {g}
+                    <button
+                      onClick={() =>
+                        setGladiators(gladiators.filter((_, i) => i !== index))
+                      }
+                    >
+                      x
+                    </button>
+                  </div>
                 ))}
               </div>
 
