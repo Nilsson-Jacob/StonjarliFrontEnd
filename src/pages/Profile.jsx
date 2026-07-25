@@ -109,6 +109,8 @@ export default function Profile() {
       .gte("created_at", monday.toISOString())
       .lte("created_at", sunday.toISOString());
 
+    console.log("comp: ", competitionMembers);
+
     const formatted = competitionMembers.map((m) => {
       const days = {};
 
