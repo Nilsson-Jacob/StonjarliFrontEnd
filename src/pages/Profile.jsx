@@ -77,12 +77,18 @@ export default function Profile() {
 
     if (error) console.log(error);
 
+    console.log("Members:", members);
+    console.log("Members error:", error);
+
     const ids = members.map((m) => m.user_id);
 
     const { data: profiles } = await supabase
       .from("profiles")
       .select("id, tag_name")
       .in("id", ids);
+
+    console.log("Profiles:", profiles);
+    console.log("Profiles error:", profilesError);
 
     const competitionMembers = members.map((m) => ({
       user_id: m.user_id,
@@ -108,6 +114,9 @@ export default function Profile() {
       .in("user_id", userIds)
       .gte("created_at", monday.toISOString())
       .lte("created_at", sunday.toISOString());
+
+    console.log("Workouts:", workouts);
+    console.log("Workouts error:", workoutsError);
 
     console.log("comp: ", competitionMembers);
 
