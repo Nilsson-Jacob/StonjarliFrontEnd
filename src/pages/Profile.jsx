@@ -74,6 +74,8 @@ export default function Profile() {
 
     if (!newTarget.name || !newTarget.value) return;
 
+    console.log("here l77");
+
     const { data: competition, error: compError } =
       await supabase.functions.invoke("create-competition", {
         body: {
@@ -82,11 +84,10 @@ export default function Profile() {
         },
       });
 
-    if (compError) {
-      console.log("comperr: " + compError);
-    }
+    console.log("Competition:", competition);
+    console.log("Error:", compError);
 
-    console.log("datacomp: " + competition);
+    if (compError) return;
 
     const { data, error } = await supabase
       .from("targets")
@@ -110,15 +111,6 @@ export default function Profile() {
       {/* Floating + button */}
       <h2 style={styles.title}>Competitions</h2>
       <div style={styles.editContainer}>
-        {/* {editModal && ( 
-          <div
-            onClick={() => setShowCreateModal(true)}
-            style={styles.floatingAdd}
-          >
-            +
-          </div>
-        )}*/}
-
         <div onClick={() => setShowCreateModal(true)}>
           <div style={{ alignItems: "center", fontSize: "2rem" }}>+</div>
         </div>
