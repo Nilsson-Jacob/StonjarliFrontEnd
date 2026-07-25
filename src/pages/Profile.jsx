@@ -94,10 +94,6 @@ export default function Profile() {
   };
 
   const handleCreateTarget = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
     if (!authReady) {
       console.error("Auth not ready yet");
       return;
