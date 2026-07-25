@@ -143,7 +143,7 @@ export default function Profile() {
       <div style={styles.targetsGrid}>
         {competitions.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            <h4>{t.name}</h4>
+            <h4 style={{ marginTop: 0 }}></h4>
           </div>
         ))}
       </div>
@@ -273,7 +273,7 @@ const styles = {
   },
   targetsGrid: {
     display: "grid",
-    gridTemplateColumns: "repeat(2, 1fr)",
+    gridTemplateColumns: "repeat(1, 1fr)",
     gap: 14,
   },
   targetCard: {
@@ -282,6 +282,11 @@ const styles = {
     padding: 14,
     textAlign: "center",
     boxShadow: "0 6px 14px rgba(0,0,0,0.4)",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    minHeight: 120,
   },
   editContainer: {
     height: 60,
