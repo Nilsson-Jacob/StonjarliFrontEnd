@@ -16,27 +16,69 @@ export default function Home() {
   //const [session, setSession] = useState(null);
   const [authReady, setAuthReady] = useState(false);
 
+  const [pressTimer, setPressTimer] = useState(null);
+  const [longPressTriggered, setLongPressTriggered] = useState(false);
+
+  const [trainingText, setTrainingText] = useState("");
+  const [sendingText, setSendingText] = useState(false);
+
   const today = new Date().toLocaleDateString();
 
-  // ===== Load Supabase session ONCE =====
-  /*
-  useEffect(() => {
-    const loadSession = async () => {
-      const { data } = await supabase.auth.getSession();
-      setSession(data.session);
-      setAuthReady(true);
-    };
+  const submitTextLog = async () => {
+    if (!trainingText.trim()) return;
 
-    loadSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, newSession) => {
-        setSession(newSession);
+    const res = await fetch(
+      "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/transcribe",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          isText: true,
+          text: trainingText,
+        }),
       }
     );
 
-    return () => listener.subscription.unsubscribe();
-  }, []);*/
+    const data = await res.json();
+
+    console.log("TEXT AI RESULT:", data);
+
+    setAnswer(data);
+    setStep("home");
+  };
+
+  const handlePressStart = () => {
+    setLongPressTriggered(false);
+
+    const timer = setTimeout(() => {
+      setLongPressTriggered(true);
+      setStep("typelog");
+    }, 600);
+
+    setPressTimer(timer);
+  };
+
+  const handlePressEnd = () => {
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+      setPressTimer(null);
+    }
+
+    // If it wasn't a long press, start voice recording
+    if (!longPressTriggered) {
+      setStep("training");
+    }
+  };
+
+  // ===== Load Supabase session ONCE =====
+
   useEffect(() => {
     const loadSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -50,78 +92,7 @@ export default function Home() {
   }, []);
 
   // ===== START RECORDING =====
-  /*
-  const startRecording = async () => {
-    if (!authReady) {
-      console.error("Auth not ready yet");
-      return;
-    }
 
-    if (!session?.access_token) {
-      console.error("User not logged in");
-      return;
-    }
-
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-    });
-
-    streamRef.current = stream;
-
-    const mediaRecorder = new MediaRecorder(stream);
-    mediaRecorderRef.current = mediaRecorder;
-    audioChunksRef.current = [];
-
-    mediaRecorder.ondataavailable = (e) => {
-      if (e.data.size > 0) audioChunksRef.current.push(e.data);
-    };
-
-    mediaRecorder.onstop = async () => {
-      try {
-        const audioBlob = new Blob(audioChunksRef.current, {
-          type: mediaRecorder.mimeType,
-        });
-
-        console.log("Medie size:", audioBlob.size, audioBlob.type);
-
-        const formData = new FormData();
-        formData.append("audio", audioBlob, "training.webm");
-
-        // 🔐 SAFE CHECK
-        if (!session?.access_token) {
-          console.error("Missing session token at upload time");
-          return;
-        }
-
-        console.log("SESSION TOKEN:", session?.access_token);
-
-
-        const res = await fetch(
-          "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/transcribe",
-          {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${session.access_token}`,
-            },
-            body: formData,
-          }
-        );
-
-        const data = await res.json();
-        setAnswer(data);
-        //setStep("home");
-      } catch (err) {
-        console.error("Transcription error:", err);
-      } finally {
-        // cleanup mic
-        setStep("home");
-        streamRef.current?.getTracks().forEach((t) => t.stop());
-      }
-    };
-
-    mediaRecorder.start(1000);
-    setRecording(true);
-  };*/
   const startRecording = async () => {
     if (!authReady) {
       console.error("Auth not ready yet");
@@ -250,12 +221,26 @@ export default function Home() {
     <div style={styles.page}>
       {step === "home" && (
         <div style={cardContainer}>
+          {/*
           <Card onClick={() => setStep("training")}>
             Log Training - {today}
-            <h5 style={{ fontSize: "0.4rem" }}>
-              Click to voicelog || Press & hold for typelog"
+            <h5 style={{ fontSize: "0.8rem" }}>
+              Click to voicelog || Press & hold to typelog
             </h5>
-          </Card>
+          </Card> */}
+          <div
+            style={cardStyle}
+            onMouseDown={handlePressStart}
+            onMouseUp={handlePressEnd}
+            onMouseLeave={handlePressEnd}
+            onTouchStart={handlePressStart}
+            onTouchEnd={handlePressEnd}
+          >
+            Log Training - {today}
+            <h5 style={{ fontSize: "0.8rem" }}>
+              Click to voicelog || Press & hold to typelog
+            </h5>
+          </div>
 
           {answer && (
             <div style={cardStyle}>
@@ -290,6 +275,43 @@ export default function Home() {
               </button>
             )}
           </div>
+        </div>
+      )}
+
+      {step === "typelog" && (
+        <div style={cardContainer}>
+          <motion.div
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring" }}
+            style={cardStyle}
+          >
+            <textarea
+              autoFocus
+              value={trainingText}
+              onChange={(e) => setTrainingText(e.target.value)}
+              placeholder="Describe your workout..."
+              style={{
+                width: "100%",
+                height: 150,
+                resize: "none",
+                borderRadius: 12,
+                padding: 15,
+                background: "#111",
+                color: "white",
+                border: "none",
+                fontSize: 16,
+              }}
+            />
+
+            <button
+              style={mainButton}
+              disabled={sendingText}
+              onClick={submitTextLog}
+            >
+              {sendingText ? "Analyzing..." : "Submit"}
+            </button>
+          </motion.div>
         </div>
       )}
     </div>
