@@ -291,7 +291,7 @@ export default function Home() {
               autoFocus
               value={trainingText}
               onChange={(e) => setTrainingText(e.target.value)}
-              placeholder="Describe your workout..."
+              placeholder="Type training..."
               style={{
                 width: "100%",
                 height: 150,
@@ -312,6 +312,18 @@ export default function Home() {
             >
               {sendingText ? "Analyzing..." : "Submit"}
             </button>
+
+            <div style={styles.modalActions}>
+              <button
+                style={styles.cancelButton}
+                onClick={() => {
+                  setTrainingText("");
+                  setStep("home");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
           </motion.div>
         </div>
       )}
