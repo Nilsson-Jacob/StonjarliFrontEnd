@@ -40,6 +40,8 @@ export default function Profile() {
   const [competitions, setCompetitions] = useState([]);
 
   const [newCompetitionName, setNewCompetitionName] = useState("");
+
+  const [newGladiator, setNewGladiator] = useState("");
   const [gladiators, setGladiators] = useState([]);
 
   useEffect(() => {
@@ -81,7 +83,9 @@ export default function Profile() {
       .eq("user_id", user.id);
 
     if (!compError) {
-      setCompetitions(competitions);
+      const formatted = competitions.map((c) => c.competitions);
+
+      setCompetitions(formatted);
     }
 
     const { data: profile } = await supabase
@@ -172,11 +176,30 @@ export default function Profile() {
 
               <input
                 type="text"
-                placeholder="Competitor"
-                value={gladiators}
-                onChange={(e) => setGladiators([...gladiators, e.target.value])}
+                placeholder="Competitor tagname"
+                value={newGladiator}
+                onChange={(e) => setNewGladiator(e.target.value)}
                 style={styles.input}
               />
+
+              <button
+                style={styles.saveButton}
+                onClick={() => {
+                  if (!newGladiator.trim()) return;
+
+                  setGladiators([...gladiators, newGladiator.trim()]);
+
+                  setNewGladiator("");
+                }}
+              >
+                Add Gladiator
+              </button>
+
+              <div>
+                {gladiators.map((g, index) => (
+                  <div key={index}>{g}</div>
+                ))}
+              </div>
 
               <div style={styles.modalActions}>
                 <button
