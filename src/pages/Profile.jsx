@@ -70,7 +70,7 @@ export default function Profile() {
   }, [competitions]);
 
   const fetchCompetitionMembers = async (competitionId) => {
-    const { data: members, error } = await supabase
+    /* const { data: members, error } = await supabase
       .from("competition_members")
       .select(
         `
@@ -85,7 +85,25 @@ export default function Profile() {
     if (error) {
       console.error(error);
       return;
-    }
+    }*/
+    const { data: members, error } = await supabase
+      .from("competition_members")
+      .select("user_id")
+      .eq("competition_id", competitionId);
+
+    if (error) console.log(error);
+
+    const ids = members.map((m) => m.user_id);
+
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id, tag_name")
+      .in("id", ids);
+
+    const competitionMembers = members.map((m) => ({
+      user_id: m.user_id,
+      tag_name: profiles.find((p) => p.id === m.user_id)?.tag_name,
+    }));
 
     const userIds = members.map((m) => m.user_id);
 
@@ -107,7 +125,7 @@ export default function Profile() {
       .gte("created_at", monday.toISOString())
       .lte("created_at", sunday.toISOString());
 
-    const formatted = members.map((m) => {
+    const formatted = competitionMembers.map((m) => {
       const days = {};
 
       for (let i = 0; i < 7; i++) {
