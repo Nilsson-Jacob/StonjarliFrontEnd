@@ -74,6 +74,20 @@ export default function Profile() {
 
     if (!newTarget.name || !newTarget.value) return;
 
+    const { data: competition, error: compError } =
+      await supabase.functions.invoke("create-competition", {
+        body: {
+          name: "Summer Challenge",
+          members: ["Jacob97", "AnnaLift", "Mike123"],
+        },
+      });
+
+    if (compError) {
+      console.log("comperr: " + compError);
+    }
+
+    console.log("datacomp: " + competition);
+
     const { data, error } = await supabase
       .from("targets")
       .insert({
