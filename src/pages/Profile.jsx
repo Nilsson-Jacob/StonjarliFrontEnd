@@ -88,7 +88,6 @@ export default function Profile() {
       .in("id", ids);
 
     console.log("Profiles:", profiles);
-    console.log("Profiles error:", profilesError);
 
     const competitionMembers = members.map((m) => ({
       user_id: m.user_id,
@@ -116,7 +115,6 @@ export default function Profile() {
       .lte("created_at", sunday.toISOString());
 
     console.log("Workouts:", workouts);
-    console.log("Workouts error:", workoutsError);
 
     console.log("comp: ", competitionMembers);
 
