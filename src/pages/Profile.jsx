@@ -42,7 +42,6 @@ export default function Profile() {
   const [newCompetitionName, setNewCompetitionName] = useState("");
 
   const [gladiatorInput, setGladiatorInput] = useState("");
-  const [newGladiator, setNewGladiator] = useState("");
   const [gladiators, setGladiators] = useState([]);
 
   useEffect(() => {
