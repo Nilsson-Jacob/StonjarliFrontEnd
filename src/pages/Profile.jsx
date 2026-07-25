@@ -70,22 +70,6 @@ export default function Profile() {
   }, [competitions]);
 
   const fetchCompetitionMembers = async (competitionId) => {
-    /* const { data: members, error } = await supabase
-      .from("competition_members")
-      .select(
-        `
-        user_id,
-        profiles (
-          tag_name
-        )
-      `
-      )
-      .eq("competition_id", competitionId);
-
-    if (error) {
-      console.error(error);
-      return;
-    }*/
     const { data: members, error } = await supabase
       .from("competition_members")
       .select("user_id")
@@ -247,8 +231,8 @@ export default function Profile() {
               </div>
 
               {competitionMembers[t.id]?.map((member) => (
-                <div style={styles.memberRow} key={member.user_id}>
-                  <div style={styles.nameColumn}>{member.tag_name}</div>
+                <div style={styles.memberRow} key={member?.user_id}>
+                  <div style={styles.nameColumn}>{member?.tag_name}</div>
 
                   {Object.values(member.days).map((done, index) => (
                     <div
