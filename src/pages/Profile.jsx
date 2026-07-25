@@ -29,7 +29,7 @@ const EditIcon = () => (
 );
 
 export default function Profile() {
-  const [targets, setTargets] = useState([]);
+  // const [targets, setTargets] = useState([]);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const [editTag, setEditTag] = useState(false);
@@ -37,10 +37,16 @@ export default function Profile() {
 
   const [authReady, setAuthReady] = useState(false);
 
+  const [competitions, setCompetitions] = useState([]);
+
+  const [newCompetitionName, setNewCompetitionName] = useState("");
+  const [gladiators, setGladiators] = useState([]);
+
+  /*
   const [newTarget, setNewTarget] = useState({
     name: "",
     value: "",
-  });
+  });*/
 
   useEffect(() => {
     const loadSession = async () => {
@@ -64,11 +70,25 @@ export default function Profile() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const { data, error } = await supabase
-      .from("targets")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: true });
+    const { data: competitions, error: compError } = await supabase
+      .from("competition_members")
+      .select(
+        `
+        competition_id,
+        competitions (
+          id,
+          name,
+          start_date,
+          end_date,
+          creator_id
+        )
+      `
+      )
+      .eq("user_id", user.id);
+
+    if (!compError) {
+      setCompetitions(competitions);
+    }
 
     const { data: profile } = await supabase
       .from("profiles")
@@ -77,8 +97,6 @@ export default function Profile() {
       .single();
 
     setTagName(profile.tag_name);
-
-    if (!error) setTargets(data);
   };
 
   const handleCreateTarget = async () => {
@@ -111,7 +129,7 @@ export default function Profile() {
         },
         body: {
           name: "Summer Challenge",
-          members: ["Jacob97", "AnnaLift", "Mike123"],
+          members: gladiators,
         },
       });
 
@@ -119,22 +137,6 @@ export default function Profile() {
     console.log("Error:", compError);
 
     if (compError) return;
-
-    const { data, error } = await supabase
-      .from("targets")
-      .insert({
-        user_id: user.id,
-        name: newTarget.name,
-        target_value: Number(newTarget.value),
-        unit: newTarget.unit,
-      })
-      .select();
-
-    if (!error) {
-      setTargets([...targets, data[0]]);
-      setShowCreateModal(false);
-      setNewTarget({ name: "", value: "", evaluation: "under" });
-    }
   };
 
   return (
@@ -147,27 +149,11 @@ export default function Profile() {
         </div>
       </div>
       <div style={styles.targetsGrid}>
-        {targets.map((t) => (
+        {competitions.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            {/*editModal && (
-              <button onClick={() => deleteTarget(t.id)} title="-">
-                {" "}
-              </button>
-            )*/}
             <h4>{t.name}</h4>
-            <p style={{ fontSize: 13 }}>
-              {t.evaluation?.toUpperCase()} {t.target_value} {t.unit}
-            </p>
           </div>
         ))}
-        {/*editModal && (
-          <div
-            style={styles.targetCard}
-            onClick={() => setShowCreateModal(true)}
-          >
-            <div style={{ alignItems: "center", fontSize: "2rem" }}>+</div>
-          </div>
-        )*/}
       </div>
       {/* Create Target Modal */}
       <AnimatePresence>
@@ -187,34 +173,20 @@ export default function Profile() {
               onClick={(e) => e.stopPropagation()}
               style={styles.modal}
             >
-              <h3 style={{ textAlign: "center" }}>Create new target</h3>
+              <h3 style={{ textAlign: "center" }}>Create new competition</h3>
 
               <input
-                placeholder="Target name"
-                value={newTarget.name}
-                onChange={(e) =>
-                  setNewTarget({ ...newTarget, name: e.target.value })
-                }
-                style={styles.input}
-              />
-
-              <input
-                type="number"
-                placeholder="Target value"
-                value={newTarget.value}
-                onChange={(e) =>
-                  setNewTarget({ ...newTarget, value: e.target.value })
-                }
+                placeholder="Name"
+                value={newCompetitionName}
+                onChange={(e) => setNewCompetitionName(e.target.value)}
                 style={styles.input}
               />
 
               <input
                 type="text"
-                placeholder="Unit"
-                value={newTarget.unit}
-                onChange={(e) =>
-                  setNewTarget({ ...newTarget, unit: e.target.value })
-                }
+                placeholder="Competitor"
+                value={gladiators}
+                onChange={(e) => setGladiators([...gladiators, e.target.value])}
                 style={styles.input}
               />
 
