@@ -143,7 +143,7 @@ export default function Profile() {
       <div style={styles.targetsGrid}>
         {competitions.map((t) => (
           <div key={t.id} style={styles.targetCard}>
-            <h4 style={{ marginTop: 0 }}></h4>
+            <h4 style={{ marginTop: 0 }}> {t.name} </h4>
           </div>
         ))}
       </div>
