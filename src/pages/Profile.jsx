@@ -125,7 +125,7 @@ export default function Profile() {
 
       return {
         user_id: m.user_id,
-        tag_name: m.profiles.tag_name,
+        tag_name: m.profiles?.tag_name,
         days,
       };
     });
