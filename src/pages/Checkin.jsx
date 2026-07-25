@@ -252,7 +252,9 @@ export default function Home() {
         <div style={cardContainer}>
           <Card onClick={() => setStep("training")}>
             Log Training - {today}
-            <h5>"click to voicelog" - "press and hold for typelog"</h5>
+            <h5 style={{ fontSize: "0.4rem" }}>
+              Click to voicelog || Press & hold for typelog"
+            </h5>
           </Card>
 
           {answer && (
