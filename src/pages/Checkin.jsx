@@ -20,7 +20,7 @@ export default function Home() {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
 
   const [trainingText, setTrainingText] = useState("");
-  const [sendingText, setSendingText] = useState(false);
+  const [sendingText] = useState(false);
 
   const today = new Date().toLocaleDateString();
 
@@ -211,11 +211,12 @@ export default function Home() {
   }, [step]);
 
   // ===== UI =====
+  /*
   const Card = ({ children, onClick }) => (
     <div onClick={onClick} style={cardStyle}>
       {children}
     </div>
-  );
+  );*/
 
   return (
     <div style={styles.page}>
