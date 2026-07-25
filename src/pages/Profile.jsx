@@ -42,12 +42,6 @@ export default function Profile() {
   const [newCompetitionName, setNewCompetitionName] = useState("");
   const [gladiators, setGladiators] = useState([]);
 
-  /*
-  const [newTarget, setNewTarget] = useState({
-    name: "",
-    value: "",
-  });*/
-
   useEffect(() => {
     const loadSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -117,8 +111,6 @@ export default function Profile() {
       console.error("User not logged in");
       return;
     }
-
-    if (!newTarget.name || !newTarget.value) return;
 
     console.log("here l77");
 
