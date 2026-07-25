@@ -35,10 +35,24 @@ export default function Profile() {
   const [editTag, setEditTag] = useState(false);
   const [tagName, setTagName] = useState("");
 
+  const [authReady, setAuthReady] = useState(false);
+
   const [newTarget, setNewTarget] = useState({
     name: "",
     value: "",
   });
+
+  useEffect(() => {
+    const loadSession = async () => {
+      const { data } = await supabase.auth.getSession();
+
+      if (data.session) {
+        setAuthReady(true);
+      }
+    };
+
+    loadSession();
+  }, []);
 
   // Fetch existing targets
   useEffect(() => {
@@ -72,12 +86,29 @@ export default function Profile() {
       data: { user },
     } = await supabase.auth.getUser();
 
+    if (!authReady) {
+      console.error("Auth not ready yet");
+      return;
+    }
+
+    const {
+      data: { session: currentSession },
+    } = await supabase.auth.getSession();
+
+    if (!currentSession?.access_token) {
+      console.error("User not logged in");
+      return;
+    }
+
     if (!newTarget.name || !newTarget.value) return;
 
     console.log("here l77");
 
     const { data: competition, error: compError } =
       await supabase.functions.invoke("create-competition", {
+        headers: {
+          Authorization: `Bearer ${currentSession.access_token}`,
+        },
         body: {
           name: "Summer Challenge",
           members: ["Jacob97", "AnnaLift", "Mike123"],
