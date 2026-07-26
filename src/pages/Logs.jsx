@@ -110,8 +110,10 @@ export default function Logs() {
           return <span>⚽️</span>;
         case "swim":
           return <span>🏊</span>;
+        case "walk":
+          return <span>🚶</span>;
         default:
-          break;
+          return <span>😴</span>;
       }
   }
 
@@ -336,13 +338,6 @@ export default function Logs() {
                   ) : (
                     <p style={{ opacity: 0.7 }}>No training logged.</p>
                   )}
-
-                  {/* 
-                  <h4 style={{ marginTop: 14 }}>Targets</h4>
-                  <p>
-                    🎯 {getTargetsScore(selectedDay.entry).hit}/
-                    {getTargetsScore(selectedDay.entry).total} targets hit
-                  </p> */}
                 </>
               ) : (
                 <p>No data for this day.</p>
