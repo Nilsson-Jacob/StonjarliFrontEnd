@@ -89,7 +89,7 @@ export default function Logs() {
   function returnTrainingTypeEmoji(entry) {
     console.log("entry: " + JSON.stringify(entry));
     if (!entry) {
-      return <span>😴</span>;
+      return <span style={{ fontSize: 8 }}>😴</span>;
     }
 
     if (!entry.structured) {
