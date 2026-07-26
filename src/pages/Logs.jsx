@@ -89,15 +89,15 @@ export default function Logs() {
   function returnTrainingTypeEmoji(entry) {
     console.log("entry: " + JSON.stringify(entry));
     if (!entry) {
-      return;
+      return <span>😴</span>;
     }
 
     if (!entry.structured) {
-      return;
+      return <span>😴</span>;
     }
 
     if (!entry.structured.activities) {
-      return;
+      return <span>😴</span>;
     }
 
     if (entry.structured.activities.length > 0)
@@ -180,14 +180,6 @@ export default function Logs() {
                 alignItems: "center",
               }}
             >
-              {/* 
-              {trainingImproved && <span title="Training Improved">💪</span>}
-              {total > 0 && (
-                <span title="Targets hit">
-                  {hit}/{total} 🎯
-                </span>
-              )}
-                */}
               {returnTrainingTypeEmoji(entry)}
             </div>
           </motion.div>
