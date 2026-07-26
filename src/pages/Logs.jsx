@@ -89,15 +89,15 @@ export default function Logs() {
   function returnTrainingTypeEmoji(entry) {
     console.log("entry: " + JSON.stringify(entry));
     if (!entry) {
-      return <span style={{ fontSize: 8 }}>😴</span>;
+      return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
     if (!entry.structured) {
-      return <span>😴</span>;
+      return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
     if (!entry.structured.activities) {
-      return <span>😴</span>;
+      return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
     if (entry.structured.activities.length > 0)
