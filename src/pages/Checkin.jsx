@@ -263,11 +263,55 @@ export default function Home() {
                   }}
                 >
                   {activity.training_type === "gym" && (
-                    <div>
-                      <strong>{activity.activity_type}</strong>
-                      {activity.anchor_metric?.weight || 0}kg ·{" "}
-                      {activity.anchor_metric?.reps}x
-                      {activity.anchor_metric?.sets}
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.08)",
+                        borderRadius: 14,
+                        padding: 16,
+                        marginBottom: 12,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 18,
+                            fontWeight: "bold",
+                            marginBottom: 6,
+                          }}
+                        >
+                          🏋️ {activity.activity_type}
+                        </div>
+
+                        <div
+                          style={{
+                            color: "#ddd",
+                            fontSize: 15,
+                          }}
+                        >
+                          <span>{activity.anchor_metric?.weight || 0} kg</span>
+                          <span style={{ margin: "0 10px" }}>•</span>
+                          <span>{activity.anchor_metric?.sets || 0} sets</span>
+                          <span style={{ margin: "0 10px" }}>•</span>
+                          <span>{activity.anchor_metric?.reps || 0} reps</span>
+                        </div>
+                      </div>
+
+                      <button
+                        style={{
+                          padding: "8px 14px",
+                          borderRadius: 10,
+                          border: "none",
+                          background: "#ddb52f",
+                          color: "#111",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   )}
 
