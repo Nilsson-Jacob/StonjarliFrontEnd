@@ -39,6 +39,16 @@ function App() {
         {/* Public */}
         <Route path="/auth" element={<Auth />} />
 
+        {/* Default */}
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Navigate to="/checkin" />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/event-overview"
           element={
@@ -51,16 +61,6 @@ function App() {
         <Route path="/event/:eventId" element={<EventPage />} />
         <Route path="/cancel/:token" element={<CancelBooking />} />
         <Route path="/analytics" element={<CafeAnalytics />} />
-
-        {/* Default */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Navigate to="/checkin" />
-            </ProtectedRoute>
-          }
-        />
 
         {/* Protected */}
         <Route
