@@ -229,24 +229,28 @@ export default function Home() {
               Click to voicelog || Press & hold to typelog
             </h5>
           </Card> */}
-          <div
-            style={cardStyle}
-            onMouseDown={handlePressStart}
-            onMouseUp={handlePressEnd}
-            onMouseLeave={handlePressEnd}
-            onTouchStart={handlePressStart}
-            onTouchEnd={handlePressEnd}
-          >
-            Log Training - {today}
-            <h5 style={{ fontSize: "0.8rem" }}>
-              Click to voicelog || Press & hold to typelog
-            </h5>
-          </div>
+
+          {!answer && (
+            <div
+              style={cardStyle}
+              onMouseDown={handlePressStart}
+              onMouseUp={handlePressEnd}
+              onMouseLeave={handlePressEnd}
+              onTouchStart={handlePressStart}
+              onTouchEnd={handlePressEnd}
+            >
+              Log Training - {today}
+              <h5 style={{ fontSize: "0.8rem" }}>
+                Click to voicelog || Press & hold to typelog
+              </h5>
+            </div>
+          )}
 
           {answer && (
             <div style={cardStyle}>
               <pre style={{ whiteSpace: "pre-wrap" }}>
-                {JSON.stringify(answer, null, 2)}
+                {/*JSON.stringify(answer, null, 2)*/}
+                {JSON.stringify(answer.structured?.activities)}
               </pre>
             </div>
           )}
