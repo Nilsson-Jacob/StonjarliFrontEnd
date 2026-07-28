@@ -145,6 +145,24 @@ export default function Profile() {
     }));
   };
 
+  const updateEditTag = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({ tag_name: tagName })
+      .eq("id", user.id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setEditTag(false);
+  };
+
   const fetchTargets = async () => {
     const {
       data: { user },
@@ -365,8 +383,10 @@ export default function Profile() {
           )}
 
           {editTag && (
-            <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
-              ✓
+            <div onClick={() => updateEditTag()}>
+              <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
+                ✓
+              </div>
             </div>
           )}
         </div>
