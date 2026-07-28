@@ -196,8 +196,6 @@ export default function Profile() {
       return;
     }
 
-    console.log("here l77");
-
     const { data: competition, error: compError } =
       await supabase.functions.invoke("create-competition", {
         headers: {
@@ -360,9 +358,17 @@ export default function Profile() {
           disabled={!editTag}
         />
         <div onClick={() => setEditTag(!editTag)}>
-          <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
-            <EditIcon />
-          </div>
+          {!editTag && (
+            <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
+              <EditIcon />
+            </div>
+          )}
+
+          {editTag && (
+            <div style={{ opacity: 0.8, stroke: "rgba(255,255,255,0.85)" }}>
+              ✓
+            </div>
+          )}
         </div>
       </div>
     </div>
