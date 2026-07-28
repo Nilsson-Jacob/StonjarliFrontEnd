@@ -248,6 +248,8 @@ export default function Home() {
 
           {answer && (
             <div style={cardStyle}>
+              <h3> Training - {today} </h3>
+
               {answer.structured?.activities?.map((activity, index) => (
                 <div
                   key={index}
@@ -257,17 +259,15 @@ export default function Home() {
                     padding: 10,
                     marginBottom: 8,
                     marginTop: 3,
+                    width: "80%",
                   }}
                 >
                   {activity.training_type === "gym" && (
                     <div>
-                      <h4> {activity.activity_type}</h4>
-
-                      <p>Weight: {activity.anchor_metric?.weight || 0} kg</p>
-
-                      <p>Sets: {activity.anchor_metric?.sets || 0}</p>
-
-                      <p>Reps: {activity.anchor_metric?.reps || 0}</p>
+                      {activity.activity_type}
+                      Weight: {activity.anchor_metric?.weight || 0} kg Sets:{" "}
+                      {activity.anchor_metric?.sets || 0}xReps:{" "}
+                      {activity.anchor_metric?.reps || 0}
                     </div>
                   )}
 
