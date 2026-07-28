@@ -248,10 +248,47 @@ export default function Home() {
 
           {answer && (
             <div style={cardStyle}>
-              <pre style={{ whiteSpace: "pre-wrap" }}>
-                {/*JSON.stringify(answer, null, 2)*/}
-                {JSON.stringify(answer.structured?.activities)}
-              </pre>
+              {answer.structured?.activities?.map((activity, index) => (
+                <div key={index} style={{ marginBottom: 20 }}>
+                  {activity.training_type === "gym" && (
+                    <div>
+                      <h4> {activity.activity_type}</h4>
+
+                      <p>Weight: {activity.anchor_metric?.weight || 0} kg</p>
+
+                      <p>Sets: {activity.anchor_metric?.sets || 0}</p>
+
+                      <p>Reps: {activity.anchor_metric?.reps || 0}</p>
+                    </div>
+                  )}
+
+                  {activity.training_type === "run" && (
+                    <div>
+                      <h4>{activity.activity_type}</h4>
+
+                      <p>Cardio: {activity.anchor_metric?.cardio || "-"}</p>
+
+                      {activity.notes && <p>Notes: {activity.notes}</p>}
+                    </div>
+                  )}
+
+                  {activity.training_type === "sport" && (
+                    <div>
+                      <h4>⚽ Sport - {activity.activity_type}</h4>
+
+                      {activity.notes && <p>Notes: {activity.notes}</p>}
+                    </div>
+                  )}
+
+                  {activity.training_type === "swim" && (
+                    <div>
+                      <h4>🏊 Swimming - {activity.activity_type}</h4>
+
+                      <p>Cardio: {activity.anchor_metric?.cardio || "-"} m</p>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
