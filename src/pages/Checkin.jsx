@@ -256,6 +256,7 @@ export default function Home() {
                     borderRadius: 12,
                     padding: 10,
                     marginBottom: 8,
+                    marginTop: 3,
                   }}
                 >
                   {activity.training_type === "gym" && (
