@@ -264,10 +264,10 @@ export default function Home() {
                 >
                   {activity.training_type === "gym" && (
                     <div>
-                      {activity.activity_type}
-                      Weight: {activity.anchor_metric?.weight || 0} kg Sets:{" "}
-                      {activity.anchor_metric?.sets || 0}xReps:{" "}
-                      {activity.anchor_metric?.reps || 0}
+                      <strong>{activity.activity_type}</strong>
+                      {activity.anchor_metric?.weight || 0}kg ·{" "}
+                      {activity.anchor_metric?.reps}x
+                      {activity.anchor_metric?.sets}
                     </div>
                   )}
 
