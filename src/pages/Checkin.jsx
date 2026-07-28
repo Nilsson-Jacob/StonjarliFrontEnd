@@ -249,7 +249,15 @@ export default function Home() {
           {answer && (
             <div style={cardStyle}>
               {answer.structured?.activities?.map((activity, index) => (
-                <div key={index} style={{ marginBottom: 20 }}>
+                <div
+                  key={index}
+                  style={{
+                    background: "rgba(0,0,0,0.25)",
+                    borderRadius: 12,
+                    padding: 10,
+                    marginBottom: 8,
+                  }}
+                >
                   {activity.training_type === "gym" && (
                     <div>
                       <h4> {activity.activity_type}</h4>
