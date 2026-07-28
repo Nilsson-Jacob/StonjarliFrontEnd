@@ -251,17 +251,7 @@ export default function Home() {
               <h3> Training - {today} </h3>
 
               {answer.structured?.activities?.map((activity, index) => (
-                <div
-                  key={index}
-                  style={{
-                    background: "rgba(0,0,0,0.25)",
-                    borderRadius: 12,
-                    padding: 10,
-                    marginBottom: 8,
-                    marginTop: 3,
-                    width: "80%",
-                  }}
-                >
+                <div key={index}>
                   {activity.training_type === "gym" && (
                     <div
                       style={{
@@ -277,26 +267,27 @@ export default function Home() {
                       <div>
                         <div
                           style={{
-                            fontSize: 18,
+                            fontSize: 15,
                             fontWeight: "bold",
                             marginBottom: 6,
                           }}
                         >
-                          🏋️ {activity.activity_type}
+                          {activity.activity_type}
                         </div>
 
                         <div
                           style={{
                             color: "#ddd",
-                            fontSize: 15,
+                            fontSize: 13,
                           }}
                         >
                           <span>{activity.anchor_metric?.weight || 0} kg</span>
-                          <span style={{ margin: "0 10px" }}>•</span>
+                          <span style={{ margin: "0 5px" }}>•</span>
                           <span>{activity.anchor_metric?.sets || 0} sets</span>
-                          <span style={{ margin: "0 10px" }}>•</span>
+                          <span style={{ margin: "0 5px" }}>•</span>
                           <span>{activity.anchor_metric?.reps || 0} reps</span>
                         </div>
+                        {activity.notes && <span>notes: {activity.notes}</span>}
                       </div>
 
                       <button
@@ -308,6 +299,7 @@ export default function Home() {
                           color: "#111",
                           fontWeight: "bold",
                           cursor: "pointer",
+                          marginLeft: 20,
                         }}
                       >
                         Edit
@@ -316,28 +308,155 @@ export default function Home() {
                   )}
 
                   {activity.training_type === "run" && (
-                    <div>
-                      <h4>{activity.activity_type}</h4>
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.08)",
+                        borderRadius: 14,
+                        padding: 16,
+                        marginBottom: 12,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 15,
+                            fontWeight: "bold",
+                            marginBottom: 6,
+                          }}
+                        >
+                          {activity.activity_type}
+                        </div>
 
-                      <p>Cardio: {activity.anchor_metric?.cardio || "-"}</p>
+                        <div
+                          style={{
+                            color: "#ddd",
+                            fontSize: 13,
+                          }}
+                        >
+                          <span>{activity.anchor_metric?.cardio} </span>
+                        </div>
+                        {activity.notes && <span>notes: {activity.notes}</span>}
+                      </div>
 
-                      {activity.notes && <p>Notes: {activity.notes}</p>}
+                      <button
+                        style={{
+                          padding: "8px 14px",
+                          borderRadius: 10,
+                          border: "none",
+                          background: "#ddb52f",
+                          color: "#111",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                          marginLeft: 20,
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   )}
 
                   {activity.training_type === "sport" && (
-                    <div>
-                      <h4>⚽ Sport - {activity.activity_type}</h4>
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.08)",
+                        borderRadius: 14,
+                        padding: 16,
+                        marginBottom: 12,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 15,
+                            fontWeight: "bold",
+                            marginBottom: 6,
+                          }}
+                        >
+                          {activity.activity_type}
+                        </div>
 
-                      {activity.notes && <p>Notes: {activity.notes}</p>}
+                        <div
+                          style={{
+                            color: "#ddd",
+                            fontSize: 13,
+                          }}
+                        >
+                          <span>{activity.anchor_metric?.cardio} </span>
+                        </div>
+                        {activity.notes && <span>notes: {activity.notes}</span>}
+                      </div>
+
+                      <button
+                        style={{
+                          padding: "8px 14px",
+                          borderRadius: 10,
+                          border: "none",
+                          background: "#ddb52f",
+                          color: "#111",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                          marginLeft: 20,
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   )}
 
                   {activity.training_type === "swim" && (
-                    <div>
-                      <h4>🏊 Swimming - {activity.activity_type}</h4>
+                    <div
+                      style={{
+                        background: "rgba(255,255,255,0.08)",
+                        borderRadius: 14,
+                        padding: 16,
+                        marginBottom: 12,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 15,
+                            fontWeight: "bold",
+                            marginBottom: 6,
+                          }}
+                        >
+                          {activity.activity_type}
+                        </div>
 
-                      <p>Cardio: {activity.anchor_metric?.cardio || "-"} m</p>
+                        <div
+                          style={{
+                            color: "#ddd",
+                            fontSize: 13,
+                          }}
+                        >
+                          <span>{activity.anchor_metric?.cardio} </span>
+                        </div>
+                        {activity.notes && <span>notes: {activity.notes}</span>}
+                      </div>
+
+                      <button
+                        style={{
+                          padding: "8px 14px",
+                          borderRadius: 10,
+                          border: "none",
+                          background: "#ddb52f",
+                          color: "#111",
+                          fontWeight: "bold",
+                          cursor: "pointer",
+                          marginLeft: 20,
+                        }}
+                      >
+                        Edit
+                      </button>
                     </div>
                   )}
                 </div>
