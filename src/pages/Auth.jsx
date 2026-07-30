@@ -23,7 +23,7 @@ export default function Auth() {
 
       if (error) throw error;
 
-      navigate("/event-overview");
+      navigate("/checkin");
     } catch (err) {
       setMessage(err.message);
     } finally {
