@@ -241,6 +241,23 @@ export default function Logs() {
         </button>
       </div>
 
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(7, 1fr)",
+          gap: 6,
+          marginBottom: 8,
+          textAlign: "center",
+          fontWeight: 600,
+          color: "rgba(255,255,255,0.8)",
+          fontSize: 13,
+        }}
+      >
+        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+          <div key={day}>{day}</div>
+        ))}
+      </div>
+
       {renderCells()}
 
       <AnimatePresence>
