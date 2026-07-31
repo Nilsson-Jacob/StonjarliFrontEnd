@@ -660,7 +660,7 @@ export default function Home() {
 
             <div style={styles.modalActions}>
               <button
-                style={styles.cancelButton}
+                style={styles.secondaryButton}
                 onClick={() => {
                   setTrainingText("");
                   setStep("home");
@@ -728,4 +728,16 @@ const mainButton = {
   color: "#4e0329",
   fontWeight: "bold",
   fontSize: 16,
+};
+
+const secondaryButton = {
+  border: "1px solid rgba(255,255,255,0.15)",
+  borderRadius: 12,
+  padding: "12px 20px",
+  background: "#2a2a35",
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 16,
+  cursor: "pointer",
+  transition: "all 0.2s ease",
 };
