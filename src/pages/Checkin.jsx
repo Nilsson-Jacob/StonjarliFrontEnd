@@ -728,6 +728,8 @@ const mainButton = {
   color: "#4e0329",
   fontWeight: "bold",
   fontSize: 16,
+  marginBottom: 20,
+  marginTop: 20,
 };
 
 const secondaryButton = {
@@ -740,4 +742,5 @@ const secondaryButton = {
   fontSize: 16,
   cursor: "pointer",
   transition: "all 0.2s ease",
+  marginBottom: 20,
 };
