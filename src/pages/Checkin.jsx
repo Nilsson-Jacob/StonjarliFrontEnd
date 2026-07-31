@@ -116,6 +116,39 @@ export default function Home() {
     loadSession();
   }, []);
 
+  const saveWorkout = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const today = new Date().toISOString().slice(0, 10);
+
+    const structured = {
+      activities:
+        editedActivities.length > 0
+          ? editedActivities
+          : answer.structured.activities,
+    };
+
+    const { error } = await supabase.from("daily_entries").upsert(
+      {
+        user_id: user.id,
+        entry_date: today,
+        structured,
+      },
+      {
+        onConflict: "user_id,entry_date",
+      }
+    );
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    alert("Workout saved!");
+  };
+
   // ===== START RECORDING =====
 
   const startRecording = async () => {
@@ -485,6 +518,23 @@ export default function Home() {
                   </div>
                 ))
               }
+
+              <button
+                onClick={saveWorkout}
+                style={{
+                  marginTop: 20,
+                  width: "100%",
+                  padding: 14,
+                  borderRadius: 12,
+                  border: "none",
+                  background: "#ddb52f",
+                  color: "#111",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+              >
+                Save Training
+              </button>
             </div>
           )}
         </div>
