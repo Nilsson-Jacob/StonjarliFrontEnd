@@ -136,15 +136,6 @@ export default function Home() {
     });
 
     streamRef.current = stream;
-
-    /*
-    const options = {
-      mimeType: "audio/webm;codecs=opus",
-    };
-
-    const mediaRecorder = MediaRecorder.isTypeSupported(options.mimeType)
-      ? new MediaRecorder(stream, options)
-      : new MediaRecorder(stream);*/
     const mediaRecorder = new MediaRecorder(stream);
 
     mediaRecorderRef.current = mediaRecorder;
@@ -531,8 +522,10 @@ export default function Home() {
                           structured: workout.structured,
                         });
 
-                        setStep("review");
+                        //setStep("review");
 
+                        console.log("set answer to this: ", workout.structured);
+                        console.log("workout is this: ", workout);
                         setShowPreviousDropdown(false);
                       }}
                       style={{
