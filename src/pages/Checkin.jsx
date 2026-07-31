@@ -145,8 +145,6 @@ export default function Home() {
       console.error(error);
       return;
     }
-
-    alert("Workout saved!");
   };
 
   // ===== START RECORDING =====
