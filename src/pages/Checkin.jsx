@@ -22,6 +22,29 @@ export default function Home() {
   const [trainingText, setTrainingText] = useState("");
   const [sendingText] = useState(false);
 
+  const [previousWorkouts, setPreviousWorkouts] = useState([]);
+  const [showPreviousDropdown, setShowPreviousDropdown] = useState(false);
+
+  const fetchPreviousWorkouts = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const { data, error } = await supabase
+      .from("daily_entries")
+      .select("entry_date, structured")
+      .eq("user_id", user.id)
+      .order("entry_date", { ascending: false });
+
+    if (!error) {
+      setPreviousWorkouts(data);
+    }
+  };
+
+  useEffect(() => {
+    fetchPreviousWorkouts();
+  }, []);
+
   const today = new Date().toLocaleDateString();
 
   const submitTextLog = async () => {
@@ -187,13 +210,7 @@ export default function Home() {
   };
 
   // ===== STOP RECORDING =====
-  /*
-  const handleStop = () => {
-    if (mediaRecorderRef.current && recording) {
-      mediaRecorderRef.current.stop();
-      setRecording(false);
-    }
-  };*/
+
   const handleStop = () => {
     if (mediaRecorderRef.current && recording) {
       mediaRecorderRef.current.stop();
@@ -211,25 +228,11 @@ export default function Home() {
   }, [step]);
 
   // ===== UI =====
-  /*
-  const Card = ({ children, onClick }) => (
-    <div onClick={onClick} style={cardStyle}>
-      {children}
-    </div>
-  );*/
 
   return (
     <div style={styles.page}>
       {step === "home" && (
         <div style={cardContainer}>
-          {/*
-          <Card onClick={() => setStep("training")}>
-            Log Training - {today}
-            <h5 style={{ fontSize: "0.8rem" }}>
-              Click to voicelog || Press & hold to typelog
-            </h5>
-          </Card> */}
-
           {!answer && (
             <div
               style={cardStyle}
@@ -327,7 +330,7 @@ export default function Home() {
                             marginBottom: 6,
                           }}
                         >
-                          {activity.activity_type}
+                          {activity.training_type}
                         </div>
 
                         <div
@@ -378,7 +381,7 @@ export default function Home() {
                             marginBottom: 6,
                           }}
                         >
-                          {activity.activity_type}
+                          {activity.training_type}
                         </div>
 
                         <div
@@ -429,7 +432,7 @@ export default function Home() {
                             marginBottom: 6,
                           }}
                         >
-                          {activity.activity_type}
+                          {activity.training_type}
                         </div>
 
                         <div
@@ -500,6 +503,55 @@ export default function Home() {
             transition={{ type: "spring" }}
             style={cardStyle}
           >
+            <button
+              style={styles.secondaryButton}
+              onClick={() => setShowPreviousDropdown(!showPreviousDropdown)}
+            >
+              Copy from previous training
+            </button>
+
+            {showPreviousDropdown && (
+              <div
+                style={{
+                  background: "#222",
+                  borderRadius: 12,
+                  marginBottom: 12,
+                  maxHeight: 220,
+                  overflowY: "auto",
+                }}
+              >
+                {previousWorkouts.map((workout, index) => {
+                  const first = workout.structured?.activities?.[0];
+
+                  return (
+                    <div
+                      key={index}
+                      onClick={() => {
+                        setAnswer({
+                          structured: workout.structured,
+                        });
+
+                        setStep("review");
+
+                        setShowPreviousDropdown(false);
+                      }}
+                      style={{
+                        padding: 12,
+                        borderBottom: "1px solid #333",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <strong>{workout.entry_date}</strong>
+
+                      <div style={{ fontSize: 13, opacity: 0.8 }}>
+                        {first?.training_type} • {first?.activity_type}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
             <textarea
               autoFocus
               value={trainingText}
@@ -596,308 +648,4 @@ const mainButton = {
   color: "#4e0329",
   fontWeight: "bold",
   fontSize: 16,
-}; /*}
-
-/*import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { supabase } from "../components/supabaseClient";
-
-const serverApi = "https://stonjarliserver.onrender.com";
-
-export default function Home() {
-  const [step, setStep] = useState("home");
-  // const [targets, setTargets] = useState([]);
-  // const [currentTargetIndex, setCurrentTargetIndex] = useState(0);
-  // const [answers, setAnswers] = useState([]);
-  // home | training | protein | sleep
-
-  const [recording, setRecording] = useState(false);
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
-
-  //const [protein, setProtein] = useState(null); // less | equal | above
-  //const [sleep, setSleep] = useState(null); // less | equal | above
-  const [answer, setAnswer] = useState(null);
-
-  // ===== Auto-start recording when entering training =====
-  useEffect(() => {
-    if (step === "training" && !recording) {
-      const startRecording = async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-        });
-        const mediaRecorder = new MediaRecorder(stream);
-        mediaRecorderRef.current = mediaRecorder;
-        audioChunksRef.current = [];
-
-        mediaRecorder.ondataavailable = (e) => {
-          if (e.data.size > 0) audioChunksRef.current.push(e.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-          const audioBlob = new Blob(audioChunksRef.current, {
-            type: mediaRecorder.mimeType,
-          });
-
-          const formData = new FormData();
-          formData.append("audio", audioBlob, "training.webm");
-
-          const {
-            data: { session },
-          } = await supabase.auth.getSession();
-
-          const res = await fetch(serverApi + "/transcribe", {
-            headers: {
-              Authorization: `Bearer ${session.access_token}`,
-            },
-            method: "POST",
-            body: formData,
-          });
-
-          const data = await res.json();
-          setAnswer(data);
-          setStep("home");
-        };
-
-        mediaRecorder.start();
-        setRecording(true);
-      };
-
-      startRecording();
-    }
-  }, [step, recording]);
-
-  console.log(answer);
-
-  // ===== Load targets from DB =====
-  /*
-  useEffect(() => {
-    const fetchTargets = async () => {
-      const { data, error } = await supabase.from("targets").select("*");
-      if (error) {
-        console.error(error);
-      } else {
-        console.log("logdata: " + data);
-
-        setTargets(data);
-      }
-    };
-    fetchTargets();
-  }, []);*/ /*}
-/*
-  const today = new Date().toLocaleDateString();
-
-  const handleStop = () => {
-    mediaRecorderRef.current.stop();
-    setRecording(false);
-    setStep("home");
-  };
-
-  /*
-  const saveDailyCheckin = async (finalAnswers) => {
-    const todayKey = new Date().toISOString().split("T")[0];
-
-    const formattedTargets = finalAnswers.map((a) => {
-      const target = targets.find((t) => t.id === a.target_id);
-
-      return {
-        name: target.name,
-        value: a.value,
-        met: a.value === "equal" || a.value === "above",
-      };
-    });
-
-    const payload = {
-      date: todayKey,
-      targets: formattedTargets,
-    };
-
-    console.log("Sending payload:", payload);
-
-    try {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-
-      const res = await fetch(serverApi + "/targets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
-        },
-        body: JSON.stringify(payload),
-      });
-
-      const data = await res.json();
-      console.log("Daily entry saved:", data);
-    } catch (err) {
-      console.error("Failed saving daily checkin:", err);
-    }
-  };*/
-
-/*
-  const handleTargetAnswer = (value) => {
-    const currentTarget = targets[currentTargetIndex];
-
-    const nextAnswers = [...answers, { target_id: currentTarget.id, value }];
-
-    setAnswers(nextAnswers);
-
-    if (currentTargetIndex < targets.length - 1) {
-      setCurrentTargetIndex((i) => i + 1);
-    } else {
-      saveDailyCheckin(nextAnswers);
-      setStep("home");
-      setCurrentTargetIndex(0);
-      setAnswers([]);
-    }
-  };*/
-
-// ===== UI Components =====
-
-/*  const Card = ({ children, onClick }) => (
-    <div onClick={onClick} style={cardStyle}>
-      {children}
-    </div>
-  );
-
-  /*
-  const ChoiceCard = ({ target }) => (
-    <div style={cardStyle}>
-      <h3>
-        {target.icon} {target.name}
-      </h3>
-      <h4>
-        Target: {target.target_value} {target.unit}
-      </h4>
-      <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-        {["less", "equal", "above"].map((opt) => (
-          <button
-            key={opt}
-            onClick={() => handleTargetAnswer(opt)}
-            style={{
-              ...choiceButton,
-              background: "#1a1a22",
-              color: "#fff",
-            }}
-          >
-            {opt.toUpperCase()}
-          </button>
-        ))}
-      </div>
-    </div>
-  );*/
-
-// ===== Render Logic =====
-/*  return (
-    <div style={styles.page}>
-      {step === "home" && (
-        <>
-          <div style={cardContainer}>
-            <Card onClick={() => setStep("training")}>
-              Log Training - {today}
-            </Card>
-
-            {/** <Card onClick={() => setStep("targets")}>📅 Checkin : {today}</Card> */
-/*          </div>
-        </>
-      )}
-
-      {step === "training" && (
-        <div style={cardContainer}>
-          <div style={cardStyle}>
-            <motion.div
-              animate={
-                recording
-                  ? {
-                      scale: [1, 1.4, 1],
-                      rotate: [0, 180, 360],
-                      borderRadius: ["20%", "50%", "20%"],
-                    }
-                  : {}
-              }
-              transition={{ duration: 1.5, repeat: Infinity }}
-              style={orbStyle}
-            />
-            {recording && (
-              <button onClick={handleStop} style={mainButton}>
-                Done
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/*step === "targets" && targets[currentTargetIndex] && (
-        <div style={cardContainer}>
-          <ChoiceCard target={targets[currentTargetIndex]} />
-        </div>
-      )*/
-/*   </div>
-  );
-}
-
-// ===== Styles =====
-
-const styles = {
-  page: {
-    minHeight: "100vh",
-    background:
-      "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(29,29,58) 100%)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-  },
 };
-
-const cardContainer = {
-  width: "100%",
-  maxWidth: 360,
-  display: "flex",
-  flexDirection: "column",
-  gap: 20,
-};
-
-const cardStyle = {
-  background: "#1a1a22",
-  borderRadius: 20,
-  padding: 24,
-  minHeight: 140,
-  color: "#fff",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  justifyContent: "center",
-  fontSize: 18,
-  fontWeight: "bold",
-  boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
-};
-
-const orbStyle = {
-  width: 120,
-  height: 120,
-  borderRadius: "50%",
-  background: "linear-gradient(180deg, #ddb52f 0%, #4e0329 100%)",
-  marginBottom: 20,
-};
-
-const mainButton = {
-  border: "none",
-  borderRadius: 12,
-  padding: "12px 20px",
-  background: "#ddb52f",
-  color: "#4e0329",
-  fontWeight: "bold",
-  fontSize: 16,
-};
-
-/*
-const choiceButton = {
-  flex: 1,
-  padding: "10px",
-  border: "none",
-  borderRadius: 10,
-  fontWeight: "bold",
-};
-*/
