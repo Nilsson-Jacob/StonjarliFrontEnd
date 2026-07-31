@@ -25,6 +25,8 @@ export default function Home() {
   const [previousWorkouts, setPreviousWorkouts] = useState([]);
   const [showPreviousDropdown, setShowPreviousDropdown] = useState(false);
 
+  const [editedActivities, setEditedActivities] = useState([]);
+
   const fetchPreviousWorkouts = async () => {
     const {
       data: { user },
@@ -244,217 +246,245 @@ export default function Home() {
             <div style={cardStyle}>
               <h3> Training - {today} </h3>
 
-              {answer.structured?.activities?.map((activity, index) => (
-                <div key={index}>
-                  {activity.training_type === "gym" && (
-                    <div
-                      style={{
-                        background: "rgba(255,255,255,0.08)",
-                        borderRadius: 14,
-                        padding: 16,
-                        marginBottom: 12,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
-                          style={{
-                            fontSize: 15,
-                            fontWeight: "bold",
-                            marginBottom: 6,
-                          }}
-                        >
-                          {activity.activity_type}
-                        </div>
-
-                        <div
-                          style={{
-                            color: "#ddd",
-                            fontSize: 13,
-                          }}
-                        >
-                          <span>{activity.anchor_metric?.weight || 0} kg</span>
-                          <span style={{ margin: "0 5px" }}>•</span>
-                          <span>{activity.anchor_metric?.sets || 0} sets</span>
-                          <span style={{ margin: "0 5px" }}>•</span>
-                          <span>{activity.anchor_metric?.reps || 0} reps</span>
-                        </div>
-                        {activity.notes && <span>notes: {activity.notes}</span>}
-                      </div>
-
-                      <button
+              {
+                /*answer.structured?.activities?.map((activity, index) => (*/
+                (editedActivities.length
+                  ? editedActivities
+                  : answer.structured?.activities || []
+                ).map((activity, index) => (
+                  <div key={index}>
+                    {activity.training_type === "gym" && (
+                      <div
                         style={{
-                          padding: "8px 14px",
-                          borderRadius: 10,
-                          border: "none",
-                          background: "#ddb52f",
-                          color: "#111",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          marginLeft: 20,
+                          background: "rgba(255,255,255,0.08)",
+                          borderRadius: 14,
+                          padding: 16,
+                          marginBottom: 12,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
                         }}
                       >
-                        Edit
-                      </button>
-                    </div>
-                  )}
+                        <div>
+                          <div
+                            style={{
+                              fontSize: 15,
+                              fontWeight: "bold",
+                              marginBottom: 6,
+                            }}
+                          >
+                            {/*activity.activity_type*/}
+                            <input
+                              value={activity.activity_type}
+                              onChange={(e) => {
+                                const copy = [...editedActivities];
+                                copy[index].activity_type = e.target.value;
+                                setEditedActivities(copy);
+                              }}
+                            />
+                          </div>
 
-                  {activity.training_type === "run" && (
-                    <div
-                      style={{
-                        background: "rgba(255,255,255,0.08)",
-                        borderRadius: 14,
-                        padding: 16,
-                        marginBottom: 12,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
+                          <div
+                            style={{
+                              color: "#ddd",
+                              fontSize: 13,
+                            }}
+                          >
+                            <span>
+                              {activity.anchor_metric?.weight || 0} kg
+                            </span>
+                            <span style={{ margin: "0 5px" }}>•</span>
+                            <span>
+                              {activity.anchor_metric?.sets || 0} sets
+                            </span>
+                            <span style={{ margin: "0 5px" }}>•</span>
+                            <span>
+                              {activity.anchor_metric?.reps || 0} reps
+                            </span>
+                          </div>
+                          {activity.notes && (
+                            <span>notes: {activity.notes}</span>
+                          )}
+                        </div>
+
+                        <button
                           style={{
-                            fontSize: 15,
+                            padding: "8px 14px",
+                            borderRadius: 10,
+                            border: "none",
+                            background: "#ddb52f",
+                            color: "#111",
                             fontWeight: "bold",
-                            marginBottom: 6,
+                            cursor: "pointer",
+                            marginLeft: 20,
                           }}
                         >
-                          {activity.training_type}
-                        </div>
-
-                        <div
-                          style={{
-                            color: "#ddd",
-                            fontSize: 13,
-                          }}
-                        >
-                          <span>{activity.anchor_metric?.cardio} </span>
-                        </div>
-                        {activity.notes && <span>notes: {activity.notes}</span>}
+                          Edit
+                        </button>
                       </div>
+                    )}
 
-                      <button
+                    {activity.training_type === "run" && (
+                      <div
                         style={{
-                          padding: "8px 14px",
-                          borderRadius: 10,
-                          border: "none",
-                          background: "#ddb52f",
-                          color: "#111",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          marginLeft: 20,
+                          background: "rgba(255,255,255,0.08)",
+                          borderRadius: 14,
+                          padding: 16,
+                          marginBottom: 12,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
                         }}
                       >
-                        Edit
-                      </button>
-                    </div>
-                  )}
+                        <div>
+                          <div
+                            style={{
+                              fontSize: 15,
+                              fontWeight: "bold",
+                              marginBottom: 6,
+                            }}
+                          >
+                            {activity.training_type}
+                          </div>
 
-                  {activity.training_type === "sport" && (
-                    <div
-                      style={{
-                        background: "rgba(255,255,255,0.08)",
-                        borderRadius: 14,
-                        padding: 16,
-                        marginBottom: 12,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
+                          <div
+                            style={{
+                              color: "#ddd",
+                              fontSize: 13,
+                            }}
+                          >
+                            <span>{activity.anchor_metric?.cardio} </span>
+                          </div>
+                          {activity.notes && (
+                            <span>notes: {activity.notes}</span>
+                          )}
+                        </div>
+
+                        <button
                           style={{
-                            fontSize: 15,
+                            padding: "8px 14px",
+                            borderRadius: 10,
+                            border: "none",
+                            background: "#ddb52f",
+                            color: "#111",
                             fontWeight: "bold",
-                            marginBottom: 6,
+                            cursor: "pointer",
+                            marginLeft: 20,
                           }}
                         >
-                          {activity.training_type}
-                        </div>
-
-                        <div
-                          style={{
-                            color: "#ddd",
-                            fontSize: 13,
-                          }}
-                        >
-                          <span>{activity.anchor_metric?.cardio} </span>
-                        </div>
-                        {activity.notes && <span>notes: {activity.notes}</span>}
+                          Edit
+                        </button>
                       </div>
+                    )}
 
-                      <button
+                    {activity.training_type === "sport" && (
+                      <div
                         style={{
-                          padding: "8px 14px",
-                          borderRadius: 10,
-                          border: "none",
-                          background: "#ddb52f",
-                          color: "#111",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          marginLeft: 20,
+                          background: "rgba(255,255,255,0.08)",
+                          borderRadius: 14,
+                          padding: 16,
+                          marginBottom: 12,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
                         }}
                       >
-                        Edit
-                      </button>
-                    </div>
-                  )}
+                        <div>
+                          <div
+                            style={{
+                              fontSize: 15,
+                              fontWeight: "bold",
+                              marginBottom: 6,
+                            }}
+                          >
+                            {activity.training_type}
+                          </div>
 
-                  {activity.training_type === "swim" && (
-                    <div
-                      style={{
-                        background: "rgba(255,255,255,0.08)",
-                        borderRadius: 14,
-                        padding: 16,
-                        marginBottom: 12,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      <div>
-                        <div
+                          <div
+                            style={{
+                              color: "#ddd",
+                              fontSize: 13,
+                            }}
+                          >
+                            <span>{activity.anchor_metric?.cardio} </span>
+                          </div>
+                          {activity.notes && (
+                            <span>notes: {activity.notes}</span>
+                          )}
+                        </div>
+
+                        <button
                           style={{
-                            fontSize: 15,
+                            padding: "8px 14px",
+                            borderRadius: 10,
+                            border: "none",
+                            background: "#ddb52f",
+                            color: "#111",
                             fontWeight: "bold",
-                            marginBottom: 6,
+                            cursor: "pointer",
+                            marginLeft: 20,
                           }}
                         >
-                          {activity.training_type}
-                        </div>
-
-                        <div
-                          style={{
-                            color: "#ddd",
-                            fontSize: 13,
-                          }}
-                        >
-                          <span>{activity.anchor_metric?.cardio} </span>
-                        </div>
-                        {activity.notes && <span>notes: {activity.notes}</span>}
+                          Edit
+                        </button>
                       </div>
+                    )}
 
-                      <button
+                    {activity.training_type === "swim" && (
+                      <div
                         style={{
-                          padding: "8px 14px",
-                          borderRadius: 10,
-                          border: "none",
-                          background: "#ddb52f",
-                          color: "#111",
-                          fontWeight: "bold",
-                          cursor: "pointer",
-                          marginLeft: 20,
+                          background: "rgba(255,255,255,0.08)",
+                          borderRadius: 14,
+                          padding: 16,
+                          marginBottom: 12,
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
                         }}
                       >
-                        Edit
-                      </button>
-                    </div>
-                  )}
-                </div>
-              ))}
+                        <div>
+                          <div
+                            style={{
+                              fontSize: 15,
+                              fontWeight: "bold",
+                              marginBottom: 6,
+                            }}
+                          >
+                            {activity.training_type}
+                          </div>
+
+                          <div
+                            style={{
+                              color: "#ddd",
+                              fontSize: 13,
+                            }}
+                          >
+                            <span>{activity.anchor_metric?.cardio} </span>
+                          </div>
+                          {activity.notes && (
+                            <span>notes: {activity.notes}</span>
+                          )}
+                        </div>
+
+                        <button
+                          style={{
+                            padding: "8px 14px",
+                            borderRadius: 10,
+                            border: "none",
+                            background: "#ddb52f",
+                            color: "#111",
+                            fontWeight: "bold",
+                            cursor: "pointer",
+                            marginLeft: 20,
+                          }}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))
+              }
             </div>
           )}
         </div>
@@ -518,14 +548,21 @@ export default function Home() {
                     <div
                       key={index}
                       onClick={() => {
+                        setEditedActivities(
+                          JSON.parse(
+                            JSON.stringify(workout.structured.activities)
+                          )
+                        );
+
                         setAnswer({
-                          structured: workout.structured,
+                          structured: {
+                            activities: JSON.parse(
+                              JSON.stringify(workout.structured.activities)
+                            ),
+                          },
                         });
 
-                        //setStep("review");
-
-                        console.log("set answer to this: ", workout.structured);
-                        console.log("workout is this: ", workout);
+                        setStep("home");
                         setShowPreviousDropdown(false);
                       }}
                       style={{
