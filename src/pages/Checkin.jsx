@@ -575,7 +575,7 @@ export default function Home() {
             style={cardStyle}
           >
             <button
-              style={styles.secondaryButton}
+              style={secondaryButton}
               onClick={() => setShowPreviousDropdown(!showPreviousDropdown)}
             >
               Copy from previous training
@@ -660,7 +660,7 @@ export default function Home() {
 
             <div style={styles.modalActions}>
               <button
-                style={styles.secondaryButton}
+                style={secondaryButton}
                 onClick={() => {
                   setTrainingText("");
                   setStep("home");
