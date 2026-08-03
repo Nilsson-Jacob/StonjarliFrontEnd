@@ -86,17 +86,24 @@ export default function Logs() {
     return "none";
   }
 
-  function returnTrainingTypeEmoji(entry) {
-    console.log("entry: " + JSON.stringify(entry));
-    if (!entry) {
+  function returnTrainingTypeEmoji(entry, day) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const entryDay = new Date(day);
+    entryDay.setHours(0, 0, 0, 0);
+
+    const isPastDay = entryDay < today;
+
+    if (!entry && isPastDay) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
-    if (!entry.structured) {
+    if (!entry.structured && isPastDay) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
-    if (!entry.structured.activities) {
+    if (!entry.structured.activities && isPastDay) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
@@ -188,7 +195,7 @@ export default function Logs() {
                 alignItems: "center",
               }}
             >
-              {returnTrainingTypeEmoji(entry)}
+              {returnTrainingTypeEmoji(entry, day)}
             </div>
           </motion.div>
         );

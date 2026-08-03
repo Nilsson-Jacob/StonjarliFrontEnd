@@ -132,7 +132,8 @@ export default function Profile() {
         const date = new Date(monday);
         date.setDate(monday.getDate() + i);
 
-        const key = date.toISOString().slice(0, 10);
+        //const key = date.toISOString().slice(0, 10);
+        const key = date.toLocaleDateString("sv-SE");
 
         days[key] = workouts?.some(
           (w) => w.user_id === m.user_id && w.created_at.startsWith(key)
