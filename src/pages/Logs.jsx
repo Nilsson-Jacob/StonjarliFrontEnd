@@ -93,7 +93,7 @@ export default function Logs() {
     const entryDay = new Date(day);
     entryDay.setHours(0, 0, 0, 0);
 
-    const isPastDay = entryDay < today;
+    const isPastDay = entryDay <= today;
 
     if (!isPastDay) {
       return null;
@@ -199,7 +199,8 @@ export default function Logs() {
                 alignItems: "center",
               }}
             >
-              {returnTrainingTypeEmoji(entry, currentDay)}
+              {isSameMonth(currentDay, monthStart) &&
+                returnTrainingTypeEmoji(entry, currentDay)}
             </div>
           </motion.div>
         );
