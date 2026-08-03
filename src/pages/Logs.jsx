@@ -95,15 +95,19 @@ export default function Logs() {
 
     const isPastDay = entryDay < today;
 
-    if (!entry && isPastDay) {
+    if (!isPastDay) {
+      return null;
+    }
+
+    if (!entry) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
-    if (!entry.structured && isPastDay) {
+    if (!entry.structured) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
-    if (!entry.structured?.activities && isPastDay) {
+    if (!entry.structured?.activities) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
