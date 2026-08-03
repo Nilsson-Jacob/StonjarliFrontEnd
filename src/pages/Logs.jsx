@@ -103,11 +103,11 @@ export default function Logs() {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
-    if (!entry.structured.activities && isPastDay) {
+    if (!entry.structured?.activities && isPastDay) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
 
-    if (entry.structured.activities.length > 0)
+    if (entry.structured?.activities?.length > 0)
       switch (entry.structured.activities[0].training_type) {
         case "gym":
           return <span>🏋️‍♂️</span>;
