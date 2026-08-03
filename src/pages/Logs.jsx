@@ -199,7 +199,8 @@ export default function Logs() {
                 alignItems: "center",
               }}
             >
-              {returnTrainingTypeEmoji(entry, day)}
+              {returnTrainingTypeEmoji(entry, day) &&
+                isSameMonth(currentDay, monthStart)}
             </div>
           </motion.div>
         );
