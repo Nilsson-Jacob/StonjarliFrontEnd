@@ -96,11 +96,18 @@ export default function Profile() {
 
     const userIds = members.map((m) => m.user_id);
 
+    /*
     const monday = new Date();
     monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
 
     const sunday = new Date(monday);
-    sunday.setDate(monday.getDate() + 6);
+    sunday.setDate(monday.getDate() + 6);*/
+    const monday = new Date();
+    monday.setHours(0, 0, 0, 0);
+    monday.setDate(monday.getDate() - ((monday.getDay() + 6) % 7));
+
+    const sunday = new Date(monday);
+    sunday.setDate(sunday.getDate() + 7);
 
     const { data: workouts } = await supabase
       .from("daily_entries")
