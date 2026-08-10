@@ -341,8 +341,14 @@ export default function Home() {
 
                             <span>
                               <input
-                                value={0}
+                                value={activity.anchor_metric?.weight || 0}
                                 disabled={allowEditActivities ? false : true}
+                                onChange={(e) => {
+                                  const copy = [...editedActivities];
+                                  copy[index].anchor_metric.weight =
+                                    e.target.value;
+                                  setEditedActivities(copy);
+                                }}
                                 style={{
                                   maxWidth: 20,
                                   background: allowEditActivities
