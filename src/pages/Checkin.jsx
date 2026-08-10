@@ -27,7 +27,7 @@ export default function Home() {
 
   const [editedActivities, setEditedActivities] = useState([]);
 
-  const [allowEditActivities, setAllowEditActivities] = useState(false);
+  const [allowEditActivities /*, setAllowEditActivities*/] = useState(false);
 
   const fetchPreviousWorkouts = async () => {
     const {
@@ -379,7 +379,6 @@ export default function Home() {
                             cursor: "pointer",
                             marginLeft: 20,
                           }}
-                          onClick={setAllowEditActivities(true)}
                         >
                           Edit
                         </button>
