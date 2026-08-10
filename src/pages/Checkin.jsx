@@ -27,6 +27,8 @@ export default function Home() {
 
   const [editedActivities, setEditedActivities] = useState([]);
 
+  const [allowEditActivities, setAllowEditActivities] = useState(false);
+
   const fetchPreviousWorkouts = async () => {
     const {
       data: { user },
@@ -321,9 +323,21 @@ export default function Home() {
                               fontSize: 13,
                             }}
                           >
-                            <span>
+                           {/* <span>
                               {activity.anchor_metric?.weight || 0} kg
+                            </span> */}
+                            <span>
+                            <input
+                              value={activity.anchor_metric?.weight || 0}
+                              onChange={(e) => {
+                                const copy = [...editedActivities];
+                                copy[index].anchor_metric?.weight = e.target.value;
+                                setEditedActivities(copy);
+                              }}
+                              disabled= {allowEditActivities ? false : true}
+                            />
                             </span>
+
                             <span style={{ margin: "0 5px" }}>•</span>
                             <span>
                               {activity.anchor_metric?.sets || 0} sets
@@ -349,6 +363,7 @@ export default function Home() {
                             cursor: "pointer",
                             marginLeft: 20,
                           }}
+                          onClick={setAllowEditActivities(!allowEditActivities)}
                         >
                           Edit
                         </button>
