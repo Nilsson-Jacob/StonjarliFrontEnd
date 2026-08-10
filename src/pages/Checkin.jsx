@@ -78,6 +78,8 @@ export default function Home() {
     console.log("TEXT AI RESULT:", data);
 
     setAnswer(data);
+
+    setEditedActivities(JSON.parse(JSON.stringify(data.structured.activities)));
     setStep("home");
   };
 
@@ -218,6 +220,9 @@ export default function Home() {
         console.log("TRANSCRIBE RESULT:", data);
 
         setAnswer(data);
+        setEditedActivities(
+          JSON.parse(JSON.stringify(data.structured.activities))
+        );
       } catch (err) {
         console.error("Transcription error:", err);
       } finally {
@@ -281,10 +286,11 @@ export default function Home() {
 
               {
                 /*answer.structured?.activities?.map((activity, index) => (*/
-                (editedActivities.length
+                /*(editedActivities.length
                   ? editedActivities
                   : answer.structured?.activities || []
-                ).map((activity, index) => (
+                )*/
+                editedActivities.map((activity, index) => (
                   <div key={index}>
                     {activity.training_type === "gym" && (
                       <div
@@ -334,7 +340,7 @@ export default function Home() {
                             <span>
                               <input
                                 value={activity.anchor_metric?.weight || 0}
-                                disabled={allowEditActivities ? false : true}
+                                disabled={!allowEditActivities}
                                 onChange={(e) => {
                                   const copy = [...editedActivities];
 
