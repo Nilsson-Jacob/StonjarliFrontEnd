@@ -322,7 +322,7 @@ export default function Home() {
                               }}
                               style={{
                                 width: 50,
-                                maxWidth: 80,
+                                maxWidth: 150,
                                 background: allowEditActivities
                                   ? "black"
                                   : "none",
@@ -367,12 +367,76 @@ export default function Home() {
                             </span>
 
                             <span style={{ margin: "0 5px" }}>•</span>
+
+                            {/* 
                             <span>
                               {activity.anchor_metric?.sets || 0} sets
+                            </span> */}
+
+                            <span>
+                              <input
+                                value={activity.anchor_metric?.sets || 0}
+                                disabled={!allowEditActivities}
+                                onChange={(e) => {
+                                  const copy = [...editedActivities];
+
+                                  copy[index] = {
+                                    ...copy[index],
+                                    anchor_metric: {
+                                      ...copy[index].anchor_metric,
+                                      sets: e.target.value,
+                                    },
+                                  };
+
+                                  setEditedActivities(copy);
+                                }}
+                                style={{
+                                  width: 18,
+                                  maxWidth: 25,
+                                  background: allowEditActivities
+                                    ? "black"
+                                    : "none",
+                                  color: "white",
+                                }}
+                              />
+                              sets
                             </span>
+
                             <span style={{ margin: "0 5px" }}>•</span>
+
+                            {/* 
                             <span>
                               {activity.anchor_metric?.reps || 0} reps
+                            </span>
+*/}
+
+                            <span>
+                              <input
+                                value={activity.anchor_metric?.reps || 0}
+                                disabled={!allowEditActivities}
+                                onChange={(e) => {
+                                  const copy = [...editedActivities];
+
+                                  copy[index] = {
+                                    ...copy[index],
+                                    anchor_metric: {
+                                      ...copy[index].anchor_metric,
+                                      reps: e.target.value,
+                                    },
+                                  };
+
+                                  setEditedActivities(copy);
+                                }}
+                                style={{
+                                  width: 18,
+                                  maxWidth: 25,
+                                  background: allowEditActivities
+                                    ? "black"
+                                    : "none",
+                                  color: "white",
+                                }}
+                              />
+                              sets
                             </span>
                           </div>
                           {activity.notes && (
