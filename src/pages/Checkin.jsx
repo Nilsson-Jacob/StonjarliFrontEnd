@@ -27,7 +27,7 @@ export default function Home() {
 
   const [editedActivities, setEditedActivities] = useState([]);
 
-  const [allowEditActivities, setAllowEditActivities] = useState(false);
+  const [allowEditActivities /*, setAllowEditActivities*/] = useState(false);
 
   const fetchPreviousWorkouts = async () => {
     const {
