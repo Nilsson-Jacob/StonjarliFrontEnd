@@ -371,7 +371,6 @@ export default function Home() {
                             cursor: "pointer",
                             marginLeft: 20,
                           }}
-                          onClick={setAllowEditActivities(!allowEditActivities)}
                         >
                           Edit
                         </button>
