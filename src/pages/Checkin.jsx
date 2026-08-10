@@ -325,16 +325,24 @@ export default function Home() {
                           >
                             {/* <span>
                               {activity.anchor_metric?.weight || 0} kg
-                            </span> */}
+                            </span>
                             <span>
                               <input
                                 value={activity.anchor_metric?.weight || 0}
+                                disabled={allowEditActivities ? false : true}
                                 onChange={(e) => {
                                   const copy = [...editedActivities];
                                   copy[index].anchor_metric.weight =
                                     e.target.value;
                                   //setEditedActivities(copy);
                                 }}
+                              />
+                            </span> */}
+
+                            <span>
+                              <input
+                                value={0}
+                                disabled={allowEditActivities ? false : true}
                               />
                             </span>
 
