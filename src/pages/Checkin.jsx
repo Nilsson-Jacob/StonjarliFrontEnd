@@ -333,9 +333,8 @@ export default function Home() {
                                   const copy = [...editedActivities];
                                   copy[index].anchor_metric.weight =
                                     e.target.value;
-                                  setEditedActivities(copy);
+                                  //setEditedActivities(copy);
                                 }}
-                                disabled={allowEditActivities ? false : true}
                               />
                             </span>
 
