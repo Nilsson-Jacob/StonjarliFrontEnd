@@ -314,6 +314,14 @@ export default function Home() {
                                 copy[index].activity_type = e.target.value;
                                 setEditedActivities(copy);
                               }}
+                              style={{
+                                width: 50,
+                                maxWidth: 80,
+                                background: allowEditActivities
+                                  ? "black"
+                                  : "none",
+                                color: "white",
+                              }}
                             />
                           </div>
 
@@ -323,34 +331,26 @@ export default function Home() {
                               fontSize: 13,
                             }}
                           >
-                            {/* <span>
-                              {activity.anchor_metric?.weight || 0} kg
-                            </span>
                             <span>
                               <input
                                 value={activity.anchor_metric?.weight || 0}
                                 disabled={allowEditActivities ? false : true}
                                 onChange={(e) => {
                                   const copy = [...editedActivities];
-                                  copy[index].anchor_metric.weight =
-                                    e.target.value;
-                                  //setEditedActivities(copy);
-                                }}
-                              />
-                            </span> */}
 
-                            <span>
-                              <input
-                                value={activity.anchor_metric?.weight || 0}
-                                disabled={allowEditActivities ? false : true}
-                                onChange={(e) => {
-                                  const copy = [...editedActivities];
-                                  copy[index].anchor_metric.weight =
-                                    e.target.value;
+                                  copy[index] = {
+                                    ...copy[index],
+                                    anchor_metric: {
+                                      ...copy[index].anchor_metric,
+                                      weight: e.target.value,
+                                    },
+                                  };
+
                                   setEditedActivities(copy);
                                 }}
                                 style={{
-                                  maxWidth: 20,
+                                  width: 18,
+                                  maxWidth: 25,
                                   background: allowEditActivities
                                     ? "black"
                                     : "none",
@@ -386,10 +386,10 @@ export default function Home() {
                             marginLeft: 20,
                           }}
                           onClick={() =>
-                            setAllowEditActivities(!allowEditActivities)
+                            setAllowEditActivities((prev) => !prev)
                           }
                         >
-                          Edit
+                          {allowEditActivities ? "Done" : "Edit"}
                         </button>
                       </div>
                     )}
