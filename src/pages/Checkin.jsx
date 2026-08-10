@@ -27,7 +27,7 @@ export default function Home() {
 
   const [editedActivities, setEditedActivities] = useState([]);
 
-  const [allowEditActivities /*, setAllowEditActivities*/] = useState(false);
+  const [allowEditActivities, setAllowEditActivities] = useState(false);
 
   const fetchPreviousWorkouts = async () => {
     const {
@@ -343,7 +343,15 @@ export default function Home() {
                               <input
                                 value={0}
                                 disabled={allowEditActivities ? false : true}
+                                style={{
+                                  maxWidth: 20,
+                                  background: allowEditActivities
+                                    ? "black"
+                                    : "none",
+                                  color: "white",
+                                }}
                               />
+                              kg
                             </span>
 
                             <span style={{ margin: "0 5px" }}>•</span>
@@ -371,6 +379,7 @@ export default function Home() {
                             cursor: "pointer",
                             marginLeft: 20,
                           }}
+                          onClick={setAllowEditActivities(true)}
                         >
                           Edit
                         </button>
