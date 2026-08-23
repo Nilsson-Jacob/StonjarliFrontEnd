@@ -366,6 +366,30 @@ export default function Logs() {
                             ></div>
                           </div>
                         );
+                      } else if (a.training_type === "swim") {
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              background: "rgba(0,0,0,0.25)",
+                              borderRadius: 12,
+                              padding: 10,
+                              marginBottom: 8,
+                            }}
+                          >
+                            <strong>{a.activity_type} 🏊</strong>
+                            <div style={{ fontSize: 13 }}>
+                              {a.anchor_metric?.cardio}
+                            </div>{" "}
+                            <div
+                              style={{
+                                fontSize: 12,
+                                marginTop: 4,
+                                color: "#7CFFB2",
+                              }}
+                            ></div>
+                          </div>
+                        );
                       } else {
                         return (
                           <div
