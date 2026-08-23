@@ -321,7 +321,6 @@ export default function Home() {
                                 setEditedActivities(copy);
                               }}
                               style={{
-                                width: 50,
                                 maxWidth: 150,
                                 background: allowEditActivities
                                   ? "black"

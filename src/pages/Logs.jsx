@@ -93,7 +93,7 @@ export default function Logs() {
     const entryDay = new Date(day);
     entryDay.setHours(0, 0, 0, 0);
 
-    const isPastDay = entryDay <= today;
+    const isPastDay = entryDay < today;
 
     if (!isPastDay) {
       return null;
@@ -312,7 +312,10 @@ export default function Logs() {
 
                   {selectedDay.entry.structured?.activities?.length > 0 ? (
                     selectedDay.entry.structured.activities.map((a, i) => {
-                      if (a.activity_type === "run") {
+                      if (
+                        a.activity_type === "run" ||
+                        a.training_type === "run"
+                      ) {
                         return (
                           <div
                             key={i}
@@ -325,8 +328,7 @@ export default function Logs() {
                           >
                             <strong>{a.activity_type} 🏃</strong>
                             <div style={{ fontSize: 13 }}>
-                              {a.anchor_metric?.distance_km} km ·{" "}
-                              {a.anchor_metric?.time_minutes} min
+                              {a.anchor_metric?.cardio}
                             </div>
                             <div
                               style={{
