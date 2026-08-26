@@ -9,7 +9,6 @@ import {
   addDays,
   format,
   isSameMonth,
-  isPast,
 } from "date-fns";
 
 const Colors = {
