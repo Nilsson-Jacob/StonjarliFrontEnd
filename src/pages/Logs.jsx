@@ -83,7 +83,7 @@ export default function Logs() {
   }, [fetchEntries]);
 
   function getDayColor(entry) {
-    if (!entry) return Colors.card;
+    if (entry.length < 1) return Colors.card;
 
     /*
     const trainingImproved = didTrainingImprove(entry);
