@@ -554,176 +554,130 @@ export default function Logs() {
               layoutId={selectedDay.dayKey}
               onClick={(e) => e.stopPropagation()}
               style={{
-                background: getDayColor(selectedDay.entry),
+                //background: getDayColor(selectedDay.entry),
+                background: getDayColor(selectedDay.entries),
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
                 maxWidth: 420,
                 color: "#fff",
-                boxShadow: getGlow(getDayColor(selectedDay.entry)),
+                //boxShadow: getGlow(getDayColor(selectedDay.entry)),
+                boxShadow: getGlow(getDayColor(selectedDay.entries)),
                 maxHeight: "80vh",
                 overflowY: "auto",
               }}
             >
               <h3>{selectedDay.fullDate}</h3>
 
-              {selectedDay.entry ? (
+              {selectedDay.entries && selectedDay.entries.length > 0 ? (
                 <>
                   <h4 style={{ marginTop: 12 }}>Training</h4>
 
-                  {selectedDay.entry.structured?.activities?.length > 0 ? (
-                    selectedDay.entry.structured.activities.map((a, i) => {
-                      let emoji = "🏋️‍♂️";
+                  {selectedDay.entries.map((entry, entryIndex) => (
+                    <div key={entry.id || entryIndex}>
+                      {entry.structured?.activities?.length > 0 ? (
+                        entry.structured.activities.map((a, i) => {
+                          let emoji = "🏋️‍♂️";
 
-                      switch (a.training_type) {
-                        case "run":
-                          emoji = "🏃";
-                          break;
+                          switch (a.training_type) {
+                            case "run":
+                              emoji = "🏃";
+                              break;
+                            case "sport":
+                              emoji = "⚽️";
+                              break;
+                            case "swim":
+                              emoji = "🏊";
+                              break;
+                            case "walk":
+                              emoji = "🚶";
+                              break;
+                            case "gym":
+                              emoji = "🏋️‍♂️";
+                              break;
+                            default:
+                              emoji = "🏋️‍♂️";
+                          }
 
-                        case "sport":
-                          emoji = "⚽️";
-                          break;
-
-                        case "swim":
-                          emoji = "🏊";
-                          break;
-
-                        case "walk":
-                          emoji = "🚶";
-                          break;
-
-                        case "gym":
-                          emoji = "🏋️‍♂️";
-                          break;
-
-                        default:
-                          emoji = "🏋️‍♂️";
-                      }
-
-                      return (
-                        <div
-                          key={i}
-                          style={{
-                            background: "rgba(0,0,0,0.25)",
-                            borderRadius: 14,
-                            padding: 14,
-                            marginBottom: 10,
-                          }}
-                        >
-                          {/* TITLE */}
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              alignItems: "center",
-                              marginBottom: 6,
-                            }}
-                          >
-                            <strong style={{ fontSize: 15 }}>
-                              {a.activity_type || a.training_type} {emoji}
-                            </strong>
-                          </div>
-
-                          {/* GYM */}
-                          {a.training_type === "gym" && (
+                          return (
                             <div
+                              key={i}
                               style={{
-                                fontSize: 13,
-                                color: "#ddd",
+                                background: "rgba(0,0,0,0.25)",
+                                borderRadius: 14,
+                                padding: 14,
+                                marginBottom: 10,
                               }}
                             >
-                              {a.anchor_metric?.weight != null && (
-                                <span>{a.anchor_metric.weight} kg</span>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  marginBottom: 6,
+                                }}
+                              >
+                                <strong style={{ fontSize: 15 }}>
+                                  {a.activity_type || a.training_type} {emoji}
+                                </strong>
+                              </div>
+
+                              {a.training_type === "gym" && (
+                                <div style={{ fontSize: 13, color: "#ddd" }}>
+                                  {a.anchor_metric?.weight != null && (
+                                    <span>{a.anchor_metric.weight} kg</span>
+                                  )}
+
+                                  {a.anchor_metric?.sets != null && (
+                                    <>
+                                      <span style={{ margin: "0 5px" }}>•</span>
+                                      <span>{a.anchor_metric.sets} sets</span>
+                                    </>
+                                  )}
+
+                                  {a.anchor_metric?.reps != null && (
+                                    <>
+                                      <span style={{ margin: "0 5px" }}>•</span>
+                                      <span>{a.anchor_metric.reps} reps</span>
+                                    </>
+                                  )}
+                                </div>
                               )}
 
-                              {a.anchor_metric?.sets != null && (
-                                <>
-                                  <span style={{ margin: "0 5px" }}>•</span>
-                                  <span>{a.anchor_metric.sets} sets</span>
-                                </>
+                              {(a.training_type === "run" ||
+                                a.training_type === "swim" ||
+                                a.training_type === "walk") &&
+                                a.anchor_metric?.cardio && (
+                                  <div style={{ fontSize: 13, color: "#ddd" }}>
+                                    {a.anchor_metric.cardio}
+                                  </div>
+                                )}
+
+                              {a.training_type === "sport" && a.notes && (
+                                <div style={{ fontSize: 13, color: "#ddd" }}>
+                                  {a.notes}
+                                </div>
                               )}
 
-                              {a.anchor_metric?.reps != null && (
-                                <>
-                                  <span style={{ margin: "0 5px" }}>•</span>
-                                  <span>{a.anchor_metric.reps} reps</span>
-                                </>
+                              {a.notes && a.training_type !== "sport" && (
+                                <div
+                                  style={{
+                                    fontSize: 12,
+                                    marginTop: 7,
+                                    color: "#aaa",
+                                  }}
+                                >
+                                  {a.notes}
+                                </div>
                               )}
                             </div>
-                          )}
-
-                          {/* RUN */}
-                          {a.training_type === "run" && (
-                            <div
-                              style={{
-                                fontSize: 13,
-                                color: "#ddd",
-                              }}
-                            >
-                              {a.anchor_metric?.cardio && (
-                                <span>{a.anchor_metric.cardio}</span>
-                              )}
-                            </div>
-                          )}
-
-                          {/* SWIM */}
-                          {a.training_type === "swim" && (
-                            <div
-                              style={{
-                                fontSize: 13,
-                                color: "#ddd",
-                              }}
-                            >
-                              {a.anchor_metric?.cardio && (
-                                <span>{a.anchor_metric.cardio}</span>
-                              )}
-                            </div>
-                          )}
-
-                          {/* WALK */}
-                          {a.training_type === "walk" && (
-                            <div
-                              style={{
-                                fontSize: 13,
-                                color: "#ddd",
-                              }}
-                            >
-                              {a.anchor_metric?.cardio && (
-                                <span>{a.anchor_metric.cardio}</span>
-                              )}
-                            </div>
-                          )}
-
-                          {/* SPORT */}
-                          {a.training_type === "sport" && (
-                            <div
-                              style={{
-                                fontSize: 13,
-                                color: "#ddd",
-                              }}
-                            >
-                              {a.notes && <span>{a.notes}</span>}
-                            </div>
-                          )}
-
-                          {/* NOTES */}
-                          {a.notes && a.training_type !== "sport" && (
-                            <div
-                              style={{
-                                fontSize: 12,
-                                marginTop: 7,
-                                color: "#aaa",
-                              }}
-                            >
-                              {a.notes}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })
-                  ) : (
-                    <p style={{ opacity: 0.7 }}>No training logged.</p>
-                  )}
+                          );
+                        })
+                      ) : (
+                        <p style={{ opacity: 0.7 }}>No training logged.</p>
+                      )}
+                    </div>
+                  ))}
                 </>
               ) : (
                 <p>No data for this day.</p>
