@@ -278,7 +278,6 @@ export default function Logs() {
                 gap: 6,
                 fontSize: 27,
                 alignItems: "center",
-                flexDirection: "column",
               }}
             >
               {
@@ -292,6 +291,7 @@ export default function Logs() {
                       gap: 3,
                       fontSize: 24,
                       alignItems: "center",
+                      flexDirection: "column",
                     }}
                   >
                     {returnTrainingTypeEmojis(dayEntries, currentDay)}
