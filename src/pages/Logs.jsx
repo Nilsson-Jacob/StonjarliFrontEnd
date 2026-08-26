@@ -63,7 +63,7 @@ export default function Logs() {
     const mapped = {};
 
     data.forEach((entry) => {
-      const dayKey = format(new Date(entry.entry_date), "yyyy-MM-dd");
+      const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
 
       if (!mapped[dayKey]) {
         mapped[dayKey] = [];
