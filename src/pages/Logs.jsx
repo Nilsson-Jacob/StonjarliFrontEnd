@@ -278,6 +278,7 @@ export default function Logs() {
                 gap: 6,
                 fontSize: 27,
                 alignItems: "center",
+                flexDirection: "column",
               }}
             >
               {
