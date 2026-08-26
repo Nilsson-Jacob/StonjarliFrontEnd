@@ -120,6 +120,7 @@ export default function Home() {
     loadSession();
   }, []);
 
+  /* Fix for multiple workouts
   const saveWorkout = async () => {
     const {
       data: { user },
@@ -149,6 +150,43 @@ export default function Home() {
       console.error(error);
       return;
     }
+  }; */
+  const saveWorkout = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) return;
+
+    const structured = {
+      activities:
+        editedActivities.length > 0
+          ? editedActivities
+          : answer?.structured?.activities || [],
+    };
+
+    const { data, error } = await supabase
+      .from("daily_entries")
+      .insert({
+        user_id: user.id,
+        entry_date: new Date().toISOString().slice(0, 10),
+        structured,
+      })
+      .select();
+
+    if (error) {
+      console.error("Error saving workout:", error);
+      return;
+    }
+
+    console.log("Workout saved:", data);
+
+    setAnswer(null);
+    setEditedActivities([]);
+    setStep("home");
+
+    // Refresh previous workouts
+    fetchPreviousWorkouts();
   };
 
   // ===== START RECORDING =====

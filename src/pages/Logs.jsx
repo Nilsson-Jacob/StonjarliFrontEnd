@@ -49,6 +49,7 @@ export default function Logs() {
       return;
     }
 
+    /*
     const mapped = {};
     data.forEach((entry) => {
       const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
@@ -56,6 +57,22 @@ export default function Logs() {
         structured: entry.structured,
         // targets: entry.targets || [],
       };
+    });
+
+    setEntries(mapped);*/
+    const mapped = {};
+
+    data.forEach((entry) => {
+      const dayKey = format(new Date(entry.entry_date), "yyyy-MM-dd");
+
+      if (!mapped[dayKey]) {
+        mapped[dayKey] = [];
+      }
+
+      mapped[dayKey].push({
+        structured: entry.structured,
+        id: entry.id,
+      });
     });
 
     setEntries(mapped);
@@ -86,6 +103,7 @@ export default function Logs() {
     return "none";
   }
 
+  /*
   function returnTrainingTypeEmoji(entry, day) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -126,6 +144,46 @@ export default function Logs() {
         default:
           return <span>😴</span>;
       }
+  }*/
+  function returnTrainingTypeEmojis(dayEntries) {
+    if (!dayEntries || dayEntries.length === 0) {
+      return <span style={{ fontSize: 20 }}>😴</span>;
+    }
+
+    const types = [];
+
+    dayEntries.forEach((entry) => {
+      const activities = entry?.structured?.activities || [];
+
+      activities.forEach((activity) => {
+        if (!types.includes(activity.training_type)) {
+          types.push(activity.training_type);
+        }
+      });
+    });
+
+    const emojiMap = {
+      gym: "🏋️‍♂️",
+      run: "🏃",
+      sport: "⚽️",
+      swim: "🏊",
+      walk: "🚶",
+    };
+
+    return (
+      <>
+        {types.map((type) => (
+          <span
+            key={type}
+            style={{
+              fontSize: 24,
+            }}
+          >
+            {emojiMap[type] || "🏋️"}
+          </span>
+        ))}
+      </>
+    );
   }
 
   function renderCells() {
@@ -151,9 +209,14 @@ export default function Logs() {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
         const dayKey = format(currentDay, "yyyy-MM-dd");
-        const entry = entries[dayKey];
 
-        const color = getDayColor(entry);
+        /*const entry = entries[dayKey];
+
+        const color = getDayColor(entry);*/
+        const dayEntries = entries[dayKey] || [];
+
+        const color = getDayColor(dayEntries);
+
         const glow = getGlow(color);
 
         days.push(
@@ -161,9 +224,15 @@ export default function Logs() {
             key={dayKey}
             layoutId={dayKey}
             onClick={() =>
-              setSelectedDay({
+              /*setSelectedDay({
                 dayKey,
                 entry,
+                formattedDate,
+                fullDate: format(currentDay, "MMMM d, yyyy"),
+              })*/
+              setSelectedDay({
+                dayKey,
+                entries: dayEntries,
                 formattedDate,
                 fullDate: format(currentDay, "MMMM d, yyyy"),
               })
@@ -199,8 +268,25 @@ export default function Logs() {
                 alignItems: "center",
               }}
             >
-              {isSameMonth(currentDay, monthStart) &&
-                returnTrainingTypeEmoji(entry, currentDay)}
+              {
+                isSameMonth(currentDay, monthStart) && (
+                  <div
+                    style={{
+                      position: "absolute",
+                      bottom: 6,
+                      right: 6,
+                      display: "flex",
+                      gap: 3,
+                      fontSize: 24,
+                      alignItems: "center",
+                    }}
+                  >
+                    {returnTrainingTypeEmojis(dayEntries)}
+                  </div>
+                )
+
+                /*returnTrainingTypeEmoji(entry, currentDay)*/
+              }
             </div>
           </motion.div>
         );
@@ -272,6 +358,7 @@ export default function Logs() {
 
       {renderCells()}
 
+      {/* 
       <AnimatePresence>
         {selectedDay && (
           <motion.div
@@ -355,7 +442,7 @@ export default function Logs() {
                               marginBottom: 8,
                             }}
                           >
-                            <strong>{a.activity_type} 🏃</strong>
+                            <strong>{a.activity_type} ⚽️</strong>
                             <div style={{ fontSize: 13 }}>{a.notes}</div>
                             <div
                               style={{
@@ -436,6 +523,224 @@ export default function Logs() {
                   background: "#000",
                   color: "#fff",
                   fontWeight: "bold",
+                }}
+              >
+                Close
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      */}
+
+      <AnimatePresence>
+        {selectedDay && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "fixed",
+              inset: 0,
+              background: "rgba(0,0,0,0.75)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              zIndex: 1000,
+            }}
+            onClick={() => setSelectedDay(null)}
+          >
+            <motion.div
+              layoutId={selectedDay.dayKey}
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                background: getDayColor(selectedDay.entry),
+                borderRadius: 20,
+                padding: 20,
+                width: "92%",
+                maxWidth: 420,
+                color: "#fff",
+                boxShadow: getGlow(getDayColor(selectedDay.entry)),
+                maxHeight: "80vh",
+                overflowY: "auto",
+              }}
+            >
+              <h3>{selectedDay.fullDate}</h3>
+
+              {selectedDay.entry ? (
+                <>
+                  <h4 style={{ marginTop: 12 }}>Training</h4>
+
+                  {selectedDay.entry.structured?.activities?.length > 0 ? (
+                    selectedDay.entry.structured.activities.map((a, i) => {
+                      let emoji = "🏋️‍♂️";
+
+                      switch (a.training_type) {
+                        case "run":
+                          emoji = "🏃";
+                          break;
+
+                        case "sport":
+                          emoji = "⚽️";
+                          break;
+
+                        case "swim":
+                          emoji = "🏊";
+                          break;
+
+                        case "walk":
+                          emoji = "🚶";
+                          break;
+
+                        case "gym":
+                          emoji = "🏋️‍♂️";
+                          break;
+
+                        default:
+                          emoji = "🏋️‍♂️";
+                      }
+
+                      return (
+                        <div
+                          key={i}
+                          style={{
+                            background: "rgba(0,0,0,0.25)",
+                            borderRadius: 14,
+                            padding: 14,
+                            marginBottom: 10,
+                          }}
+                        >
+                          {/* TITLE */}
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: 6,
+                            }}
+                          >
+                            <strong style={{ fontSize: 15 }}>
+                              {a.activity_type || a.training_type} {emoji}
+                            </strong>
+                          </div>
+
+                          {/* GYM */}
+                          {a.training_type === "gym" && (
+                            <div
+                              style={{
+                                fontSize: 13,
+                                color: "#ddd",
+                              }}
+                            >
+                              {a.anchor_metric?.weight != null && (
+                                <span>{a.anchor_metric.weight} kg</span>
+                              )}
+
+                              {a.anchor_metric?.sets != null && (
+                                <>
+                                  <span style={{ margin: "0 5px" }}>•</span>
+                                  <span>{a.anchor_metric.sets} sets</span>
+                                </>
+                              )}
+
+                              {a.anchor_metric?.reps != null && (
+                                <>
+                                  <span style={{ margin: "0 5px" }}>•</span>
+                                  <span>{a.anchor_metric.reps} reps</span>
+                                </>
+                              )}
+                            </div>
+                          )}
+
+                          {/* RUN */}
+                          {a.training_type === "run" && (
+                            <div
+                              style={{
+                                fontSize: 13,
+                                color: "#ddd",
+                              }}
+                            >
+                              {a.anchor_metric?.cardio && (
+                                <span>{a.anchor_metric.cardio}</span>
+                              )}
+                            </div>
+                          )}
+
+                          {/* SWIM */}
+                          {a.training_type === "swim" && (
+                            <div
+                              style={{
+                                fontSize: 13,
+                                color: "#ddd",
+                              }}
+                            >
+                              {a.anchor_metric?.cardio && (
+                                <span>{a.anchor_metric.cardio}</span>
+                              )}
+                            </div>
+                          )}
+
+                          {/* WALK */}
+                          {a.training_type === "walk" && (
+                            <div
+                              style={{
+                                fontSize: 13,
+                                color: "#ddd",
+                              }}
+                            >
+                              {a.anchor_metric?.cardio && (
+                                <span>{a.anchor_metric.cardio}</span>
+                              )}
+                            </div>
+                          )}
+
+                          {/* SPORT */}
+                          {a.training_type === "sport" && (
+                            <div
+                              style={{
+                                fontSize: 13,
+                                color: "#ddd",
+                              }}
+                            >
+                              {a.notes && <span>{a.notes}</span>}
+                            </div>
+                          )}
+
+                          {/* NOTES */}
+                          {a.notes && a.training_type !== "sport" && (
+                            <div
+                              style={{
+                                fontSize: 12,
+                                marginTop: 7,
+                                color: "#aaa",
+                              }}
+                            >
+                              {a.notes}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p style={{ opacity: 0.7 }}>No training logged.</p>
+                  )}
+                </>
+              ) : (
+                <p>No data for this day.</p>
+              )}
+
+              <button
+                onClick={() => setSelectedDay(null)}
+                style={{
+                  marginTop: 20,
+                  width: "100%",
+                  padding: 12,
+                  border: "none",
+                  borderRadius: 12,
+                  background: "#000",
+                  color: "#fff",
+                  fontWeight: "bold",
+                  cursor: "pointer",
                 }}
               >
                 Close
