@@ -9,6 +9,7 @@ import {
   addDays,
   format,
   isSameMonth,
+  isPast,
 } from "date-fns";
 
 const Colors = {
@@ -145,7 +146,19 @@ export default function Logs() {
           return <span>😴</span>;
       }
   }*/
-  function returnTrainingTypeEmojis(dayEntries) {
+  function returnTrainingTypeEmojis(dayEntries, day) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const entryDay = new Date(day);
+    entryDay.setHours(0, 0, 0, 0);
+
+    const isPastDay = entryDay < today;
+
+    if (!isPastDay) {
+      return null;
+    }
+
     if (!dayEntries || dayEntries.length === 0) {
       return <span style={{ fontSize: 20 }}>😴</span>;
     }
@@ -179,7 +192,7 @@ export default function Logs() {
               fontSize: 24,
             }}
           >
-            {emojiMap[type] || "🏋️"}
+            {emojiMap[type]}
           </span>
         ))}
       </>
@@ -281,7 +294,7 @@ export default function Logs() {
                       alignItems: "center",
                     }}
                   >
-                    {returnTrainingTypeEmojis(dayEntries)}
+                    {returnTrainingTypeEmojis(dayEntries, currentDay)}
                   </div>
                 )
 
