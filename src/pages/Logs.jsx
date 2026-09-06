@@ -104,7 +104,7 @@ export default function Logs() {
   }
 
   function getGlow(color) {
-    if (color === Colors.green) return none; //"0 0 12px rgba(31,143,78,0.9)";
+    if (color === Colors.green) return "none"; //"0 0 12px rgba(31,143,78,0.9)";
     return "none";
   }
 
