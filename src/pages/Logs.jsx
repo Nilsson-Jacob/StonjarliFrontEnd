@@ -83,8 +83,12 @@ export default function Logs() {
     fetchEntries();
   }, [fetchEntries]);
 
-  function getDayColor(entry) {
+  function getDayColor(entry, currentDay) {
     if (entry.length < 1) return Colors.card;
+
+    if (isToday(currentDay)) {
+      return "#2e8b57";
+    }
 
     /*
     const trainingImproved = didTrainingImprove(entry);
@@ -228,7 +232,7 @@ export default function Logs() {
         const color = getDayColor(entry);*/
         const dayEntries = entries[dayKey] || [];
 
-        const color = getDayColor(dayEntries);
+        const color = getDayColor(dayEntries, currentDay);
 
         const glow = getGlow(color);
 
@@ -569,9 +573,7 @@ export default function Logs() {
               onClick={(e) => e.stopPropagation()}
               style={{
                 //background: getDayColor(selectedDay.entry),
-                background: isCurrentDay
-                  ? "#2e8b57"
-                  : getDayColor(selectedDay.entries),
+                background: getDayColor(selectedDay.entries),
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
