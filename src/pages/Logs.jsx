@@ -9,6 +9,7 @@ import {
   addDays,
   format,
   isSameMonth,
+  isToday,
 } from "date-fns";
 
 const Colors = {
@@ -221,7 +222,7 @@ export default function Logs() {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
         const dayKey = format(currentDay, "yyyy-MM-dd");
-
+        const isCurrentDay = isToday(currentDay);
         /*const entry = entries[dayKey];
 
         const color = getDayColor(entry);*/
@@ -568,7 +569,9 @@ export default function Logs() {
               onClick={(e) => e.stopPropagation()}
               style={{
                 //background: getDayColor(selectedDay.entry),
-                background: getDayColor(selectedDay.entries),
+                background: isCurrentDay
+                  ? "#2e8b57"
+                  : getDayColor(selectedDay.entries),
                 borderRadius: 20,
                 padding: 20,
                 width: "92%",
