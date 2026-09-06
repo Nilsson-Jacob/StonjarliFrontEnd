@@ -150,6 +150,7 @@ export default function Logs() {
           return <span>😴</span>;
       }
   }*/
+  /*
   function returnTrainingTypeEmojis(dayEntries, day) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -174,6 +175,63 @@ export default function Logs() {
 
       activities.forEach((activity) => {
         if (!types.includes(activity.training_type)) {
+          types.push(activity.training_type);
+        }
+      });
+    });
+
+    const emojiMap = {
+      gym: "🏋️‍♂️",
+      run: "🏃",
+      sport: "⚽️",
+      swim: "🏊",
+      walk: "🚶",
+    };
+
+    return (
+      <>
+        {types.map((type) => (
+          <span
+            key={type}
+            style={{
+              fontSize: 24,
+            }}
+          >
+            {emojiMap[type]}
+          </span>
+        ))}
+      </>
+    );
+  }*/
+  function returnTrainingTypeEmojis(dayEntries, day) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const entryDay = new Date(day);
+    entryDay.setHours(0, 0, 0, 0);
+
+    // Future days: show nothing
+    if (entryDay > today) {
+      return null;
+    }
+
+    // No training
+    if (!dayEntries || dayEntries.length === 0) {
+      // Show sleep only for past days, NOT today
+      if (entryDay < today) {
+        return <span style={{ fontSize: 20 }}>😴</span>;
+      }
+
+      return null;
+    }
+
+    const types = [];
+
+    dayEntries.forEach((entry) => {
+      const activities = entry?.structured?.activities || [];
+
+      activities.forEach((activity) => {
+        if (activity.training_type && !types.includes(activity.training_type)) {
           types.push(activity.training_type);
         }
       });
