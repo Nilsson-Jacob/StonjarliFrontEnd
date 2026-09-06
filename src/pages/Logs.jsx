@@ -87,7 +87,7 @@ export default function Logs() {
     if (entry.length < 1) return Colors.card;
 
     if (isToday(currentDay)) {
-      return "#2e8b57";
+      return Colors.green;
     }
 
     /*
@@ -226,10 +226,6 @@ export default function Logs() {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
         const dayKey = format(currentDay, "yyyy-MM-dd");
-        const isCurrentDay = isToday(currentDay);
-        /*const entry = entries[dayKey];
-
-        const color = getDayColor(entry);*/
         const dayEntries = entries[dayKey] || [];
 
         const color = getDayColor(dayEntries, currentDay);
