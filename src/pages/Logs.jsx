@@ -243,7 +243,7 @@ export default function Logs() {
       sport: "⚽️",
       swim: "🏊",
       walk: "🚶",
-      bike: "🚲",
+      bike: "🚴🏻",
     };
 
     return (
@@ -494,7 +494,7 @@ export default function Logs() {
                               emoji = "🏋️‍♂️";
                               break;
                             case "bike":
-                              emoji = "🚲";
+                              emoji = "🚴🏻";
                               break;
                             default:
                               emoji = "🏋️‍♂️";
