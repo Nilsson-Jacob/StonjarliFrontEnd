@@ -243,6 +243,7 @@ export default function Logs() {
       sport: "⚽️",
       swim: "🏊",
       walk: "🚶",
+      bike: "🚲",
     };
 
     return (
