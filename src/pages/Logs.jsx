@@ -372,7 +372,8 @@ export default function Logs() {
           key={day.toString()}
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(7, 1fr)",
+            //gridTemplateColumns: "repeat(7, 1fr)", CHG8SEP
+            gridTemplateColumns: "repeat(7, 1fr) 1.7fr",
             gap: 6,
             marginBottom: 6,
           }}
@@ -415,7 +416,8 @@ export default function Logs() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(7, 1fr)",
+          //gridTemplateColumns: "repeat(7, 1fr)", CHG8SEP
+          gridTemplateColumns: "repeat(7, 1fr) 1.7fr",
           gap: 6,
           marginBottom: 8,
           textAlign: "center",
