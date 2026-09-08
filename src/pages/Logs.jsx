@@ -426,9 +426,11 @@ export default function Logs() {
           fontSize: 13,
         }}
       >
-        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-          <div key={day}>{day}</div>
-        ))}
+        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "TOT(H)"].map(
+          (day) => (
+            <div key={day}>{day}</div>
+          )
+        )}
       </div>
 
       {renderCells()}
