@@ -394,7 +394,7 @@ export default function Logs() {
         minHeight: "100vh",
         background: Colors.bg,
         color: Colors.text,
-        padding: 12,
+        padding: 5,
         paddingTop: 60,
         overflowX: "auto",
       }}
