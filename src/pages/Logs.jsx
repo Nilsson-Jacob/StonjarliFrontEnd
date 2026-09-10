@@ -34,6 +34,8 @@ export default function Logs() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
 
+  const [retroLogging, setRetroLogging] = useState(false);
+
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
     const end = endOfMonth(currentMonth);
@@ -50,17 +52,6 @@ export default function Logs() {
       return;
     }
 
-    /*
-    const mapped = {};
-    data.forEach((entry) => {
-      const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
-      mapped[dayKey] = {
-        structured: entry.structured,
-        // targets: entry.targets || [],
-      };
-    });
-
-    setEntries(mapped);*/
     const mapped = {};
 
     data.forEach((entry) => {
@@ -426,7 +417,7 @@ export default function Logs() {
           fontSize: 13,
         }}
       >
-        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "TOT(H)"].map(
+        {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Tot(h)"].map(
           (day) => (
             <div key={day}>{day}</div>
           )
@@ -587,6 +578,26 @@ export default function Logs() {
               ) : (
                 <p>No data for this day.</p>
               )}
+
+              {selectedDay &&
+                selectedDay.dayKey < format(new Date(), "yyyy-MM-dd") && (
+                  <button
+                    onClick={() => setRetroLogging(true)}
+                    style={{
+                      marginTop: 12,
+                      width: "100%",
+                      padding: 12,
+                      border: "none",
+                      borderRadius: 12,
+                      background: Colors.green,
+                      color: "#fff",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    ＋ Retro log
+                  </button>
+                )}
 
               <button
                 onClick={() => setSelectedDay(null)}
