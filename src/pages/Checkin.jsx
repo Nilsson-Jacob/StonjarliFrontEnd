@@ -16,7 +16,8 @@ export default function Home() {
   const [searchParams] = useSearchParams();
 
   const todayLog = new Date().toISOString().split("T")[0];
-  const loggingDate = searchParams.get("date") || todayLog;
+  const retroLog = searchParams.get("date");
+  const loggingDate = retroLog || todayLog;
 
   //const [session, setSession] = useState(null);
   const [authReady, setAuthReady] = useState(false);
@@ -287,7 +288,12 @@ export default function Home() {
               onTouchStart={handlePressStart}
               onTouchEnd={handlePressEnd}
             >
-              Log Training - {today}
+              {todayLog ? (
+                <div>Retro log - {todayLog}</div>
+              ) : (
+                <div>Log Training - {today}</div>
+              )}
+
               <h5 style={{ fontSize: "0.8rem" }}>
                 Click to voicelog || Press & hold to typelog
               </h5>
