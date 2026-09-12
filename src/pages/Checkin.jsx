@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
-
+import { useSearchParams } from "react-router-dom";
 //const serverApi = "https://stonjarliserver.onrender.com";
 
 export default function Home() {
@@ -12,6 +12,11 @@ export default function Home() {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const streamRef = useRef(null);
+
+  const [searchParams] = useSearchParams();
+
+  const todayLog = new Date().toISOString().split("T")[0];
+  const loggingDate = searchParams.get("date") || todayLog;
 
   //const [session, setSession] = useState(null);
   const [authReady, setAuthReady] = useState(false);
@@ -68,6 +73,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           isText: true,
+          entry_date: loggingDate,
           text: trainingText,
         }),
       }
@@ -120,37 +126,6 @@ export default function Home() {
     loadSession();
   }, []);
 
-  /* Fix for multiple workouts
-  const saveWorkout = async () => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    const today = new Date().toISOString().slice(0, 10);
-
-    const structured = {
-      activities:
-        editedActivities.length > 0
-          ? editedActivities
-          : answer.structured.activities,
-    };
-
-    const { error } = await supabase.from("daily_entries").upsert(
-      {
-        user_id: user.id,
-        entry_date: today,
-        structured,
-      },
-      {
-        onConflict: "user_id,entry_date",
-      }
-    );
-
-    if (error) {
-      console.error(error);
-      return;
-    }
-  }; */
   const saveWorkout = async () => {
     const {
       data: { user },
@@ -241,6 +216,7 @@ export default function Home() {
         const formData = new FormData();
 
         formData.append("audio", audioBlob, "training.webm");
+        formData.append("entry_date", loggingDate);
 
         const res = await fetch(
           "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/transcribe",

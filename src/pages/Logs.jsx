@@ -11,6 +11,7 @@ import {
   isSameMonth,
   isToday,
 } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const Colors = {
   bg: "#0f0f14",
@@ -33,8 +34,9 @@ export default function Logs() {
   const [entries, setEntries] = useState({});
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDay, setSelectedDay] = useState(null);
+  const navigate = useNavigate();
 
-  const [retroLogging, setRetroLogging] = useState(false);
+  //const [retroLogging, setRetroLogging] = useState(false);
 
   const fetchEntries = useCallback(async () => {
     const start = startOfMonth(currentMonth);
@@ -81,16 +83,6 @@ export default function Logs() {
       return Colors.green;
     }
 
-    /*
-    const trainingImproved = didTrainingImprove(entry);
-    const { hit, total } = getTargetsScore(entry);
-    const targetRatio = total > 0 ? hit / total : 0;
-
-    const score = (trainingImproved ? 1 : 0) + targetRatio; // 0 → 2
-
-    if (score >= 1.8) return Colors.green;
-    if (score >= 1.2) return Colors.mid;
-    if (score >= 0.6) return Colors.orange;*/
     return Colors.mid;
   }
 
@@ -99,101 +91,6 @@ export default function Logs() {
     return "none";
   }
 
-  /*
-  function returnTrainingTypeEmoji(entry, day) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const entryDay = new Date(day);
-    entryDay.setHours(0, 0, 0, 0);
-
-    const isPastDay = entryDay < today;
-
-    if (!isPastDay) {
-      return null;
-    }
-
-    if (!entry) {
-      return <span style={{ fontSize: 20 }}>😴</span>;
-    }
-
-    if (!entry.structured) {
-      return <span style={{ fontSize: 20 }}>😴</span>;
-    }
-
-    if (!entry.structured?.activities) {
-      return <span style={{ fontSize: 20 }}>😴</span>;
-    }
-
-    if (entry.structured?.activities?.length > 0)
-      switch (entry.structured.activities[0].training_type) {
-        case "gym":
-          return <span>🏋️‍♂️</span>;
-        case "run":
-          return <span>🏃</span>;
-        case "sport":
-          return <span>⚽️</span>;
-        case "swim":
-          return <span>🏊</span>;
-        case "walk":
-          return <span>🚶</span>;
-        default:
-          return <span>😴</span>;
-      }
-  }*/
-  /*
-  function returnTrainingTypeEmojis(dayEntries, day) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const entryDay = new Date(day);
-    entryDay.setHours(0, 0, 0, 0);
-
-    const isPastDay = entryDay < today;
-
-    if (!isPastDay) {
-      return null;
-    }
-
-    if (!dayEntries || dayEntries.length === 0) {
-      return <span style={{ fontSize: 20 }}>😴</span>;
-    }
-
-    const types = [];
-
-    dayEntries.forEach((entry) => {
-      const activities = entry?.structured?.activities || [];
-
-      activities.forEach((activity) => {
-        if (!types.includes(activity.training_type)) {
-          types.push(activity.training_type);
-        }
-      });
-    });
-
-    const emojiMap = {
-      gym: "🏋️‍♂️",
-      run: "🏃",
-      sport: "⚽️",
-      swim: "🏊",
-      walk: "🚶",
-    };
-
-    return (
-      <>
-        {types.map((type) => (
-          <span
-            key={type}
-            style={{
-              fontSize: 24,
-            }}
-          >
-            {emojiMap[type]}
-          </span>
-        ))}
-      </>
-    );
-  }*/
   function returnTrainingTypeEmojis(dayEntries, day) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -580,19 +477,12 @@ export default function Logs() {
               )}
 
               {selectedDay &&
-                selectedDay.dayKey < format(new Date(), "yyyy-MM-dd") && (
+                new Date(`${selectedDay.dayKey}T00:00:00`) <
+                  new Date(new Date().setHours(0, 0, 0, 0)) && (
                   <button
-                    onClick={() => setRetroLogging(true)}
-                    style={{
-                      marginTop: 12,
-                      width: "100%",
-                      padding: 12,
-                      border: "none",
-                      borderRadius: 12,
-                      background: Colors.green,
-                      color: "#fff",
-                      fontWeight: "bold",
-                      cursor: "pointer",
+                    style={mainButton}
+                    onClick={() => {
+                      navigate(`/checkin?date=${selectedDay.dayKey}`);
                     }}
                   >
                     ＋ Retro log
