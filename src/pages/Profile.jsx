@@ -114,12 +114,12 @@ export default function Profile() {
       .select(
         `
         user_id,
-        created_at
+        entry_date
       `
       )
       .in("user_id", userIds)
-      .gte("created_at", monday.toISOString())
-      .lte("created_at", sunday.toISOString());
+      .gte("entry_date", monday.toISOString())
+      .lte("entry_date", sunday.toISOString());
 
     console.log("Workouts:", workouts);
 
@@ -136,7 +136,7 @@ export default function Profile() {
         const key = date.toLocaleDateString("sv-SE");
 
         days[key] = workouts?.some(
-          (w) => w.user_id === m.user_id && w.created_at.startsWith(key)
+          (w) => w.user_id === m.user_id && w.entry_date.startsWith(key)
         );
       }
 
