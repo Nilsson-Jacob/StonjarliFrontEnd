@@ -288,8 +288,8 @@ export default function Home() {
               onTouchStart={handlePressStart}
               onTouchEnd={handlePressEnd}
             >
-              {todayLog ? (
-                <div>Retro log - {todayLog}</div>
+              {retroLog ? (
+                <div>Retro log - {loggingDate}</div>
               ) : (
                 <div>Log Training - {today}</div>
               )}
