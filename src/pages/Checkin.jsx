@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { color, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 import { useSearchParams } from "react-router-dom";
 //const serverApi = "https://stonjarliserver.onrender.com";
