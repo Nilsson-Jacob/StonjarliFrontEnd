@@ -56,10 +56,10 @@ export default function Logs() {
 
     const { data, error } = await supabase
       .from("daily_entries")
-      .select("created_at, structured, targets")
+      .select("entry_date, structured, targets")
       .eq("user_id", user.id)
-      .gte("created_at", start.toISOString())
-      .lte("created_at", end.toISOString());
+      .gte("entry_date", start.toISOString())
+      .lte("entry_date", end.toISOString());
 
     if (error) {
       console.error(error);
@@ -69,7 +69,8 @@ export default function Logs() {
     const mapped = {};
 
     data.forEach((entry) => {
-      const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
+      //const dayKey = format(new Date(entry.created_at), "yyyy-MM-dd");
+      const dayKey = entry.entry_date;
 
       if (!mapped[dayKey]) {
         mapped[dayKey] = [];

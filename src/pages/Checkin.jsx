@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import { supabase } from "../components/supabaseClient";
 import { useSearchParams } from "react-router-dom";
 //const serverApi = "https://stonjarliserver.onrender.com";
@@ -289,7 +289,7 @@ export default function Home() {
               onTouchEnd={handlePressEnd}
             >
               {retroLog ? (
-                <div>Retro log - {loggingDate}</div>
+                <div style={{ color: "4e0329" }}>Retro log - {loggingDate}</div>
               ) : (
                 <div>Log Training - {today}</div>
               )}
@@ -302,7 +302,7 @@ export default function Home() {
 
           {answer && (
             <div style={cardStyle}>
-              <h3> Training - {today} </h3>
+              <h3> Training - {loggingDate} </h3>
 
               {
                 /*answer.structured?.activities?.map((activity, index) => (*/
