@@ -24,6 +24,18 @@ const Colors = {
   mid: "#3f7fa6",
 };
 
+const mainButton = {
+  border: "none",
+  borderRadius: 12,
+  padding: "12px 20px",
+  background: "#ddb52f",
+  color: "#4e0329",
+  fontWeight: "bold",
+  fontSize: 16,
+  marginBottom: 20,
+  marginTop: 20,
+};
+
 const DAY_BOX_SIZE = 80;
 
 const {
