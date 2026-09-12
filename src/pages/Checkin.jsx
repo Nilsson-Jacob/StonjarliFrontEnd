@@ -289,7 +289,7 @@ export default function Home() {
               onTouchEnd={handlePressEnd}
             >
               {retroLog ? (
-                <div style={{ color: "4e0329" }}>Retro log - {loggingDate}</div>
+                <div style={{ color: "bisque" }}>Retro log - {loggingDate}</div>
               ) : (
                 <div>Log Training - {today}</div>
               )}
