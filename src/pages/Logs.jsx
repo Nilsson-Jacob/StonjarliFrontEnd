@@ -401,6 +401,8 @@ export default function Logs() {
                             case "bike":
                               emoji = "🚴🏻";
                               break;
+                            case "hyrox":
+                              emoji = "⚡️";
                             default:
                               emoji = "🏋️‍♂️";
                           }
@@ -423,9 +425,17 @@ export default function Logs() {
                                   marginBottom: 6,
                                 }}
                               >
-                                <strong style={{ fontSize: 15 }}>
-                                  {a.activity_type || a.training_type} {emoji}
-                                </strong>
+                                {a.training_type == "hyrox" && (
+                                  <strong style={{ fontSize: 15 }}>
+                                    {a.training_type} {emoji}
+                                  </strong>
+                                )}
+
+                                {a.training_type != "hyrox" && (
+                                  <strong style={{ fontSize: 15 }}>
+                                    {a.activity_type || a.training_type} {emoji}
+                                  </strong>
+                                )}
                               </div>
 
                               {a.training_type === "gym" && (
@@ -461,6 +471,13 @@ export default function Logs() {
 
                               {a.training_type === "sport" && a.notes && (
                                 <div style={{ fontSize: 13, color: "#ddd" }}>
+                                  {a.notes}
+                                </div>
+                              )}
+
+                              {a.training_type === "hyrox" && a.notes && (
+                                <div style={{ fontSize: 13, color: "#ddd" }}>
+                                  {a.cardio}
                                   {a.notes}
                                 </div>
                               )}
