@@ -403,6 +403,7 @@ export default function Logs() {
                               break;
                             case "hyrox":
                               emoji = "⚡️";
+                              break;
                             default:
                               emoji = "🏋️‍♂️";
                           }
@@ -425,13 +426,13 @@ export default function Logs() {
                                   marginBottom: 6,
                                 }}
                               >
-                                {a.training_type == "hyrox" && (
+                                {a.training_type === "hyrox" && (
                                   <strong style={{ fontSize: 15 }}>
                                     {a.training_type} {emoji}
                                   </strong>
                                 )}
 
-                                {a.training_type != "hyrox" && (
+                                {a.training_type !== "hyrox" && (
                                   <strong style={{ fontSize: 15 }}>
                                     {a.activity_type || a.training_type} {emoji}
                                   </strong>
