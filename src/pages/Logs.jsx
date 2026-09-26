@@ -145,6 +145,7 @@ export default function Logs() {
       swim: "🏊",
       walk: "🚶",
       bike: "🚴🏻",
+      hyrox: "⚡️",
     };
 
     return (
