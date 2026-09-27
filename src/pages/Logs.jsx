@@ -552,9 +552,10 @@ export default function Logs() {
                                 a.anchor_metric?.cardio && (
                                   <div style={{ fontSize: 13, color: "#ddd" }}>
                                     {a.anchor_metric.cardio ||
-                                      (formatHours(a.duration_minutes) && (
-                                        <h4>h</h4>
-                                      ))}
+                                      (a.anchor_metric.distance_km &&
+                                        formatHours(a.duration_minutes) && (
+                                          <h4>h</h4>
+                                        ))}
                                   </div>
                                 )}
 
