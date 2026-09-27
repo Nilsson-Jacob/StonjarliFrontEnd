@@ -24,6 +24,16 @@ const Colors = {
   mid: "#3f7fa6",
 };
 
+const emojiMap = {
+  gym: "🏋️‍♂️",
+  run: "🏃",
+  sport: "⚽️",
+  swim: "🏊",
+  walk: "🚶",
+  bike: "🚴🏻",
+  hyrox: "⚡️",
+};
+
 const mainButton = {
   border: "none",
   borderRadius: 12,
@@ -138,16 +148,6 @@ export default function Logs() {
       });
     });
 
-    const emojiMap = {
-      gym: "🏋️‍♂️",
-      run: "🏃",
-      sport: "⚽️",
-      swim: "🏊",
-      walk: "🚶",
-      bike: "🚴🏻",
-      hyrox: "⚡️",
-    };
-
     return (
       <>
         {types.map((type) => (
@@ -162,6 +162,45 @@ export default function Logs() {
         ))}
       </>
     );
+  }
+
+  function getWeeklyTrainingTotals(weekStart) {
+    const totals = {};
+
+    for (let i = 0; i < 7; i++) {
+      const date = addDays(weekStart, i);
+      const dayKey = format(date, "yyyy-MM-dd");
+      const dayEntries = entries[dayKey] || [];
+
+      dayEntries.forEach((entry) => {
+        const activities = entry?.structured?.activities || [];
+
+        activities.forEach((activity) => {
+          const type = activity.training_type;
+          const duration = Number(activity.duration_minutes) || 0;
+
+          if (!type || duration <= 0) return;
+
+          if (!totals[type]) {
+            totals[type] = 0;
+          }
+
+          totals[type] += duration;
+        });
+      });
+    }
+
+    return totals;
+  }
+
+  function formatHours(minutes) {
+    const hours = minutes / 60;
+
+    if (Number.isInteger(hours)) {
+      return `${hours}h`;
+    }
+
+    return `${hours.toFixed(1)}h`;
   }
 
   function renderCells() {
@@ -182,7 +221,11 @@ export default function Logs() {
     let days = [];
     let day = startDate;
 
+    /*while (day <= endDate) {
+      for (let i = 0; i < 7; i++) {*/
     while (day <= endDate) {
+      const weekStart = day;
+
       for (let i = 0; i < 7; i++) {
         const currentDay = day;
         const formattedDate = format(currentDay, "d");
@@ -268,6 +311,45 @@ export default function Logs() {
 
         day = addDays(day, 1);
       }
+
+      const weeklyTotals = getWeeklyTrainingTotals(weekStart);
+
+      days.push(
+        <div
+          key={`week-total-${weekStart.toISOString()}`}
+          style={{
+            height: DAY_BOX_SIZE,
+            borderRadius: 12,
+            background: Colors.card,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "6px 8px",
+            gap: 3,
+            fontSize: 13,
+          }}
+        >
+          {/*   {Object.entries(weeklyTotals).map(([type, minutes]) => (*/}
+
+          {Object.entries(weeklyTotals)
+            .sort(([, a], [, b]) => b - a)
+            .map(([type, minutes]) => (
+              <div
+                key={type}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 5,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <span style={{ fontSize: 17 }}>{emojiMap[type] || "🏋️‍♂️"}</span>
+
+                <span>{formatHours(minutes)}</span>
+              </div>
+            ))}
+        </div>
+      );
 
       rows.push(
         <div
