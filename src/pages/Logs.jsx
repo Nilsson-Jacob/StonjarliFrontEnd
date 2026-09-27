@@ -552,7 +552,7 @@ export default function Logs() {
                                 a.anchor_metric?.cardio && (
                                   <div style={{ fontSize: 13, color: "#ddd" }}>
                                     {a.anchor_metric.cardio ||
-                                      (formatHours(a.duration.minutes) && (
+                                      (formatHours(a.duration_minutes) && (
                                         <h4>h</h4>
                                       ))}
                                   </div>
