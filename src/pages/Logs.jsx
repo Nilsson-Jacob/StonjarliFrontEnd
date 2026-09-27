@@ -324,7 +324,7 @@ export default function Logs() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            padding: "6px 8px",
+            padding: "6px 0px",
             fontSize: 13,
             width: "85%",
             marginLeft: 15,
@@ -340,9 +340,9 @@ export default function Logs() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 5,
+                  gap: 2,
                   whiteSpace: "nowrap",
-                  marginLeft: 10,
+                  marginLeft: 4,
                 }}
               >
                 <span style={{ fontSize: 17 }}>{emojiMap[type] || "🏋️‍♂️"}</span>
