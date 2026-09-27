@@ -340,7 +340,6 @@ export default function Logs() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 2,
                   whiteSpace: "nowrap",
                   marginLeft: 4,
                 }}
@@ -551,7 +550,10 @@ export default function Logs() {
                                 a.training_type === "walk") &&
                                 a.anchor_metric?.cardio && (
                                   <div style={{ fontSize: 13, color: "#ddd" }}>
-                                    {a.anchor_metric.cardio}
+                                    {a.anchor_metric.cardio ||
+                                      (formatHours(a.duration.minutes) && (
+                                        <h4>h</h4>
+                                      ))}
                                   </div>
                                 )}
 
