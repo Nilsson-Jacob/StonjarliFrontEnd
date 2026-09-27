@@ -618,7 +618,10 @@ export default function Home() {
                               fontSize: 13,
                             }}
                           >
-                            <span>{activity.anchor_metric?.cardio} </span>
+                            <span>
+                              {activity.anchor_metric?.cardio ||
+                                (activity.duration_minutes && <h4>h</h4>)}{" "}
+                            </span>
                           </div>
                           {activity.notes && (
                             <span>notes: {activity.notes}</span>
