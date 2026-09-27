@@ -320,13 +320,14 @@ export default function Logs() {
           style={{
             height: DAY_BOX_SIZE,
             borderRadius: 12,
-            background: Colors.card,
+            background: "rgb(72 72 83)", //Colors.card,
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             padding: "6px 8px",
-            gap: 3,
             fontSize: 13,
+            width: "85%",
+            marginLeft: 15,
           }}
         >
           {/*   {Object.entries(weeklyTotals).map(([type, minutes]) => (*/}
@@ -341,6 +342,7 @@ export default function Logs() {
                   alignItems: "center",
                   gap: 5,
                   whiteSpace: "nowrap",
+                  marginLeft: 10,
                 }}
               >
                 <span style={{ fontSize: 17 }}>{emojiMap[type] || "🏋️‍♂️"}</span>
