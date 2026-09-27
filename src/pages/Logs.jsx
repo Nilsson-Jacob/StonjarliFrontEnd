@@ -545,11 +545,12 @@ export default function Logs() {
                                 </div>
                               )}
 
-                              {(a.training_type === "run" ||
+                              {((a.training_type === "run" ||
                                 a.training_type === "swim" ||
                                 a.training_type === "walk" ||
                                 a.training_type === "bike") &&
-                                a.anchor_metric?.cardio && (
+                                a.anchor_metric?.cardio) ||
+                                (a.anchor_metric.distance_km && (
                                   <div style={{ fontSize: 13, color: "#ddd" }}>
                                     {a.anchor_metric.cardio ||
                                       (a.anchor_metric.distance_km &&
@@ -557,7 +558,7 @@ export default function Logs() {
                                           <h4>h</h4>
                                         ))}
                                   </div>
-                                )}
+                                ))}
 
                               {a.training_type === "sport" && a.notes && (
                                 <div style={{ fontSize: 13, color: "#ddd" }}>
