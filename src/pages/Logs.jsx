@@ -572,7 +572,7 @@ export default function Logs() {
 
                               {a.training_type === "hyrox" && (
                                 <div style={{ fontSize: 13, color: "#ddd" }}>
-                                  {a.duration_minutes}
+                                  {formatHours(a.duration_minutes)}
                                 </div>
                               )}
 
