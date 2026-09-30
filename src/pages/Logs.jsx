@@ -570,10 +570,9 @@ export default function Logs() {
                                 </div>
                               )}
 
-                              {a.training_type === "hyrox" && a.notes && (
+                              {a.training_type === "hyrox" && (
                                 <div style={{ fontSize: 13, color: "#ddd" }}>
-                                  {a.cardio}
-                                  {a.notes}
+                                  {a.duration_minutes}
                                 </div>
                               )}
 
