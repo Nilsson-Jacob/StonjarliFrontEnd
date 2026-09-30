@@ -181,7 +181,7 @@ export default function Logs() {
           var duration = Number(activity.duration_minutes) || 0;
 
           if (type === "gym" && !gymToday) {
-            var duration = 60;
+            duration = 60;
             gymToday = true;
           }
 
