@@ -556,7 +556,7 @@ export default function Logs() {
                                 a.training_type === "walk" ||
                                 a.training_type === "bike") &&
                                 a.anchor_metric?.cardio) ||
-                                (a.anchor_metric.distance_km && (
+                                (a.duration_minutes && (
                                   <div style={{ fontSize: 13, color: "#ddd" }}>
                                     {formatHours(a.duration_minutes)}
                                   </div>
