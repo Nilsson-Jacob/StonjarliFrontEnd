@@ -568,11 +568,12 @@ export default function Logs() {
                                 </div>
                               )}
 
+                              {/* 
                               {a.training_type === "hyrox" && (
                                 <div style={{ fontSize: 13, color: "#ddd" }}>
                                   {formatHours(a.duration_minutes)}
                                 </div>
-                              )}
+                              )} */}
 
                               {a.notes && a.training_type !== "sport" && (
                                 <div
