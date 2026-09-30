@@ -174,10 +174,16 @@ export default function Logs() {
 
       dayEntries.forEach((entry) => {
         const activities = entry?.structured?.activities || [];
+        var gymToday = false;
 
         activities.forEach((activity) => {
           const type = activity.training_type;
-          const duration = Number(activity.duration_minutes) || 0;
+          var duration = Number(activity.duration_minutes) || 0;
+
+          if (type === "gym" && !gymToday) {
+            var duration = 60;
+            gymToday = true;
+          }
 
           if (!type || duration <= 0) return;
 
