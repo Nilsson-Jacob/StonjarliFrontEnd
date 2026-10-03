@@ -114,6 +114,31 @@ export default function Logs() {
     return "none";
   }
 
+  const handleDeleteWorkout = async (id) => {
+    const confirmDelete = window.confirm("Delete this workout?");
+
+    if (!confirmDelete) return;
+
+    const { error } = await supabase
+      .from("daily_entries")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    // Remove from selected day
+    setSelectedDay((prev) => ({
+      ...prev,
+      entry: prev.entry.filter((e) => e.id !== id),
+    }));
+
+    // Refresh calendar
+    fetchEntries();
+  };
+
   function returnTrainingTypeEmojis(dayEntries, day) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -586,6 +611,23 @@ export default function Logs() {
                                   {a.notes}
                                 </div>
                               )}
+
+                              <div>
+                                <button
+                                  onClick={() => handleDeleteWorkout(entry.id)}
+                                  style={{
+                                    background: "transparent",
+                                    border: "none",
+                                    color: "#999",
+                                    fontSize: 18,
+                                    cursor: "pointer",
+                                    padding: 0,
+                                    marginLeft: 10,
+                                  }}
+                                >
+                                  ✕
+                                </button>
+                              </div>
                             </div>
                           );
                         })
