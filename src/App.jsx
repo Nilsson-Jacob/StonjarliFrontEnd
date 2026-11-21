@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 
 import Holdings from "./pages/Holdings";
@@ -26,16 +27,11 @@ import CafeAnalytics from "./pages/CafeAnalytics";
 import CVBuilder from "./pages/CVBuilder";
 
 function App() {
+  const location = useLocation();
+
   return (
     <Router>
-      {
-        /*<NavBar />*/
-
-        <Tabs />
-        /*
-      <CafeNavBar />
-      */
-      }
+      {location.pathname !== "/cvbuilder" && <Tabs />}
 
       <Routes>
         {/* Public */}
