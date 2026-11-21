@@ -23,6 +23,8 @@ import EventPage from "./pages/EventPage";
 import CancelBooking from "./pages/CancelEventPage";
 import CafeAnalytics from "./pages/CafeAnalytics";
 
+import CVBuilder from "./pages/CVBuilder";
+
 function App() {
   return (
     <Router>
@@ -61,6 +63,15 @@ function App() {
         <Route path="/event/:eventId" element={<EventPage />} />
         <Route path="/cancel/:token" element={<CancelBooking />} />
         <Route path="/analytics" element={<CafeAnalytics />} />
+
+        <Route
+          path="/cvbuilder"
+          element={
+            <Route>
+              <CVBuilder />
+            </Route>
+          }
+        />
 
         {/* Protected */}
         <Route
