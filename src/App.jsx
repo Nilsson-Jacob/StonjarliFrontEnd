@@ -64,14 +64,7 @@ function App() {
         <Route path="/cancel/:token" element={<CancelBooking />} />
         <Route path="/analytics" element={<CafeAnalytics />} />
 
-        <Route
-          path="/cvbuilder"
-          element={
-            <Route>
-              <CVBuilder />
-            </Route>
-          }
-        />
+        <Route path="/cvbuilder" element={<CVBuilder />} />
 
         {/* Protected */}
         <Route
