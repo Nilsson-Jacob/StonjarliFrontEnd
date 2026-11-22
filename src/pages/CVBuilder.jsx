@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [text, setText] = useState("");
+  var insert = false;
 
   const fetchUser = async () => {
     const { data, error } = await supabase.from("cv").select("*");
@@ -14,14 +15,16 @@ export default function Home() {
       console.log("jn: " + error);
     }
 
-    const { dataCV } = await supabase
-      .from("cv")
-      .insert({
-        cv_text_swedish: { test: "newCVdata" },
-      })
-      .select();
+    if (insert) {
+      const { dataCV } = await supabase
+        .from("cv")
+        .insert({
+          cv_text_swedish: { test: "newCVdata" },
+        })
+        .select();
 
-    console.log("cv text: " + dataCV);
+      console.log("cv text: " + dataCV);
+    }
 
     return data;
   };
