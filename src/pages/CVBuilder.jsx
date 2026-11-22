@@ -14,31 +14,6 @@ export default function Home() {
   //const typewriterRef = useRef(null);
 
   useEffect(() => {
-    if (step !== "session" || !typewriterRef.current) return;
-
-    // Save the DOM reference locally
-    const element = typewriterRef.current;
-
-    const writer = new Typewriter(element, {
-      loop: false,
-      delay: 45,
-      cursor: "|",
-    });
-
-    writer
-      .typeString("Pågående Session")
-      .pauseFor(500)
-      .typeString(cvQuestions[0])
-      .pauseFor(500)
-      .start();
-
-    return () => {
-      writer.stop();
-      element.innerHTML = "";
-    };
-  }, [step]);
-
-  useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase.from("cv").select("*");
 
