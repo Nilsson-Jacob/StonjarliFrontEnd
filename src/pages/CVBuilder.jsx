@@ -31,7 +31,7 @@ export default function Home() {
 
   console.log("text : " + text + step + recording);
 
-  const detectSpeech = () => {
+  const detectSpeech = useCallback(() => {
     const analyser = analyserRef.current;
 
     if (!analyser) return;
@@ -74,7 +74,7 @@ export default function Home() {
     }
 
     animationFrameRef.current = requestAnimationFrame(detectSpeech);
-  };
+  }, []);
 
   const startRecording = useCallback(async () => {
     try {
