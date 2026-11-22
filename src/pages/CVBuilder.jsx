@@ -14,7 +14,7 @@ export default function Home() {
       }
 
       setText(data);
-      console.log("data:", data);
+      console.log("data:" + data + " - TExt: " + text);
 
       // Insert test data if needed
       const insert = false;
