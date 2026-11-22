@@ -60,7 +60,14 @@ function AppLayout() {
         <Route path="/cancel/:token" element={<CancelBooking />} />
         <Route path="/analytics" element={<CafeAnalytics />} />
 
-        <Route path="/cvbuilder" element={<CVBuilder />} />
+        <Route
+          path="/cvbuilder"
+          element={
+            <ProtectedRoute>
+              <CVBuilder />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/holdings"
