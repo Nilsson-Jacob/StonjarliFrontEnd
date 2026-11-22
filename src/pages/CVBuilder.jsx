@@ -58,9 +58,8 @@ export default function Home() {
             scale: 1,
             width: step === "session" ? "95vw" : "100%",
             height: step === "session" ? "90vh" : "140px",
-            maxWidth: step === "session" ? "1200px" : "360px",
           }}
-          exit={{ opacity: 0, scale: 0.9 }}
+          // exit={{ opacity: 0, scale: 0.9 }}
           transition={{
             duration: 0.6,
             ease: [0.22, 1, 0.36, 1],
@@ -114,7 +113,6 @@ const styles = {
     background: "#1a1a22",
     borderRadius: 20,
     padding: 24,
-    minHeight: "50vh",
     color: "#fff",
     display: "flex",
     flexDirection: "column",
