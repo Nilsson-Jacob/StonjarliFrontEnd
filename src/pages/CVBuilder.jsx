@@ -56,8 +56,8 @@ export default function Home() {
           animate={{
             opacity: 1,
             scale: 1,
-            width: step === "session" ? "95vw" : "100%",
-            height: step === "session" ? "90vh" : "140px",
+            //width: step === "session" ? "95vw" : "100%",
+            //height: step === "session" ? "90vh" : "140px",
           }}
           // exit={{ opacity: 0, scale: 0.9 }}
           transition={{
@@ -115,6 +115,7 @@ const styles = {
     padding: 24,
     color: "#fff",
     display: "flex",
+    width: "80vh",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
