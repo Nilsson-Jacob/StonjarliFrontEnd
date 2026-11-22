@@ -38,7 +38,15 @@ export default function Home() {
     fetchUser();
   }, []);
 
-  return <div style={styles.page}>CV : {JSON.stringify(text)}</div>;
+  return (
+    <div style={styles.page}>
+      <div style={styles.cardContainer}>
+        <div style={styles.cardStyle}>
+          <h5 style={{ fontSize: "0.8rem" }}>Klicka för att skapa CV</h5>
+        </div>
+      </div>
+    </div>
+  );
 }
 // ===== STYLES =====
 const styles = {
@@ -50,5 +58,27 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     padding: 16,
+  },
+
+  cardContainer: {
+    width: "100%",
+    maxWidth: 360,
+    display: "flex",
+    flexDirection: "column",
+    gap: 20,
+  },
+  cardStyle: {
+    background: "#1a1a22",
+    borderRadius: 20,
+    padding: 24,
+    minHeight: 140,
+    color: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
   },
 };
