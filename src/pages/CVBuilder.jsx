@@ -304,9 +304,9 @@ export default function Home() {
                 }}
                 onInit={(typewriter) => {
                   typewriter
-                    .typeString("Välkommen, prata vilket språk du vill")
+                    .typeString("Välkommen, prata vilket språk du vill<br></br")
                     .pauseFor(500)
-                    .typeString("<br></br" + cvQuestions[0])
+                    .typeString(cvQuestions[0])
                     .start();
                 }}
               />{" "}
