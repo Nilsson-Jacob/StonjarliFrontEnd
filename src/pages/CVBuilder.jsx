@@ -5,11 +5,74 @@ import Typewriter from "typewriter-effect";
 //import { useRef } from "react";
 const cvQuestions = ["Tell me about your education"];
 
+const statusText = {
+  waiting: "Väntar på input...",
+  recording: "Noterar input...",
+  processing: "Väntar på...",
+  thinking: "AI tänker...",
+};
+
 export default function Home() {
   const [text, setText] = useState("");
   const [step, setStep] = useState("home");
 
+  const [inputStatus, setInputStatus] = useState("waiting");
+  const [recording, setRecording] = useState(false);
+
+  const mediaRecorderRef = useRef(null);
+  const streamRef = useRef(null);
+  const audioChunksRef = useRef([]);
+
   console.log("text : " + text + step);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: true,
+      });
+
+      streamRef.current = stream;
+
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      audioChunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          audioChunksRef.current.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = async () => {
+        setInputStatus("processing");
+
+        try {
+          const audioBlob = new Blob(audioChunksRef.current, {
+            type: mediaRecorder.mimeType,
+          });
+
+          if (audioBlob.size < 5000) {
+            console.log("Recording too short");
+            return;
+          }
+
+          // Här återanvänder du din befintliga
+          // FormData och fetch till Supabase Edge Function.
+        } catch (err) {
+          console.error("Transcription error:", err);
+        } finally {
+          streamRef.current?.getTracks().forEach((track) => track.stop());
+          audioChunksRef.current = [];
+        }
+      };
+
+      mediaRecorder.start(1000);
+      setRecording(true);
+      setInputStatus("waiting");
+    } catch (err) {
+      console.error("Could not start recording:", err);
+    }
+  };
 
   //const typewriterRef = useRef(null);
 
@@ -49,6 +112,7 @@ export default function Home() {
 
   const initiateSession = function () {
     setStep("session");
+    startRecording();
   };
 
   return (
@@ -90,6 +154,21 @@ export default function Home() {
                     .start();
                 }}
               />{" "}
+              <div style={styles.inputStatus}>
+                <span
+                  style={{
+                    ...styles.statusDot,
+                    background:
+                      inputStatus === "recording"
+                        ? "#4ade80"
+                        : inputStatus === "processing"
+                        ? "#facc15"
+                        : "#999",
+                  }}
+                />
+
+                {statusText[inputStatus]}
+              </div>
             </div>
           )}
         </motion.div>
@@ -144,5 +223,21 @@ const styles = {
     fontSize: 18,
     fontWeight: "bold",
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+  },
+  inputStatus: {
+    marginTop: 30,
+    alignSelf: "flex-end",
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    color: "#aaa",
+    fontSize: 14,
+    fontWeight: "normal",
+  },
+
+  statusDot: {
+    width: 9,
+    height: 9,
+    borderRadius: "50%",
   },
 };
