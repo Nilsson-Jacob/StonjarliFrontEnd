@@ -22,7 +22,24 @@ export default function Home() {
   const streamRef = useRef(null);
   const audioChunksRef = useRef([]);
 
+  const audioContextRef = useRef(null);
+  const analyserRef = useRef(null);
+  const animationFrameRef = useRef(null);
+
+  const silenceTimerRef = useRef(null);
+  const hasStartedSpeakingRef = useRef(false);
+
   console.log("text : " + text + step + recording);
+
+  useEffect(() => {
+    if (step === "session") {
+      startRecording();
+    }
+
+    return () => {
+      cleanupRecording();
+    };
+  }, [step]);
 
   const startRecording = async () => {
     try {
@@ -32,9 +49,27 @@ export default function Home() {
 
       streamRef.current = stream;
 
+      // Skapa AudioContext
+      const audioContext = new AudioContext();
+      audioContextRef.current = audioContext;
+
+      // Koppla mikrofonen till ljudanalysatorn
+      const source = audioContext.createMediaStreamSource(stream);
+
+      const analyser = audioContext.createAnalyser();
+      analyser.fftSize = 2048;
+
+      source.connect(analyser);
+
+      analyserRef.current = analyser;
+
+      // Skapa MediaRecorder
       const mediaRecorder = new MediaRecorder(stream);
+
       mediaRecorderRef.current = mediaRecorder;
       audioChunksRef.current = [];
+
+      hasStartedSpeakingRef.current = false;
 
       mediaRecorder.ondataavailable = (e) => {
         if (e.data.size > 0) {
@@ -50,26 +85,62 @@ export default function Home() {
             type: mediaRecorder.mimeType,
           });
 
+          console.log("Audio size:", audioBlob.size);
+
           if (audioBlob.size < 5000) {
-            console.log("Recording too short");
+            console.error("Recording too short");
             return;
           }
 
-          // Här återanvänder du din befintliga
-          // FormData och fetch till Supabase Edge Function.
+          const {
+            data: { session },
+          } = await supabase.auth.getSession();
+
+          if (!session?.access_token) {
+            throw new Error("User not logged in");
+          }
+
+          const formData = new FormData();
+
+          formData.append("audio", audioBlob, "training.webm");
+
+          const res = await fetch(
+            "https://ujecnfyfsuyjmzrjilba.supabase.co/functions/v1/hyper-action",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${session.access_token}`,
+              },
+              body: formData,
+            }
+          );
+
+          if (!res.ok) {
+            throw new Error("Transcription request failed");
+          }
+
+          const data = await res.json();
+
+          console.log("Transcription:", data);
+
+          setInputStatus("thinking");
         } catch (err) {
           console.error("Transcription error:", err);
+          setInputStatus("waiting");
         } finally {
-          streamRef.current?.getTracks().forEach((track) => track.stop());
-          audioChunksRef.current = [];
+          cleanupRecording();
         }
       };
 
       mediaRecorder.start(1000);
+
       setRecording(true);
       setInputStatus("waiting");
+
+      // Starta ljuddetektionen
+      detectSpeech();
     } catch (err) {
-      console.error("Could not start recording:", err);
+      console.error("Recording error:", err);
     }
   };
 
@@ -111,7 +182,91 @@ export default function Home() {
 
   const initiateSession = function () {
     setStep("session");
-    startRecording();
+  };
+
+  const detectSpeech = () => {
+    const analyser = analyserRef.current;
+
+    if (!analyser) return;
+
+    const buffer = new Uint8Array(analyser.fftSize);
+
+    analyser.getByteTimeDomainData(buffer);
+
+    // Beräkna ljudnivån (RMS)
+    let sum = 0;
+
+    for (let i = 0; i < buffer.length; i++) {
+      const normalized = (buffer[i] - 128) / 128;
+      sum += normalized * normalized;
+    }
+
+    const volume = Math.sqrt(sum / buffer.length);
+
+    // Justera denna gräns om mikrofonen är känslig
+    const threshold = 0.025;
+
+    if (volume > threshold) {
+      // Användaren har börjat prata
+      if (!hasStartedSpeakingRef.current) {
+        hasStartedSpeakingRef.current = true;
+        setInputStatus("recording");
+        console.log("Speech started");
+      }
+
+      // Nollställ tystnadstimern när ljud upptäcks
+      clearTimeout(silenceTimerRef.current);
+    } else if (hasStartedSpeakingRef.current) {
+      // Användaren har tidigare pratat men är nu tyst
+      if (!silenceTimerRef.current) {
+        silenceTimerRef.current = setTimeout(() => {
+          console.log("Speech ended");
+          stopRecording();
+        }, 1500);
+      }
+    }
+
+    animationFrameRef.current = requestAnimationFrame(detectSpeech);
+  };
+
+  const stopRecording = () => {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state === "recording"
+    ) {
+      cancelAnimationFrame(animationFrameRef.current);
+
+      clearTimeout(silenceTimerRef.current);
+      silenceTimerRef.current = null;
+
+      mediaRecorderRef.current.stop();
+
+      setRecording(false);
+      setInputStatus("processing");
+    }
+  };
+
+  const cleanupRecording = () => {
+    cancelAnimationFrame(animationFrameRef.current);
+
+    clearTimeout(silenceTimerRef.current);
+    silenceTimerRef.current = null;
+
+    streamRef.current?.getTracks().forEach((track) => {
+      track.stop();
+    });
+
+    streamRef.current = null;
+
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+
+    analyserRef.current = null;
+    mediaRecorderRef.current = null;
+
+    setRecording(false);
   };
 
   return (
@@ -147,7 +302,7 @@ export default function Home() {
                 }}
                 onInit={(typewriter) => {
                   typewriter
-                    .typeString("Pågående Session")
+                    .typeString("Välkommen, prata vilket språk du vill")
                     .pauseFor(500)
                     .typeString(cvQuestions[0])
                     .start();
@@ -162,11 +317,16 @@ export default function Home() {
                         ? "#4ade80"
                         : inputStatus === "processing"
                         ? "#facc15"
+                        : inputStatus === "thinking"
+                        ? "#a78bfa"
                         : "#999",
                   }}
                 />
 
-                {statusText[inputStatus]}
+                {inputStatus === "waiting" && "Väntar på input..."}
+                {inputStatus === "recording" && "Noterar input..."}
+                {inputStatus === "processing" && "Väntar på..."}
+                {inputStatus === "thinking" && "AI tänker..."}
               </div>
             </div>
           )}
