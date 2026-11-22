@@ -136,7 +136,7 @@ export default function Home() {
             data: { session },
           } = await supabase.auth.getSession();
 
-          console.log("l139: " + session);
+          console.log("l139: " + JSON.stringify(session));
 
           if (!session?.access_token) {
             throw new Error("User not logged in");
