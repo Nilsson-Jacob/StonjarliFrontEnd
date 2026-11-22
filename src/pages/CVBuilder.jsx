@@ -1,6 +1,6 @@
 import { supabase } from "../components/CVsupabaseClient";
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, vh } from "framer-motion";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -66,11 +66,12 @@ export default function Home() {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <div style={styles.cardStyle} onClick={initiateSession}>
-            {step === "home" && (
+          {step === "home" && (
+            <div style={styles.cardStyle} onClick={initiateSession}>
               <h5 style={{ fontSize: "1.2rem" }}>Klicka för att skapa CV</h5>
-            )}
-          </div>
+            </div>
+          )}
+          {step === "session" && <div style={styles.SessionCardStyle}></div>}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -100,6 +101,20 @@ const styles = {
     borderRadius: 20,
     padding: 24,
     minHeight: 140,
+    color: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+  },
+  sessionCardStyle: {
+    background: "#1a1a22",
+    borderRadius: 20,
+    padding: 24,
+    minHeight: "50vh",
     color: "#fff",
     display: "flex",
     flexDirection: "column",
