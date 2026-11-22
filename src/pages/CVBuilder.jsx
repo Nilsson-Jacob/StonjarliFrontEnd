@@ -103,7 +103,6 @@ const styles = {
     background: "#1a1a22",
     borderRadius: 20,
     padding: 24,
-    minHeight: 140,
     color: "#fff",
     display: "flex",
     flexDirection: "column",
