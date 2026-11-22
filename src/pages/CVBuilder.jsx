@@ -14,6 +14,15 @@ export default function Home() {
       console.log("jn: " + error);
     }
 
+    const { dataCV } = await supabase
+      .from("cv")
+      .insert({
+        cv_text_swedish: { test: "newCVdata" },
+      })
+      .select();
+
+    console.log("cv text: " + dataCV);
+
     return data;
   };
 
