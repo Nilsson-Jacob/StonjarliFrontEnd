@@ -3,39 +3,43 @@ import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [text, setText] = useState("");
-  var insert = false;
-
-  const fetchUser = async () => {
-    const { data, error } = await supabase.from("cv").select("*");
-
-    setText(data);
-    console.log("data: " + JSON.stringify(data));
-
-    if (error) {
-      console.log("jn: " + error);
-    }
-
-    if (insert) {
-      const { dataCV } = await supabase
-        .from("cv")
-        .insert({
-          cv_text_swedish: { test: "newCVdata" },
-        })
-        .select();
-
-      console.log("cv text: " + dataCV);
-    }
-
-    return data;
-  };
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await supabase.from("cv").select("*");
+
+      if (error) {
+        console.error("Supabase error:", error);
+        return;
+      }
+
+      setText(data);
+      console.log("data:", data);
+
+      // Insert test data if needed
+      const insert = false;
+
+      if (insert) {
+        const { data: dataCV, error: insertError } = await supabase
+          .from("cv")
+          .insert({
+            cv_text_swedish: { test: "newCVdata" },
+          })
+          .select();
+
+        if (insertError) {
+          console.error("Insert error:", insertError);
+        } else {
+          console.log("cv text:", dataCV);
+        }
+      }
+    };
+
     fetchUser();
-  }, [fetchUser]);
+  }, []);
 
   return <div style={styles.page}>CV : {JSON.stringify(text)}</div>;
 }
-
 // ===== STYLES =====
 const styles = {
   page: {
