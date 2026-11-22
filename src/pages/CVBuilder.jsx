@@ -31,15 +31,50 @@ export default function Home() {
 
   console.log("text : " + text + step + recording);
 
-  useEffect(() => {
-    if (step === "session") {
-      startRecording();
+  const detectSpeech = () => {
+    const analyser = analyserRef.current;
+
+    if (!analyser) return;
+
+    const buffer = new Uint8Array(analyser.fftSize);
+
+    analyser.getByteTimeDomainData(buffer);
+
+    // Beräkna ljudnivån (RMS)
+    let sum = 0;
+
+    for (let i = 0; i < buffer.length; i++) {
+      const normalized = (buffer[i] - 128) / 128;
+      sum += normalized * normalized;
     }
 
-    return () => {
-      cleanupRecording();
-    };
-  }, [step, startRecording]);
+    const volume = Math.sqrt(sum / buffer.length);
+
+    // Justera denna gräns om mikrofonen är känslig
+    const threshold = 0.025;
+
+    if (volume > threshold) {
+      // Användaren har börjat prata
+      if (!hasStartedSpeakingRef.current) {
+        hasStartedSpeakingRef.current = true;
+        setInputStatus("recording");
+        console.log("Speech started");
+      }
+
+      // Nollställ tystnadstimern när ljud upptäcks
+      clearTimeout(silenceTimerRef.current);
+    } else if (hasStartedSpeakingRef.current) {
+      // Användaren har tidigare pratat men är nu tyst
+      if (!silenceTimerRef.current) {
+        silenceTimerRef.current = setTimeout(() => {
+          console.log("Speech ended");
+          stopRecording();
+        }, 1500);
+      }
+    }
+
+    animationFrameRef.current = requestAnimationFrame(detectSpeech);
+  };
 
   const startRecording = useCallback(async () => {
     try {
@@ -142,9 +177,17 @@ export default function Home() {
     } catch (err) {
       console.error("Recording error:", err);
     }
-  }, []);
+  }, [detectSpeech]);
 
-  //const typewriterRef = useRef(null);
+  useEffect(() => {
+    if (step === "session") {
+      startRecording();
+    }
+
+    return () => {
+      cleanupRecording();
+    };
+  }, [step, startRecording]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -182,51 +225,6 @@ export default function Home() {
 
   const initiateSession = function () {
     setStep("session");
-  };
-
-  const detectSpeech = () => {
-    const analyser = analyserRef.current;
-
-    if (!analyser) return;
-
-    const buffer = new Uint8Array(analyser.fftSize);
-
-    analyser.getByteTimeDomainData(buffer);
-
-    // Beräkna ljudnivån (RMS)
-    let sum = 0;
-
-    for (let i = 0; i < buffer.length; i++) {
-      const normalized = (buffer[i] - 128) / 128;
-      sum += normalized * normalized;
-    }
-
-    const volume = Math.sqrt(sum / buffer.length);
-
-    // Justera denna gräns om mikrofonen är känslig
-    const threshold = 0.025;
-
-    if (volume > threshold) {
-      // Användaren har börjat prata
-      if (!hasStartedSpeakingRef.current) {
-        hasStartedSpeakingRef.current = true;
-        setInputStatus("recording");
-        console.log("Speech started");
-      }
-
-      // Nollställ tystnadstimern när ljud upptäcks
-      clearTimeout(silenceTimerRef.current);
-    } else if (hasStartedSpeakingRef.current) {
-      // Användaren har tidigare pratat men är nu tyst
-      if (!silenceTimerRef.current) {
-        silenceTimerRef.current = setTimeout(() => {
-          console.log("Speech ended");
-          stopRecording();
-        }, 1500);
-      }
-    }
-
-    animationFrameRef.current = requestAnimationFrame(detectSpeech);
   };
 
   const stopRecording = () => {
