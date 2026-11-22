@@ -5,6 +5,8 @@ export default function Home() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
+
+    return user;
   };
 
   return <div>CV : {fetchUser}</div>;
