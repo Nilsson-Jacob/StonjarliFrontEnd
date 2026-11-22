@@ -1,6 +1,6 @@
 import { supabase } from "../components/CVsupabaseClient";
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence, vh } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [text, setText] = useState("");
