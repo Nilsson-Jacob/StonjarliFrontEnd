@@ -34,7 +34,7 @@ export default function Home() {
   const detectSpeech = useCallback(() => {
     const analyser = analyserRef.current;
 
-    if (!analyser) return;
+    if (!analyser || mediaRecorderRef.current?.state !== "recording") return;
 
     const buffer = new Uint8Array(analyser.fftSize);
 
@@ -61,17 +61,18 @@ export default function Home() {
         console.log("Speech started");
       }
 
-      // Nollställ tystnadstimern när ljud upptäcks
-      clearTimeout(silenceTimerRef.current);
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current);
+        silenceTimerRef.current = null;
+      }
     } else if (hasStartedSpeakingRef.current) {
-      console.log("L67");
-
-      // Användaren har tidigare pratat men är nu tyst
       if (!silenceTimerRef.current) {
-        console.log("L72");
+        console.log("L72 - Silence timer started");
 
         silenceTimerRef.current = setTimeout(() => {
           console.log("Speech ended");
+
+          silenceTimerRef.current = null;
           stopRecording();
         }, 1500);
       }
