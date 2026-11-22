@@ -131,7 +131,7 @@ export default function Home() {
             console.error("Recording too short");
             return;
           }
-
+          /*
           const {
             data: { session },
           } = await supabase.auth.getSession();
@@ -139,7 +139,7 @@ export default function Home() {
           if (!session?.access_token) {
             throw new Error("User not logged in");
           }
-
+*/
           const formData = new FormData();
 
           formData.append("audio", audioBlob, "training.webm");
@@ -149,7 +149,8 @@ export default function Home() {
             {
               method: "POST",
               headers: {
-                Authorization: `Bearer ${session.access_token}`,
+                Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_ANON_KEY}`,
+                apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
               },
               body: formData,
             }
