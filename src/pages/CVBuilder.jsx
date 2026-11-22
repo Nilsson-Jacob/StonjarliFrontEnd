@@ -16,7 +16,10 @@ export default function Home() {
   useEffect(() => {
     if (step !== "session" || !typewriterRef.current) return;
 
-    const writer = new Typewriter(typewriterRef.current, {
+    // Save the DOM reference locally
+    const element = typewriterRef.current;
+
+    const writer = new Typewriter(element, {
       loop: false,
       delay: 45,
       cursor: "|",
@@ -25,13 +28,13 @@ export default function Home() {
     writer
       .typeString("Pågående Session")
       .pauseFor(500)
-      .typeString(cvQuestions[0])
+      .typeString("<br/><br/>Berätta om din utbildning.")
       .pauseFor(500)
       .start();
 
     return () => {
       writer.stop();
-      typewriterRef.current.innerHTML = "";
+      element.innerHTML = "";
     };
   }, [step]);
 
