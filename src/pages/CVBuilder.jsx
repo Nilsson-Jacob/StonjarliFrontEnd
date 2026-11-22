@@ -1,11 +1,17 @@
 import { supabase } from "../components/CVsupabaseClient";
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
+  const [text, setText] = useState("");
+
   const fetchUser = async () => {
     const { data, error } = await supabase
       .from("cv")
       .select("cv_text_swedish")
       .order("created_at", { ascending: false });
+
+    setText(data);
+    console.log("data: " + JSON.stringify(data));
 
     if (error) {
       console.log("jn: " + error);
@@ -14,5 +20,9 @@ export default function Home() {
     return data;
   };
 
-  return <div>CV : {JSON.stringify(fetchUser())}</div>;
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  return <div>CV : {JSON.stringify(text)}</div>;
 }
