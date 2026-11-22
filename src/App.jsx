@@ -26,11 +26,11 @@ import CafeAnalytics from "./pages/CafeAnalytics";
 
 import CVBuilder from "./pages/CVBuilder";
 
-function App() {
+function AppLayout() {
   const location = useLocation();
 
   return (
-    <Router>
+    <>
       {location.pathname !== "/cvbuilder" && <Tabs />}
 
       <Routes>
@@ -62,7 +62,56 @@ function App() {
 
         <Route path="/cvbuilder" element={<CVBuilder />} />
 
-        {/* Protected */}
+        {/* Keep ALL your other existing routes here */}
+      </Routes>
+    </>
+  );
+}
+function App() {
+  return (
+    <Router>
+      <AppLayout />
+    </Router>
+  );
+}
+
+export default App;
+
+/*
+function App() {
+  const location = useLocation();
+
+  return (
+    <Router>
+      {location.pathname !== "/cvbuilder" && <Tabs />}
+
+      <Routes>
+        <Route path="/auth" element={<Auth />} />
+
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Navigate to="/checkin" />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/event-overview"
+          element={
+            <ProtectedRoute>
+              <Eventcalendar />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="/event/:eventId" element={<EventPage />} />
+        <Route path="/cancel/:token" element={<CancelBooking />} />
+        <Route path="/analytics" element={<CafeAnalytics />} />
+
+        <Route path="/cvbuilder" element={<CVBuilder />} />
+
         <Route
           path="/holdings"
           element={
@@ -90,7 +139,6 @@ function App() {
           }
         />
 
-        {/* Protected */}
         <Route
           path="/logs"
           element={
@@ -100,7 +148,6 @@ function App() {
           }
         />
 
-        {/* Protected */}
         <Route
           path="/insights"
           element={
@@ -110,7 +157,6 @@ function App() {
           }
         />
 
-        {/* Protected */}
         <Route
           path="/profile"
           element={
