@@ -57,7 +57,7 @@ export default function Home() {
             opacity: 1,
             scale: 1,
             //width: step === "session" ? "95vw" : "100%",
-            //height: step === "session" ? "90vh" : "140px",
+            height: step === "session" ? "90vh" : "140px",
           }}
           // exit={{ opacity: 0, scale: 0.9 }}
           transition={{
@@ -70,7 +70,11 @@ export default function Home() {
               <h5 style={{ fontSize: "1.2rem" }}>Klicka för att skapa CV</h5>
             </div>
           )}
-          {step === "session" && <div style={styles.sessionCardStyle}></div>}
+          {step === "session" && (
+            <div style={styles.sessionCardStyle}>
+              <h5 style={{ fontSize: "1.2rem" }}>Pågående Session</h5>
+            </div>
+          )}
         </motion.div>
       </AnimatePresence>
     </div>
