@@ -53,8 +53,8 @@ export default function Home() {
           style={styles.cardContainer}
           initial={false}
           animate={{
-            width: step === "session" ? "95vw" : "100%",
-            height: step === "session" ? "90vh" : "140px",
+            width: step === "session" ? "90vw" : "100%",
+            height: step === "session" ? "85vh" : "140px",
             maxWidth: step === "session" ? "1200px" : "360px",
           }}
           transition={{
@@ -122,8 +122,6 @@ const styles = {
     color: "#fff",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
     fontSize: 18,
     fontWeight: "bold",
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
