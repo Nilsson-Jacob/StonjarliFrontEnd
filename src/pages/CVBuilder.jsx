@@ -2,7 +2,7 @@ import { supabase } from "../components/CVsupabaseClient";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
-import { useRef } from "react";
+//import { useRef } from "react";
 const cvQuestions = ["Tell me about your education"];
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
 
   console.log("text : " + text + step);
 
-  const typewriterRef = useRef(null);
+  //const typewriterRef = useRef(null);
 
   useEffect(() => {
     if (step !== "session" || !typewriterRef.current) return;
@@ -101,8 +101,20 @@ export default function Home() {
           {step === "session" && (
             <div style={styles.sessionCardStyle}>
               <h5 style={{ fontSize: "1.2rem" }}>Pågående Session</h5>
-
-              <div ref={typewriterRef}></div>
+              <Typewriter
+                options={{
+                  delay: 45,
+                  cursor: "|",
+                  loop: false,
+                }}
+                onInit={(typewriter) => {
+                  typewriter
+                    .typeString("Pågående Session")
+                    .pauseFor(500)
+                    .typeString(cvQuestions[0])
+                    .start();
+                }}
+              />{" "}
             </div>
           )}
         </motion.div>
