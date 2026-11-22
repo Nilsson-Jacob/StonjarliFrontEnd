@@ -22,6 +22,7 @@
     "request": "^2.88.2",
     "simplex-noise": "^4.0.3",
     "three": "^0.182.0",
+    "typewriter-effect": "^3.3.0",
     "web-vitals": "^2.1.4",
     "whisper-web-transcriber": "^0.2.5"
   },
