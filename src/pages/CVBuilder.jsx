@@ -1,8 +1,7 @@
 import { supabase } from "../components/CVsupabaseClient";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
-//import { useRef } from "react";
 const cvQuestions = ["Tell me about your education"];
 
 const statusText = {
