@@ -1,5 +1,5 @@
 import { supabase } from "../components/CVsupabaseClient";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
 const cvQuestions = ["Tell me about your education"];
@@ -39,9 +39,9 @@ export default function Home() {
     return () => {
       cleanupRecording();
     };
-  }, [step]);
+  }, [step, startRecording]);
 
-  const startRecording = async () => {
+  const startRecording = useCallback(async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: true,
@@ -142,7 +142,7 @@ export default function Home() {
     } catch (err) {
       console.error("Recording error:", err);
     }
-  };
+  }, []);
 
   //const typewriterRef = useRef(null);
 
@@ -323,10 +323,7 @@ export default function Home() {
                   }}
                 />
 
-                {inputStatus === "waiting" && "Väntar på input..."}
-                {inputStatus === "recording" && "Noterar input..."}
-                {inputStatus === "processing" && "Väntar på..."}
-                {inputStatus === "thinking" && "AI tänker..."}
+                {statusText[inputStatus]}
               </div>
             </div>
           )}
