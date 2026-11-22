@@ -2,7 +2,7 @@ import { supabase } from "../components/CVsupabaseClient";
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
-const cvQuestions = ["Tell me about your education"];
+const cvQuestions = ["<br></br>Berätta om din ubildning"];
 
 const statusText = {
   waiting: "Väntar på input...",
@@ -131,15 +131,17 @@ export default function Home() {
             console.error("Recording too short");
             return;
           }
-          /*
+
           const {
             data: { session },
           } = await supabase.auth.getSession();
 
+          console.log("l139: " + session);
+
           if (!session?.access_token) {
             throw new Error("User not logged in");
           }
-*/
+
           const formData = new FormData();
 
           formData.append("audio", audioBlob, "training.webm");
@@ -149,8 +151,7 @@ export default function Home() {
             {
               method: "POST",
               headers: {
-                Authorization: `Bearer ${process.env.REACT_APP_SUPABASE_ANON_KEY}`,
-                apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${session.access_token}`,
               },
               body: formData,
             }
