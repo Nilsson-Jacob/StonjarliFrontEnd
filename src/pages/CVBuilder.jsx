@@ -64,8 +64,12 @@ export default function Home() {
       // Nollställ tystnadstimern när ljud upptäcks
       clearTimeout(silenceTimerRef.current);
     } else if (hasStartedSpeakingRef.current) {
+      console.log("L67");
+
       // Användaren har tidigare pratat men är nu tyst
       if (!silenceTimerRef.current) {
+        console.log("L72");
+
         silenceTimerRef.current = setTimeout(() => {
           console.log("Speech ended");
           stopRecording();
@@ -302,7 +306,7 @@ export default function Home() {
                   typewriter
                     .typeString("Välkommen, prata vilket språk du vill")
                     .pauseFor(500)
-                    .typeString(cvQuestions[0])
+                    .typeString("<br></br" + cvQuestions[0])
                     .start();
                 }}
               />{" "}
