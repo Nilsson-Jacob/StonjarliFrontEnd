@@ -51,17 +51,14 @@ export default function Home() {
       <AnimatePresence mode="wait">
         <motion.div
           style={styles.cardContainer}
-          key={step}
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={false}
           animate={{
-            opacity: 1,
-            scale: 1,
-            //width: step === "session" ? "95vw" : "100%",
+            width: step === "session" ? "95vw" : "100%",
             height: step === "session" ? "90vh" : "140px",
+            maxWidth: step === "session" ? "1200px" : "360px",
           }}
-          // exit={{ opacity: 0, scale: 0.9 }}
           transition={{
-            duration: 0.6,
+            duration: 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
         >
@@ -70,6 +67,7 @@ export default function Home() {
               <h5 style={{ fontSize: "1.2rem" }}>Klicka för att skapa CV</h5>
             </div>
           )}
+
           {step === "session" && (
             <div style={styles.sessionCardStyle}>
               <h5 style={{ fontSize: "1.2rem" }}>Pågående Session</h5>
@@ -95,9 +93,11 @@ const styles = {
   cardContainer: {
     width: "100%",
     maxWidth: 360,
+    height: 140,
     display: "flex",
     flexDirection: "column",
-    gap: 20,
+    overflow: "hidden",
+    borderRadius: 20,
   },
   cardStyle: {
     background: "#1a1a22",
@@ -117,9 +117,11 @@ const styles = {
     background: "#1a1a22",
     borderRadius: 20,
     padding: 24,
+    width: "100%",
+    height: "100%",
+    boxSizing: "border-box",
     color: "#fff",
     display: "flex",
-    width: "80vh",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
