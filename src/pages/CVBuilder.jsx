@@ -28,7 +28,7 @@ export default function Home() {
     writer
       .typeString("Pågående Session")
       .pauseFor(500)
-      .typeString("<br/><br/>Berätta om din utbildning.")
+      .typeString(cvQuestions[0])
       .pauseFor(500)
       .start();
 
