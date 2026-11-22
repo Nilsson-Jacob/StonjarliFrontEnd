@@ -71,7 +71,7 @@ export default function Home() {
               <h5 style={{ fontSize: "1.2rem" }}>Klicka för att skapa CV</h5>
             </div>
           )}
-          {step === "session" && <div style={styles.SessionCardStyle}></div>}
+          {step === "session" && <div style={styles.sessionCardStyle}></div>}
         </motion.div>
       </AnimatePresence>
     </div>
