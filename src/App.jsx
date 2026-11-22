@@ -62,6 +62,59 @@ function AppLayout() {
 
         <Route path="/cvbuilder" element={<CVBuilder />} />
 
+        <Route
+          path="/holdings"
+          element={
+            <ProtectedRoute>
+              <Holdings />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/analysis"
+          element={
+            <ProtectedRoute>
+              <Analysis />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/checkin"
+          element={
+            <ProtectedRoute>
+              <Checkin />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/logs"
+          element={
+            <ProtectedRoute>
+              <Logs />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/insights"
+          element={
+            <ProtectedRoute>
+              <Insights />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
         {/* Keep ALL your other existing routes here */}
       </Routes>
     </>
