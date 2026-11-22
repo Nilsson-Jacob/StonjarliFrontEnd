@@ -5,10 +5,7 @@ export default function Home() {
   const [text, setText] = useState("");
 
   const fetchUser = async () => {
-    const { data, error } = await supabase
-      .from("cv")
-      .select("cv_text_swedish")
-      .order("created_at", { ascending: false });
+    const { data, error } = await supabase.from("cv").select("*");
 
     setText(data);
     console.log("data: " + JSON.stringify(data));
