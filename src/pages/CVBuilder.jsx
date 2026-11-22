@@ -101,6 +101,8 @@ export default function Home() {
           {step === "session" && (
             <div style={styles.sessionCardStyle}>
               <h5 style={{ fontSize: "1.2rem" }}>Pågående Session</h5>
+
+              <div ref={typewriterRef}></div>
             </div>
           )}
         </motion.div>
