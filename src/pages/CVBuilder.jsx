@@ -1,4 +1,4 @@
-import { supabase } from "../components/supabaseClientCV";
+import { supabase } from "../components/CVsupabaseClient";
 
 export default function Home() {
   const fetchUser = async () => {
