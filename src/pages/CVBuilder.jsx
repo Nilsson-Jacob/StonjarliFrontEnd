@@ -31,7 +31,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchUser();
-  }, [text]);
+  }, [fetchUser]);
 
   return <div style={styles.page}>CV : {JSON.stringify(text)}</div>;
 }
