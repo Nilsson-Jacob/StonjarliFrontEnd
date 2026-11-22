@@ -66,11 +66,11 @@ export default function Home() {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          {step === "home" && (
-            <div style={styles.cardStyle} onClick={initiateSession}>
-              <h5 style={{ fontSize: "2rem" }}>Klicka för att skapa CV</h5>
-            </div>
-          )}
+          <div style={styles.cardStyle} onClick={initiateSession}>
+            {step === "home" && (
+              <h5 style={{ fontSize: "1.2rem" }}>Klicka för att skapa CV</h5>
+            )}
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>
