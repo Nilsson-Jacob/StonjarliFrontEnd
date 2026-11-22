@@ -25,6 +25,7 @@ import CancelBooking from "./pages/CancelEventPage";
 import CafeAnalytics from "./pages/CafeAnalytics";
 
 import CVBuilder from "./pages/CVBuilder";
+import CVAuth from "./pages/CVAuth";
 
 function AppLayout() {
   const location = useLocation();
@@ -36,6 +37,7 @@ function AppLayout() {
       <Routes>
         {/* Public */}
         <Route path="/auth" element={<Auth />} />
+        <Route path="/cvauth" element={<CVAuth />} />
 
         {/* Default */}
         <Route

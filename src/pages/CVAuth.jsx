@@ -23,7 +23,7 @@ export default function Auth() {
 
       if (error) throw error;
 
-      navigate("/checkin");
+      navigate("/cvbuilder");
     } catch (err) {
       setMessage(err.message);
     } finally {
