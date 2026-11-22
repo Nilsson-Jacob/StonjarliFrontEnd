@@ -1,3 +1,11 @@
+import { supabase } from "../components/supabaseClientCV";
+
 export default function Home() {
-  return <div>CV</div>;
+  const fetchUser = async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+  };
+
+  return <div>CV : {fetchUser}</div>;
 }
