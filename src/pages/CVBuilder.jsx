@@ -23,7 +23,7 @@ export default function Home() {
   const streamRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  console.log("text : " + text + step);
+  console.log("text : " + text + step + recording);
 
   const startRecording = async () => {
     try {
