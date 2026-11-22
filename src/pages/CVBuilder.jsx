@@ -1,10 +1,13 @@
 import { supabase } from "../components/CVsupabaseClient";
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const [text, setText] = useState("");
+  const [step, setStep] = useState("home");
 
-  console.log("text : " + text);
+  setStep("home");
+  console.log("text : " + text + step);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -40,13 +43,37 @@ export default function Home() {
     fetchUser();
   }, []);
 
+  const initiateSession = function () {
+    setStep("session");
+  };
+
   return (
     <div style={styles.page}>
-      <div style={styles.cardContainer}>
-        <div style={styles.cardStyle}>
-          <h5 style={{ fontSize: "0.8rem" }}>Klicka för att skapa CV</h5>
-        </div>
-      </div>
+      <AnimatePresence mode="wait">
+        <motion.div
+          style={styles.cardContainer}
+          key={step}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            width: step === "session" ? "95vw" : "100%",
+            height: step === "session" ? "90vh" : "140px",
+            maxWidth: step === "session" ? "1200px" : "360px",
+          }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          {step === "home" && (
+            <div style={styles.cardStyle} onClick={initiateSession}>
+              <h5 style={{ fontSize: "2rem" }}>Klicka för att skapa CV</h5>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
