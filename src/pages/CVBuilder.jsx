@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 export default function Home() {
   const [text, setText] = useState("");
 
+  console.log("text : " + text);
+
   useEffect(() => {
     const fetchUser = async () => {
       const { data, error } = await supabase.from("cv").select("*");
@@ -14,7 +16,7 @@ export default function Home() {
       }
 
       setText(data);
-      console.log("data:" + data + " - TExt: " + text);
+      console.log("data:" + data);
 
       // Insert test data if needed
       const insert = false;
