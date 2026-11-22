@@ -6,7 +6,6 @@ export default function Home() {
   const [text, setText] = useState("");
   const [step, setStep] = useState("home");
 
-  setStep("home");
   console.log("text : " + text + step);
 
   useEffect(() => {
