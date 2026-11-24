@@ -17,7 +17,7 @@ export default function Home() {
           initial={false}
           animate={{
             width: step === "session" ? "90vw" : "100%",
-            height: step === "session" ? "85vh" : "140px",
+            height: step === "session" ? "85vh" : "240px",
             maxWidth: step === "session" ? "1200px" : "360px",
           }}
           transition={{
@@ -46,6 +46,8 @@ export default function Home() {
                     .typeString("Hej NAMN<br></br")
                     .pauseFor(500)
                     .typeString("Du ska ge julklapp till : X")
+                    .pauseFor(500)
+                    .typeString("Budget är 400kr")
                     .start();
                 }}
               />{" "}
