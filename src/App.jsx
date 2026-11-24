@@ -60,7 +60,7 @@ function AppLayout() {
           }
         />
 
-        <Route path="/event-overview" element={<jul />} />
+        <Route path="/jul2026" element={<jul />} />
 
         <Route path="/event/:eventId" element={<EventPage />} />
         <Route path="/cancel/:token" element={<CancelBooking />} />
