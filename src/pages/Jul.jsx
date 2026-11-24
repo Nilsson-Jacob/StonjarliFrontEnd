@@ -2,6 +2,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
 
 export default function Home() {
+  const [step, setStep] = useState("home");
+
+  const initiateSession = function () {
+    setStep("session");
+  };
+
   return (
     <div style={styles.page}>
       <AnimatePresence mode="wait">
