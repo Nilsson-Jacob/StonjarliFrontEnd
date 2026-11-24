@@ -27,6 +27,8 @@ import CafeAnalytics from "./pages/CafeAnalytics";
 import CVBuilder from "./pages/CVBuilder";
 import CVAuth from "./pages/CVAuth";
 
+import Jul from "./pages/Jul";
+
 function AppLayout() {
   const location = useLocation();
 
@@ -57,6 +59,8 @@ function AppLayout() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/event-overview" element={<jul />} />
 
         <Route path="/event/:eventId" element={<EventPage />} />
         <Route path="/cancel/:token" element={<CancelBooking />} />

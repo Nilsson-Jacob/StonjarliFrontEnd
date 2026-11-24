@@ -74,7 +74,7 @@ export default function Home() {
 
           silenceTimerRef.current = null;
           stopRecording();
-        }, 1500);
+        }, 5000);
       }
     }
 
