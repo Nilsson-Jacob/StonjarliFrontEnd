@@ -45,7 +45,7 @@ export default function Home() {
                   typewriter
                     .typeString("Hej NAMN<br></br")
                     .pauseFor(500)
-                    .typeString("Du ska ge julklapp till : X")
+                    .typeString("Du ska ge julklapp till : X <br></br")
                     .pauseFor(500)
                     .typeString("Budget är 400kr")
                     .start();
@@ -93,11 +93,12 @@ const styles = {
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
   },
   sessionCardStyle: {
+    alignItems: "center",
     background: "#1a1a22",
     borderRadius: 20,
     padding: 24,
     width: "100%",
-    height: "100%",
+    height: "50%",
     boxSizing: "border-box",
     color: "#fff",
     display: "flex",
