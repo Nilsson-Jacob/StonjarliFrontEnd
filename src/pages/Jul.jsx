@@ -26,10 +26,10 @@ export default function Home() {
           }}
         >
           {step === "home" && (
-            <div style={styles.cardStyle} onClick={initiateSession}>
+            <div style={styles.cardStyle}>
               <h5 style={{ fontSize: "1.2rem" }}>Skriv in kod</h5>
               <input placeholder="kod"></input>
-              <button>submit</button>
+              <button onClick={initiateSession}>submit</button>
             </div>
           )}
 
@@ -71,7 +71,7 @@ const styles = {
   cardContainer: {
     width: "100%",
     maxWidth: 360,
-    height: 140,
+    height: 240,
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
