@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
+import React, { useState } from "react";
 
 export default function Home() {
   const [step, setStep] = useState("home");
