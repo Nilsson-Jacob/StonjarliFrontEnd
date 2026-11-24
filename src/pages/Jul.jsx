@@ -93,7 +93,6 @@ const styles = {
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
   },
   sessionCardStyle: {
-    alignItems: "center",
     background: "#1a1a22",
     borderRadius: 20,
     padding: 24,
