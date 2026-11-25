@@ -34,7 +34,8 @@ function AppLayout() {
 
   return (
     <>
-      {location.pathname !== "/cvbuilder" && <Tabs />}
+      {location.pathname !== "/cvbuilder" &&
+        location.pathname !== "/jul2026" && <Tabs />}
 
       <Routes>
         {/* Public */}
