@@ -28,8 +28,10 @@ export default function Home() {
           {step === "home" && (
             <div style={styles.cardStyle}>
               <h5 style={{ fontSize: "1.2rem" }}>Skriv in kod</h5>
-              <input placeholder="kod"></input>
-              <button onClick={initiateSession}>submit</button>
+              <input style={styles.input} placeholder="kod"></input>
+              <button style={styles.submitbutton} onClick={initiateSession}>
+                submit
+              </button>
             </div>
           )}
 
@@ -51,7 +53,6 @@ export default function Home() {
                     .start();
                 }}
               />{" "}
-              <div style={styles.inputStatus}>TEST</div>
             </div>
           )}
         </motion.div>
@@ -105,5 +106,25 @@ const styles = {
     fontSize: 18,
     fontWeight: "bold",
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+  },
+  submitbutton: {
+    marginTop: 20,
+    width: "100%",
+    padding: 14,
+    borderRadius: 12,
+    border: "none",
+    background: "#ddb52f",
+    color: "#111",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
+  input: {
+    padding: "12px",
+    borderRadius: "10px",
+    border: "1px solid #444",
+    background: "#111",
+    color: "#fff",
+    fontSize: "15px",
+    outline: "none",
   },
 };

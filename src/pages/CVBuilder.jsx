@@ -401,4 +401,15 @@ const styles = {
     height: 9,
     borderRadius: "50%",
   },
+  submitbutton: {
+    marginTop: 20,
+    width: "100%",
+    padding: 14,
+    borderRadius: 12,
+    border: "none",
+    background: "#ddb52f",
+    color: "#111",
+    fontWeight: "bold",
+    cursor: "pointer",
+  },
 };
