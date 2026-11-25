@@ -120,7 +120,7 @@ export default function Home() {
                     .typeString("Budget är 400kr")
                     .start();
                 }}
-              />{" "} */}
+              />{" "}  new */}
               <Typewriter
                 key={result?.participantName}
                 options={{
