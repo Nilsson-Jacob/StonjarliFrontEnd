@@ -18,12 +18,12 @@ export default function Home() {
 
   const lottning = async function name(params) {
     const response = await fetch(
-      "https://DIN-PROJEKT-REF.supabase.co/functions/v1/secret-santa",
+      "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/dynamic-service",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-admin-secret": "DIN_LANGA_HEMLIGA_ADMIN_KOD",
+          "x-admin-secret": "12345",
         },
         body: JSON.stringify({
           action: "generate",
