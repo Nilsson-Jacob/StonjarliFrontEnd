@@ -1,12 +1,66 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
 import React, { useState } from "react";
+import { supabase } from "../components/supabaseClient";
 
 export default function Home() {
   const [step, setStep] = useState("home");
 
+  const [code, setCode] = useState("");
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  /*
   const initiateSession = function () {
     setStep("session");
+  };*/
+
+  const lottning = async function name(params) {
+    const response = await fetch(
+      "https://DIN-PROJEKT-REF.supabase.co/functions/v1/secret-santa",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": "DIN_LANGA_HEMLIGA_ADMIN_KOD",
+        },
+        body: JSON.stringify({
+          action: "generate",
+        }),
+      }
+    );
+
+    const result = await response.json();
+    console.log(result);
+  };
+
+  const checkCode = async () => {
+    setError("");
+    setLoading(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("secret-santa", {
+        body: {
+          action: "lookup",
+          code: code,
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      setResult(data);
+      setStep("session");
+    } catch (err) {
+      console.error(err);
+      setError("Koden är ogiltig. Försök igen.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,16 +82,30 @@ export default function Home() {
           {step === "home" && (
             <div style={styles.cardStyle}>
               <h5 style={{ fontSize: "1.2rem" }}>Skriv in kod</h5>
-              <input style={styles.input} placeholder="kod"></input>
-              <button style={styles.submitbutton} onClick={initiateSession}>
-                submit
+              <input
+                style={styles.input}
+                placeholder="Ange kod"
+                value={code}
+                onChange={(e) => setCode(e.target.value.toUpperCase())}
+              />{" "}
+              <button
+                style={styles.submitbutton}
+                onClick={checkCode}
+                disabled={loading || !code.trim()}
+              >
+                {loading ? "Kontrollerar..." : "Visa min julklapp"}
               </button>
+              {error && (
+                <p style={{ color: "#ff7777", fontSize: 14 }}>{error}</p>
+              )}
             </div>
           )}
 
+          <button onClick={lottning}>meister</button>
+
           {step === "session" && (
             <div style={styles.sessionCardStyle}>
-              <Typewriter
+              {/*<Typewriter
                 options={{
                   delay: 45,
                   cursor: "|",
@@ -52,7 +120,28 @@ export default function Home() {
                     .typeString("Budget är 400kr")
                     .start();
                 }}
-              />{" "}
+              />{" "} */}
+              <Typewriter
+                key={result?.participantName}
+                options={{
+                  delay: 45,
+                  cursor: "|",
+                  loop: false,
+                }}
+                onInit={(typewriter) => {
+                  if (!result) return;
+
+                  typewriter
+                    .typeString(`Hej ${result.participantName}!`)
+                    .pauseFor(700)
+                    .typeString(
+                      `<br/><br/>Du ska köpa julklapp till: ${result.receiverName}`
+                    )
+                    .pauseFor(700)
+                    .typeString("<br/><br/>Budget: 400 kr")
+                    .start();
+                }}
+              />
             </div>
           )}
         </motion.div>
@@ -65,7 +154,7 @@ const styles = {
   page: {
     minHeight: "100vh",
     background:
-      "linear-gradient(180deg,rgba(57,13,35,0.9) 0%,rgb(29,29,58) 100%)",
+      "linear-gradient(180deg,rgba(106, 19, 19, 0.9) 0%,rgb(33, 76, 35) 100%)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
