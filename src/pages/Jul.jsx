@@ -197,26 +197,24 @@ export default function Home() {
                     if (!result) return;
 
                     typewriter
-                      .typeString(`Hej ${result.participantName}`)
+                      .typeString(`Hej ${result.participantName}<br/><br/>`)
                       .pauseFor(700)
-                      .typeString(
-                        `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
-                      )
+                      .typeString(`Du ska köpa julklapp till...<br/><br/>`)
                       .pauseFor(700)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
                           ${result.receiverName}
-                        </p>`
+                        </p><br/><br/>`
                       )
-                      .typeString("<br/><br/>Budget: 400 kr")
+                      .typeString("Budget: 400 kr<br/><br/>")
                       .typeString(
-                        "<br/><br/>Detta meddelande kommer självförstöras om"
+                        "<br/><br/>Detta meddelande kommer självförstöras om<br/>"
                       )
-                      .typeString("<br/>3...")
+                      .typeString("3...<br/>")
                       .pauseFor(700)
-                      .typeString("<br/>2...")
+                      .typeString("2...<br/>")
                       .pauseFor(600)
-                      .typeString("<br/>1...")
+                      .typeString("1...")
                       .pauseFor(600)
                       .callFunction(() => {
                         const rect = cardRef.current?.getBoundingClientRect();
