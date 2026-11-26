@@ -44,7 +44,7 @@ export default function Home() {
     //78818c3a343f086d7a7554464068bb6aae54f5435484515275f723d9b8c6c893
 
     try {
-      const { data } = await fetch(
+      const response = await fetch(
         "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/dynamic-service",
         {
           method: "POST",
@@ -66,7 +66,14 @@ export default function Home() {
       if (data.error) {
         throw new Error(data.error);
       }*/
-      console.log("DATA: " + JSON.stringify(data));
+      const data = await response.json();
+
+      console.log("STATUS:", response.status);
+      console.log("DATA:", data);
+
+      if (!response.ok) {
+        throw new Error(data.error || "Request failed");
+      }
 
       setResult(data);
       setStep("session");
