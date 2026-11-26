@@ -67,7 +67,7 @@ export default function Home() {
         throw new Error(data.error);
       }*/
 
-      setResult(data);
+      setResult(data.json());
       setStep("session");
     } catch (err) {
       console.error(err);
