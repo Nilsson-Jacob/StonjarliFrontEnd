@@ -24,6 +24,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
           "x-admin-secret": "12345",
+          apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
         },
         body: JSON.stringify({
           action: "generate",
