@@ -201,24 +201,24 @@ export default function Home() {
                       .typeString(
                         `Ditt uppdrag, skulle du välja att acceptera det, är att ge julklapp till:<br/><br/>`
                       )
-                      .pauseFor(300)
+                      .pauseFor(500)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
                           ${result.receiverName}
                         </p><br/>`
                       )
                       .typeString("Budget: 400 kr<br/><br/>")
-                      .pauseFor(700)
+                      .pauseFor(500)
                       .typeString(
                         "Detta meddelande kommer självförstöras om<br/>"
                       )
-                      .pauseFor(300)
+                      .pauseFor(500)
                       .typeString("3...<br/>")
-                      .pauseFor(700)
+                      .pauseFor(500)
                       .typeString("2...<br/>")
-                      .pauseFor(700)
+                      .pauseFor(500)
                       .typeString("1...")
-                      .pauseFor(700)
+                      .pauseFor(500)
                       .callFunction(() => {
                         const rect = cardRef.current?.getBoundingClientRect();
 
