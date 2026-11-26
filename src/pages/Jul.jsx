@@ -207,27 +207,25 @@ export default function Home() {
                     if (!result) return;
 
                     typewriter
-                      .typeString(`Hej ${result.participantName}!`)
+                      .typeString(`Hej ${result.participantName}`)
                       .pauseFor(700)
-                      .typeString(
-                        `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
-                      )
+                      .typeString(`<br/><br/>Du ska köpa julklapp till...<br/>`)
                       .pauseFor(700)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
                           ${result.receiverName}
                         </p>`
                       )
-                      .typeString("<br/><br/>Budget: 400 kr")
+                      .typeString("<br/>Budget: 400 kr")
                       .typeString(
-                        "<br/><br/>Detta meddelande kommer självförstöras om"
+                        "<br/>Detta meddelande kommer självförstöras om"
                       )
-                      .typeString("<br/><br/>3")
-                      .pauseFor(200)
-                      .typeString("2")
-                      .pauseFor(200)
-                      .typeString("<br/><br/>1")
-                      .pauseFor(200)
+                      .typeString("<br/>3")
+                      .pauseFor(700)
+                      .typeString("<br/>2")
+                      .pauseFor(600)
+                      .typeString("<br/>1")
+                      .pauseFor(600)
                       .callFunction(() => {
                         setMessageFinished(true);
                       })
