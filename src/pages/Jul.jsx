@@ -41,6 +41,7 @@ export default function Home() {
 
     try {
       const { data, error } = await supabase.functions.invoke("secret-santa", {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           "x-admin-secret": "12345",
@@ -97,7 +98,7 @@ export default function Home() {
                 onClick={checkCode}
                 disabled={loading || !code.trim()}
               >
-                {loading ? "Kontrollerar..." : "Visa min julklapp"}
+                {loading ? "Kontrollerar..." : "OK"}
               </button>
               {error && (
                 <p style={{ color: "#ff7777", fontSize: 14 }}>{error}</p>
