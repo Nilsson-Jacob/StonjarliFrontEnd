@@ -199,13 +199,13 @@ export default function Home() {
                       .typeString(`Hej ${result.participantName}<br/><br/>`)
                       .pauseFor(700)
                       .typeString(
-                        `Ditt uppdrag, ifall du väljer att acceptera det, är att ge julklapp til:<br/><br/>`
+                        `Ditt uppdrag, skulle du välja att acceptera det, är att ge julklapp till:<br/><br/>`
                       )
                       .pauseFor(300)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
                           ${result.receiverName}
-                        </p><br/><br/>`
+                        </p><br/>`
                       )
                       .typeString("Budget: 400 kr<br/><br/>")
                       .pauseFor(700)
