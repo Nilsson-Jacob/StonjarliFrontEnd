@@ -136,7 +136,6 @@ export default function Home() {
         >
           {step === "home" && (
             <div style={styles.cardStyle}>
-              <h5 style={{ fontSize: "1.2rem" }}>Skriv in kod</h5>
               <input
                 style={styles.input}
                 placeholder="Ange kod"
@@ -199,23 +198,27 @@ export default function Home() {
                     typewriter
                       .typeString(`Hej ${result.participantName}<br/><br/>`)
                       .pauseFor(700)
-                      .typeString(`Du ska köpa julklapp till...<br/><br/>`)
-                      .pauseFor(700)
+                      .typeString(
+                        `Ditt uppdrag, ifall du väljer att acceptera det, är att ge julklapp til:<br/><br/>`
+                      )
+                      .pauseFor(300)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
                           ${result.receiverName}
                         </p><br/><br/>`
                       )
                       .typeString("Budget: 400 kr<br/><br/>")
+                      .pauseFor(700)
                       .typeString(
                         "Detta meddelande kommer självförstöras om<br/>"
                       )
+                      .pauseFor(300)
                       .typeString("3...<br/>")
                       .pauseFor(700)
                       .typeString("2...<br/>")
-                      .pauseFor(600)
+                      .pauseFor(700)
                       .typeString("1...")
-                      .pauseFor(600)
+                      .pauseFor(700)
                       .callFunction(() => {
                         const rect = cardRef.current?.getBoundingClientRect();
 
