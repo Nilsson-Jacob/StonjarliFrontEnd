@@ -208,7 +208,7 @@ export default function Home() {
                       )
                       .typeString("Budget: 400 kr<br/><br/>")
                       .typeString(
-                        "<br/><br/>Detta meddelande kommer självförstöras om<br/>"
+                        "Detta meddelande kommer självförstöras om<br/>"
                       )
                       .typeString("3...<br/>")
                       .pauseFor(700)
@@ -361,7 +361,7 @@ const styles = {
     borderRadius: 20,
     padding: 24,
     width: "100%",
-    height: "70%",
+    height: "75%",
     boxSizing: "border-box",
     color: "#fff",
     display: "flex",
