@@ -119,7 +119,7 @@ export default function Home() {
           initial={false}
           animate={{
             width: step === "session" ? "90vw" : "100%",
-            height: step === "session" ? "350px" : "240px",
+            height: step === "session" ? "500px" : "240px",
             minHeight: step === "session" ? "350px" : "0px",
             maxWidth: step === "session" ? "1200px" : "360px",
           }}
