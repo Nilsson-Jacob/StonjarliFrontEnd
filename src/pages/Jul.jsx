@@ -213,8 +213,14 @@ export default function Home() {
                         `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
                       )
                       .pauseFor(700)
-                      .typeString(`<h3>${result.receiverName}</h3>`)
+                      .typeString(`<p>${result.receiverName}</p>`)
                       .typeString("<br/><br/>Budget: 400 kr")
+                      .typeString(
+                        "<br/><br/>Detta meddelande kommer självförstöras om"
+                      )
+                      .typeString("<br/><br/>3")
+                      .typeString("<br/><br/>2")
+                      .typeString("<br/><br/>1")
                       .callFunction(() => {
                         setMessageFinished(true);
                       })
