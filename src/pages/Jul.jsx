@@ -39,6 +39,9 @@ export default function Home() {
     setError("");
     setLoading(true);
 
+    //              Authorization: `Bearer ${currentSession.access_token}`,
+    //78818c3a343f086d7a7554464068bb6aae54f5435484515275f723d9b8c6c893
+
     try {
       const { data, error } = await fetch(
         "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/dynamic-service",
@@ -47,6 +50,7 @@ export default function Home() {
           headers: {
             "Content-Type": "application/json",
             "x-admin-secret": "12345",
+            apikey: process.env.REACT_APP_SUPABASE_PUBLISHABLE_DEFAULT_KEY,
           },
           body: JSON.stringify({
             action: "lookup",
