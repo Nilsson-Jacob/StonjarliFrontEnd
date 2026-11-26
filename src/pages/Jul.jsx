@@ -363,7 +363,7 @@ const styles = {
     borderRadius: 20,
     padding: 24,
     width: "100%",
-    height: "50%",
+    height: "70%",
     boxSizing: "border-box",
     color: "#fff",
     display: "flex",
