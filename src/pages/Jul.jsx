@@ -44,7 +44,7 @@ export default function Home() {
     //78818c3a343f086d7a7554464068bb6aae54f5435484515275f723d9b8c6c893
 
     try {
-      const { data, error } = await fetch(
+      const { data } = await fetch(
         "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/dynamic-service",
         {
           method: "POST",
