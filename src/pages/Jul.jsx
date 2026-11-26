@@ -201,6 +201,8 @@ export default function Home() {
                       .typeString(
                         `Ditt uppdrag, skulle du välja att acceptera det, är att ge julklapp till:<br/><br/>`
                       )
+                      .pauseFor(200)
+                      .typeString("är att ge julklapp till:<br/><br/>")
                       .pauseFor(500)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
