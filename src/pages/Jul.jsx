@@ -198,11 +198,9 @@ export default function Home() {
                     typewriter
                       .typeString(`Hej ${result.participantName}<br/><br/>`)
                       .pauseFor(700)
-                      .typeString(
-                        `Ditt uppdrag, skulle du välja att acceptera det, `
-                      )
+                      .typeString(`Ditt uppdrag, om du väljer att anta det, `)
                       .pauseFor(200)
-                      .typeString("är att ge julklapp till:<br/><br/>")
+                      .typeString("är att ge en julklapp till:<br/><br/>")
                       .pauseFor(500)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
