@@ -1,10 +1,15 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 //import { supabase } from "../components/supabaseClient";
 
 export default function Home() {
   const [step, setStep] = useState("home");
+  const cardRef = useRef(null);
+  const [explosionOrigin, setExplosionOrigin] = useState({
+    x: window.innerWidth / 2,
+    y: window.innerHeight / 2,
+  });
 
   const [code, setCode] = useState("");
   const [result, setResult] = useState(null);
@@ -115,6 +120,7 @@ export default function Home() {
     <div style={styles.page}>
       <AnimatePresence mode="wait">
         <motion.div
+          ref={cardRef}
           style={styles.cardContainer}
           initial={false}
           animate={{
@@ -156,23 +162,6 @@ export default function Home() {
 
           {step === "session" && !messageFinished && (
             <div style={styles.sessionCardStyle}>
-              {/*<Typewriter
-                options={{
-                  delay: 45,
-                  cursor: "|",
-                  loop: false,new
-                }}
-                onInit={(typewriter) => {
-                  typewriter
-                    .typeString("Hej NAMN<br></br")
-                    .pauseFor(500)
-                    .typeString("Du ska ge julklapp till : X <br></br")
-                    .pauseFor(500)
-                    .typeString("Budget är 400kr")
-                    .start();
-                }}
-              />{" "}  new */}
-
               <motion.div
                 animate={
                   messageFinished
@@ -210,16 +199,18 @@ export default function Home() {
                     typewriter
                       .typeString(`Hej ${result.participantName}`)
                       .pauseFor(700)
-                      .typeString(`<br/><br/>Du ska köpa julklapp till...<br/>`)
+                      .typeString(
+                        `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
+                      )
                       .pauseFor(700)
                       .typeString(
                         `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
                           ${result.receiverName}
                         </p>`
                       )
-                      .typeString("<br/>Budget: 400 kr")
+                      .typeString("<br/><br/>Budget: 400 kr")
                       .typeString(
-                        "<br/>Detta meddelande kommer självförstöras om"
+                        "<br/><br/>Detta meddelande kommer självförstöras om"
                       )
                       .typeString("<br/>3...")
                       .pauseFor(700)
@@ -228,6 +219,15 @@ export default function Home() {
                       .typeString("<br/>1...")
                       .pauseFor(600)
                       .callFunction(() => {
+                        const rect = cardRef.current?.getBoundingClientRect();
+
+                        if (rect) {
+                          setExplosionOrigin({
+                            x: rect.left + rect.width / 2,
+                            y: rect.top + rect.height / 2,
+                          });
+                        }
+
                         setMessageFinished(true);
                       })
                       .start();
@@ -267,14 +267,14 @@ export default function Home() {
                   }}
                   style={{
                     position: "absolute",
-                    left: "50%",
-                    top: "50%",
+                    left: explosionOrigin.x,
+                    top: explosionOrigin.y,
                     width: 100,
                     height: 100,
                     borderRadius: "50%",
                     background:
                       "radial-gradient(circle, white 0%, #FFD700 20%, rgba(255,215,0,0) 70%)",
-                    transform: "translate(-50%, -50%)",
+                    //transform: "translate(-50%, -50%)",
                   }}
                 />
 
@@ -303,8 +303,8 @@ export default function Home() {
                     }}
                     style={{
                       position: "absolute",
-                      left: "50%",
-                      top: "50%",
+                      left: explosionOrigin.x,
+                      top: explosionOrigin.y,
                       width: p.size,
                       height: p.size,
                       borderRadius: p.shape,
