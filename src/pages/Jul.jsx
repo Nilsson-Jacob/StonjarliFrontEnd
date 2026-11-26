@@ -119,7 +119,8 @@ export default function Home() {
           initial={false}
           animate={{
             width: step === "session" ? "90vw" : "100%",
-            height: step === "session" ? "85vh" : "240px",
+            height: step === "session" ? "auto" : "240px",
+            minHeight: step === "session" ? "350px" : "0px",
             maxWidth: step === "session" ? "1200px" : "360px",
           }}
           transition={{
@@ -220,11 +221,11 @@ export default function Home() {
                       .typeString(
                         "<br/>Detta meddelande kommer självförstöras om"
                       )
-                      .typeString("<br/>3")
+                      .typeString("<br/>3...")
                       .pauseFor(700)
-                      .typeString("<br/>2")
+                      .typeString("<br/>2...")
                       .pauseFor(600)
-                      .typeString("<br/>1")
+                      .typeString("<br/>1...")
                       .pauseFor(600)
                       .callFunction(() => {
                         setMessageFinished(true);
@@ -324,8 +325,8 @@ export default function Home() {
 const styles = {
   page: {
     boxSizing: "border-box",
-
-    minHeight: "100vh",
+    minHeight: "100dvh",
+    width: "100%",
     background:
       "linear-gradient(180deg,rgba(106, 19, 19, 0.9) 0%,rgb(33, 76, 35) 100%)",
     display: "flex",
@@ -389,7 +390,7 @@ const styles = {
     border: "1px solid #444",
     background: "#111",
     color: "#fff",
-    fontSize: "15px",
+    fontSize: "18px",
     outline: "none",
   },
 };
