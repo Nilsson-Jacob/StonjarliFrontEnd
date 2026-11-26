@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Typewriter from "typewriter-effect";
 import React, { useState } from "react";
-import { supabase } from "../components/supabaseClient";
+//import { supabase } from "../components/supabaseClient";
 
 export default function Home() {
   const [step, setStep] = useState("home");
