@@ -66,8 +66,9 @@ export default function Home() {
       if (data.error) {
         throw new Error(data.error);
       }*/
+      console.log("DATA: " + JSON.stringify(data));
 
-      setResult(data.json());
+      setResult(data);
       setStep("session");
     } catch (err) {
       console.error(err);
