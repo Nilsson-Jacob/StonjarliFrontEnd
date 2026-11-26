@@ -115,7 +115,9 @@ export default function Home() {
             </div>
           )}
 
-          <button onClick={lottning}>meister</button>
+          <button onClick={lottning} style={{ display: "none" }}>
+            meister
+          </button>
 
           {step === "session" && (
             <div style={styles.sessionCardStyle}>
@@ -143,6 +145,7 @@ export default function Home() {
                   loop: false,
                 }}
                 onInit={(typewriter) => {
+                  console.log("INIT: " + result);
                   if (!result) return;
 
                   typewriter
