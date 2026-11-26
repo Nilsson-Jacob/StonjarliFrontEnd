@@ -59,12 +59,13 @@ export default function Home() {
           }),
         }
       );
+      /*
 
       if (error) throw error;
 
       if (data.error) {
         throw new Error(data.error);
-      }
+      }*/
 
       setResult(data);
       setStep("session");
