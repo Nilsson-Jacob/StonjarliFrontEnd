@@ -153,7 +153,7 @@ export default function Home() {
             meister
           </button>
 
-          {step === "session" && (
+          {step === "session" && !messageFinished && (
             <div style={styles.sessionCardStyle}>
               {/*<Typewriter
                 options={{
