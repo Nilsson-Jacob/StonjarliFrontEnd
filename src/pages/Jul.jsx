@@ -11,10 +11,24 @@ export default function Home() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  /*
-  const initiateSession = function () {
-    setStep("session");
-  };*/
+  const [messageFinished, setMessageFinished] = useState(false);
+
+  const particles = Array.from({ length: 45 }, (_, i) => ({
+    id: i,
+    x: (Math.random() - 0.5) * 1000,
+    y: (Math.random() - 0.5) * 800,
+    rotate: Math.random() * 1080 - 540,
+    size: Math.random() * 12 + 5,
+    color: [
+      "#ff4d4d",
+      "#ffd700",
+      "#00e5ff",
+      "#ff69b4",
+      "#7c4dff",
+      "#ffffff",
+      "#00e676",
+    ][i % 7],
+  }));
 
   const lottning = async function name(params) {
     const response = await fetch(
@@ -145,31 +159,98 @@ export default function Home() {
                     .start();
                 }}
               />{" "}  new */}
-              <Typewriter
-                key={result?.participantName}
-                options={{
-                  delay: 45,
-                  cursor: "|",
-                  loop: false,
+              <motion.div
+                animate={
+                  messageFinished
+                    ? {
+                        scale: [1, 1.08, 0],
+                        rotate: [0, -3, 8],
+                        opacity: [1, 1, 0],
+                      }
+                    : {}
+                }
+                transition={{
+                  duration: 0.65,
+                  ease: "easeIn",
                 }}
-                onInit={(typewriter) => {
-                  console.log("INIT: " + result);
-                  if (!result) return;
+              >
+                <Typewriter
+                  key={result?.participantName}
+                  options={{
+                    delay: 45,
+                    cursor: "|",
+                    loop: false,
+                  }}
+                  onInit={(typewriter) => {
+                    console.log("INIT: " + result);
+                    if (!result) return;
 
-                  typewriter
-                    .typeString(`Hej ${result.participantName}!`)
-                    .pauseFor(700)
-                    .typeString(
-                      `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
-                    )
-                    .pauseFor(700)
-                    .typeString(`<h2>${result.receiverName}</h2>`)
-                    .typeString("<br/><br/>Budget: 400 kr")
-                    .start();
-                }}
-              />
+                    typewriter
+                      .typeString(`Hej ${result.participantName}!`)
+                      .pauseFor(700)
+                      .typeString(
+                        `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
+                      )
+                      .pauseFor(700)
+                      .typeString(`<h3>${result.receiverName}</h3>`)
+                      .typeString("<br/><br/>Budget: 400 kr")
+                      .callFunction(() => {
+                        setMessageFinished(true);
+                      })
+                      .start();
+                  }}
+                />
+              </motion.div>
             </div>
           )}
+
+          <AnimatePresence>
+            {messageFinished && (
+              <div
+                style={{
+                  position: "fixed",
+                  inset: 0,
+                  pointerEvents: "none",
+                  zIndex: 9999,
+                  overflow: "hidden",
+                }}
+              >
+                {particles.map((particle) => (
+                  <motion.div
+                    key={particle.id}
+                    initial={{
+                      x: 0,
+                      y: 0,
+                      opacity: 1,
+                      scale: 1,
+                      rotate: 0,
+                    }}
+                    animate={{
+                      x: particle.x,
+                      y: particle.y,
+                      opacity: 0,
+                      scale: 0,
+                      rotate: particle.rotate,
+                    }}
+                    transition={{
+                      duration: 1.5 + Math.random(),
+                      ease: "easeOut",
+                    }}
+                    style={{
+                      position: "absolute",
+                      left: "50%",
+                      top: "50%",
+                      width: particle.size,
+                      height: particle.size,
+                      backgroundColor: particle.color,
+                      borderRadius: Math.random() > 0.5 ? "50%" : "2px",
+                      boxShadow: `0 0 12px ${particle.color}`,
+                    }}
+                  />
+                ))}
+              </div>
+            )}
+          </AnimatePresence>
         </motion.div>
       </AnimatePresence>
     </div>
