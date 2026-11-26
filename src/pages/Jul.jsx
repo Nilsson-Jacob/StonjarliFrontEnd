@@ -199,7 +199,7 @@ export default function Home() {
                       .typeString(`Hej ${result.participantName}<br/><br/>`)
                       .pauseFor(700)
                       .typeString(
-                        `Ditt uppdrag, skulle du välja att acceptera det, är att ge julklapp till:<br/><br/>`
+                        `Ditt uppdrag, skulle du välja att acceptera det, `
                       )
                       .pauseFor(200)
                       .typeString("är att ge julklapp till:<br/><br/>")
