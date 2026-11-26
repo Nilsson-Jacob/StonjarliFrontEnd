@@ -41,6 +41,10 @@ export default function Home() {
 
     try {
       const { data, error } = await supabase.functions.invoke("secret-santa", {
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-secret": "12345",
+        },
         body: {
           action: "lookup",
           code: code,
@@ -109,7 +113,7 @@ export default function Home() {
                 options={{
                   delay: 45,
                   cursor: "|",
-                  loop: false,
+                  loop: false,new
                 }}
                 onInit={(typewriter) => {
                   typewriter
