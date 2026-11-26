@@ -160,9 +160,10 @@ export default function Home() {
                     .typeString(`Hej ${result.participantName}!`)
                     .pauseFor(700)
                     .typeString(
-                      `<br/><br/>Du ska köpa julklapp till: ${result.receiverName}`
+                      `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
                     )
                     .pauseFor(700)
+                    .typeString(`<h2>${result.receiverName}</h2>`)
                     .typeString("<br/><br/>Budget: 400 kr")
                     .start();
                 }}
