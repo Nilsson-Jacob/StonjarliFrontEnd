@@ -213,7 +213,11 @@ export default function Home() {
                         `<br/><br/>Du ska köpa julklapp till...<br/><br/>`
                       )
                       .pauseFor(700)
-                      .typeString(`<p>${result.receiverName}</p>`)
+                      .typeString(
+                        `<p style="font-size: 32px; color:rgb(182, 59, 69); font-weight: bold; margin: 0;">
+                          ${result.receiverName}
+                        </p>`
+                      )
                       .typeString("<br/><br/>Budget: 400 kr")
                       .typeString(
                         "<br/><br/>Detta meddelande kommer självförstöras om"
@@ -332,7 +336,7 @@ const styles = {
   cardContainer: {
     width: "100%",
     maxWidth: 360,
-    height: 240,
+    //height: 240,
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
