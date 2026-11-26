@@ -219,8 +219,11 @@ export default function Home() {
                         "<br/><br/>Detta meddelande kommer självförstöras om"
                       )
                       .typeString("<br/><br/>3")
-                      .typeString("<br/><br/>2")
+                      .pauseFor(200)
+                      .typeString("2")
+                      .pauseFor(200)
                       .typeString("<br/><br/>1")
+                      .pauseFor(200)
                       .callFunction(() => {
                         setMessageFinished(true);
                       })
