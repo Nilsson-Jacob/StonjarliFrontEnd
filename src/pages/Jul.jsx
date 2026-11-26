@@ -40,17 +40,20 @@ export default function Home() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("secret-santa", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-admin-secret": "12345",
-        },
-        body: {
-          action: "lookup",
-          code: code,
-        },
-      });
+      const { data, error } = await fetch(
+        "https://agbtomavehebxbmzzziy.supabase.co/functions/v1/dynamic-service",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-secret": "12345",
+          },
+          body: JSON.stringify({
+            action: "lookup",
+            code: code,
+          }),
+        }
+      );
 
       if (error) throw error;
 
