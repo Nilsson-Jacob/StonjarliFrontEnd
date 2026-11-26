@@ -142,8 +142,23 @@ export default function Home() {
           </button>
 
           {step === "session" && (
-            <div style={styles.sessionCardStyle}>
-              {/*<Typewriter
+            <motion.div
+              animate={
+                messageFinished
+                  ? {
+                      scale: [1, 1.08, 0],
+                      rotate: [0, -3, 8],
+                      opacity: [1, 1, 0],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: 0.25,
+                ease: "easeIn",
+              }}
+            >
+              <div style={styles.sessionCardStyle}>
+                {/*<Typewriter
                 options={{
                   delay: 45,
                   cursor: "|",
@@ -159,21 +174,7 @@ export default function Home() {
                     .start();
                 }}
               />{" "}  new */}
-              <motion.div
-                animate={
-                  messageFinished
-                    ? {
-                        scale: [1, 1.08, 0],
-                        rotate: [0, -3, 8],
-                        opacity: [1, 1, 0],
-                      }
-                    : {}
-                }
-                transition={{
-                  duration: 0.65,
-                  ease: "easeIn",
-                }}
-              >
+
                 <Typewriter
                   key={result?.participantName}
                   options={{
@@ -200,8 +201,8 @@ export default function Home() {
                       .start();
                   }}
                 />
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           )}
 
           <AnimatePresence>
