@@ -331,6 +331,7 @@ const styles = {
     justifyContent: "center",
     padding: 16,
   },
+  /*
   cardContainer: {
     width: "100%",
     maxWidth: 360,
@@ -339,6 +340,17 @@ const styles = {
     flexDirection: "column",
     overflow: "hidden",
     borderRadius: 20,
+  },*/
+  cardContainer: {
+    width: "100%",
+    maxWidth: 1200,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "hidden",
+    borderRadius: 20,
+    boxSizing: "border-box",
   },
   cardStyle: {
     background: "#1a1a22",
@@ -353,6 +365,7 @@ const styles = {
     fontWeight: "bold",
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
   },
+  /*
   sessionCardStyle: {
     background: "#1a1a22",
     borderRadius: 20,
@@ -363,6 +376,24 @@ const styles = {
     color: "#fff",
     display: "flex",
     flexDirection: "column",
+    fontSize: 18,
+    fontWeight: "bold",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
+  },*/
+  sessionCardStyle: {
+    background: "#1a1a22",
+    borderRadius: 20,
+    padding: 24,
+    width: "100%",
+    maxWidth: 700,
+    minHeight: 350,
+    boxSizing: "border-box",
+    color: "#fff",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
     boxShadow: "0 10px 25px rgba(0,0,0,0.3)",
